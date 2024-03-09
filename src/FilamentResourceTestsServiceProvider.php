@@ -2,9 +2,9 @@
 
 namespace CodeWithDennis\FilamentResourceTests;
 
+use CodeWithDennis\FilamentResourceTests\Commands\FilamentResourceTestsCommand;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
-use CodeWithDennis\FilamentResourceTests\Commands\FilamentResourceTestsCommand;
 
 class FilamentResourceTestsServiceProvider extends PackageServiceProvider
 {

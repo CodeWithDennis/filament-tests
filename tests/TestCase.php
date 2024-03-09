@@ -2,9 +2,9 @@
 
 namespace CodeWithDennis\FilamentResourceTests\Tests;
 
+use CodeWithDennis\FilamentResourceTests\FilamentResourceTestsServiceProvider;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Orchestra\Testbench\TestCase as Orchestra;
-use CodeWithDennis\FilamentResourceTests\FilamentResourceTestsServiceProvider;
 
 class TestCase extends Orchestra
 {
