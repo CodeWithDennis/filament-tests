@@ -1,0 +1,8 @@
+<?php
+
+use function Pest\Livewire\livewire;
+use App\Filament\Resources\$resource$\Pages\List$plural_name$;
+
+it('can render the $singular_name_lowercase$ list page', function () {
+    livewire(List$plural_name$::class)->assertSuccessful();
+});

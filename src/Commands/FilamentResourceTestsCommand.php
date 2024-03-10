@@ -3,67 +3,90 @@
 namespace CodeWithDennis\FilamentResourceTests\Commands;
 
 use Illuminate\Console\Command;
+use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Str;
-
-use function Laravel\Prompts\text;
-use function Laravel\Prompts\multiselect;
 
 class FilamentResourceTestsCommand extends Command
 {
-    protected $signature = 'filament:test {resource?}';
+    protected $signature = 'filament:test {name?}';
 
     protected $description = 'My command';
 
-    public function handle()
-    {
-        $resource = (string) str(
-            $this->argument('resource') ?? text(
-            label: 'What is the resource you would like to create tests for?',
-            placeholder: 'DepartmentResource',
-            required: true,
-        ),
-        )
-            ->studly()
-            ->trim('/')
-            ->trim('\\')
-            ->trim(' ')
-            ->replace('/', '\\');
+    protected Filesystem $files;
 
-        if (!str($resource)->endsWith('Resource')) {
-            $resource .= 'Resource';
+    public function __construct(Filesystem $files)
+    {
+        parent::__construct();
+
+        $this->files = $files;
+    }
+
+    protected function getStubPath(): string
+    {
+        return __DIR__.'/../../tests/ResourceTest.stub';
+    }
+
+    protected function getStubVariables(): array
+    {
+        $resource = Str::of($this->argument('name'))->endsWith('Resource') ?
+            $this->argument('name') :
+            $this->argument('name').'Resource';
+
+        return [
+            'resource' => $resource,
+            'singular_name' => Str::of($this->argument('name'))->singular(),
+            'singular_name_lowercase' => Str::of($this->argument('name'))->singular()->lower(),
+            'plural_name' => Str::of($this->argument('name'))->plural(),
+        ];
+    }
+
+    protected function getSourceFile(): array|bool|string
+    {
+        return $this->getStubContents($this->getStubPath(), $this->getStubVariables());
+    }
+
+    protected function getStubContents($stub, $stubVariables = []): array|bool|string
+    {
+        $contents = file_get_contents($stub);
+
+        foreach ($stubVariables as $search => $replace) {
+            $contents = str_replace('$'.$search.'$', $replace, $contents);
         }
 
-        $modelName = Str::of($resource)->remove('Resource');
-
-        $options = [
-            'Create',
-            'Edit',
-            'List',
-            'View',
-            'Sort',
-            'Search',
-            'Filter'
-        ];
-
-        $tests = multiselect(
-            label: 'What tests would you like to create?',
-            options: $options,
-            default: $options,
-            scroll: 10,
-            required: true
-        );
-
-
-        // Sorting
-        // Searching
-        // Existence
-        // Filters
-        // Resetting filters
-        // Removing Filters
-
-
-        // Add a check icon
-        $this->info("Created tests for {$resource}.");
+        return $contents;
     }
-   
+
+    protected function getSourceFilePath(): string
+    {
+        $name = Str::of($this->argument('name'))->remove('Resource');
+
+        return base_path("tests/Feature/{$name}Test.php");
+    }
+
+    protected function makeDirectory($path): string
+    {
+        if (!$this->files->isDirectory($path)) {
+            $this->files->makeDirectory($path, 0777, true, true);
+        }
+
+        return $path;
+    }
+
+    public function handle(): void
+    {
+        $path = $this->getSourceFilePath();
+
+        $this->makeDirectory(dirname($path));
+
+        $contents = $this->getSourceFile();
+
+        if ($this->files->exists($path)) {
+            $this->warn("Test for {$this->getStubVariables()['resource']} already exists.");
+            return;
+        }
+
+        $this->files->put($path, $contents);
+        $this->info("Test for {$this->getStubVariables()['resource']} created successfully.");
+    }
+
 }
