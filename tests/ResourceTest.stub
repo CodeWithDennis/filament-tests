@@ -4,15 +4,38 @@ use function Pest\Livewire\livewire;
 use App\Filament\Resources\$resource$\Pages\List$plural_name$;
 use App\Models\$singular_name$;
 
+// TODO: Get columns from the resource
+$availableColumns = [
+    'name',
+    'category.name',
+];
+
+// TODO: Get sortable columns from the resource
+$availableSortableColumns = [
+    'name'
+];
+
 it('can render the $singular_name_lowercase$ list page', function () {
     livewire(List$plural_name$::class)->assertSuccessful();
 });
 
-foreach(['name', 'category.name'] as $column) { // TODO: Get columns from the resource
+foreach($availableColumns as $column) { // TODO: Get columns from the resource
     it("can render the $column column", function () use ($column) {
         $singular_name$::factory()->count(5)->create();
 
         livewire(List$plural_name$::class)
             ->assertSee($column);
+    });
+}
+
+foreach($availableSortableColumns as $sortableColumn) {
+    it("can sort $plural_name_lowercase$ by $sortableColumn", function () use ($sortableColumn) {
+        $$plural_name_lowercase$ = $singular_name$::factory()->count(5)->create();
+
+        livewire(List$plural_name$::class)
+            ->sortTable($sortableColumn)
+            ->assertCanSeeTableRecords($$plural_name_lowercase$->sortBy($sortableColumn), inOrder: true)
+            ->sortTable($sortableColumn, 'desc')
+            ->assertCanSeeTableRecords($$plural_name_lowercase$->sortByDesc($sortableColumn), inOrder: true);
     });
 }
