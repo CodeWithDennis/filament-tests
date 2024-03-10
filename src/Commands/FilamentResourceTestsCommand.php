@@ -37,6 +37,7 @@ class FilamentResourceTestsCommand extends Command
             'singular_name' => Str::of($this->argument('name'))->singular(),
             'singular_name_lowercase' => Str::of($this->argument('name'))->singular()->lower(),
             'plural_name' => Str::of($this->argument('name'))->plural(),
+            'plural_name_lowercase' => Str::of($this->argument('name'))->plural()->lower(),
         ];
     }
 
