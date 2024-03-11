@@ -5,7 +5,6 @@ namespace CodeWithDennis\FilamentResourceTests\Commands;
 use Filament\Facades\Filament;
 use Filament\Resources\Resource;
 use Illuminate\Console\Command;
-use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Str;
 
@@ -91,7 +90,6 @@ class FilamentResourceTestsCommand extends Command
             $this->resourceName.'Resource';
     }
 
-    /* @throws BindingResolutionException */
     protected function getResourceClass(): ?Resource
     {
         $match = collect(Filament::getResources())
@@ -99,7 +97,7 @@ class FilamentResourceTestsCommand extends Command
 
         return $match ? app()->make($match) : null;
     }
-    
+
     protected function getResourceTableColumns()
     {
         // TODO: Get the table columns of the given filament resource
