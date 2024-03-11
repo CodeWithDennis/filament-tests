@@ -5,8 +5,10 @@
 
 A package that creates PEST tests specifically tailored for your filament resources.
 
-## Installation
+### This package is still in development and not ready for use.
+Please do not use it in production.
 
+## Installation
 You can install the package via composer:
 
 ```bash
@@ -27,17 +29,10 @@ return [
 ];
 ```
 
-## Usage
-
-```php
-<?php
-
-//
-```
-## Testing
+You can create a new test for a resource by running the following command:
 
 ```bash
-composer test
+php artisan filament:make-test BlogResource
 ```
 
 ## Credits
