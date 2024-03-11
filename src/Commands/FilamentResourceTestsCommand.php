@@ -5,14 +5,19 @@ namespace CodeWithDennis\FilamentResourceTests\Commands;
 use Filament\Facades\Filament;
 use Filament\Resources\Resource;
 use Illuminate\Console\Command;
+use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Str;
 
+use function Laravel\Prompts\select;
+
 class FilamentResourceTestsCommand extends Command
 {
-    protected $signature = 'filament:make-test {name?}';
+    protected $signature = 'make:filament-resource-test {name?}';
 
     protected $description = 'Create a new test for a Filament resource.';
+
+    protected ?string $resourceName;
 
     protected Filesystem $files;
 
@@ -30,9 +35,9 @@ class FilamentResourceTestsCommand extends Command
 
     protected function getStubVariables(): array
     {
-        $name = $this->argument('name');
+        $name = $this->resourceName;
         $singularName = Str::of($name)->singular()->remove('resource', false);
-        $pluralName = Str::of($name)->plural()->remove('resource', false);;
+        $pluralName = Str::of($name)->plural()->remove('resource', false);
 
         return [
             'resource' => $this->getResourceName(),
@@ -76,16 +81,17 @@ class FilamentResourceTestsCommand extends Command
 
     protected function getModel(): ?string
     {
-        return $this->getResourceClass()->getModel();
+        return $this->getResourceClass()?->getModel();
     }
 
     protected function getResourceName(): ?string
     {
-        return Str::of($this->argument('name'))->words()->endsWith('Resource') ?
-            $this->argument('name') :
-            $this->argument('name').'Resource';
+        return Str::of($this->resourceName)->words()->endsWith('Resource') ?
+            $this->resourceName :
+            $this->resourceName.'Resource';
     }
 
+    /* @throws BindingResolutionException */
     protected function getResourceClass(): ?Resource
     {
         $match = collect(Filament::getResources())
@@ -93,8 +99,7 @@ class FilamentResourceTestsCommand extends Command
 
         return $match ? app()->make($match) : null;
     }
-
-
+    
     protected function getResourceTableColumns()
     {
         // TODO: Get the table columns of the given filament resource
@@ -117,18 +122,57 @@ class FilamentResourceTestsCommand extends Command
 
     public function handle(): void
     {
+        // Get the resource name from the command argument
+        $this->resourceName = $this->argument('name');
+
+        // Get all available resources
+        $availableResources = collect(Filament::getResources())
+            ->map(fn($resource): string => str($resource)->afterLast('Resources\\'));
+
+        // Ask the user for the resource
+        $this->resourceName = (string) str(
+            $this->resourceName ?? select(
+            label: 'What is the resource you would like to create this test for?',
+            options: $availableResources->flatten(),
+            required: true,
+        ),
+        )
+            ->studly()
+            ->trim('/')
+            ->trim('\\')
+            ->trim(' ')
+            ->replace('/', '\\');
+
+        // If the resource does not end with 'Resource', append it
+        if (!str($this->resourceName)->endsWith('Resource')) {
+            $this->resourceName .= 'Resource';
+        }
+
+        // Check if the resource exists
+        if (!$this->getResourceClass()) {
+            $this->warn("The filament resource {$this->resourceName} does not exist.");
+            return;
+        }
+
+        // Get the source file path
         $path = $this->getSourceFilePath();
 
+        // Make the directory if it does not exist
         $this->makeDirectory(dirname($path));
 
+        // Get the source file contents
         $contents = $this->getSourceFile();
 
+        // Check if the test already exists
         if ($this->files->exists($path)) {
             $this->warn("Test for {$this->getResourceName()} already exists.");
             return;
         }
 
+        // Write the file
         $this->files->put($path, $contents);
+
+        // Output success message
         $this->info("Test for {$this->getResourceName()} created successfully.");
     }
 
