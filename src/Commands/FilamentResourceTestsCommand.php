@@ -149,9 +149,8 @@ class FilamentResourceTestsCommand extends Command
         $contents = $this->getSourceFile();
 
         if ($this->files->exists($path)) {
-            $this->warn("Test for {$this->getStubVariables()['resource']} already exists.");
-
             $this->warn("Test for {$this->getResourceName()} already exists.");
+
             return;
         }
 
