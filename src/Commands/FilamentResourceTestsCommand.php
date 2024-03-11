@@ -8,7 +8,7 @@ use Illuminate\Support\Str;
 
 class FilamentResourceTestsCommand extends Command
 {
-    protected $signature = 'filament:test {name?}';
+    protected $signature = 'filament:make-test {name?}';
 
     protected $description = 'Create a new test for a Filament resource.';
 
