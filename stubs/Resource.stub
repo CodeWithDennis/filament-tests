@@ -1,8 +1,14 @@
 <?php
 
 use function Pest\Livewire\livewire;
+use function Pest\Laravel\{actingAs, get};
 use App\Filament\Resources\$resource$\Pages\List$plural_name$;
 use App\Models\$singular_name$;
+
+beforeEach(function () {
+    $this->user = User::factory()->create();
+    actingAs($this->user);
+});
 
 it('can render the $singular_name_lowercase$ list page', function () {
     livewire(List$plural_name$::class)->assertSuccessful();

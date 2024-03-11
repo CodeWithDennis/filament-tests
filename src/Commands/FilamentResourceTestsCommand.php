@@ -2,6 +2,8 @@
 
 namespace CodeWithDennis\FilamentResourceTests\Commands;
 
+use Filament\Facades\Filament;
+use Filament\Resources\Resource;
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
 
@@ -41,17 +43,14 @@ class FilamentResourceTestsCommand extends Command
 
     protected function getStubVariables(): array
     {
-        $strName = str($this->argument('name'))->ltrim();
-        $resource = $strName->endsWith('Resource') ?
-            $this->argument('name') :
-            $this->argument('name') . 'Resource';
+        $strName = str($this->argument('name'));
 
         return [
-            'resource' => $resource,
-            'singular_name' => $strName->singular()->value(),
-            'singular_name_lowercase' => $strName->singular()->lower()->value(),
-            'plural_name' => $strName->plural()->value(),
-            'plural_name_lowercase' => $strName->plural()->lower()->value(),
+            'resource' => $this->getResourceName(),
+            'singular_name' => $strName->singular(),
+            'singular_name_lowercase' => $strName->singular()->lower(),
+            'plural_name' => $strName->plural(),
+            'plural_name_lowercase' => $strName->plural()->lower(),
         ];
     }
 
@@ -87,9 +86,21 @@ class FilamentResourceTestsCommand extends Command
         return $path;
     }
 
-    protected function getResource()
+    protected function getResourceName(): ?string
     {
-        // TODO: Get the filament resource based on the given input ($this->argument('name'))
+        return str($this->argument('name'))->endsWith('Resource') ?
+            $this->argument('name') :
+            $this->argument('name') . 'Resource';
+    }
+
+    protected function getResourceClass(): ?Resource
+    {
+        $match = collect(Filament::getResources())
+            ->first(
+                fn($resource): bool => str_contains($resource, $this->getResourceName()) && class_exists($resource)
+            );
+
+        return $match ? app()->make($match) : null;
     }
 
     protected function getResourceTableColumns()
