@@ -6,6 +6,7 @@ use Filament\Facades\Filament;
 use Filament\Resources\Resource;
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Stringable;
 use function Laravel\Prompts\{text, select};
 
@@ -28,7 +29,7 @@ class FilamentResourceTestsCommand extends Command
 
     protected function getStubPath(): string
     {
-        return __DIR__.'/../../stubs/Resource.stub';
+        return __DIR__ . '/../../stubs/Resource.stub';
     }
 
     protected function getStubVariables(): array
@@ -56,7 +57,7 @@ class FilamentResourceTestsCommand extends Command
         $contents = file_get_contents($stub);
 
         foreach ($stubVariables as $search => $replace) {
-            $contents = str_replace('$'.$search.'$', $replace, $contents);
+            $contents = str_replace('$' . $search . '$', $replace, $contents);
         }
 
         return $contents;
@@ -120,26 +121,40 @@ class FilamentResourceTestsCommand extends Command
 
     public function handle(): void
     {
-        $filenames = [];
-        foreach (Filament::getResources() as $classNamespace) {
-            $filenames[] = str($classNamespace)->afterLast('\\')->value();
-        }
-        if (empty($filenames)) {
-            $promptedName = text(
-                label: 'Name of your resource',
-                placeholder: 'UserResource',
-                required: true,
-            );
-        } else {
-            $promptedName = select(
-                label: 'Select resource',
-                options: $filenames,
-                default: 'UserResource',
-                required: true,
-            );
-        }
-        $this->argumentName = str($promptedName)->ltrim();
+        $panels = Filament::getPanels();
 
+        /** @var \Filament\Panel $panel */
+        $panel = (count($panels) > 1) ? $panels[select(
+            label: 'Which panel would you like to create this in?',
+            options: array_map(
+                static fn(\Filament\Panel $panel): string => $panel->getId(),
+                $panels,
+            ),
+            default: Filament::getDefaultPanel()->getId()
+        )] : Arr::first($panels);
+
+        $filamentResources = collect($panel->getResources())->map(
+            static fn($resource): string => str($resource)->afterLast('Resources\\')
+        );
+        $resource = str(
+            $this->argument('name') ?? select(
+                label: 'What is the resource you would like to create this test for?',
+                options: $filamentResources->flatten(),
+                required: true,
+            ),
+        )
+            ->studly()
+            ->trim('/')
+            ->trim('\\')
+            ->trim(' ')
+            ->replace('/', '\\')
+            ->value();
+
+        if (!str($resource)->endsWith('Resource')) {
+            $resource .= 'Resource';
+        }
+
+        $this->argumentName = str($resource);
 
         $path = $this->getSourceFilePath();
 
