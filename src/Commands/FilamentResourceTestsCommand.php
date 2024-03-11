@@ -74,11 +74,6 @@ class FilamentResourceTestsCommand extends Command
         return $directory . DIRECTORY_SEPARATOR . $this->getResourceName() . 'Test.php';
     }
 
-
-
-
-
-
     protected function makeDirectory($path): string
     {
         if (!$this->files->isDirectory($path)) {
