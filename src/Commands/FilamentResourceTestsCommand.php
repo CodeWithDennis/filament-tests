@@ -6,7 +6,6 @@ use Filament\Facades\Filament;
 use Filament\Resources\Resource;
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
-use Illuminate\Support\Str;
 
 use function Laravel\Prompts\select;
 
@@ -35,8 +34,8 @@ class FilamentResourceTestsCommand extends Command
     protected function getStubVariables(): array
     {
         $name = $this->resourceName;
-        $singularName = Str::of($name)->singular()->remove('resource', false);
-        $pluralName = Str::of($name)->plural()->remove('resource', false);
+        $singularName = str($name)->singular()->remove('resource', false);
+        $pluralName = str($name)->plural()->remove('resource', false);
 
         return [
             'resource' => $this->getResourceName(),
@@ -85,7 +84,7 @@ class FilamentResourceTestsCommand extends Command
 
     protected function getResourceName(): ?string
     {
-        return Str::of($this->resourceName)->words()->endsWith('Resource') ?
+        return str($this->resourceName)->endsWith('Resource') ?
             $this->resourceName :
             $this->resourceName.'Resource';
     }
