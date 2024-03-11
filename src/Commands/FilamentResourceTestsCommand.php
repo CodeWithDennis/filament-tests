@@ -28,7 +28,7 @@ class FilamentResourceTestsCommand extends Command
 
     protected function getStubPath(): string
     {
-        return __DIR__ . '/../../stubs/Resource.stub';
+        return __DIR__.'/../../stubs/Resource.stub';
     }
 
     protected function getStubVariables(): array
