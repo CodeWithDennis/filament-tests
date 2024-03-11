@@ -2,6 +2,8 @@
 
 namespace CodeWithDennis\FilamentResourceTests\Commands;
 
+use Filament\Facades\Filament;
+use Filament\Resources\Resource;
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Str;
@@ -28,12 +30,8 @@ class FilamentResourceTestsCommand extends Command
 
     protected function getStubVariables(): array
     {
-        $resource = Str::of($this->argument('name'))->endsWith('Resource') ?
-            $this->argument('name') :
-            $this->argument('name').'Resource';
-
         return [
-            'resource' => $resource,
+            'resource' => $this->getResourceName(),
             'singular_name' => Str::of($this->argument('name'))->singular(),
             'singular_name_lowercase' => Str::of($this->argument('name'))->singular()->lower(),
             'plural_name' => Str::of($this->argument('name'))->plural(),
@@ -73,10 +71,21 @@ class FilamentResourceTestsCommand extends Command
         return $path;
     }
 
-    protected function getResource()
+    protected function getResourceName(): ?string
     {
-        // TODO: Get the filament resource based on the given input ($this->argument('name'))
+        return Str::of($this->argument('name'))->endsWith('Resource') ?
+            $this->argument('name') :
+            $this->argument('name').'Resource';
     }
+
+    protected function getResourceClass(): ?Resource
+    {
+        $match = collect(Filament::getResources())
+            ->first(fn($resource): bool => str_contains($resource, $this->getResourceName()) && class_exists($resource));
+
+        return $match ? app()->make($match) : null;
+    }
+
 
     protected function getResourceTableColumns()
     {
