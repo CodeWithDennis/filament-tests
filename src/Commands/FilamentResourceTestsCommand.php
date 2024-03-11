@@ -121,9 +121,8 @@ class FilamentResourceTestsCommand extends Command
     public function handle(): void
     {
         $filenames = [];
-        $resourcesFiles = $this->files->files(app_path('Filament/Resources')) ?? [];
-        foreach ($resourcesFiles as $resourcesFile) {
-            $filenames[] = $resourcesFile->getFilenameWithoutExtension();
+        foreach (Filament::getResources() as $classNamespace) {
+            $filenames[] = str($classNamespace)->afterLast('\\')->value();
         }
         if (empty($filenames)) {
             $promptedName = text(
