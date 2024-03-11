@@ -4,7 +4,6 @@ namespace CodeWithDennis\FilamentResourceTests\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
-use Illuminate\Support\Str;
 
 class FilamentResourceTestsCommand extends Command
 {
@@ -23,21 +22,36 @@ class FilamentResourceTestsCommand extends Command
 
     protected function getStubPath(): string
     {
-        return __DIR__.'/../../stubs/Resource.stub';
+        return $this->resolveStubPath('/stubs/Resource.stub');
+    }
+
+    /**
+     * Resolve the fully-qualified path to the stub.
+     *
+     * @param string $stub
+     *
+     * @return string
+     */
+    protected function resolveStubPath(string $stub): string
+    {
+        return file_exists($customPath = $this->laravel->basePath(trim($stub, '/')))
+            ? $customPath
+            : __DIR__ . $stub;
     }
 
     protected function getStubVariables(): array
     {
-        $resource = Str::of($this->argument('name'))->endsWith('Resource') ?
+        $strName = str($this->argument('name'))->ltrim();
+        $resource = $strName->endsWith('Resource') ?
             $this->argument('name') :
-            $this->argument('name').'Resource';
+            $this->argument('name') . 'Resource';
 
         return [
             'resource' => $resource,
-            'singular_name' => Str::of($this->argument('name'))->singular(),
-            'singular_name_lowercase' => Str::of($this->argument('name'))->singular()->lower(),
-            'plural_name' => Str::of($this->argument('name'))->plural(),
-            'plural_name_lowercase' => Str::of($this->argument('name'))->plural()->lower(),
+            'singular_name' => $strName->singular()->value(),
+            'singular_name_lowercase' => $strName->singular()->lower()->value(),
+            'plural_name' => $strName->plural()->value(),
+            'plural_name_lowercase' => $strName->plural()->lower()->value(),
         ];
     }
 
@@ -51,7 +65,7 @@ class FilamentResourceTestsCommand extends Command
         $contents = file_get_contents($stub);
 
         foreach ($stubVariables as $search => $replace) {
-            $contents = str_replace('$'.$search.'$', $replace, $contents);
+            $contents = str_replace('$' . $search . '$', $replace, $contents);
         }
 
         return $contents;
@@ -59,9 +73,9 @@ class FilamentResourceTestsCommand extends Command
 
     protected function getSourceFilePath(): string
     {
-        $name = Str::of($this->argument('name'))->remove('Resource');
+        $name = str($this->argument('name'))->remove('Resource')->value();
 
-        return base_path("tests/Feature/{$name}Test.php");
+        return base_path("tests/Feature/$name/Test.php");
     }
 
     protected function makeDirectory($path): string
@@ -108,11 +122,11 @@ class FilamentResourceTestsCommand extends Command
 
         if ($this->files->exists($path)) {
             $this->warn("Test for {$this->getStubVariables()['resource']} already exists.");
+
             return;
         }
 
         $this->files->put($path, $contents);
         $this->info("Test for {$this->getStubVariables()['resource']} created successfully.");
     }
-
 }

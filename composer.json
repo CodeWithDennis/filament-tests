@@ -20,14 +20,19 @@
     "require": {
         "php": "^8.1",
         "spatie/laravel-package-tools": "^1.14.0",
-        "illuminate/contracts": "^10.0"
+        "illuminate/contracts": "^10.0",
+        "laravel/prompts": "^0.1.15"
     },
     "require-dev": {
+        "laravel/pint": "^1.12",
         "nunomaduro/collision": "^7.8",
         "phpstan/extension-installer": "^1.1",
         "phpstan/phpstan-deprecation-rules": "^1.0"
     },
     "autoload": {
+        "files": [
+            "helpers.php"
+        ],
         "psr-4": {
             "CodeWithDennis\\FilamentResourceTests\\": "src/"
         }
@@ -60,6 +65,6 @@
             }
         }
     },
-    "minimum-stability": "dev",
+    "minimum-stability": "stable",
     "prefer-stable": true
 }

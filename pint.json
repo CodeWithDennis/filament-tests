@@ -1,0 +1,188 @@
+{
+  "preset": "laravel",
+  "exclude": [
+    "vendor",
+    "node_modules",
+    "app/Console/Commands",
+    "app/Http/Middleware",
+    "app/Providers"
+  ],
+  "notPath": [
+    "app/Http/Kernel.php",
+    "app/Exceptions/Handler.php",
+    "app/Console/Kernel.php",
+    "app/Providers/AuthServiceProvider.php",
+    "app/Models/User.php",
+    "app/Http/Middleware"
+  ],
+  "rules": {
+    "array_syntax": true,
+    "braces": {
+      "position_after_functions_and_oop_constructs": "next",
+      "position_after_control_structures": "same"
+    },
+    "class_definition": {
+      "single_line": true,
+      "single_item_single_line": true,
+      "multi_line_extends_each_single_line": false,
+      "space_before_parenthesis": true
+    },
+    "comment_to_phpdoc": {
+      "ignored_tags": [
+        "todo",
+        "see",
+        "link"
+      ]
+    },
+    "concat_space": false,
+    "curly_braces_position": {
+      "anonymous_classes_opening_brace": "same_line"
+    },
+    "function_declaration": {
+      "closure_fn_spacing": "none"
+    },
+    "fully_qualified_strict_types": false,
+    "is_null": false,
+    "increment_style": {
+      "style": "post"
+    },
+    "general_phpdoc_tag_rename": {
+      "replacements": {
+        "inheritDocs": "inheritdoc",
+        "inheritDoc": "inheritdoc"
+      }
+    },
+    "new_with_braces": {
+      "anonymous_class": false
+    },
+    "no_leading_import_slash": true,
+    "no_unreachable_default_argument_value": false,
+    "no_superfluous_phpdoc_tags": false,
+    "native_constant_invocation": {
+      "strict": false,
+      "fix_built_in": false
+    },
+    "not_operator_with_successor_space": false,
+    "ordered_imports": {
+      "sort_algorithm": "none"
+    },
+    "ordered_class_elements": {
+      "order": [
+        "use_trait",
+        "case",
+        "constant_public",
+        "constant_protected",
+        "constant_private",
+        "property_public",
+        "property_protected",
+        "property_private",
+        "construct",
+        "destruct",
+        "magic",
+        "phpunit"
+      ]
+    },
+    "phpdoc_align": {
+      "align": "left",
+      "tags": [
+        "param",
+        "property",
+        "property-read",
+        "property-write",
+        "var",
+        "type",
+        "throws",
+        "return"
+      ]
+    },
+    "phpdoc_add_missing_param_annotation": {
+      "only_untyped": false
+    },
+    "phpdoc_tag_type": {
+      "tags": {
+        "api": "annotation",
+        "author": "annotation",
+        "copyright": "annotation",
+        "deprecated": "annotation",
+        "example": "annotation",
+        "global": "annotation",
+        "internal": "annotation",
+        "license": "annotation",
+        "method": "annotation",
+        "package": "annotation",
+        "param": "annotation",
+        "property": "annotation",
+        "return": "annotation",
+        "see": "annotation",
+        "since": "annotation",
+        "throws": "annotation",
+        "todo": "annotation",
+        "uses": "annotation",
+        "var": "annotation",
+        "version": "annotation"
+      }
+    },
+    "phpdoc_order": {
+      "order": [
+        "param",
+        "throw",
+        "return"
+      ]
+    },
+    "phpdoc_return_self_reference": {
+      "replacements": {
+        "this": "$this",
+        "@this": "$this",
+        "$self": "static",
+        "@self": "static",
+        "$static": "static",
+        "@static": "static"
+      }
+    },
+    "phpdoc_separation": {
+      "groups": [
+        [
+          "deprecated",
+          "link",
+          "see",
+          "since"
+        ],
+        [
+          "author",
+          "copyright",
+          "license"
+        ],
+        [
+          "category",
+          "package",
+          "subpackage"
+        ],
+        [
+          "param",
+          "property",
+          "property-read",
+          "property-write"
+        ],
+        [
+          "return"
+        ],
+        [
+          "OA\\*"
+        ]
+      ]
+    },
+    "phpdoc_tag_casing": {
+      "tags": [
+        "inheritdoc"
+      ]
+    },
+    "phpdoc_var_without_name": false,
+    "phpdoc_to_property_type": true,
+    "phpdoc_to_return_type": true,
+    "phpdoc_types_order": {
+      "null_adjustment": "always_last"
+    },
+    "phpdoc_no_empty_return": false,
+    "single_import_per_statement": false
+  }
+}
