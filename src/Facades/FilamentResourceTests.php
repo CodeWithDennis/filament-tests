@@ -4,12 +4,9 @@ namespace CodeWithDennis\FilamentResourceTests\Facades;
 
 use Illuminate\Support\Facades\Facade;
 
-/**
- * @see \CodeWithDennis\FilamentResourceTests\FilamentResourceTests
- */
 class FilamentResourceTests extends Facade
 {
-    protected static function getFacadeAccessor()
+    protected static function getFacadeAccessor(): string
     {
         return \CodeWithDennis\FilamentResourceTests\FilamentResourceTests::class;
     }

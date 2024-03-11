@@ -4,7 +4,10 @@
     "keywords": [
         "CodeWithDennis",
         "laravel",
-        "filament-resource-tests"
+        "filament-resource-tests",
+        "filamentphp",
+        "php",
+        "pest"
     ],
     "homepage": "https://github.com/codewithdennis/filament-resource-tests",
     "license": "MIT",
@@ -20,46 +23,25 @@
         "illuminate/contracts": "^10.0"
     },
     "require-dev": {
-        "laravel/pint": "^1.0",
         "nunomaduro/collision": "^7.8",
-        "larastan/larastan": "^2.0.1",
-        "orchestra/testbench": "^8.8",
-        "pestphp/pest": "^2.20",
-        "pestphp/pest-plugin-arch": "^2.5",
-        "pestphp/pest-plugin-laravel": "^2.0",
         "phpstan/extension-installer": "^1.1",
-        "phpstan/phpstan-deprecation-rules": "^1.0",
-        "phpstan/phpstan-phpunit": "^1.0"
+        "phpstan/phpstan-deprecation-rules": "^1.0"
     },
     "autoload": {
         "psr-4": {
-            "CodeWithDennis\\FilamentResourceTests\\": "src/",
-            "CodeWithDennis\\FilamentResourceTests\\Database\\Factories\\": "database/factories/"
+            "CodeWithDennis\\FilamentResourceTests\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "CodeWithDennis\\FilamentResourceTests\\Tests\\": "tests/",
-            "Workbench\\App\\": "workbench/app/"
+            "CodeWithDennis\\FilamentResourceTests\\Tests\\": "tests/"
         }
     },
     "scripts": {
-        "post-autoload-dump": "@composer run prepare",
-        "clear": "@php vendor/bin/testbench package:purge-filament-resource-tests --ansi",
-        "prepare": "@php vendor/bin/testbench package:discover --ansi",
-        "build": [
-            "@composer run prepare",
-            "@php vendor/bin/testbench workbench:build --ansi"
-        ],
         "start": [
             "Composer\\Config::disableProcessTimeout",
-            "@composer run build",
-            "@php vendor/bin/testbench serve"
-        ],
-        "analyse": "vendor/bin/phpstan analyse",
-        "test": "vendor/bin/pest",
-        "test-coverage": "vendor/bin/pest --coverage",
-        "format": "vendor/bin/pint"
+            "@composer run build"
+        ]
     },
     "config": {
         "sort-packages": true,

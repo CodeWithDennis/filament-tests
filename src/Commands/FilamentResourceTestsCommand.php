@@ -10,7 +10,7 @@ class FilamentResourceTestsCommand extends Command
 {
     protected $signature = 'filament:test {name?}';
 
-    protected $description = 'My command';
+    protected $description = 'Create a new test for a Filament resource.';
 
     protected Filesystem $files;
 
@@ -23,7 +23,7 @@ class FilamentResourceTestsCommand extends Command
 
     protected function getStubPath(): string
     {
-        return __DIR__.'/../../tests/ResourceTest.stub';
+        return __DIR__.'/../../stubs/Resource.stub';
     }
 
     protected function getStubVariables(): array
@@ -71,6 +71,31 @@ class FilamentResourceTestsCommand extends Command
         }
 
         return $path;
+    }
+
+    protected function getResource()
+    {
+        // TODO: Get the filament resource based on the given input ($this->argument('name'))
+    }
+
+    protected function getResourceTableColumns()
+    {
+        // TODO: Get the table columns of the given filament resource
+    }
+
+    protected function getResourceSortableTableColumns()
+    {
+        // TODO: Get the table sortable columns of the given filament resource
+    }
+
+    protected function getResourceSearchableTableColumns()
+    {
+        // TODO: Get the table searchable columns of the given filament resource
+    }
+
+    protected function getResourceTableFilters()
+    {
+        // TODO: Get the table filters of the given filament resource
     }
 
     public function handle(): void
