@@ -64,9 +64,7 @@ class FilamentResourceTestsCommand extends Command
 
     protected function getSourceFilePath(): string
     {
-        $name = $this->argumentName->remove('Resource');
-
-        return base_path("tests/Feature/{$name}Test.php");
+        return base_path("tests/Feature/{$this->getResourceName()}Test.php");
     }
 
     protected function makeDirectory($path): string
@@ -153,10 +151,11 @@ class FilamentResourceTestsCommand extends Command
         if ($this->files->exists($path)) {
             $this->warn("Test for {$this->getStubVariables()['resource']} already exists.");
 
+            $this->warn("Test for {$this->getResourceName()} already exists.");
             return;
         }
 
         $this->files->put($path, $contents);
-        $this->info("Test for {$this->getStubVariables()['resource']} created successfully.");
+        $this->info("Test for {$this->getResourceName()} created successfully.");
     }
 }
