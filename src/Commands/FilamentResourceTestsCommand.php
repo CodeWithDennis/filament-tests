@@ -30,12 +30,17 @@ class FilamentResourceTestsCommand extends Command
 
     protected function getStubVariables(): array
     {
+        $name = $this->argument('name');
+        $singularName = Str::of($name)->singular()->remove('resource', false);
+        $pluralName = Str::of($name)->plural()->remove('resource', false);;
+
         return [
             'resource' => $this->getResourceName(),
-            'singular_name' => Str::of($this->argument('name'))->singular(),
-            'singular_name_lowercase' => Str::of($this->argument('name'))->singular()->lower(),
-            'plural_name' => Str::of($this->argument('name'))->plural(),
-            'plural_name_lowercase' => Str::of($this->argument('name'))->plural()->lower(),
+            'model' => $this->getModel(),
+            'singular_name' => $singularName,
+            'singular_name_lowercase' => $singularName->lower(),
+            'plural_name' => $pluralName,
+            'plural_name_lowercase' => $pluralName->lower(),
         ];
     }
 
@@ -71,9 +76,14 @@ class FilamentResourceTestsCommand extends Command
         return $path;
     }
 
+    protected function getModel(): ?string
+    {
+        return $this->getResourceClass()->getModel();
+    }
+
     protected function getResourceName(): ?string
     {
-        return Str::of($this->argument('name'))->endsWith('Resource') ?
+        return Str::of($this->argument('name'))->words()->endsWith('Resource') ?
             $this->argument('name') :
             $this->argument('name').'Resource';
     }
