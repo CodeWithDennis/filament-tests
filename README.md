@@ -1,8 +1,6 @@
 # Filament Resource Tests
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/codewithdennis/filament-resource-tests.svg?style=flat-square)](https://packagist.org/packages/codewithdennis/filament-resource-tests)
-[![GitHub Tests Action Status](https://img.shields.io/github/actions/workflow/status/codewithdennis/filament-resource-tests/run-tests.yml?branch=main&label=tests&style=flat-square)](https://github.com/codewithdennis/filament-resource-tests/actions?query=workflow%3Arun-tests+branch%3Amain)
-[![GitHub Code Style Action Status](https://img.shields.io/github/actions/workflow/status/codewithdennis/filament-resource-tests/fix-php-code-style-issues.yml?branch=main&label=code%20style&style=flat-square)](https://github.com/codewithdennis/filament-resource-tests/actions?query=workflow%3A"Fix+PHP+code+style+issues"+branch%3Amain)
 [![Total Downloads](https://img.shields.io/packagist/dt/codewithdennis/filament-resource-tests.svg?style=flat-square)](https://packagist.org/packages/codewithdennis/filament-resource-tests)
 
 A package that creates PEST tests specifically tailored for your filament resources.
