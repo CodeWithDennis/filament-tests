@@ -6,7 +6,8 @@ use Filament\Facades\Filament;
 use Filament\Resources\Resource;
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
-use Illuminate\Support\Str;
+use Illuminate\Support\Stringable;
+use function Laravel\Prompts\{text, select};
 
 class FilamentResourceTestsCommand extends Command
 {
@@ -15,6 +16,8 @@ class FilamentResourceTestsCommand extends Command
     protected $description = 'Create a new test for a Filament resource.';
 
     protected Filesystem $files;
+
+    protected Stringable $argumentName;
 
     public function __construct(Filesystem $files)
     {
@@ -25,14 +28,13 @@ class FilamentResourceTestsCommand extends Command
 
     protected function getStubPath(): string
     {
-        return __DIR__.'/../../stubs/Resource.stub';
+        return __DIR__ . '/../../stubs/Resource.stub';
     }
 
     protected function getStubVariables(): array
     {
-        $name = $this->argument('name');
-        $singularName = Str::of($name)->singular()->remove('resource', false);
-        $pluralName = Str::of($name)->plural()->remove('resource', false);;
+        $singularName = $this->argumentName->singular()->remove('resource', false);
+        $pluralName = $this->argumentName->plural()->remove('resource', false);
 
         return [
             'resource' => $this->getResourceName(),
@@ -62,7 +64,7 @@ class FilamentResourceTestsCommand extends Command
 
     protected function getSourceFilePath(): string
     {
-        $name = Str::of($this->argument('name'))->remove('Resource');
+        $name = $this->argumentName->remove('Resource');
 
         return base_path("tests/Feature/{$name}Test.php");
     }
@@ -78,24 +80,25 @@ class FilamentResourceTestsCommand extends Command
 
     protected function getModel(): ?string
     {
-        return $this->getResourceClass()->getModel();
+        return $this->getResourceClass()?->getModel();
     }
 
     protected function getResourceName(): ?string
     {
-        return Str::of($this->argument('name'))->words()->endsWith('Resource') ?
-            $this->argument('name') :
-            $this->argument('name').'Resource';
+        return $this->argumentName->words()->endsWith('Resource') ?
+            $this->argumentName->value() :
+            $this->argumentName->value() . 'Resource';
     }
 
     protected function getResourceClass(): ?Resource
     {
         $match = collect(Filament::getResources())
-            ->first(fn($resource): bool => str_contains($resource, $this->getResourceName()) && class_exists($resource));
+            ->first(
+                fn($resource): bool => str_contains($resource, $this->getResourceName()) && class_exists($resource)
+            );
 
         return $match ? app()->make($match) : null;
     }
-
 
     protected function getResourceTableColumns()
     {
@@ -119,6 +122,28 @@ class FilamentResourceTestsCommand extends Command
 
     public function handle(): void
     {
+        $filenames = [];
+        $resourcesFiles = $this->files->files(app_path('Filament/Resources')) ?? [];
+        foreach ($resourcesFiles as $resourcesFile) {
+            $filenames[] = $resourcesFile->getFilenameWithoutExtension();
+        }
+        if (empty($filenames)) {
+            $promptedName = text(
+                label: 'Name of your resource',
+                placeholder: 'UserResource',
+                required: true,
+            );
+        } else {
+            $promptedName = select(
+                label: 'Select resource',
+                options: $filenames,
+                default: 'UserResource',
+                required: true,
+            );
+        }
+        $this->argumentName = str($promptedName)->ltrim();
+
+
         $path = $this->getSourceFilePath();
 
         $this->makeDirectory(dirname($path));
@@ -127,11 +152,11 @@ class FilamentResourceTestsCommand extends Command
 
         if ($this->files->exists($path)) {
             $this->warn("Test for {$this->getStubVariables()['resource']} already exists.");
+
             return;
         }
 
         $this->files->put($path, $contents);
         $this->info("Test for {$this->getStubVariables()['resource']} created successfully.");
     }
-
 }
