@@ -7,7 +7,7 @@ use Illuminate\Filesystem\Filesystem;
 
 class PublishStubsCommand extends Command
 {
-    protected $signature = 'filament-resource-tests:publish-stubs {destination?}';
+    protected $signature = 'filament-resource-tests:publish-stubs';
 
     protected $description = 'Publish the Filament Resource Test stubs.';
 
