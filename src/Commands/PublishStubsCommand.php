@@ -21,7 +21,7 @@ class PublishStubsCommand extends Command
         }
 
         foreach ($filesystem->allFiles($stubsPath) as $stub) {
-            $targetFilePath = $targetPath.'/'.$stub->getFilename();
+            $targetFilePath = $targetPath.DIRECTORY_SEPARATOR.$stub->getFilename();
             if (! $filesystem->exists($targetFilePath)) {
                 $filesystem->copy($stub->getPathname(), $targetFilePath);
             }
