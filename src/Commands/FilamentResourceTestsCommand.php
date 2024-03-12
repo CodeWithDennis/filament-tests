@@ -12,7 +12,7 @@ use function Laravel\Prompts\select;
 
 class FilamentResourceTestsCommand extends Command
 {
-    protected $signature = 'make:filament-resource-test {name?} {--all}';
+    protected $signature = 'make:filament-resource-test {name?}';
 
     protected $description = 'Create a new test for a Filament resource.';
 
