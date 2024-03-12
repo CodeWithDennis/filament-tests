@@ -49,6 +49,15 @@ If you don't specify a resource name, the package will ask you to choose one fro
 php artisan make:filament-resource-test
 ````
 
+## Publishing tests
+
+You can publish the tests stubs by running the following command:
+
+```bash
+php artisan filament-resource-tests:publish-stubs
+```
+
+
 ## Credits
 
 - [CodeWithDennis](https://github.com/CodeWithDennis)
