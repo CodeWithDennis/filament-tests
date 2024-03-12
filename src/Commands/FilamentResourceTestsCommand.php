@@ -65,9 +65,9 @@ class FilamentResourceTestsCommand extends Command
 
     protected function getSourceFilePath(): string
     {
-        $directory = trim(config('filament-resource-tests.directory_name', 'tests/Feature'), '/');
+        $directory = trim(config('filament-resource-tests.directory_name'), '/');
 
-        if (config('filament-resource-tests.separate_tests_into_folders', false)) {
+        if (config('filament-resource-tests.separate_tests_into_folders')) {
             $directory .= DIRECTORY_SEPARATOR . $this->resourceName;
         }
 
