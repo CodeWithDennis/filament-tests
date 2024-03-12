@@ -6,6 +6,7 @@ use Filament\Facades\Filament;
 use Filament\Resources\Resource;
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
+use Illuminate\Support\Collection;
 
 use function Laravel\Prompts\select;
 
@@ -68,15 +69,15 @@ class FilamentResourceTestsCommand extends Command
         $directory = trim(config('filament-resource-tests.directory_name'), '/');
 
         if (config('filament-resource-tests.separate_tests_into_folders')) {
-            $directory .= DIRECTORY_SEPARATOR . $this->resourceName;
+            $directory .= DIRECTORY_SEPARATOR.$this->resourceName;
         }
 
-        return $directory . DIRECTORY_SEPARATOR . $this->getResourceName() . 'Test.php';
+        return $directory.DIRECTORY_SEPARATOR.$this->getResourceName().'Test.php';
     }
 
     protected function makeDirectory($path): string
     {
-        if (!$this->files->isDirectory($path)) {
+        if (! $this->files->isDirectory($path)) {
             $this->files->makeDirectory($path, 0777, true, true);
         }
 
@@ -97,10 +98,15 @@ class FilamentResourceTestsCommand extends Command
 
     protected function getResourceClass(): ?Resource
     {
-        $match = collect(Filament::getResources())
-            ->first(fn($resource): bool => str_contains($resource, $this->getResourceName()) && class_exists($resource));
+        $match = $this->getResources()
+            ->first(fn ($resource): bool => str_contains($resource, $this->getResourceName()) && class_exists($resource));
 
         return $match ? app()->make($match) : null;
+    }
+
+    protected function getResources(): Collection
+    {
+        return collect(Filament::getResources());
     }
 
     protected function getResourceTableColumns()
@@ -129,16 +135,16 @@ class FilamentResourceTestsCommand extends Command
         $this->resourceName = $this->argument('name');
 
         // Get all available resources
-        $availableResources = collect(Filament::getResources())
-            ->map(fn($resource): string => str($resource)->afterLast('Resources\\'));
+        $availableResources = $this->getResources()
+            ->map(fn ($resource): string => str($resource)->afterLast('Resources\\'));
 
         // Ask the user for the resource
         $this->resourceName = (string) str(
             $this->resourceName ?? select(
-            label: 'What is the resource you would like to create this test for?',
-            options: $availableResources->flatten(),
-            required: true,
-        ),
+                label: 'What is the resource you would like to create this test for?',
+                options: $availableResources->flatten(),
+                required: true,
+            ),
         )
             ->studly()
             ->trim('/')
@@ -147,13 +153,14 @@ class FilamentResourceTestsCommand extends Command
             ->replace('/', '\\');
 
         // If the resource does not end with 'Resource', append it
-        if (!str($this->resourceName)->endsWith('Resource')) {
+        if (! str($this->resourceName)->endsWith('Resource')) {
             $this->resourceName .= 'Resource';
         }
 
         // Check if the resource exists
-        if (!$this->getResourceClass()) {
+        if (! $this->getResourceClass()) {
             $this->warn("The filament resource {$this->resourceName} does not exist.");
+
             return;
         }
 
@@ -169,6 +176,7 @@ class FilamentResourceTestsCommand extends Command
         // Check if the test already exists
         if ($this->files->exists($path)) {
             $this->warn("Test for {$this->getResourceName()} already exists.");
+
             return;
         }
 
@@ -178,5 +186,4 @@ class FilamentResourceTestsCommand extends Command
         // Output success message
         $this->info("Test for {$this->getResourceName()} created successfully.");
     }
-
 }
