@@ -3,6 +3,7 @@
 namespace CodeWithDennis\FilamentResourceTests;
 
 use CodeWithDennis\FilamentResourceTests\Commands\FilamentResourceTestsCommand;
+use CodeWithDennis\FilamentResourceTests\Commands\PublishStubsCommand;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 
@@ -13,6 +14,9 @@ class FilamentResourceTestsServiceProvider extends PackageServiceProvider
         $package
             ->name('filament-resource-tests')
             ->hasConfigFile()
-            ->hasCommand(FilamentResourceTestsCommand::class);
+            ->hasCommands([
+                FilamentResourceTestsCommand::class,
+                PublishStubsCommand::class,
+            ]);
     }
 }
