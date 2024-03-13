@@ -159,6 +159,7 @@ class FilamentResourceTestsCommand extends Command
             $tests .= <<<EOT
             it('can render {$this->getResourceSingularName()->lower()} {$label} column', function () {
                 {$this->getResourceSingularName()}::factory()->count(3)->create();
+
                 livewire(List{$this->getResourcePluralName()}::class)->assertCanRenderTableColumn('{$key}');
             });
             
