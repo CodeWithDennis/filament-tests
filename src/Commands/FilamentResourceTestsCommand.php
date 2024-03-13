@@ -14,7 +14,7 @@ use function Laravel\Prompts\select;
 
 class FilamentResourceTestsCommand extends Command
 {
-    protected $signature = 'make:filament-resource-test {name?} {--outputName=}';
+    protected $signature = 'make:filament-resource-test {name? : The name of the resource a test should be generated for} {--outputName= : The name of the output file. If not provided, the resource name will be used}';
 
     protected $description = 'Create a new test for a Filament resource.';
 
