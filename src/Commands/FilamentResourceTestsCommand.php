@@ -31,7 +31,14 @@ class FilamentResourceTestsCommand extends Command
 
     protected function getOutputName(): string
     {
-        return $this->option('outputName') ?? $this->resourceName;
+        return $this->hasOutputNameOption()
+            ? $this->option('outputName')
+            : $this->resourceName;
+    }
+
+    protected function hasOutputNameOption(): bool
+    {
+        return $this->option('outputName') !== null;
     }
 
     protected function getStubPath(): string
@@ -192,12 +199,11 @@ class FilamentResourceTestsCommand extends Command
         // Check if the test already exists
         if ($this->files->exists($path)) {
 
-            $outputNameOption = $this->option('outputName');
-
             $message = "A test for the {$this->getResourceName()}";
 
-            if ($outputNameOption !== null) {
-                $message .= " ({$outputNameOption})";
+            // show the output name for better clarity
+            if ($this->hasOutputNameOption()) {
+                $message .= " ({$this->getOutputName()})";
             }
 
             $message .= ' already exists.';
@@ -209,8 +215,17 @@ class FilamentResourceTestsCommand extends Command
         // Write the file
         $this->files->put($path, $contents);
 
+        $message = "A test for the {$this->getResourceName()}";
+
+        // show the output name for better clarity
+        if ($this->hasOutputNameOption()) {
+            $message .= " ({$this->getOutputName()})";
+        }
+
+        $message .= ' was created successfully.';
+
         // Output success message
-        $this->info("A test for the {$this->getResourceName()} was created successfully.");
+        $this->info($message);
 
         return self::SUCCESS;
     }
