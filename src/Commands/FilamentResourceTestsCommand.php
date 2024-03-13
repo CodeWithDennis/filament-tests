@@ -14,7 +14,7 @@ use function Laravel\Prompts\select;
 
 class FilamentResourceTestsCommand extends Command
 {
-    protected $signature = 'make:filament-resource-test {name?}';
+    protected $signature = 'make:filament-resource-test {name?} {--outputName=}';
 
     protected $description = 'Create a new test for a Filament resource.';
 
@@ -27,6 +27,11 @@ class FilamentResourceTestsCommand extends Command
         parent::__construct();
 
         $this->files = $files;
+    }
+
+    protected function getOutputName(): string
+    {
+        return $this->option('outputName') ?? $this->resourceName;
     }
 
     protected function getStubPath(): string
@@ -74,7 +79,9 @@ class FilamentResourceTestsCommand extends Command
             $directory .= DIRECTORY_SEPARATOR.$this->resourceName;
         }
 
-        return $directory.DIRECTORY_SEPARATOR.$this->getResourceName().'Test.php';
+        $outputName = $this->getOutputName();
+
+        return $directory.DIRECTORY_SEPARATOR.$outputName.'Test.php';
     }
 
     protected function makeDirectory($path): string
@@ -184,7 +191,17 @@ class FilamentResourceTestsCommand extends Command
 
         // Check if the test already exists
         if ($this->files->exists($path)) {
-            $this->warn("Test for {$this->getResourceName()} already exists.");
+
+            $outputNameOption = $this->option('outputName');
+
+            $message = "A test for {$this->getResourceName()}";
+
+            if ($outputNameOption !== null) {
+                $message .= " ({$outputNameOption})";
+            }
+
+            $message .= ' already exists.';
+            $this->warn($message);
 
             return self::FAILURE;
         }
@@ -193,7 +210,7 @@ class FilamentResourceTestsCommand extends Command
         $this->files->put($path, $contents);
 
         // Output success message
-        $this->info("Test for {$this->getResourceName()} created successfully.");
+        $this->info("A test for {$this->getResourceName()} created successfully.");
 
         return self::SUCCESS;
     }
