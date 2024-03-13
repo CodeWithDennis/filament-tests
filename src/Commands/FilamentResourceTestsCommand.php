@@ -138,7 +138,7 @@ class FilamentResourceTestsCommand extends Command
         return $this->getTable()->getFilters();
     }
 
-    public function handle(): void
+    public function handle(): int
     {
         // Get the resource name from the command argument
         $this->resourceName = $this->argument('name');
@@ -170,7 +170,7 @@ class FilamentResourceTestsCommand extends Command
         if (! $this->getResourceClass()) {
             $this->warn("The filament resource {$this->resourceName} does not exist.");
 
-            return;
+            return self::FAILURE;
         }
 
         // Get the source file path
@@ -186,7 +186,7 @@ class FilamentResourceTestsCommand extends Command
         if ($this->files->exists($path)) {
             $this->warn("Test for {$this->getResourceName()} already exists.");
 
-            return;
+            return self::FAILURE;
         }
 
         // Write the file
@@ -194,5 +194,7 @@ class FilamentResourceTestsCommand extends Command
 
         // Output success message
         $this->info("Test for {$this->getResourceName()} created successfully.");
+
+        return self::SUCCESS;
     }
 }
