@@ -111,11 +111,16 @@ class FilamentResourceTestsCommand extends Command
         return collect(Filament::getResources());
     }
 
-    protected function getResourceTableColumns(): array
+    protected function getTable(): Table
     {
         $livewire = app('livewire')->new(ListRecords::class);
 
-        return $this->getResourceClass()::table(new Table($livewire))->getColumns();
+        return $this->getResourceClass()::table(new Table($livewire));
+    }
+
+    protected function getResourceTableColumns(): array
+    {
+        return $this->getTable()->getColumns();
     }
 
     protected function getResourceSortableTableColumns(): Collection
@@ -128,9 +133,9 @@ class FilamentResourceTestsCommand extends Command
         return collect($this->getResourceTableColumns())->filter(fn ($column) => $column->isSearchable());
     }
 
-    protected function getResourceTableFilters()
+    protected function getResourceTableFilters(): array
     {
-        // TODO: Get the table filters of the given filament resource
+        return $this->getTable()->getFilters();
     }
 
     public function handle(): void
