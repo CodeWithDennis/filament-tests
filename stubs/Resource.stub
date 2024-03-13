@@ -1,6 +1,6 @@
 <?php
 
-use App\Filament\Resources\$resource$\Pages\List$plural_name$;
+use App\Filament\Resources\$resource$\Pages\List$model_plural_name$;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 use $model$;
@@ -13,8 +13,4 @@ beforeEach(function () {
     ]));
 });
 
-it('can render the $singular_name_lowercase$ list page', function () {
-    livewire(List$plural_name$::class)->assertSuccessful();
-});
-
-$table_columns_exist_test$
+$tests$
