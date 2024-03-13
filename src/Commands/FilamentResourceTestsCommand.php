@@ -3,7 +3,9 @@
 namespace CodeWithDennis\FilamentResourceTests\Commands;
 
 use Filament\Facades\Filament;
+use Filament\Resources\Pages\ListRecords;
 use Filament\Resources\Resource;
+use Filament\Tables\Table;
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Collection;
@@ -16,7 +18,7 @@ class FilamentResourceTestsCommand extends Command
 
     protected $description = 'Create a new test for a Filament resource.';
 
-    protected ?string $resourceName;
+    protected ?string $resourceName = '';
 
     protected Filesystem $files;
 
@@ -109,19 +111,21 @@ class FilamentResourceTestsCommand extends Command
         return collect(Filament::getResources());
     }
 
-    protected function getResourceTableColumns()
+    protected function getResourceTableColumns(): array
     {
-        // TODO: Get the table columns of the given filament resource
+        $livewire = app('livewire')->new(ListRecords::class);
+
+        return $this->getResourceClass()::table(new Table($livewire))->getColumns();
     }
 
-    protected function getResourceSortableTableColumns()
+    protected function getResourceSortableTableColumns(): Collection
     {
-        // TODO: Get the table sortable columns of the given filament resource
+        return collect($this->getResourceTableColumns())->filter(fn ($column) => $column->isSortable());
     }
 
-    protected function getResourceSearchableTableColumns()
+    protected function getResourceSearchableTableColumns(): Collection
     {
-        // TODO: Get the table searchable columns of the given filament resource
+        return collect($this->getResourceTableColumns())->filter(fn ($column) => $column->isSearchable());
     }
 
     protected function getResourceTableFilters()
