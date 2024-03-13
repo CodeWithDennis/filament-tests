@@ -9,6 +9,7 @@ use Filament\Tables\Table;
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Stringable;
 
 use function Laravel\Prompts\select;
 
@@ -37,17 +38,26 @@ class FilamentResourceTestsCommand extends Command
     protected function getStubVariables(): array
     {
         $name = $this->resourceName;
-        $singularName = str($name)->singular()->remove('resource', false);
-        $pluralName = str($name)->plural()->remove('resource', false);
 
         return [
             'resource' => $this->getResourceName(),
             'model' => $this->getModel(),
-            'singular_name' => $singularName,
-            'singular_name_lowercase' => $singularName->lower(),
-            'plural_name' => $pluralName,
-            'plural_name_lowercase' => $pluralName->lower(),
+            'singular_name' => $this->getResourceSingularName(),
+            'singular_name_lowercase' => $this->getResourceSingularName()->lower(),
+            'plural_name' => $this->getResourcePluralName(),
+            'plural_name_lowercase' => $this->getResourcePluralName()->lower(),
+            'table_columns_exist_test' => $this->generateTableColumnsExistTest(),
         ];
+    }
+
+    protected function getResourceSingularName(): Stringable
+    {
+        return str($this->resourceName)->singular()->remove('resource', false);
+    }
+
+    protected function getResourcePluralName(): Stringable
+    {
+        return str($this->resourceName)->plural()->remove('resource', false);
     }
 
     protected function getSourceFile(): array|bool|string
@@ -138,6 +148,27 @@ class FilamentResourceTestsCommand extends Command
         return $this->getTable()->getFilters();
     }
 
+    protected function generateTableColumnsExistTest(): string
+    {
+        $columns = $this->getResourceTableColumns();
+        $tests = '';
+
+        foreach (collect($columns)->keys() as $key) {
+            $label = str_replace(['.', '_'], ' ', $key);
+
+            $tests .= <<<EOT
+            it('can render {$this->getResourceSingularName()->lower()} {$label} column', function () {
+                {$this->getResourceSingularName()}::factory()->count(3)->create();
+                livewire(List{$this->getResourcePluralName()}::class)->assertCanRenderTableColumn('{$key}');
+            });
+            
+            
+            EOT;
+        }
+
+        return $tests;
+    }
+
     public function handle(): void
     {
         // Get the resource name from the command argument
@@ -156,10 +187,10 @@ class FilamentResourceTestsCommand extends Command
             ),
         )
             ->studly()
-            ->trim('/')
+            ->trim(' / ')
             ->trim('\\')
             ->trim(' ')
-            ->replace('/', '\\');
+            ->replace(' / ', '\\');
 
         // If the resource does not end with 'Resource', append it
         if (! str($this->resourceName)->endsWith('Resource')) {

@@ -1,9 +1,20 @@
 <?php
 
-use function Pest\Livewire\livewire;
 use App\Filament\Resources\$resource$\Pages\List$plural_name$;
+use Illuminate\Support\Facades\Hash;
+use App\Models\User;
 use $model$;
+
+use function Pest\Livewire\livewire;
+
+beforeEach(function () {
+    $this->actingAs(User::factory()->create([
+        'password' => Hash::make('password'),
+    ]));
+});
 
 it('can render the $singular_name_lowercase$ list page', function () {
     livewire(List$plural_name$::class)->assertSuccessful();
 });
+
+$table_columns_exist_test$
