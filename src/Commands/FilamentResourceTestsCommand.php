@@ -194,7 +194,7 @@ class FilamentResourceTestsCommand extends Command
 
             $outputNameOption = $this->option('outputName');
 
-            $message = "A test for {$this->getResourceName()}";
+            $message = "A test for the {$this->getResourceName()}";
 
             if ($outputNameOption !== null) {
                 $message .= " ({$outputNameOption})";
@@ -210,7 +210,7 @@ class FilamentResourceTestsCommand extends Command
         $this->files->put($path, $contents);
 
         // Output success message
-        $this->info("A test for {$this->getResourceName()} created successfully.");
+        $this->info("A test for the {$this->getResourceName()} was created successfully.");
 
         return self::SUCCESS;
     }
