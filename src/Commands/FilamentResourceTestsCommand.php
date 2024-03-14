@@ -9,7 +9,6 @@ use Filament\Tables\Table;
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Stringable;
 
 use function Laravel\Prompts\multiselect;
 
@@ -35,19 +34,29 @@ class FilamentResourceTestsCommand extends Command
         return __DIR__.'/../../stubs/Resource.stub';
     }
 
-    protected function getStubVariables(string $resource, ?string $contents): array
+    protected function convertDoubleQuotedArrayString(string $string): array|string
     {
+        return str_replace('"', '\'', str_replace(',', ', ', $string));
+    }
+
+    protected function getStubVariables(Resource $resource): array
+    {
+        $model = $resource->getModel();
+
         return [
-            'tests' => $contents,
-            'resource' => $resource,
-            'model' => $this->getResourceModel($resource),
-            'model_plural_name' => str($resource)->remove('resource', false)->plural(),
+            'resource' => str($resource::class)->afterLast('\\'),
+            'model' => $model,
+            'modelSingularName' => str($model)->afterLast('\\'),
+            'modelPluralName' => str($model)->afterLast('\\')->plural(),
+            'resourceTableColumns' => $this->convertDoubleQuotedArrayString(collect($this->getResourceTable($resource)->getColumns())->filter(fn ($column) => ! $column->isToggledHiddenByDefault())->keys()),
+            'resourceTableSortableColumns' => $this->convertDoubleQuotedArrayString(collect($this->getResourceTable($resource)->getColumns())->filter(fn ($column) => $column->isSortable())->keys()),
+            'resourceTableSearchableColumns' => $this->convertDoubleQuotedArrayString(collect($this->getResourceTable($resource)->getColumns())->filter(fn ($column) => $column->isSearchable())->keys()),
         ];
     }
 
-    protected function getSourceFile(string $resource, $contents): array|bool|string
+    protected function getSourceFile(Resource $resource): array|bool|string
     {
-        return $this->getStubContents($this->getStubPath(), $this->getStubVariables($resource, $contents));
+        return $this->getStubContents($this->getStubPath(), $this->getStubVariables($resource));
     }
 
     protected function getStubContents(string $stub, array $stubVariables = []): array|bool|string
@@ -99,11 +108,11 @@ class FilamentResourceTestsCommand extends Command
         return collect(Filament::getResources());
     }
 
-    protected function getResourceTable(string $resource): Table
+    protected function getResourceTable(Resource $resource): Table
     {
         $livewire = app('livewire')->new(ListRecords::class);
 
-        return $this->getResourceClass($resource)::table(new Table($livewire));
+        return $resource::table(new Table($livewire));
     }
 
     protected function getResourceTableColumns(Table $table): array
@@ -126,31 +135,7 @@ class FilamentResourceTestsCommand extends Command
         return $table->getFilters();
     }
 
-    protected function generateTableColumnsExistTests(Stringable $resource): string
-    {
-        $table = $this->getResourceTable($resource);
-        $modelName = str($resource)->remove('resource', false);
-        $resourceTests = '';
-
-        $columns = $this->getResourceTableColumns($table);
-
-        foreach (collect($columns)->keys() as $key) {
-            $label = str_replace(['.', '_'], ' ', $key);
-
-            $resourceTests .= <<<EOT
-            it('can render {$modelName->singular()->lower()} {$label} column', function () {
-                {$modelName->singular()}::factory()->count(3)->create();
-                livewire(List{$modelName->plural()}::class)->assertCanRenderTableColumn('{$key}');
-            });
-
-
-            EOT;
-        }
-
-        return $resourceTests;
-    }
-
-    public function handle(): void
+    public function handle(): int
     {
         $availableResources = $this->getResources()
             ->map(fn ($resource): string => str($resource)->afterLast('Resources\\'));
@@ -162,33 +147,25 @@ class FilamentResourceTestsCommand extends Command
         );
 
         foreach ($selectedResources as $selectedResource) {
-            $allCurrentlyResourceTests = '';
+            $resource = $this->getResourceClass($selectedResource);
 
-            $resource = str($selectedResource);
+            $path = $this->getSourceFilePath($selectedResource);
 
-            $allCurrentlyResourceTests .= $this->generateTableColumnsExistTests($resource);
-
-            // Get the source file path
-            $path = $this->getSourceFilePath($resource);
-
-            // Make the directory if it does not exist
             $this->makeDirectory(dirname($path));
 
-            // Get the source file contents
-            $contents = $this->getSourceFile($resource, $allCurrentlyResourceTests);
+            $contents = $this->getSourceFile($resource);
 
-            // Check if the test already exists
             if ($this->files->exists($path)) {
-                $this->warn("Test for {$resource} already exists.");
+                $this->warn("Test for {$selectedResource} already exists.");
 
-                return;
+                break;
             }
 
-            // Write the file
             $this->files->put($path, $contents);
 
-            // Output success message
-            $this->info("Test for {$resource} created successfully.");
+            $this->info("Test for {$selectedResource} created successfully.");
         }
+
+        return self::SUCCESS;
     }
 }

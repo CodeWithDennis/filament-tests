@@ -1,9 +1,9 @@
 <?php
 
-use App\Filament\Resources\$resource$\Pages\List$model_plural_name$;
-use Illuminate\Support\Facades\Hash;
-use App\Models\User;
+use App\Filament\Resources\$resource$\Pages\List$modelPluralName$;
 use $model$;
+use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 
 use function Pest\Livewire\livewire;
 
@@ -13,4 +13,40 @@ beforeEach(function () {
     ]));
 });
 
-$tests$
+it('can render page', function () {
+    livewire(List$modelPluralName$::class)->assertSuccessful();
+});
+
+foreach ($resourceTableColumns$ as $column) {
+    it('can render '.$column.' column', function () use ($column) {
+        $modelSingularName$::factory()->count(3)->create();
+
+        livewire(List$modelPluralName$::class)->assertCanRenderTableColumn($column);
+    });
+}
+
+foreach ($resourceTableSortableColumns$ as $column) {
+    it('can sort by '.$column, function () use ($column) {
+        $records = $modelSingularName$::factory()->count(3)->create();
+
+        livewire(List$modelPluralName$::class)
+            ->sortTable($column)
+            ->assertCanSeeTableRecords($records->sortBy($column), inOrder: true)
+            ->sortTable($column, 'desc')
+            ->assertCanSeeTableRecords($records->sortByDesc($column), inOrder: true);
+    });
+}
+
+foreach ($resourceTableSearchableColumns$ as $column) {
+    it('can search by '.$column, function () use ($column) {
+        $records = $modelSingularName$::factory()->count(3)->create();
+
+        $search = $records->first()->{$column};
+
+        livewire(List$modelPluralName$::class)
+            ->searchTable($search)
+            ->assertCanSeeTableRecords($records->where($column, $search))
+            ->assertCanNotSeeTableRecords($records->where($column, '!=', $search));
+    });
+}
+
