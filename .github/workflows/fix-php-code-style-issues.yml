@@ -3,9 +3,6 @@ name: Fix PHP code style issues
 on:
   push:
 
-permissions:
-  contents: write
-
 jobs:
   php-code-styling:
     runs-on: ubuntu-latest
