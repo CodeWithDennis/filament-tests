@@ -33,11 +33,22 @@ class FilamentResourceTestsCommand extends Command
         $availableResources = $this->getResources()
             ->map(fn ($resource): string => str($resource)->afterLast('Resources\\'));
 
+
         $selectedResources = multiselect(
             label: 'What is the resource you would like to create this test for?',
             options: $availableResources->flatten(),
             required: true,
         );
+
+        // check the first item if its numeric (windows without WSL)
+        // @see https://laravel.com/docs/11.x/prompts#fallbacks
+        if (!empty($selectedResources) && is_numeric($selectedResources[0] ?? null)) {
+            $selectedResources = collect($selectedResources)
+                ->mapWithKeys(fn($index) => [
+                    $availableResources->keys()->get($index) =>
+                        $availableResources->get($availableResources->keys()->get($index))
+                ]);
+        }
 
         foreach ($selectedResources as $selectedResource) {
             $resource = $this->getResourceClass($selectedResource);
