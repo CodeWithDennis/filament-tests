@@ -10,15 +10,13 @@ use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Collection;
 
-use function Laravel\Prompts\select;
+use function Laravel\Prompts\multiselect;
 
 class FilamentResourceTestsCommand extends Command
 {
-    protected $signature = 'make:filament-resource-test {name?}';
+    protected $signature = 'make:filament-resource-test';
 
-    protected $description = 'Create a new test for a Filament resource.';
-
-    protected ?string $resourceName = '';
+    protected $description = 'Create tests for a Filament components';
 
     protected Filesystem $files;
 
@@ -34,28 +32,35 @@ class FilamentResourceTestsCommand extends Command
         return __DIR__.'/../../stubs/Resource.stub';
     }
 
-    protected function getStubVariables(): array
+    protected function convertDoubleQuotedArrayString(string $string): array|string
     {
-        $name = $this->resourceName;
-        $singularName = str($name)->singular()->remove('resource', false);
-        $pluralName = str($name)->plural()->remove('resource', false);
+        return str_replace('"', '\'', str_replace(',', ', ', $string));
+    }
+
+    protected function getStubVariables(Resource $resource): array
+    {
+        $model = $resource->getModel();
+        $columns = collect($this->getResourceTable($resource)->getColumns());
 
         return [
-            'resource' => $this->getResourceName(),
-            'model' => $this->getModel(),
-            'singular_name' => $singularName,
-            'singular_name_lowercase' => $singularName->lower(),
-            'plural_name' => $pluralName,
-            'plural_name_lowercase' => $pluralName->lower(),
+            'resource' => str($resource::class)->afterLast('\\'),
+            'model' => $model,
+            'modelSingularName' => str($model)->afterLast('\\'),
+            'modelPluralName' => str($model)->afterLast('\\')->plural(),
+            'resourceTableColumns' => $this->convertDoubleQuotedArrayString($columns->keys()),
+            'resourceTableColumnsWithoutHidden' => $this->convertDoubleQuotedArrayString($columns->filter(fn ($column) => ! $column->isToggledHiddenByDefault())->keys()),
+            'resourceTableToggleableColumns' => $this->convertDoubleQuotedArrayString($columns->filter(fn ($column) => $column->isToggleable())->keys()),
+            'resourceTableSortableColumns' => $this->convertDoubleQuotedArrayString($columns->filter(fn ($column) => $column->isSortable())->keys()),
+            'resourceTableSearchableColumns' => $this->convertDoubleQuotedArrayString($columns->filter(fn ($column) => $column->isSearchable())->keys()),
         ];
     }
 
-    protected function getSourceFile(): array|bool|string
+    protected function getSourceFile(Resource $resource): array|bool|string
     {
-        return $this->getStubContents($this->getStubPath(), $this->getStubVariables());
+        return $this->getStubContents($this->getStubPath(), $this->getStubVariables($resource));
     }
 
-    protected function getStubContents($stub, $stubVariables = []): array|bool|string
+    protected function getStubContents(string $stub, array $stubVariables = []): array|bool|string
     {
         $contents = file_get_contents($stub);
 
@@ -66,15 +71,15 @@ class FilamentResourceTestsCommand extends Command
         return $contents;
     }
 
-    protected function getSourceFilePath(): string
+    protected function getSourceFilePath(string $name): string
     {
         $directory = trim(config('filament-resource-tests.directory_name'), '/');
 
         if (config('filament-resource-tests.separate_tests_into_folders')) {
-            $directory .= DIRECTORY_SEPARATOR.$this->resourceName;
+            $directory .= DIRECTORY_SEPARATOR.$name;
         }
 
-        return $directory.DIRECTORY_SEPARATOR.$this->getResourceName().'Test.php';
+        return $directory.DIRECTORY_SEPARATOR.$name.'Test.php';
     }
 
     protected function makeDirectory($path): string
@@ -86,22 +91,10 @@ class FilamentResourceTestsCommand extends Command
         return $path;
     }
 
-    protected function getModel(): ?string
-    {
-        return $this->getResourceClass()?->getModel();
-    }
-
-    protected function getResourceName(): ?string
-    {
-        return str($this->resourceName)->endsWith('Resource') ?
-            $this->resourceName :
-            $this->resourceName.'Resource';
-    }
-
-    protected function getResourceClass(): ?Resource
+    protected function getResourceClass(string $resource): ?Resource
     {
         $match = $this->getResources()
-            ->first(fn ($resource): bool => str_contains($resource, $this->getResourceName()) && class_exists($resource));
+            ->first(fn ($value): bool => str_contains($value, $resource) && class_exists($value));
 
         return $match ? app()->make($match) : null;
     }
@@ -111,88 +104,64 @@ class FilamentResourceTestsCommand extends Command
         return collect(Filament::getResources());
     }
 
-    protected function getTable(): Table
+    protected function getResourceTable(Resource $resource): Table
     {
         $livewire = app('livewire')->new(ListRecords::class);
 
-        return $this->getResourceClass()::table(new Table($livewire));
+        return $resource::table(new Table($livewire));
     }
 
-    protected function getResourceTableColumns(): array
+    protected function getResourceTableColumns(Table $table): array
     {
-        return $this->getTable()->getColumns();
+        return $table->getColumns();
     }
 
-    protected function getResourceSortableTableColumns(): Collection
+    protected function getResourceSortableTableColumns(array $columns): Collection
     {
-        return collect($this->getResourceTableColumns())->filter(fn ($column) => $column->isSortable());
+        return collect($columns)->filter(fn ($column) => $column->isSortable());
     }
 
-    protected function getResourceSearchableTableColumns(): Collection
+    protected function getResourceSearchableTableColumns(array $columns): Collection
     {
-        return collect($this->getResourceTableColumns())->filter(fn ($column) => $column->isSearchable());
+        return collect($columns)->filter(fn ($column) => $column->isSearchable());
     }
 
-    protected function getResourceTableFilters(): array
+    protected function getResourceTableFilters(Table $table): array
     {
-        return $this->getTable()->getFilters();
+        return $table->getFilters();
     }
 
-    public function handle(): void
+    public function handle(): int
     {
-        // Get the resource name from the command argument
-        $this->resourceName = $this->argument('name');
-
-        // Get all available resources
         $availableResources = $this->getResources()
             ->map(fn ($resource): string => str($resource)->afterLast('Resources\\'));
 
-        // Ask the user for the resource
-        $this->resourceName = (string) str(
-            $this->resourceName ?? select(
-                label: 'What is the resource you would like to create this test for?',
-                options: $availableResources->flatten(),
-                required: true,
-            ),
-        )
-            ->studly()
-            ->trim('/')
-            ->trim('\\')
-            ->trim(' ')
-            ->replace('/', '\\');
+        $selectedResources = multiselect(
+            label: 'What is the resource you would like to create this test for?',
+            options: $availableResources->flatten(),
+            required: true,
+        );
 
-        // If the resource does not end with 'Resource', append it
-        if (! str($this->resourceName)->endsWith('Resource')) {
-            $this->resourceName .= 'Resource';
+        foreach ($selectedResources as $selectedResource) {
+            $resource = $this->getResourceClass($selectedResource);
+
+            $path = $this->getSourceFilePath($selectedResource);
+
+            $this->makeDirectory(dirname($path));
+
+            $contents = $this->getSourceFile($resource);
+
+            if ($this->files->exists($path)) {
+                $this->warn("Test for {$selectedResource} already exists.");
+
+                break;
+            }
+
+            $this->files->put($path, $contents);
+
+            $this->info("Test for {$selectedResource} created successfully.");
         }
 
-        // Check if the resource exists
-        if (! $this->getResourceClass()) {
-            $this->warn("The filament resource {$this->resourceName} does not exist.");
-
-            return;
-        }
-
-        // Get the source file path
-        $path = $this->getSourceFilePath();
-
-        // Make the directory if it does not exist
-        $this->makeDirectory(dirname($path));
-
-        // Get the source file contents
-        $contents = $this->getSourceFile();
-
-        // Check if the test already exists
-        if ($this->files->exists($path)) {
-            $this->warn("Test for {$this->getResourceName()} already exists.");
-
-            return;
-        }
-
-        // Write the file
-        $this->files->put($path, $contents);
-
-        // Output success message
-        $this->info("Test for {$this->getResourceName()} created successfully.");
+        return self::SUCCESS;
     }
 }
