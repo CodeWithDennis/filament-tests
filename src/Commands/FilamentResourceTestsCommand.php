@@ -91,11 +91,6 @@ class FilamentResourceTestsCommand extends Command
         return $path;
     }
 
-    protected function getResourceModel(string $resource): ?string
-    {
-        return $this->getResourceClass($resource)?->getModel();
-    }
-
     protected function getResourceClass(string $resource): ?Resource
     {
         $match = $this->getResources()
