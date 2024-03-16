@@ -39,15 +39,12 @@ class FilamentResourceTestsCommand extends Command
             required: true,
         );
 
-        // check if the first selected item is numeric (on windows without WSL multiselect returns an array of numeric strings)
-        // @see https://laravel.com/docs/11.x/prompts#fallbacks
-        if (!empty($selectedResources) && is_numeric($selectedResources[0] ?? null)) {
-
-            // convert the indexed selection back to the original resource path => resource name
+        // Check if the first selected item is numeric (on windows without WSL multiselect returns an array of numeric strings)
+        if (! empty($selectedResources) && is_numeric($selectedResources[0] ?? null)) {
+            // Convert the indexed selection back to the original resource path => resource name
             $selectedResources = collect($selectedResources)
-                ->mapWithKeys(fn($index) => [
-                    $availableResources->keys()->get($index) =>
-                        $availableResources->get($availableResources->keys()->get($index))
+                ->mapWithKeys(fn ($index) => [
+                    $availableResources->keys()->get($index) => $availableResources->get($availableResources->keys()->get($index)),
                 ]);
         }
 
