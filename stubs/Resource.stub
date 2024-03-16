@@ -21,6 +21,11 @@ it('can render column', function (string $column) {
     $modelSingularName$::factory()->count(3)->create();
 
     livewire(List$modelPluralName$::class)->assertCanRenderTableColumn($column);
+})->with($resourceTableColumnsWithoutHidden$);
+
+it('has column', function (string $column) {
+    livewire(List$modelPluralName$::class)
+        ->assertTableColumnExists($column);
 })->with($resourceTableColumns$);
 
 it('can sort column', function (string $column) {

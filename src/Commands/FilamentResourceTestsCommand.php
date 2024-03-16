@@ -48,7 +48,9 @@ class FilamentResourceTestsCommand extends Command
             'model' => $model,
             'modelSingularName' => str($model)->afterLast('\\'),
             'modelPluralName' => str($model)->afterLast('\\')->plural(),
-            'resourceTableColumns' => $this->convertDoubleQuotedArrayString(collect($this->getResourceTable($resource)->getColumns())->filter(fn ($column) => ! $column->isToggledHiddenByDefault())->keys()),
+            'resourceTableColumns' => $this->convertDoubleQuotedArrayString(collect($this->getResourceTable($resource)->getColumns())->keys()),
+            'resourceTableColumnsWithoutHidden' => $this->convertDoubleQuotedArrayString(collect($this->getResourceTable($resource)->getColumns())->filter(fn ($column) => ! $column->isToggledHiddenByDefault())->keys()),
+            'resourceTableToggleableColumns' => $this->convertDoubleQuotedArrayString(collect($this->getResourceTable($resource)->getColumns())->filter(fn ($column) => $column->isToggleable())->keys()),
             'resourceTableSortableColumns' => $this->convertDoubleQuotedArrayString(collect($this->getResourceTable($resource)->getColumns())->filter(fn ($column) => $column->isSortable())->keys()),
             'resourceTableSearchableColumns' => $this->convertDoubleQuotedArrayString(collect($this->getResourceTable($resource)->getColumns())->filter(fn ($column) => $column->isSearchable())->keys()),
         ];
