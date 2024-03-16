@@ -20,8 +20,6 @@ class FilamentResourceTestsCommand extends Command
 
     protected Filesystem $files;
 
-    protected string $tests = '';
-
     public function __construct(Filesystem $files)
     {
         parent::__construct();
@@ -42,17 +40,18 @@ class FilamentResourceTestsCommand extends Command
     protected function getStubVariables(Resource $resource): array
     {
         $model = $resource->getModel();
+        $columns = collect($this->getResourceTable($resource)->getColumns());
 
         return [
             'resource' => str($resource::class)->afterLast('\\'),
             'model' => $model,
             'modelSingularName' => str($model)->afterLast('\\'),
             'modelPluralName' => str($model)->afterLast('\\')->plural(),
-            'resourceTableColumns' => $this->convertDoubleQuotedArrayString(collect($this->getResourceTable($resource)->getColumns())->keys()),
-            'resourceTableColumnsWithoutHidden' => $this->convertDoubleQuotedArrayString(collect($this->getResourceTable($resource)->getColumns())->filter(fn ($column) => ! $column->isToggledHiddenByDefault())->keys()),
-            'resourceTableToggleableColumns' => $this->convertDoubleQuotedArrayString(collect($this->getResourceTable($resource)->getColumns())->filter(fn ($column) => $column->isToggleable())->keys()),
-            'resourceTableSortableColumns' => $this->convertDoubleQuotedArrayString(collect($this->getResourceTable($resource)->getColumns())->filter(fn ($column) => $column->isSortable())->keys()),
-            'resourceTableSearchableColumns' => $this->convertDoubleQuotedArrayString(collect($this->getResourceTable($resource)->getColumns())->filter(fn ($column) => $column->isSearchable())->keys()),
+            'resourceTableColumns' => $this->convertDoubleQuotedArrayString($columns->keys()),
+            'resourceTableColumnsWithoutHidden' => $this->convertDoubleQuotedArrayString($columns->filter(fn ($column) => ! $column->isToggledHiddenByDefault())->keys()),
+            'resourceTableToggleableColumns' => $this->convertDoubleQuotedArrayString($columns->filter(fn ($column) => $column->isToggleable())->keys()),
+            'resourceTableSortableColumns' => $this->convertDoubleQuotedArrayString($columns->filter(fn ($column) => $column->isSortable())->keys()),
+            'resourceTableSearchableColumns' => $this->convertDoubleQuotedArrayString($columns->filter(fn ($column) => $column->isSearchable())->keys()),
         ];
     }
 
