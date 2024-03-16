@@ -31,9 +31,7 @@ class FilamentResourceTestsCommand extends Command
     public function handle(): int
     {
         $availableResources = $this->getResources()
-            ->map(fn ($resource): string => str($resource)->afterLast('Resources\\'));
-
-        $selectedResources = multiselect(
+            ->map(fn ($resource): string => str($resource)->afterLast('Resources\\'));$selectedResources = multiselect(
             label: 'What is the resource you would like to create this test for?',
             options: $availableResources->flatten(),
             required: true,
