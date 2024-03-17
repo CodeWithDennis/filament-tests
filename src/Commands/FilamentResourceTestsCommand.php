@@ -134,6 +134,7 @@ class FilamentResourceTestsCommand extends Command
         return [
             'resource' => str($resource::class)->afterLast('\\'),
             'model' => $model,
+            'defaultUserModel' => ($model !== 'App\Models\User' ? 'use App\Models\User;' : ''),
             'modelSingularName' => str($model)->afterLast('\\'),
             'modelPluralName' => str($model)->afterLast('\\')->plural(),
             'resourceTableColumns' => $this->convertDoubleQuotedArrayString($columns->keys()),
