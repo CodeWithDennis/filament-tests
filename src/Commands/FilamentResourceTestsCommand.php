@@ -40,7 +40,7 @@ class FilamentResourceTestsCommand extends Command
         );
 
         // Check if the first selected item is numeric (on windows without WSL multiselect returns an array of numeric strings)
-        if (! empty($selectedResources) && is_numeric($selectedResources[0] ?? null)) {
+        if (is_numeric($selectedResources[0] ?? null)) {
             // Convert the indexed selection back to the original resource path => resource name
             $selectedResources = collect($selectedResources)
                 ->mapWithKeys(fn ($index) => [
