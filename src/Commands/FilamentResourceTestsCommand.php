@@ -2,6 +2,7 @@
 
 namespace CodeWithDennis\FilamentResourceTests\Commands;
 
+use App\Models\User;
 use Filament\Facades\Filament;
 use Filament\Resources\Pages\ListRecords;
 use Filament\Resources\Resource;
@@ -134,7 +135,7 @@ class FilamentResourceTestsCommand extends Command
         return [
             'resource' => str($resource::class)->afterLast('\\'),
             'model' => $model,
-            'defaultUserModel' => ($model !== 'App\Models\User' ? 'use App\Models\User;' : ''),
+            'defaultUserModel' => $model !== User::class ? 'use ' . User::class . ';' : null,
             'modelSingularName' => str($model)->afterLast('\\'),
             'modelPluralName' => str($model)->afterLast('\\')->plural(),
             'resourceTableColumns' => $this->convertDoubleQuotedArrayString($columns->keys()),
