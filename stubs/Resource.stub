@@ -6,9 +6,11 @@ use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 
 use function Pest\Livewire\livewire;
+use function Pest\Laravel\actingAs;
+
 
 beforeEach(function () {
-    $this->actingAs(User::factory()->create([
+    actingAs(User::factory()->create([
         'password' => Hash::make('password'),
     ]));
 });
