@@ -1,23 +1,22 @@
-name: Fix PHP code style issues
-
+name: PHP Linting (Pint)
 on:
+  workflow_dispatch:
   push:
 
 jobs:
-  php-code-styling:
+  phplint:
     runs-on: ubuntu-latest
-    timeout-minutes: 5
-
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v3
         with:
-          ref: ${{ github.head_ref }}
-
-      - name: Fix PHP code style issues
+          fetch-depth: 2
+      - name: "laravel-pint"
         uses: aglipanci/laravel-pint-action@2.3.1
+        with:
+          preset: laravel
 
       - name: Commit changes
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: Fix styling
+          skip_fetch: true
