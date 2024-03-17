@@ -2,7 +2,7 @@
 
 use App\Filament\Resources\$resource$\Pages\List$modelPluralName$;
 use $model$;
-use App\Models\User;
+$defaultUserModel$
 use Illuminate\Support\Facades\Hash;
 
 use function Pest\Livewire\livewire;
