@@ -154,7 +154,9 @@ class FilamentResourceTestsCommand extends Command
 
     protected function convertDoubleQuotedArrayString(string $string): array|string
     {
-        return str_replace('"', '\'', str_replace(',', ', ', $string));
+        return str($string)
+            ->replace('"', '\'')
+            ->replace(',', ', ');
     }
 
     protected function getResourceTableColumns(Table $table): array
