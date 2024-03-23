@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Hash;
 use function Pest\Laravel\actingAs;
 use function Pest\Livewire\livewire;
 
+uses()->group('filament-resource-tests');
 
 beforeEach(function () {
     actingAs(User::factory()->create([
