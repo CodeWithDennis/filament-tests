@@ -129,7 +129,7 @@ class FilamentResourceTestsCommand extends Command
     protected function getStubVariables(Resource $resource): array
     {
         $model = $resource->getModel();
-        $columns = collect($this->getResourceTable($resource)->getColumns());
+        $columns = $this->getResourceTableColumns($this->getResourceTable($resource));
 
         return [
             'resource' => str($resource::class)->afterLast('\\'),
@@ -157,9 +157,13 @@ class FilamentResourceTestsCommand extends Command
         return str_replace('"', '\'', str_replace(',', ', ', $string));
     }
 
-    protected function getResourceTableColumns(Table $table): array
+    protected function getResourceTableColumns(Table $table): Collection
     {
-        return $table->getColumns();
+        $ignoredColumns = config('filament-resource-tests.ignored_columns', []);
+
+        return collect($table->getColumns())
+            ->filter(fn ($column) => ! in_array($column->getName(), $ignoredColumns));
+
     }
 
     protected function getResourceSortableTableColumns(array $columns): Collection
