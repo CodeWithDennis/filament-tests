@@ -4,6 +4,7 @@ use App\Filament\Resources\$resource$\Pages\List$modelPluralName$;
 use $model$;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
+use Filament\Tables\Actions\DeleteAction;
 
 use function Pest\Laravel\actingAs;
 use function Pest\Livewire\livewire;
@@ -62,5 +63,16 @@ it('can individually search by column', function (string $column) {
         ->assertCanNotSeeTableRecords($records->where($column, '!=', $search));
 })->with($resourceTableIndividuallySearchableColumns$);
 
+it('can delete records', function () {
+    $record = $modelSingularName$::factory()->create();
 
+    livewire(List$modelPluralName$::class)
+        ->callTableAction(DeleteAction::class, $record);
+
+    if ($modelUsesSoftDeletes$) {
+        $this->assertSoftDeleted($record);
+    } else {
+        $this->assertModelMissing($record);
+    }
+});
 
