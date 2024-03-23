@@ -132,10 +132,12 @@ class FilamentResourceTestsCommand extends Command
         $model = $resource->getModel();
         $columns = collect($this->getResourceTable($resource)->getColumns());
 
+        $userModel = User::class;
+        $modelImport = $model === $userModel ? "use {$model};" : "use {$model};\nuse {$userModel};";
+
         return [
             'resource' => str($resource::class)->afterLast('\\'),
-            'model' => $model,
-            'defaultUserModel' => $model !== User::class ? 'use '.User::class.';' : null,
+            'modelImport' => $modelImport,
             'modelSingularName' => str($model)->afterLast('\\'),
             'modelPluralName' => str($model)->afterLast('\\')->plural(),
             'resourceTableColumns' => $this->convertDoubleQuotedArrayString($columns->keys()),
