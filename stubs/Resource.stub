@@ -3,6 +3,7 @@
 use App\Filament\Resources\$resource$\Pages\List$modelPluralName$;
 use $model$;
 use App\Models\User;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Hash;
 use Filament\Tables\Actions\DeleteAction;
 
@@ -11,6 +12,8 @@ use function Pest\Livewire\livewire;
 
 
 beforeEach(function () {
+    $this->modelUsesSoftDeletes = in_array(SoftDeletes::class, class_uses_recursive($modelSingularName$::class));
+
     actingAs(User::factory()->create([
         'password' => Hash::make('password'),
     ]));
@@ -69,7 +72,7 @@ it('can delete records', function () {
     livewire(List$modelPluralName$::class)
         ->callTableAction(DeleteAction::class, $record);
 
-    if ($modelUsesSoftDeletes$) {
+    if ($this->modelUsesSoftDeletes) {
         $this->assertSoftDeleted($record);
     } else {
         $this->assertModelMissing($record);

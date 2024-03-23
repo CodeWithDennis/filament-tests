@@ -142,7 +142,6 @@ class FilamentResourceTestsCommand extends Command
             'resourceTableSortableColumns' => $this->convertDoubleQuotedArrayString($columns->filter(fn ($column) => $column->isSortable())->keys()),
             'resourceTableSearchableColumns' => $this->convertDoubleQuotedArrayString($columns->filter(fn ($column) => $column->isSearchable())->keys()),
             'resourceTableIndividuallySearchableColumns' => $this->convertDoubleQuotedArrayString($columns->filter(fn ($column) => $column->isIndividuallySearchable())->keys()),
-            'modelUsesSoftDeletes' => method_exists($model, 'trashed'), // check if the model uses SoftDeletes trait
         ];
     }
 
