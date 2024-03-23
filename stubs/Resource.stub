@@ -5,7 +5,7 @@ use $model$;
 use App\Models\User;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Hash;
-use App\Filament\Tables\Actions\DeleteAction;
+use Filament\Tables\Actions\DeleteAction;
 
 use function Pest\Laravel\actingAs;
 use function Pest\Livewire\livewire;
