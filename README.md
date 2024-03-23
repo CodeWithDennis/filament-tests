@@ -57,7 +57,7 @@ You can run your tests normally by running the following command:
 vendor/bin/pest
 ```
 
-You can choose only run the tests for this package by running the following command:
+You can choose to only run the tests for this package by running the following command:
 
 ```bash
 vendor/bin/pest --group=filament-resource-tests
