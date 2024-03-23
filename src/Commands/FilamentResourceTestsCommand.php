@@ -161,7 +161,7 @@ class FilamentResourceTestsCommand extends Command
     {
         return $table->getColumns();
     }
-    
+
     protected function getResourceTableFilters(Table $table): array
     {
         return $table->getFilters();
