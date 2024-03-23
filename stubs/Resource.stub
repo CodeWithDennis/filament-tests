@@ -3,6 +3,8 @@
 use App\Filament\Resources\$resource$\Pages\List$modelPluralName$;
 use $model$;
 use App\Models\User;
+use Filament\Tables\Actions\DeleteBulkAction;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Hash;
 
 use function Pest\Laravel\actingAs;
@@ -10,6 +12,8 @@ use function Pest\Livewire\livewire;
 
 
 beforeEach(function () {
+    $this->modelUsesSoftDeletes = in_array(SoftDeletes::class, class_uses_recursive($modelSingularName$::class));
+
     actingAs(User::factory()->create([
         'password' => Hash::make('password'),
     ]));
@@ -62,5 +66,20 @@ it('can individually search by column', function (string $column) {
         ->assertCanNotSeeTableRecords($records->where($column, '!=', $search));
 })->with($resourceTableIndividuallySearchableColumns$);
 
+it('can bulk delete records', function () {
+    $records = $modelSingularName$::factory()->count(3)->create();
 
+    livewire(List$modelPluralName$::class)
+        ->callTableBulkAction(DeleteBulkAction::class, $records);
+
+    foreach ($records as $record) {
+        if ($this->modelUsesSoftDeletes) {
+            $this->assertSoftDeleted($record);
+        } else {
+            $this->assertModelMissing($record);
+        }
+    }
+
+    expect($modelSingularName$::count())->toBe(0);
+});
 
