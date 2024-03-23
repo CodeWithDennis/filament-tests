@@ -3,6 +3,7 @@
 use App\Filament\Resources\$resource$\Pages\List$modelPluralName$;
 use $model$;
 use App\Models\User;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Hash;
 
 use function Pest\Laravel\actingAs;
@@ -10,6 +11,8 @@ use function Pest\Livewire\livewire;
 
 
 beforeEach(function () {
+    $this->modelUsesSoftDeletes = in_array(SoftDeletes::class, class_uses_recursive($modelSingularName$::class));
+
     actingAs(User::factory()->create([
         'password' => Hash::make('password'),
     ]));
@@ -72,4 +75,4 @@ it('cannot display trashed records by default', function () {
         ->assertCanSeeTableRecords($records)
         ->assertCanNotSeeTableRecords($trashedRecords)
         ->assertCountTableRecords(3);
-})->skip(!$modelUsesSoftDeletes$, '$modelSingularName$ doesn\'t use SoftDeletes trait');
+})->skip(fn () => ! $this->modelUsesSoftDeletes, '$modelSingularName$ does not use soft deletes');
