@@ -141,6 +141,7 @@ class FilamentResourceTestsCommand extends Command
             'resourceTableToggleableColumns' => $this->convertDoubleQuotedArrayString($columns->filter(fn ($column) => $column->isToggleable())->keys()),
             'resourceTableSortableColumns' => $this->convertDoubleQuotedArrayString($columns->filter(fn ($column) => $column->isSortable())->keys()),
             'resourceTableSearchableColumns' => $this->convertDoubleQuotedArrayString($columns->filter(fn ($column) => $column->isSearchable())->keys()),
+            'resourceTableIndividuallySearchableColumns' => $this->convertDoubleQuotedArrayString($columns->filter(fn ($column) => $column->isIndividuallySearchable())->keys()),
         ];
     }
 
