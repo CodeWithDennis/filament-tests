@@ -15,6 +15,6 @@ return [
      * Ignore the following columns when generating the tests.
      */
     'ignored_columns' => [
-//        'id',
+        //        'id',
     ],
 ];
