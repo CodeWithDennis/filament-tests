@@ -3,6 +3,7 @@
 use App\Filament\Resources\$resource$\Pages\List$modelPluralName$;
 use $model$;
 use App\Models\User;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Support\Facades\Hash;
 
 use function Pest\Laravel\actingAs;
@@ -10,6 +11,8 @@ use function Pest\Livewire\livewire;
 
 
 beforeEach(function () {
+    $this->modelUsesHasFactory = in_array(HasFactory::class, class_uses($modelSingularName$::class));
+
     actingAs(User::factory()->create([
         'password' => Hash::make('password'),
     ]));
@@ -23,7 +26,8 @@ it('can render column', function (string $column) {
     $modelSingularName$::factory()->count(3)->create();
 
     livewire(List$modelPluralName$::class)->assertCanRenderTableColumn($column);
-})->with($resourceTableColumnsWithoutHidden$);
+})->with($resourceTableColumnsWithoutHidden$)
+->skip(fn () => ! $this->modelUsesHasFactory, 'Model does not use HasFactory');
 
 it('has column', function (string $column) {
     livewire(List$modelPluralName$::class)
@@ -38,7 +42,8 @@ it('can sort column', function (string $column) {
         ->assertCanSeeTableRecords($records->sortBy($column), inOrder: true)
         ->sortTable($column, 'desc')
         ->assertCanSeeTableRecords($records->sortByDesc($column), inOrder: true);
-})->with($resourceTableSortableColumns$);
+})->with($resourceTableSortableColumns$)
+->skip(fn () => ! $this->modelUsesHasFactory, 'Model does not use HasFactory');
 
 it('can search column', function (string $column) {
     $records = $modelSingularName$::factory()->count(3)->create();
@@ -49,7 +54,8 @@ it('can search column', function (string $column) {
         ->searchTable($search)
         ->assertCanSeeTableRecords($records->where($column, $search))
         ->assertCanNotSeeTableRecords($records->where($column, '!=', $search));
-})->with($resourceTableSearchableColumns$);
+})->with($resourceTableSearchableColumns$)
+->skip(fn () => ! $this->modelUsesHasFactory, 'Model does not use HasFactory');
 
 it('can individually search by column', function (string $column) {
     $records = $modelSingularName$::factory()->count(3)->create();
@@ -60,7 +66,8 @@ it('can individually search by column', function (string $column) {
         ->searchTableColumns([$column => $search])
         ->assertCanSeeTableRecords($records->where($column, $search))
         ->assertCanNotSeeTableRecords($records->where($column, '!=', $search));
-})->with($resourceTableIndividuallySearchableColumns$);
+})->with($resourceTableIndividuallySearchableColumns$)
+->skip(fn () => ! $this->modelUsesHasFactory, 'Model does not use HasFactory');
 
 
 
