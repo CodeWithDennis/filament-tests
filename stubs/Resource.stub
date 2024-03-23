@@ -11,7 +11,7 @@ use function Pest\Livewire\livewire;
 
 
 beforeEach(function () {
-    $this->modelUsesSoftDeletes = in_array(SoftDeletes::class, class_uses_recursive($modelSingularName$::class));
+    $this->modelUsesSoftDeletes = in_array(SoftDeletes::class, class_uses($modelSingularName$::class));
 
     actingAs(User::factory()->create([
         'password' => Hash::make('password'),
