@@ -152,7 +152,7 @@ class FilamentResourceTestsCommand extends Command
         return $resource::table(new Table($livewire));
     }
 
-    protected function convertDoubleQuotedArrayString(string $string): array|string
+    protected function convertDoubleQuotedArrayString(string $string): string
     {
         return str($string)
             ->replace('"', '\'')
