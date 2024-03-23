@@ -36,6 +36,7 @@ return [
     'separate_tests_into_folders' => env('FILAMENT_RESOURCE_TESTS_SEPARATE_TESTS_INTO_FOLDERS', false),
 ];
 ```
+## Usage
 
 You can create a new test for a resource by running the following command:
 
@@ -43,7 +44,7 @@ You can create a new test for a resource by running the following command:
 php artisan make:filament-resource-test BlogResource
 ```
 
-If you don't specify a resource name, the package will ask you to choose one from a list of available resources.
+If you don't specify a resource name, you will be prompted to choose one or more resources to create tests for.
 
 ```bash
 php artisan make:filament-resource-test
