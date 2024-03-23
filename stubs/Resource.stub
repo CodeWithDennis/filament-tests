@@ -63,4 +63,13 @@ it('can individually search by column', function (string $column) {
 })->with($resourceTableIndividuallySearchableColumns$);
 
 
+it('cannot display trashed records by default', function () {
+    $records = $modelSingularName$::factory()->count(3)->create();
 
+    $trashedRecords = $modelSingularName$::factory()->trashed()->count(6)->create();
+
+    livewire(List$modelPluralName$::class)
+        ->assertCanSeeTableRecords($records)
+        ->assertCanNotSeeTableRecords($trashedRecords)
+        ->assertCountTableRecords(3);
+})->skip(!$modelUsesSoftDeletes$, '$modelSingularName$ doesn\'t use SoftDeletes trait');
