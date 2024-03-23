@@ -164,16 +164,6 @@ class FilamentResourceTestsCommand extends Command
         return $table->getColumns();
     }
 
-    protected function getResourceSortableTableColumns(array $columns): Collection
-    {
-        return collect($columns)->filter(fn ($column) => $column->isSortable());
-    }
-
-    protected function getResourceSearchableTableColumns(array $columns): Collection
-    {
-        return collect($columns)->filter(fn ($column) => $column->isSearchable());
-    }
-
     protected function getResourceTableFilters(Table $table): array
     {
         return $table->getFilters();
