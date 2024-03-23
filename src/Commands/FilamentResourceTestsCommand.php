@@ -129,17 +129,17 @@ class FilamentResourceTestsCommand extends Command
 
     protected function getStubVariables(Resource $resource): array
     {
-        $model = $resource->getModel();
+        $resourceModel = $resource->getModel();
         $columns = collect($this->getResourceTable($resource)->getColumns());
 
         $userModel = User::class;
-        $modelImport = $model === $userModel ? "use {$model};" : "use {$model};\nuse {$userModel};";
+        $modelImport = $resourceModel === $userModel ? "use {$resourceModel};" : "use {$resourceModel};\nuse {$userModel};";
 
         return [
             'resource' => str($resource::class)->afterLast('\\'),
             'modelImport' => $modelImport,
-            'modelSingularName' => str($model)->afterLast('\\'),
-            'modelPluralName' => str($model)->afterLast('\\')->plural(),
+            'modelSingularName' => str($resourceModel)->afterLast('\\'),
+            'modelPluralName' => str($resourceModel)->afterLast('\\')->plural(),
             'resourceTableColumns' => $this->convertDoubleQuotedArrayString($columns->keys()),
             'resourceTableColumnsWithoutHidden' => $this->convertDoubleQuotedArrayString($columns->filter(fn ($column) => ! $column->isToggledHiddenByDefault())->keys()),
             'resourceTableToggleableColumns' => $this->convertDoubleQuotedArrayString($columns->filter(fn ($column) => $column->isToggleable())->keys()),
