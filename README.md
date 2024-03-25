@@ -50,6 +50,26 @@ If you don't specify a resource name, you will be prompted to choose one or more
 php artisan make:filament-resource-test
 ````
 
+## Running the package tests
+
+You can run your tests normally by running the following command:
+
+```bash
+vendor/bin/pest
+```
+
+You can choose to only run the tests for this package by running the following command:
+
+```bash
+vendor/bin/pest --group=filament-resource-tests
+```
+
+You can also run all your tests except the ones for this package by running the following command:
+
+```bash
+vendor/bin/pest --exclude-group=filament-resource-tests
+```
+
 ## Credits
 
 - [CodeWithDennis](https://github.com/CodeWithDennis)
