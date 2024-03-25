@@ -2,6 +2,7 @@
 
 namespace CodeWithDennis\FilamentResourceTests\Commands;
 
+use App\Models\User;
 use Filament\Facades\Filament;
 use Filament\Resources\Pages\ListRecords;
 use Filament\Resources\Resource;
@@ -128,14 +129,17 @@ class FilamentResourceTestsCommand extends Command
 
     protected function getStubVariables(Resource $resource): array
     {
-        $model = $resource->getModel();
+        $resourceModel = $resource->getModel();
         $columns = collect($this->getResourceTable($resource)->getColumns());
+
+        $userModel = User::class;
+        $modelImport = $resourceModel === $userModel ? "use {$resourceModel};" : "use {$resourceModel};\nuse {$userModel};";
 
         return [
             'resource' => str($resource::class)->afterLast('\\'),
-            'model' => $model,
-            'modelSingularName' => str($model)->afterLast('\\'),
-            'modelPluralName' => str($model)->afterLast('\\')->plural(),
+            'modelImport' => $modelImport,
+            'modelSingularName' => str($resourceModel)->afterLast('\\'),
+            'modelPluralName' => str($resourceModel)->afterLast('\\')->plural(),
             'resourceTableColumns' => $this->convertDoubleQuotedArrayString($columns->keys()),
             'resourceTableColumnsWithoutHidden' => $this->convertDoubleQuotedArrayString($columns->filter(fn ($column) => ! $column->isToggledHiddenByDefault())->keys()),
             'resourceTableToggleableColumns' => $this->convertDoubleQuotedArrayString($columns->filter(fn ($column) => $column->isToggleable())->keys()),

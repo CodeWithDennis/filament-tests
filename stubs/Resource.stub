@@ -1,8 +1,7 @@
 <?php
 
 use App\Filament\Resources\$resource$\Pages\List$modelPluralName$;
-use $model$;
-use App\Models\User;
+$modelImport$
 use Illuminate\Support\Facades\Hash;
 
 use function Pest\Laravel\actingAs;
