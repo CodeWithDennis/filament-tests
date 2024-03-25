@@ -3,7 +3,6 @@
 use App\Filament\Resources\$resource$\Pages\List$modelPluralName$;
 use $model$;
 use App\Models\User;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Hash;
 
 use function Pest\Laravel\actingAs;
@@ -11,7 +10,7 @@ use function Pest\Livewire\livewire;
 
 
 beforeEach(function () {
-    $this->modelUsesSoftDeletes = in_array(SoftDeletes::class, class_uses_recursive($modelSingularName$::class));
+    $this->modelUsesSoftDeletes = method_exists(new $modelSingularName$(), 'bootSoftDeletes');
 
     actingAs(User::factory()->create([
         'password' => Hash::make('password'),
