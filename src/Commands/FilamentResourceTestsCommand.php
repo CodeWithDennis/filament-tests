@@ -4,6 +4,9 @@ namespace CodeWithDennis\FilamentResourceTests\Commands;
 
 use App\Models\User;
 use Filament\Facades\Filament;
+use Filament\Forms\Form;
+use Filament\Resources\Pages\CreateRecord;
+use Filament\Resources\Pages\EditRecord;
 use Filament\Resources\Pages\ListRecords;
 use Filament\Resources\Resource;
 use Filament\Tables\Table;
@@ -169,6 +172,30 @@ class FilamentResourceTestsCommand extends Command
         }
 
         return $contents.PHP_EOL.PHP_EOL;
+    }
+
+    protected function getResourceCreateFormFields(Resource $resource): array
+    {
+        return $this->getResourceCreateForm($resource)->getFlatFields();
+    }
+
+    protected function getResourceEditFormFields(Resource $resource): array
+    {
+        return $this->getResourceEditForm($resource)->getFlatFields();
+    }
+
+    protected function getResourceEditForm(Resource $resource): Form
+    {
+        $livewire = app('livewire')->new(EditRecord::class);
+
+        return $resource::form(new Form($livewire));
+    }
+
+    protected function getResourceCreateForm(Resource $resource): Form
+    {
+        $livewire = app('livewire')->new(CreateRecord::class);
+
+        return $resource::form(new Form($livewire));
     }
 
     protected function getResourceTable(Resource $resource): Table
