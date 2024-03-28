@@ -2,7 +2,6 @@
 
 use App\Filament\Resources\$RESOURCE$\Pages\List$MODEL_PLURAL_NAME$;
 $MODEL_IMPORT$
-use Illuminate\Support\Facades\Hash;
 
 use function Pest\Laravel\actingAs;
 use function Pest\Livewire\livewire;
