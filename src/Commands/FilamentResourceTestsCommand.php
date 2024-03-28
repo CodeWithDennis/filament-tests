@@ -31,9 +31,11 @@ class FilamentResourceTestsCommand extends Command
 
     public function handle(): int
     {
+        // Get the available resources
         $availableResources = $this->getResources()
             ->map(fn ($resource): string => str($resource)->afterLast('Resources\\'));
 
+        // Ask the user to select the resource they want to create a test for
         $selectedResources = multiselect(
             label: 'What is the resource you would like to create this test for?',
             options: $availableResources->flatten(),
@@ -50,27 +52,68 @@ class FilamentResourceTestsCommand extends Command
         }
 
         foreach ($selectedResources as $selectedResource) {
+            // Get the resource class based on the selected resource
             $resource = $this->getResourceClass($selectedResource);
 
+            // Get the path where the test file will be created
             $path = $this->getSourceFilePath($selectedResource);
 
+            // Create the directory if it doesn't exist
+            // TODO: (fix) We don't need to create the directory if it already exists (looping right now)
             $this->makeDirectory(dirname($path));
 
+            // Get the contents of the test file
             $contents = $this->getSourceFile($resource);
 
+            // If the file already exists, ask the user if they want to overwrite it.
             if ($this->files->exists($path)) {
-                // If the file already exists, ask the user if they want to overwrite it.
                 if (! confirm("Test for {$selectedResource} already exists. Do you want to overwrite it?")) {
                     continue;
                 }
             }
 
+            // Write the contents to the file
             $this->files->put($path, $contents);
 
+            // Output a success message
             $this->info("Test for {$selectedResource} created successfully.");
         }
 
+        // Return success
         return self::SUCCESS;
+    }
+
+    protected function getStubs(Resource $resource): array
+    {
+        // Base stubs that are always included
+        $stubs = ['Base', 'RenderPage'];
+
+        // Get the columns of the resource table
+        $columns = collect($this->getResourceTable($resource)->getColumns());
+
+        // Add additional stubs based on the columns
+        if ($columns->isNotEmpty()) {
+            $stubs[] = 'HasColumn';
+            $stubs[] = 'RenderColumn';
+        }
+
+        // Check if there are sortable columns
+        if ($columns->filter(fn ($column) => $column->isSortable())->isNotEmpty()) {
+            $stubs[] = 'SortColumn';
+        }
+
+        // Check if there are searchable columns
+        if ($columns->filter(fn ($column) => $column->isSearchable())->isNotEmpty()) {
+            $stubs[] = 'SearchColumn';
+        }
+
+        // Check if there are individually searchable columns
+        if ($columns->filter(fn ($column) => $column->isIndividuallySearchable())->isNotEmpty()) {
+            $stubs[] = 'IndividuallySearchColumn';
+        }
+
+        // Return the stubs
+        return $stubs;
     }
 
     protected function getResources(): Collection
@@ -108,7 +151,13 @@ class FilamentResourceTestsCommand extends Command
 
     protected function getSourceFile(Resource $resource): array|bool|string
     {
-        return $this->getStubContents($this->getStubPath(), $this->getStubVariables($resource));
+        $contents = '';
+
+        foreach ($this->getStubs($resource) as $stub) {
+            $contents .= $this->getStubContents(__DIR__.'/../../stubs/'.$stub.'.stub', $this->getStubVariables($resource));
+        }
+
+        return $contents;
     }
 
     protected function getStubContents(string $stub, array $stubVariables = []): array|bool|string
@@ -119,34 +168,7 @@ class FilamentResourceTestsCommand extends Command
             $contents = str_replace('$'.$search.'$', $replace, $contents);
         }
 
-        return $contents;
-    }
-
-    protected function getStubPath(): string
-    {
-        return __DIR__.'/../../stubs/Resource.stub';
-    }
-
-    protected function getStubVariables(Resource $resource): array
-    {
-        $resourceModel = $resource->getModel();
-        $columns = collect($this->getResourceTable($resource)->getColumns());
-
-        $userModel = User::class;
-        $modelImport = $resourceModel === $userModel ? "use {$resourceModel};" : "use {$resourceModel};\nuse {$userModel};";
-
-        return [
-            'resource' => str($resource::class)->afterLast('\\'),
-            'modelImport' => $modelImport,
-            'modelSingularName' => str($resourceModel)->afterLast('\\'),
-            'modelPluralName' => str($resourceModel)->afterLast('\\')->plural(),
-            'resourceTableColumns' => $this->convertDoubleQuotedArrayString($columns->keys()),
-            'resourceTableColumnsWithoutHidden' => $this->convertDoubleQuotedArrayString($columns->filter(fn ($column) => ! $column->isToggledHiddenByDefault())->keys()),
-            'resourceTableToggleableColumns' => $this->convertDoubleQuotedArrayString($columns->filter(fn ($column) => $column->isToggleable())->keys()),
-            'resourceTableSortableColumns' => $this->convertDoubleQuotedArrayString($columns->filter(fn ($column) => $column->isSortable())->keys()),
-            'resourceTableSearchableColumns' => $this->convertDoubleQuotedArrayString($columns->filter(fn ($column) => $column->isSearchable())->keys()),
-            'resourceTableIndividuallySearchableColumns' => $this->convertDoubleQuotedArrayString($columns->filter(fn ($column) => $column->isIndividuallySearchable())->keys()),
-        ];
+        return $contents.PHP_EOL.PHP_EOL;
     }
 
     protected function getResourceTable(Resource $resource): Table
@@ -171,5 +193,27 @@ class FilamentResourceTestsCommand extends Command
     protected function getResourceTableFilters(Table $table): array
     {
         return $table->getFilters();
+    }
+
+    protected function getStubVariables(Resource $resource): array // TODO: This part is a bit messy, maybe refactor it
+    {
+        $resourceModel = $resource->getModel();
+        $columns = collect($this->getResourceTable($resource)->getColumns());
+
+        $userModel = User::class;
+        $modelImport = $resourceModel === $userModel ? "use {$resourceModel};" : "use {$resourceModel};\nuse {$userModel};";
+
+        return [
+            'resource' => str($resource::class)->afterLast('\\'),
+            'modelImport' => $modelImport,
+            'modelSingularName' => str($resourceModel)->afterLast('\\'),
+            'modelPluralName' => str($resourceModel)->afterLast('\\')->plural(),
+            'resourceTableColumns' => $this->convertDoubleQuotedArrayString($columns->keys()),
+            'resourceTableColumnsWithoutHidden' => $this->convertDoubleQuotedArrayString($columns->filter(fn ($column) => ! $column->isToggledHiddenByDefault())->keys()),
+            'resourceTableToggleableColumns' => $this->convertDoubleQuotedArrayString($columns->filter(fn ($column) => $column->isToggleable())->keys()),
+            'resourceTableSortableColumns' => $this->convertDoubleQuotedArrayString($columns->filter(fn ($column) => $column->isSortable())->keys()),
+            'resourceTableSearchableColumns' => $this->convertDoubleQuotedArrayString($columns->filter(fn ($column) => $column->isSearchable())->keys()),
+            'resourceTableIndividuallySearchableColumns' => $this->convertDoubleQuotedArrayString($columns->filter(fn ($column) => $column->isIndividuallySearchable())->keys()),
+        ];
     }
 }

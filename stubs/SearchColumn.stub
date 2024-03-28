@@ -1,0 +1,10 @@
+it('can search column', function (string $column) {
+    $records = $modelSingularName$::factory()->count(3)->create();
+
+    $search = $records->first()->{$column};
+
+    livewire(List$modelPluralName$::class)
+        ->searchTable($search)
+        ->assertCanSeeTableRecords($records->where($column, $search))
+        ->assertCanNotSeeTableRecords($records->where($column, '!=', $search));
+})->with($resourceTableSearchableColumns$);

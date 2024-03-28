@@ -1,0 +1,18 @@
+<?php
+
+use App\Filament\Resources\$resource$\Pages\List$modelPluralName$;
+$modelImport$
+use Illuminate\Support\Facades\Hash;
+
+use function Pest\Laravel\actingAs;
+use function Pest\Livewire\livewire;
+
+uses()->group('filament-resource-tests');
+
+beforeEach(function () {
+    $this->modelUsesSoftDeletes = method_exists(new $modelSingularName$(), 'bootSoftDeletes');
+
+    actingAs(User::factory()->create([
+        'password' => Hash::make('password'),
+    ]));
+});
