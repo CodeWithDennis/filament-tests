@@ -3,7 +3,7 @@
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/codewithdennis/filament-resource-tests.svg?style=flat-square)](https://packagist.org/packages/codewithdennis/filament-resource-tests)
 [![Total Downloads](https://img.shields.io/packagist/dt/codewithdennis/filament-resource-tests.svg?style=flat-square)](https://packagist.org/packages/codewithdennis/filament-resource-tests)
 
-A package that creates PEST tests specifically tailored for your filament resources.
+A package that creates PEST tests specifically tailored for your Filament resources.
 
 ### This package is still in development and not ready for use.
 Please do not use it in production.
