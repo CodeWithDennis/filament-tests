@@ -1,0 +1,9 @@
+it('can sort column', function (string $column) {
+    $records = $modelSingularName$::factory()->count(3)->create();
+
+    livewire(List$modelPluralName$::class)
+        ->sortTable($column)
+        ->assertCanSeeTableRecords($records->sortBy($column), inOrder: true)
+        ->sortTable($column, 'desc')
+        ->assertCanSeeTableRecords($records->sortByDesc($column), inOrder: true);
+})->with($resourceTableSortableColumns$);

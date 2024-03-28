@@ -1,0 +1,3 @@
+it('can render page', function () {
+    livewire(List$modelPluralName$::class)->assertSuccessful();
+});

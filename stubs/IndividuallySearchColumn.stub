@@ -1,0 +1,10 @@
+it('can individually search by column', function (string $column) {
+    $records = $modelSingularName$::factory()->count(3)->create();
+
+    $search = $records->first()->{$column};
+
+    livewire(List$modelPluralName$::class)
+        ->searchTableColumns([$column => $search])
+        ->assertCanSeeTableRecords($records->where($column, $search))
+        ->assertCanNotSeeTableRecords($records->where($column, '!=', $search));
+})->with($resourceTableIndividuallySearchableColumns$);

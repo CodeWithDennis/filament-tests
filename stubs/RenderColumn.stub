@@ -1,0 +1,5 @@
+it('can render column', function (string $column) {
+    $modelSingularName$::factory()->count(3)->create();
+
+    livewire(List$modelPluralName$::class)->assertCanRenderTableColumn($column);
+})->with($resourceTableColumnsWithoutHidden$);
