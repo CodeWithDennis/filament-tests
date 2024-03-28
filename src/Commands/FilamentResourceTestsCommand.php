@@ -2,13 +2,12 @@
 
 namespace CodeWithDennis\FilamentResourceTests\Commands;
 
-use Illuminate\Console\Command;
-use Illuminate\Filesystem\Filesystem;
-use Illuminate\Support\Facades\View;
 use Filament\Facades\Filament;
 use Filament\Resources\Pages\ListRecords;
 use Filament\Resources\Resource;
 use Filament\Tables\Table;
+use Illuminate\Console\Command;
+use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Collection;
 
 use function Laravel\Prompts\confirm;
@@ -51,14 +50,14 @@ class FilamentResourceTestsCommand extends Command
         $directory = trim(config('filament-resource-tests.directory_name'), '/');
 
         if (config('filament-resource-tests.separate_tests_into_folders')) {
-            $directory .= DIRECTORY_SEPARATOR . $name;
+            $directory .= DIRECTORY_SEPARATOR.$name;
         }
 
-        if (!is_dir($directory)) {
+        if (! is_dir($directory)) {
             mkdir($directory, 0755, true);
         }
 
-        return $directory . DIRECTORY_SEPARATOR . $name . 'Test.php';
+        return $directory.DIRECTORY_SEPARATOR.$name.'Test.php';
     }
 
     protected function getResourceTable(Resource $resource): Table
@@ -112,8 +111,8 @@ class FilamentResourceTestsCommand extends Command
     {
         return [
             'table' => 'table-test',
-//            'form' => 'form-test',
-//            'page' => 'page-test',
+            //            'form' => 'form-test',
+            //            'page' => 'page-test',
         ];
     }
 
@@ -163,6 +162,7 @@ class FilamentResourceTestsCommand extends Command
 
             if (! $resource_class) {
                 $this->error("The resource `$selectedResource` does not exist.");
+
                 continue;
             }
 
