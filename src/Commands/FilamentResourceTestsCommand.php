@@ -98,7 +98,7 @@ class FilamentResourceTestsCommand extends Command
             ->keys();
     }
 
-    protected function getSortablesColumns(Resource $resource): Collection
+    protected function getSortableColumns(Resource $resource): Collection
     {
         return $this->getTableColumns($resource)
             ->filter(fn ($column) => $column->isSortable())
@@ -148,7 +148,7 @@ class FilamentResourceTestsCommand extends Command
         }
 
         // Check if there are sortable columns
-        if ($this->getSortablesColumns($resource)->isNotEmpty()) {
+        if ($this->getSortableColumns($resource)->isNotEmpty()) {
             $stubs[] = 'SortColumn';
         }
 
@@ -161,22 +161,7 @@ class FilamentResourceTestsCommand extends Command
         if ($this->getIndividuallySearchableColumns($resource)->isNotEmpty()) {
             $stubs[] = 'IndividuallySearchColumn';
         }
-
-        // Check if there are toggleable columns
-//        if ($this->getToggleableColumns($resource)->isNotEmpty()) {
-//            $stubs[] = 'ToggleColumn';
-//        }
-
-        // Check if there are toggleable (toggled hidden by default) columns
-//        if ($this->getToggledHiddenByDefaultColumns($resource)->isNotEmpty()) {
-//            $stubs[] = 'ToggleHiddenByDefaultColumn';
-//        }
-
-        // Check if there are initially visible columns
-//        if ($this->getInitiallyVisibleColumns($resource)->isNotEmpty()) {
-//            $stubs[] = 'InitiallyVisibleColumn';
-//        }
-
+        
         // Return the stubs
         return $stubs;
     }
@@ -308,7 +293,7 @@ class FilamentResourceTestsCommand extends Command
             'RESOURCE_TABLE_COLUMNS_INITIALLY_VISIBLE' => $this->convertDoubleQuotedArrayString($this->getInitiallyVisibleColumns($resource)),
             'RESOURCE_TABLE_COLUMNS_TOGGLED_HIDDEN_BY_DEFAULT' => $this->convertDoubleQuotedArrayString($this->getToggledHiddenByDefaultColumns($resource)),
             'RESOURCE_TABLE_TOGGLEABLE_COLUMNS' => $this->convertDoubleQuotedArrayString($this->getToggleableColumns($resource)),
-            'RESOURCE_TABLE_SORTABLE_COLUMNS' => $this->convertDoubleQuotedArrayString($this->getSortablesColumns($resource)),
+            'RESOURCE_TABLE_SORTABLE_COLUMNS' => $this->convertDoubleQuotedArrayString($this->getSortableColumns($resource)),
             'RESOURCE_TABLE_SEARCHABLE_COLUMNS' => $this->convertDoubleQuotedArrayString($this->getSearchableColumns($resource)),
             'RESOURCE_TABLE_INDIVIDUALLY_SEARCHABLE_COLUMNS' => $this->convertDoubleQuotedArrayString($this->getIndividuallySearchableColumns($resource)),
         ];
