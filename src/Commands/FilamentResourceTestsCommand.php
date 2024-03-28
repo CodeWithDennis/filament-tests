@@ -86,6 +86,53 @@ class FilamentResourceTestsCommand extends Command
         return self::SUCCESS;
     }
 
+    protected function getTableColumns(Resource $resource): Collection
+    {
+        return collect($this->getResourceTable($resource)->getColumns());
+    }
+
+    protected function getSearchableColumns(Resource $resource): Collection
+    {
+        return $this->getTableColumns($resource)
+            ->filter(fn ($column) => $column->isSearchable())
+            ->keys();
+    }
+
+    protected function getSortablesColumns(Resource $resource): Collection
+    {
+        return $this->getTableColumns($resource)
+            ->filter(fn ($column) => $column->isSortable())
+            ->keys();
+    }
+
+    protected function getIndividuallySearchableColumns(Resource $resource): Collection
+    {
+        return $this->getTableColumns($resource)
+            ->filter(fn ($column) => $column->isIndividuallySearchable())
+            ->keys();
+    }
+
+    protected function getToggleableColumns(Resource $resource): Collection
+    {
+        return $this->getTableColumns($resource)
+            ->filter(fn ($column) => $column->isToggleable())
+            ->keys();
+    }
+
+    protected function getToggledHiddenByDefaultColumns(Resource $resource): Collection
+    {
+        return $this->getTableColumns($resource)
+            ->filter(fn ($column) => $column->isToggledHiddenByDefault())
+            ->keys();
+    }
+
+    protected function getInitiallyVisibleColumns(Resource $resource): Collection
+    {
+        return $this->getTableColumns($resource)
+            ->filter(fn ($column) => ! $column->isToggledHiddenByDefault())
+            ->keys();
+    }
+
     protected function getStubs(Resource $resource): array
     {
         // Base stubs that are always included
@@ -95,25 +142,40 @@ class FilamentResourceTestsCommand extends Command
         $columns = collect($this->getResourceTable($resource)->getColumns());
 
         // Add additional stubs based on the columns
-        if ($columns->isNotEmpty()) {
+        if ($this->getTableColumns($resource)->isNotEmpty()) {
             $stubs[] = 'HasColumn';
             $stubs[] = 'RenderColumn';
         }
 
         // Check if there are sortable columns
-        if ($columns->filter(fn ($column) => $column->isSortable())->isNotEmpty()) {
+        if ($this->getSortablesColumns($resource)->isNotEmpty()) {
             $stubs[] = 'SortColumn';
         }
 
         // Check if there are searchable columns
-        if ($columns->filter(fn ($column) => $column->isSearchable())->isNotEmpty()) {
+        if ($this->getSearchableColumns($resource)->isNotEmpty()) {
             $stubs[] = 'SearchColumn';
         }
 
         // Check if there are individually searchable columns
-        if ($columns->filter(fn ($column) => $column->isIndividuallySearchable())->isNotEmpty()) {
+        if ($this->getIndividuallySearchableColumns($resource)->isNotEmpty()) {
             $stubs[] = 'IndividuallySearchColumn';
         }
+
+        // Check if there are toggleable columns
+//        if ($this->getToggleableColumns($resource)->isNotEmpty()) {
+//            $stubs[] = 'ToggleColumn';
+//        }
+
+        // Check if there are toggleable (toggled hidden by default) columns
+//        if ($this->getToggledHiddenByDefaultColumns($resource)->isNotEmpty()) {
+//            $stubs[] = 'ToggleHiddenByDefaultColumn';
+//        }
+
+        // Check if there are initially visible columns
+//        if ($this->getInitiallyVisibleColumns($resource)->isNotEmpty()) {
+//            $stubs[] = 'InitiallyVisibleColumn';
+//        }
 
         // Return the stubs
         return $stubs;
@@ -224,11 +286,6 @@ class FilamentResourceTestsCommand extends Command
             ->replace(',', ', ');
     }
 
-    protected function getResourceTableColumns(Table $table): array
-    {
-        return $table->getColumns();
-    }
-
     protected function getResourceTableFilters(Table $table): array
     {
         return $table->getFilters();
@@ -247,12 +304,13 @@ class FilamentResourceTestsCommand extends Command
             'MODEL_IMPORT' => $modelImport,
             'MODEL_SINGULAR_NAME' => str($resourceModel)->afterLast('\\'),
             'MODEL_PLURAL_NAME' => str($resourceModel)->afterLast('\\')->plural(),
-            'RESOURCE_TABLE_COLUMNS' => $this->convertDoubleQuotedArrayString($columns->keys()),
-            'RESOURCE_TABLE_COLUMNS_WITHOUT_HIDDEN' => $this->convertDoubleQuotedArrayString($columns->filter(fn ($column) => ! $column->isToggledHiddenByDefault())->keys()),
-            'RESOURCE_TABLE_TOGGLEABLE_COLUMNS' => $this->convertDoubleQuotedArrayString($columns->filter(fn ($column) => $column->isToggleable())->keys()),
-            'RESOURCE_TABLE_SORTABLE_COLUMNS' => $this->convertDoubleQuotedArrayString($columns->filter(fn ($column) => $column->isSortable())->keys()),
-            'RESOURCE_TABLE_SEARCHABLE_COLUMNS' => $this->convertDoubleQuotedArrayString($columns->filter(fn ($column) => $column->isSearchable())->keys()),
-            'RESOURCE_TABLE_INDIVIDUALLY_SEARCHABLE_COLUMNS' => $this->convertDoubleQuotedArrayString($columns->filter(fn ($column) => $column->isIndividuallySearchable())->keys()),
+            'RESOURCE_TABLE_COLUMNS' => $this->convertDoubleQuotedArrayString($this->getTableColumns($resource)->keys()),
+            'RESOURCE_TABLE_COLUMNS_INITIALLY_VISIBLE' => $this->convertDoubleQuotedArrayString($this->getInitiallyVisibleColumns($resource)),
+            'RESOURCE_TABLE_COLUMNS_TOGGLED_HIDDEN_BY_DEFAULT' => $this->convertDoubleQuotedArrayString($this->getToggledHiddenByDefaultColumns($resource)),
+            'RESOURCE_TABLE_TOGGLEABLE_COLUMNS' => $this->convertDoubleQuotedArrayString($this->getToggleableColumns($resource)),
+            'RESOURCE_TABLE_SORTABLE_COLUMNS' => $this->convertDoubleQuotedArrayString($this->getSortablesColumns($resource)),
+            'RESOURCE_TABLE_SEARCHABLE_COLUMNS' => $this->convertDoubleQuotedArrayString($this->getSearchableColumns($resource)),
+            'RESOURCE_TABLE_INDIVIDUALLY_SEARCHABLE_COLUMNS' => $this->convertDoubleQuotedArrayString($this->getIndividuallySearchableColumns($resource)),
         ];
     }
 }

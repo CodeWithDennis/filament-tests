@@ -2,4 +2,4 @@ it('can render column', function (string $column) {
     $MODEL_SINGULAR_NAME$::factory()->count(3)->create();
 
     livewire(List$MODEL_PLURAL_NAME$::class)->assertCanRenderTableColumn($column);
-})->with($RESOURCE_TABLE_COLUMNS_WITHOUT_HIDDEN$);
+})->with($RESOURCE_TABLE_COLUMNS_INITIALLY_VISIBLE$);
