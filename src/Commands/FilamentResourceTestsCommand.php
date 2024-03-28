@@ -106,9 +106,28 @@ class FilamentResourceTestsCommand extends Command
         return $path;
     }
 
+    protected function getTestStubs(): array
+    {
+        return [
+            'Base',
+            'HasColumn',
+            'SearchColumn',
+            'RenderColumn',
+            'IndividuallySearchColumn',
+            'RenderPage',
+            'SortColumn',
+        ];
+    }
+
     protected function getSourceFile(Resource $resource): array|bool|string
     {
-        return $this->getStubContents($this->getStubPath(), $this->getStubVariables($resource));
+        $contents = '';
+
+        foreach ($this->getTestStubs() as $testStub) {
+            $contents .= $this->getStubContents(__DIR__.'/../../stubs/'.$testStub.'.stub', $this->getStubVariables($resource));
+        }
+
+        return $contents;
     }
 
     protected function getStubContents(string $stub, array $stubVariables = []): array|bool|string
@@ -119,12 +138,7 @@ class FilamentResourceTestsCommand extends Command
             $contents = str_replace('$'.$search.'$', $replace, $contents);
         }
 
-        return $contents;
-    }
-
-    protected function getStubPath(): string
-    {
-        return __DIR__.'/../../stubs/Resource.stub';
+        return $contents . PHP_EOL . PHP_EOL;
     }
 
     protected function getStubVariables(Resource $resource): array
