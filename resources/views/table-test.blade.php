@@ -9,6 +9,7 @@
     'resource_model_singular' => $resource_model_singular,
     'resource_model_plural' => $resource_model_plural,
     'resource_model_uses_soft_deletes' => $resource_model_uses_soft_deletes,
+    'allow_empty_dataset' => false,
 ])
 <x-filament-resource-tests::test-skeleton
     description="can render page"
