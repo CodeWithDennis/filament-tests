@@ -195,7 +195,7 @@ class FilamentResourceTestsCommand extends Command
         return self::SUCCESS;
     }
 
-    public function writeViewToFile(string $renderedView, string $path)
+    public function writeViewToFile(string $renderedView, string $path): void
     {
         $this->files->put($path, $renderedView);
     }
