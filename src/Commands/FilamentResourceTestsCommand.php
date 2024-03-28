@@ -204,16 +204,16 @@ class FilamentResourceTestsCommand extends Command
         $modelImport = $resourceModel === $userModel ? "use {$resourceModel};" : "use {$resourceModel};\nuse {$userModel};";
 
         return [
-            'resource' => str($resource::class)->afterLast('\\'),
-            'modelImport' => $modelImport,
-            'modelSingularName' => str($resourceModel)->afterLast('\\'),
-            'modelPluralName' => str($resourceModel)->afterLast('\\')->plural(),
-            'resourceTableColumns' => $this->convertDoubleQuotedArrayString($columns->keys()),
-            'resourceTableColumnsWithoutHidden' => $this->convertDoubleQuotedArrayString($columns->filter(fn ($column) => ! $column->isToggledHiddenByDefault())->keys()),
-            'resourceTableToggleableColumns' => $this->convertDoubleQuotedArrayString($columns->filter(fn ($column) => $column->isToggleable())->keys()),
-            'resourceTableSortableColumns' => $this->convertDoubleQuotedArrayString($columns->filter(fn ($column) => $column->isSortable())->keys()),
-            'resourceTableSearchableColumns' => $this->convertDoubleQuotedArrayString($columns->filter(fn ($column) => $column->isSearchable())->keys()),
-            'resourceTableIndividuallySearchableColumns' => $this->convertDoubleQuotedArrayString($columns->filter(fn ($column) => $column->isIndividuallySearchable())->keys()),
+            'RESOURCE' => str($resource::class)->afterLast('\\'),
+            'MODEL_IMPORT' => $modelImport,
+            'MODEL_SINGULAR_NAME' => str($resourceModel)->afterLast('\\'),
+            'MODEL_PLURAL_NAME' => str($resourceModel)->afterLast('\\')->plural(),
+            'RESOURCE_TABLE_COLUMNS' => $this->convertDoubleQuotedArrayString($columns->keys()),
+            'RESOURCE_TABLE_COLUMNS_WITHOUT_HIDDEN' => $this->convertDoubleQuotedArrayString($columns->filter(fn ($column) => ! $column->isToggledHiddenByDefault())->keys()),
+            'RESOURCE_TABLE_TOGGLEABLE_COLUMNS' => $this->convertDoubleQuotedArrayString($columns->filter(fn ($column) => $column->isToggleable())->keys()),
+            'RESOURCE_TABLE_SORTABLE_COLUMNS' => $this->convertDoubleQuotedArrayString($columns->filter(fn ($column) => $column->isSortable())->keys()),
+            'RESOURCE_TABLE_SEARCHABLE_COLUMNS' => $this->convertDoubleQuotedArrayString($columns->filter(fn ($column) => $column->isSearchable())->keys()),
+            'RESOURCE_TABLE_INDIVIDUALLY_SEARCHABLE_COLUMNS' => $this->convertDoubleQuotedArrayString($columns->filter(fn ($column) => $column->isIndividuallySearchable())->keys()),
         ];
     }
 }

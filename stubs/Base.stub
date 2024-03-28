@@ -1,7 +1,7 @@
 <?php
 
-use App\Filament\Resources\$resource$\Pages\List$modelPluralName$;
-$modelImport$
+use App\Filament\Resources\$RESOURCE$\Pages\List$MODEL_PLURAL_NAME$;
+$MODEL_IMPORT$
 use Illuminate\Support\Facades\Hash;
 
 use function Pest\Laravel\actingAs;
@@ -10,7 +10,7 @@ use function Pest\Livewire\livewire;
 uses()->group('filament-resource-tests');
 
 beforeEach(function () {
-    $this->modelUsesSoftDeletes = method_exists(new $modelSingularName$(), 'bootSoftDeletes');
+    $this->modelUsesSoftDeletes = method_exists(new $MODEL_SINGULAR_NAME$(), 'bootSoftDeletes');
 
     actingAs(User::factory()->create());
 });
