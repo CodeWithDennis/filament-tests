@@ -18,6 +18,8 @@
 use function Pest\Laravel\actingAs;
 use function Pest\Livewire\livewire;
 
+uses()->group('filament-resource-tests');
+
 beforeEach(function () {
     actingAs({!! $user_model !== $resource_model ? $user_model . '::factory()->create()' : $resource_model . '::factory()->create()' !!});
 });
