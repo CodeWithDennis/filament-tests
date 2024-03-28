@@ -3,6 +3,7 @@
     'skip_reason' => 'Test has no dataset.',
     'dataset' => [],
     'dataset_key' => 'column',
+    'user_model' => config('filament-resource-tests.user_model'),
     'resource' => null,
     'resource_model' => null,
     'resource_model_singular' => null,
@@ -14,7 +15,12 @@
 @once
 {!! '<?php' !!}
 
+use function Pest\Laravel\actingAs;
 use function Pest\Livewire\livewire;
+
+beforeEach(function () {
+    actingAs({!! $user_model !== $resource_model ? $user_model . '::factory()->create()' : $resource_model . '::factory()->create()' !!});
+});
 @endonce
 
 @if(empty($dataset) && !$allow_empty_dataset)
