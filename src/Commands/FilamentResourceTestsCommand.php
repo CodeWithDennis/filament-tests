@@ -161,7 +161,7 @@ class FilamentResourceTestsCommand extends Command
         if ($this->getIndividuallySearchableColumns($resource)->isNotEmpty()) {
             $stubs[] = 'IndividuallySearchColumn';
         }
-        
+
         // Return the stubs
         return $stubs;
     }
