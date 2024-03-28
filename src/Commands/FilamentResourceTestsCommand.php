@@ -174,12 +174,12 @@ class FilamentResourceTestsCommand extends Command
         return $contents.PHP_EOL.PHP_EOL;
     }
 
-    protected function getResourceCreateFormFields(Resource $resource): array
+    protected function getResourceCreateFields(Resource $resource): array
     {
         return $this->getResourceCreateForm($resource)->getFlatFields();
     }
 
-    protected function getResourceEditFormFields(Resource $resource): array
+    protected function getResourceEditFields(Resource $resource): array
     {
         return $this->getResourceEditForm($resource)->getFlatFields();
     }
