@@ -106,24 +106,43 @@ class FilamentResourceTestsCommand extends Command
         return $path;
     }
 
-    protected function getTestStubs(): array
+    protected function getTestStubs(Resource $resource): array
     {
-        return [
+        $stubs = [
             'Base',
-            'HasColumn',
-            'SearchColumn',
-            'RenderColumn',
-            'IndividuallySearchColumn',
             'RenderPage',
-            'SortColumn',
         ];
+
+        $columns = collect($this->getResourceTable($resource)->getColumns());
+
+        if ($columns->isNotEmpty()) {
+            $stubs[] = 'HasColumn';
+        }
+
+        if ($columns->isNotEmpty()) {
+            $stubs[] = 'RenderColumn';
+        }
+
+        if ($columns->filter(fn ($column) => $column->isSortable())->isNotEmpty()) {
+            $stubs[] = 'SortColumn';
+        }
+
+        if ($columns->filter(fn ($column) => $column->isSearchable())->isNotEmpty()) {
+            $stubs[] = 'SearchColumn';
+        }
+
+        if ($columns->filter(fn ($column) => $column->isIndividuallySearchable())->isNotEmpty()) {
+            $stubs[] = 'IndividuallySearchColumn';
+        }
+
+        return $stubs;
     }
 
     protected function getSourceFile(Resource $resource): array|bool|string
     {
         $contents = '';
 
-        foreach ($this->getTestStubs() as $testStub) {
+        foreach ($this->getTestStubs($resource) as $testStub) {
             $contents .= $this->getStubContents(__DIR__.'/../../stubs/'.$testStub.'.stub', $this->getStubVariables($resource));
         }
 
@@ -138,7 +157,7 @@ class FilamentResourceTestsCommand extends Command
             $contents = str_replace('$'.$search.'$', $replace, $contents);
         }
 
-        return $contents . PHP_EOL . PHP_EOL;
+        return $contents.PHP_EOL.PHP_EOL;
     }
 
     protected function getStubVariables(Resource $resource): array
