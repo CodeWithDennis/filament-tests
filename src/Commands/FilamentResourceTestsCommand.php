@@ -174,6 +174,18 @@ class FilamentResourceTestsCommand extends Command
         return $contents.PHP_EOL.PHP_EOL;
     }
 
+    protected function getResourceRequiredCreateFields(Resource $resource): Collection
+    {
+        return collect($this->getResourceCreateForm($resource)->getFlatFields())
+            ->filter(fn ($column) => $column->isRequired());
+    }
+
+    protected function getResourceRequiredEditFields(Resource $resource): Collection
+    {
+        return collect($this->getResourceEditForm($resource)->getFlatFields())
+            ->filter(fn ($column) => $column->isRequired());
+    }
+
     protected function getResourceCreateFields(Resource $resource): array
     {
         return $this->getResourceCreateForm($resource)->getFlatFields();
