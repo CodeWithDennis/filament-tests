@@ -12,7 +12,5 @@ uses()->group('filament-resource-tests');
 beforeEach(function () {
     $this->modelUsesSoftDeletes = method_exists(new $modelSingularName$(), 'bootSoftDeletes');
 
-    actingAs(User::factory()->create([
-        'password' => Hash::make('password'),
-    ]));
+    actingAs(User::factory()->create());
 });
