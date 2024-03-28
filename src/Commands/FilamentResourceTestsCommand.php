@@ -163,19 +163,19 @@ class FilamentResourceTestsCommand extends Command
         }
 
         // Check if there are toggleable columns
-//        if ($this->getToggleableColumns($resource)->isNotEmpty()) {
-//            $stubs[] = 'ToggleColumn';
-//        }
+        //        if ($this->getToggleableColumns($resource)->isNotEmpty()) {
+        //            $stubs[] = 'ToggleColumn';
+        //        }
 
         // Check if there are toggleable (toggled hidden by default) columns
-//        if ($this->getToggledHiddenByDefaultColumns($resource)->isNotEmpty()) {
-//            $stubs[] = 'ToggleHiddenByDefaultColumn';
-//        }
+        //        if ($this->getToggledHiddenByDefaultColumns($resource)->isNotEmpty()) {
+        //            $stubs[] = 'ToggleHiddenByDefaultColumn';
+        //        }
 
         // Check if there are initially visible columns
-//        if ($this->getInitiallyVisibleColumns($resource)->isNotEmpty()) {
-//            $stubs[] = 'InitiallyVisibleColumn';
-//        }
+        //        if ($this->getInitiallyVisibleColumns($resource)->isNotEmpty()) {
+        //            $stubs[] = 'InitiallyVisibleColumn';
+        //        }
 
         // Return the stubs
         return $stubs;
