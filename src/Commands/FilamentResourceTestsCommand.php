@@ -178,7 +178,7 @@ class FilamentResourceTestsCommand extends Command
         return $resource::table(new Table($livewire));
     }
 
-    protected function prepareStubVar(string $string): string
+    protected function convertDoubleQuotedArrayString(string $string): string
     {
         return str($string)
             ->replace('"', '\'')
@@ -208,12 +208,12 @@ class FilamentResourceTestsCommand extends Command
             'MODEL_IMPORT' => $modelImport,
             'MODEL_SINGULAR_NAME' => str($resourceModel)->afterLast('\\'),
             'MODEL_PLURAL_NAME' => str($resourceModel)->afterLast('\\')->plural(),
-            'RESOURCE_TABLE_COLUMNS' => $this->prepareStubVar($columns->keys()),
-            'RESOURCE_TABLE_COLUMNS_WITHOUT_HIDDEN' => $this->prepareStubVar($columns->filter(fn ($column) => ! $column->isToggledHiddenByDefault())->keys()),
-            'RESOURCE_TABLE_TOGGLEABLE_COLUMNS' => $this->prepareStubVar($columns->filter(fn ($column) => $column->isToggleable())->keys()),
-            'RESOURCE_TABLE_SORTABLE_COLUMNS' => $this->prepareStubVar($columns->filter(fn ($column) => $column->isSortable())->keys()),
-            'RESOURCE_TABLE_SEARCHABLE_COLUMNS' => $this->prepareStubVar($columns->filter(fn ($column) => $column->isSearchable())->keys()),
-            'RESOURCE_TABLE_INDIVIDUALLY_SEARCHABLE_COLUMNS' => $this->prepareStubVar($columns->filter(fn ($column) => $column->isIndividuallySearchable())->keys()),
+            'RESOURCE_TABLE_COLUMNS' => $this->convertDoubleQuotedArrayString($columns->keys()),
+            'RESOURCE_TABLE_COLUMNS_WITHOUT_HIDDEN' => $this->convertDoubleQuotedArrayString($columns->filter(fn ($column) => ! $column->isToggledHiddenByDefault())->keys()),
+            'RESOURCE_TABLE_TOGGLEABLE_COLUMNS' => $this->convertDoubleQuotedArrayString($columns->filter(fn ($column) => $column->isToggleable())->keys()),
+            'RESOURCE_TABLE_SORTABLE_COLUMNS' => $this->convertDoubleQuotedArrayString($columns->filter(fn ($column) => $column->isSortable())->keys()),
+            'RESOURCE_TABLE_SEARCHABLE_COLUMNS' => $this->convertDoubleQuotedArrayString($columns->filter(fn ($column) => $column->isSearchable())->keys()),
+            'RESOURCE_TABLE_INDIVIDUALLY_SEARCHABLE_COLUMNS' => $this->convertDoubleQuotedArrayString($columns->filter(fn ($column) => $column->isIndividuallySearchable())->keys()),
         ];
     }
 }
