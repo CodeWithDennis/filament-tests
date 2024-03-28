@@ -94,43 +94,37 @@ class FilamentResourceTestsCommand extends Command
     protected function getSearchableColumns(Resource $resource): Collection
     {
         return $this->getTableColumns($resource)
-            ->filter(fn ($column) => $column->isSearchable())
-            ->keys();
+            ->filter(fn ($column) => $column->isSearchable());
     }
 
     protected function getSortableColumns(Resource $resource): Collection
     {
         return $this->getTableColumns($resource)
-            ->filter(fn ($column) => $column->isSortable())
-            ->keys();
+            ->filter(fn ($column) => $column->isSortable());
     }
 
     protected function getIndividuallySearchableColumns(Resource $resource): Collection
     {
         return $this->getTableColumns($resource)
-            ->filter(fn ($column) => $column->isIndividuallySearchable())
-            ->keys();
+            ->filter(fn ($column) => $column->isIndividuallySearchable());
     }
 
     protected function getToggleableColumns(Resource $resource): Collection
     {
         return $this->getTableColumns($resource)
-            ->filter(fn ($column) => $column->isToggleable())
-            ->keys();
+            ->filter(fn ($column) => $column->isToggleable());
     }
 
     protected function getToggledHiddenByDefaultColumns(Resource $resource): Collection
     {
         return $this->getTableColumns($resource)
-            ->filter(fn ($column) => $column->isToggledHiddenByDefault())
-            ->keys();
+            ->filter(fn ($column) => $column->isToggledHiddenByDefault());
     }
 
     protected function getInitiallyVisibleColumns(Resource $resource): Collection
     {
         return $this->getTableColumns($resource)
-            ->filter(fn ($column) => ! $column->isToggledHiddenByDefault())
-            ->keys();
+            ->filter(fn ($column) => ! $column->isToggledHiddenByDefault());
     }
 
     protected function getStubs(Resource $resource): array
@@ -290,12 +284,12 @@ class FilamentResourceTestsCommand extends Command
             'MODEL_SINGULAR_NAME' => str($resourceModel)->afterLast('\\'),
             'MODEL_PLURAL_NAME' => str($resourceModel)->afterLast('\\')->plural(),
             'RESOURCE_TABLE_COLUMNS' => $this->convertDoubleQuotedArrayString($this->getTableColumns($resource)->keys()),
-            'RESOURCE_TABLE_COLUMNS_INITIALLY_VISIBLE' => $this->convertDoubleQuotedArrayString($this->getInitiallyVisibleColumns($resource)),
-            'RESOURCE_TABLE_COLUMNS_TOGGLED_HIDDEN_BY_DEFAULT' => $this->convertDoubleQuotedArrayString($this->getToggledHiddenByDefaultColumns($resource)),
-            'RESOURCE_TABLE_TOGGLEABLE_COLUMNS' => $this->convertDoubleQuotedArrayString($this->getToggleableColumns($resource)),
-            'RESOURCE_TABLE_SORTABLE_COLUMNS' => $this->convertDoubleQuotedArrayString($this->getSortableColumns($resource)),
-            'RESOURCE_TABLE_SEARCHABLE_COLUMNS' => $this->convertDoubleQuotedArrayString($this->getSearchableColumns($resource)),
-            'RESOURCE_TABLE_INDIVIDUALLY_SEARCHABLE_COLUMNS' => $this->convertDoubleQuotedArrayString($this->getIndividuallySearchableColumns($resource)),
+            'RESOURCE_TABLE_COLUMNS_INITIALLY_VISIBLE' => $this->convertDoubleQuotedArrayString($this->getInitiallyVisibleColumns($resource)->keys()),
+            'RESOURCE_TABLE_COLUMNS_TOGGLED_HIDDEN_BY_DEFAULT' => $this->convertDoubleQuotedArrayString($this->getToggledHiddenByDefaultColumns($resource)->keys()),
+            'RESOURCE_TABLE_TOGGLEABLE_COLUMNS' => $this->convertDoubleQuotedArrayString($this->getToggleableColumns($resource)->keys()),
+            'RESOURCE_TABLE_SORTABLE_COLUMNS' => $this->convertDoubleQuotedArrayString($this->getSortableColumns($resource)->keys()),
+            'RESOURCE_TABLE_SEARCHABLE_COLUMNS' => $this->convertDoubleQuotedArrayString($this->getSearchableColumns($resource)->keys()),
+            'RESOURCE_TABLE_INDIVIDUALLY_SEARCHABLE_COLUMNS' => $this->convertDoubleQuotedArrayString($this->getIndividuallySearchableColumns($resource)->keys()),
         ];
     }
 }
