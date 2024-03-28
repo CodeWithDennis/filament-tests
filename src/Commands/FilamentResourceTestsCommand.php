@@ -212,7 +212,7 @@ class FilamentResourceTestsCommand extends Command
             $contents = str_replace('$'.$search.'$', $replace, $contents);
         }
 
-        return $contents.PHP_EOL.PHP_EOL;
+        return $contents.PHP_EOL;
     }
 
     protected function getResourceRequiredCreateFields(Resource $resource): Collection
@@ -273,8 +273,6 @@ class FilamentResourceTestsCommand extends Command
     protected function getStubVariables(Resource $resource): array // TODO: This part is a bit messy, maybe refactor it
     {
         $resourceModel = $resource->getModel();
-        $columns = collect($this->getResourceTable($resource)->getColumns());
-
         $userModel = User::class;
         $modelImport = $resourceModel === $userModel ? "use {$resourceModel};" : "use {$resourceModel};\nuse {$userModel};";
 
