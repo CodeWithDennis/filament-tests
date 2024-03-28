@@ -2,12 +2,13 @@
 
 namespace CodeWithDennis\FilamentResourceTests\Commands;
 
+use Illuminate\Console\Command;
+use Illuminate\Filesystem\Filesystem;
+use Illuminate\Support\Facades\View;
 use Filament\Facades\Filament;
 use Filament\Resources\Pages\ListRecords;
 use Filament\Resources\Resource;
 use Filament\Tables\Table;
-use Illuminate\Console\Command;
-use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Collection;
 
 use function Laravel\Prompts\confirm;
@@ -17,15 +18,124 @@ class FilamentResourceTestsCommand extends Command
 {
     protected $signature = 'make:filament-resource-test';
 
-    protected $description = 'Create tests for a Filament components';
+    protected $description = 'Create tests for your Filament resources.';
 
     protected Filesystem $files;
 
     public function __construct(Filesystem $files)
     {
         parent::__construct();
-
         $this->files = $files;
+    }
+
+    public function renderViewByName($name, $data = []): ?string
+    {
+        return view('filament-resource-tests::'.$name, $data)->render();
+    }
+
+    protected function getResources(): Collection
+    {
+        return collect(Filament::getResources());
+    }
+
+    protected function getResourceClass(string $resource): ?Resource
+    {
+        $match = $this->getResources()
+            ->first(fn ($value): bool => str_contains($value, $resource) && class_exists($value));
+
+        return $match ? app()->make($match) : null;
+    }
+
+    protected function getOutputFilePath(string $name): string
+    {
+        $directory = trim(config('filament-resource-tests.directory_name'), '/');
+
+        if (config('filament-resource-tests.separate_tests_into_folders')) {
+            $directory .= DIRECTORY_SEPARATOR . $name;
+        }
+
+        if (!is_dir($directory)) {
+            mkdir($directory, 0755, true);
+        }
+
+        return $directory . DIRECTORY_SEPARATOR . $name . 'Test.php';
+    }
+
+    protected function getResourceTable(Resource $resource): Table
+    {
+        $livewire = app('livewire')->new(ListRecords::class);
+
+        return $resource::table(new Table($livewire));
+    }
+
+    public static function getVisibleColumns(Table $table): array
+    {
+        return collect($table->getColumns())
+            ->filter(fn ($column) => ! $column->isToggledHiddenByDefault())
+            ->keys()
+            ->toArray();
+    }
+
+    public static function getSearchableColumns(Table $table): array
+    {
+        return collect($table->getColumns())
+            ->filter(fn ($column) => $column->isSearchable() && ! $column->isToggledHiddenByDefault())
+            ->keys()
+            ->toArray();
+    }
+
+    public static function getIndividuallySearchableColumns(Table $table): array
+    {
+        return collect($table->getColumns())
+            ->filter(fn ($column) => $column->isIndividuallySearchable() && ! $column->isToggledHiddenByDefault())
+            ->keys()
+            ->toArray();
+    }
+
+    public static function getToggleableColumns(Table $table): array
+    {
+        return collect($table->getColumns())
+            ->filter(fn ($column) => $column->isToggleable() && ! $column->isToggledHiddenByDefault())
+            ->keys()
+            ->toArray();
+    }
+
+    public static function getSortableColumns(Table $table): array
+    {
+        return collect($table->getColumns())
+            ->filter(fn ($column) => $column->isSortable() && ! $column->isToggledHiddenByDefault())
+            ->keys()
+            ->toArray();
+    }
+
+    protected function getViewMap(): array
+    {
+        return [
+            'table' => 'table-test',
+//            'form' => 'form-test',
+//            'page' => 'page-test',
+        ];
+    }
+
+    protected function modelUsesTrait($model, $trait): bool
+    {
+        return collect(class_uses($model))->contains($trait);
+    }
+
+    protected function hasSoftDeletes($model): bool
+    {
+        return $this->modelUsesTrait($model, 'Illuminate\Database\Eloquent\SoftDeletes')
+            && method_exists($model, 'bootSoftDeletes');
+    }
+
+    protected function getSingularModelName($model): string
+    {
+        return str($model)->afterLast('\\');
+    }
+
+    protected function getPluralModelName($model): string
+    {
+        return str($model)->afterLast('\\')->plural();
     }
 
     public function handle(): int
@@ -49,131 +159,44 @@ class FilamentResourceTestsCommand extends Command
         }
 
         foreach ($selectedResources as $selectedResource) {
-            $resource = $this->getResourceClass($selectedResource);
+            $resource_class = $this->getResourceClass($selectedResource);
 
-            $path = $this->getSourceFilePath($selectedResource);
+            if (! $resource_class) {
+                $this->error("The resource `$selectedResource` does not exist.");
+                continue;
+            }
 
-            $this->makeDirectory(dirname($path));
+            foreach ($this->getViewMap() as $type => $view) {
+                $content = $this->renderViewByName($view, [
+                    'table' => $this->getResourceTable($resource_class),
+                    'resource' => $selectedResource,
+                    'resource_model' => $resource_class::getModel(),
+                    'resource_model_singular' => $this->getSingularModelName($resource_class::getModel()),
+                    'resource_model_plural' => $this->getPluralModelName($resource_class::getModel()),
+                    'resource_model_uses_soft_deletes' => $this->hasSoftDeletes($resource_class::getModel()),
+                ]);
 
-            $contents = $this->getSourceFile($resource);
+                if (! empty($content)) {
+                    $path = $this->getOutputFilePath($selectedResource);
 
-            if ($this->files->exists($path)) {
-                // If the file already exists, ask the user if they want to overwrite it.
-                if (! confirm("Test for {$selectedResource} already exists. Do you want to overwrite it?")) {
-                    continue;
+                    if ($this->files->exists($path)
+                        && ! confirm("Test for {$selectedResource} already exists. Do you want to overwrite it?")) {
+                        continue;
+                    }
+
+                    $this->writeViewToFile($content, $path);
+
+                    $this->info("Test for {$selectedResource} created successfully.");
                 }
             }
 
-            $this->files->put($path, $contents);
-
-            $this->info("Test for {$selectedResource} created successfully.");
         }
 
         return self::SUCCESS;
     }
 
-    protected function getResources(): Collection
+    public function writeViewToFile(string $renderedView, string $path)
     {
-        return collect(Filament::getResources());
-    }
-
-    protected function getResourceClass(string $resource): ?Resource
-    {
-        $match = $this->getResources()
-            ->first(fn ($value): bool => str_contains($value, $resource) && class_exists($value));
-
-        return $match ? app()->make($match) : null;
-    }
-
-    protected function getSourceFilePath(string $name): string
-    {
-        $directory = trim(config('filament-resource-tests.directory_name'), '/');
-
-        if (config('filament-resource-tests.separate_tests_into_folders')) {
-            $directory .= DIRECTORY_SEPARATOR.$name;
-        }
-
-        return $directory.DIRECTORY_SEPARATOR.$name.'Test.php';
-    }
-
-    protected function makeDirectory($path): string
-    {
-        if (! $this->files->isDirectory($path)) {
-            $this->files->makeDirectory($path, 0777, true, true);
-        }
-
-        return $path;
-    }
-
-    protected function getSourceFile(Resource $resource): array|bool|string
-    {
-        return $this->getStubContents($this->getStubPath(), $this->getStubVariables($resource));
-    }
-
-    protected function getStubContents(string $stub, array $stubVariables = []): array|bool|string
-    {
-        $contents = file_get_contents($stub);
-
-        foreach ($stubVariables as $search => $replace) {
-            $contents = str_replace('$'.$search.'$', $replace, $contents);
-        }
-
-        return $contents;
-    }
-
-    protected function getStubPath(): string
-    {
-        return __DIR__.'/../../stubs/Resource.stub';
-    }
-
-    protected function getStubVariables(Resource $resource): array
-    {
-        $model = $resource->getModel();
-        $columns = collect($this->getResourceTable($resource)->getColumns());
-
-        return [
-            'resource' => str($resource::class)->afterLast('\\'),
-            'model' => $model,
-            'modelSingularName' => str($model)->afterLast('\\'),
-            'modelPluralName' => str($model)->afterLast('\\')->plural(),
-            'resourceTableColumns' => $this->convertDoubleQuotedArrayString($columns->keys()),
-            'resourceTableColumnsWithoutHidden' => $this->convertDoubleQuotedArrayString($columns->filter(fn ($column) => ! $column->isToggledHiddenByDefault())->keys()),
-            'resourceTableToggleableColumns' => $this->convertDoubleQuotedArrayString($columns->filter(fn ($column) => $column->isToggleable())->keys()),
-            'resourceTableSortableColumns' => $this->convertDoubleQuotedArrayString($columns->filter(fn ($column) => $column->isSortable())->keys()),
-            'resourceTableSearchableColumns' => $this->convertDoubleQuotedArrayString($columns->filter(fn ($column) => $column->isSearchable())->keys()),
-            'resourceTableIndividuallySearchableColumns' => $this->convertDoubleQuotedArrayString($columns->filter(fn ($column) => $column->isIndividuallySearchable())->keys()),
-        ];
-    }
-
-    protected function getResourceTable(Resource $resource): Table
-    {
-        $livewire = app('livewire')->new(ListRecords::class);
-
-        return $resource::table(new Table($livewire));
-    }
-
-    protected function convertDoubleQuotedArrayString(string $string): array|string
-    {
-        return str_replace('"', '\'', str_replace(',', ', ', $string));
-    }
-
-    protected function getResourceTableColumns(Table $table): array
-    {
-        return $table->getColumns();
-    }
-
-    protected function getResourceSortableTableColumns(array $columns): Collection
-    {
-        return collect($columns)->filter(fn ($column) => $column->isSortable());
-    }
-
-    protected function getResourceSearchableTableColumns(array $columns): Collection
-    {
-        return collect($columns)->filter(fn ($column) => $column->isSearchable());
-    }
-
-    protected function getResourceTableFilters(Table $table): array
-    {
-        return $table->getFilters();
+        $this->files->put($path, $renderedView);
     }
 }
