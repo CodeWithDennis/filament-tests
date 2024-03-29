@@ -8,5 +8,5 @@ it('can bulk soft delete records', function () {
         $this->assertSoftDeleted($record);
     }
 
-    expect($MODEL_SINGULAR_NAME$::count())->toBe(0);
+    expect($MODEL_SINGULAR_NAME$::find($records->pluck('id')))->toBeEmpty();
 });
