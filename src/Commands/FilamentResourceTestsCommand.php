@@ -157,9 +157,6 @@ class FilamentResourceTestsCommand extends Command
         // Base stubs that are always included
         $stubs = ['Base', 'RenderPage'];
 
-        // Get the columns of the resource table
-        $columns = collect($this->getResourceTable($resource)->getColumns());
-
         // Add additional stubs based on the columns
         if ($this->getTableColumns($resource)->isNotEmpty()) {
             $stubs[] = 'HasColumn';
@@ -186,12 +183,12 @@ class FilamentResourceTestsCommand extends Command
             $stubs[] = 'Trashed';
         }
 
-        // Delete Action
+        // Check if there is a delete action
         if ($this->getResourceTableActionNames($resource)->contains('delete')) {
             $stubs[] = ! $this->hasSoftDeletes($resource) ? 'Deleting' : 'DeletingSoftDeletes';
         }
 
-        // Bulk Delete Action
+        // Check if there is a bulk delete action
         if ($this->getResourceTableBulkActionNames($resource)->contains('delete')) {
             $stubs[] = ! $this->hasSoftDeletes($resource) ? 'BulkDeleting' : 'BulkDeletingSoftDeletes';
         }
