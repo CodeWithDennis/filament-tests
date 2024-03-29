@@ -161,7 +161,7 @@ class FilamentResourceTestsCommand extends Command
             $stubs[] = 'IndividuallySearchColumn';
         }
 
-        // Check that trashable columns are not displayed by default
+        // Check that trashed columns are not displayed by default
         if ($this->hasSoftDeletes($resource) && $this->getTableColumns($resource)->isNotEmpty()) {
             $stubs[] = 'Trashed';
         }
