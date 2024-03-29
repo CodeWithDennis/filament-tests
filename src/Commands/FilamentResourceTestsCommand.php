@@ -139,6 +139,7 @@ class FilamentResourceTestsCommand extends Command
         if ($this->getTableColumns($resource)->isNotEmpty()) {
             $stubs[] = 'HasColumn';
             $stubs[] = 'RenderColumn';
+            $stubs[] = 'Trashed';
         }
 
         // Check if there are sortable columns
