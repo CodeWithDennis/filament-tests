@@ -50,159 +50,22 @@ If you don't specify a resource name, you will be prompted to choose one or more
 php artisan make:filament-resource-test
 ````
 
-### Generated Tests
+## Tests
 Tests are generated on demand and are tailored to the component that you're generating tests for. For example, if the resource component doesn't have any sortable columns, then the tests for sorting 
 won't be generated.
 
-In these examples, we'll assume that we have a `BlogResource` resource with the following columns:
-- id
-- name
-
-**To ensure a table component renders**
-
-```php
-it('can render page', function () {
-    livewire(ListBlogs::class)->assertSuccessful();
-});
-```
-
-**To ensure that a certain columns are rendered**
-
-```php
-it('can render column', function (string $column) {
-    Blog::factory()->count(3)->create();
-
-    livewire(ListBlogs::class)->assertCanRenderTableColumn($column);
-})->with(['id', 'name']);
-```
-
-**To ensure that columns exists**
-
-```php
-it('has column', function (string $column) {
-    livewire(ListBlogs::class)
-        ->assertTableColumnExists($column);
-})->with(['id', 'name']);
-```
-
-**To ensure that a certain columns are sortable**
-
-```php
-it('can sort column', function (string $column) {
-    $records = Blog::factory()->count(3)->create();
-
-    livewire(ListBlogs::class)
-        ->sortTable($column)
-        ->assertCanSeeTableRecords($records->sortBy($column), inOrder: true)
-        ->sortTable($column, 'desc')
-        ->assertCanSeeTableRecords($records->sortByDesc($column), inOrder: true);
-})->with(['id', 'name']);
-```
-
-**To ensure that a certain columns are searchable**
-
-```php
-it('can search column', function (string $column) {
-    $records = Blog::factory()->count(3)->create();
-
-    $search = $records->first()->{$column};
-
-    livewire(ListBlogs::class)
-        ->searchTable($search)
-        ->assertCanSeeTableRecords($records->where($column, $search))
-        ->assertCanNotSeeTableRecords($records->where($column, '!=', $search));
-})->with(['id', 'name']);
-```
-
-**To ensure that a certain columns are individually searchable**
-
-```php
-it('can individually search by column', function (string $column) {
-    $records = Blog::factory()->count(3)->create();
-
-    $search = $records->first()->{$column};
-
-    livewire(ListBlogs::class)
-        ->searchTableColumns([$column => $search])
-        ->assertCanSeeTableRecords($records->where($column, $search))
-        ->assertCanNotSeeTableRecords($records->where($column, '!=', $search));
-})->with(['id', 'name']);
-```
-
-**To ensure that a certain records are not displayed by default**
-
-```php
-it('cannot display trashed records by default', function () {
-    $records = Blog::factory()->count(3)->create();
-
-    $trashedRecords = Blog::factory()->trashed()->count(6)->create();
-
-    livewire(ListBlogs::class)
-        ->assertCanSeeTableRecords($records)
-        ->assertCanNotSeeTableRecords($trashedRecords)
-        ->assertCountTableRecords(3);
-});
-```
-
-**To ensure that the delete action works**
-
-```php
-it('can delete records', function () {
-    $record = Blog::factory()->create();
-
-    livewire(ListBlogs::class)
-        ->callTableAction(DeleteAction::class, $record);
-
-    $this->assertModelMissing($record);
-});
-```
-
-**To ensure that the soft delete action works**
-
-```php
-it('can soft delete records', function () {
-    $record = Blog::factory()->create();
-
-    livewire(ListBlogs::class)
-        ->callTableAction(DeleteAction::class, $record);
-
-    $this->assertSoftDeleted($record);
-});
-```
-
-**To ensure that the delete bulk action works**
-
-```php
-it('can bulk delete records', function () {
-    $records = Blog::factory()->count(3)->create();
-
-    livewire(ListBlogs::class)
-        ->callTableBulkAction(DeleteBulkAction::class, $records);
-
-    foreach ($records as $record) {
-        $this->assertModelMissing($record);
-    }
-
-    expect(Blog::find($records->pluck('id')))->toBeEmpty();
-});
-```
-
-**To ensure that the soft delete bulk action works**
-
-```php
-it('can bulk soft delete records', function () {
-    $records = Blog::factory()->count(3)->create();
-
-    livewire(ListBlogs::class)
-        ->callTableBulkAction(DeleteBulkAction::class, $records);
-
-    foreach ($records as $record) {
-        $this->assertSoftDeleted($record);
-    }
-
-    expect(Blog::find($records->pluck('id')))->toBeEmpty();
-});
-```
+**Resources**
+  - [x] [It can render page](https://filamentphp.com/docs/3.x/tables/testing#render)
+  - [x] [It can sort column](https://filamentphp.com/docs/3.x/tables/testing#sorting)
+  - [x] [It can search column](https://filamentphp.com/docs/3.x/tables/testing#searching)
+  - [x] [It has column](https://filamentphp.com/docs/3.x/tables/testing#existence)
+  - [x] [It can delete records](https://filamentphp.com/docs/3.x/tables/testing#calling-actions)
+  - [x] [It can soft delete records](https://filamentphp.com/docs/3.x/tables/testing#calling-actions)
+  - [x] [It can bulk delete records](https://filamentphp.com/docs/3.x/tables/testing#calling-actions)
+  - [x] [It can bulk soft delete records](https://filamentphp.com/docs/3.x/tables/testing#calling-actions)
+  - [ ] It can restore records
+  - [ ] It can replicate records
+  - [ ] It can force delete records
 
 ## Running the package tests
 
