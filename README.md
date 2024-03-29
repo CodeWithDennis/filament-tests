@@ -67,6 +67,9 @@ won't be generated.
   - [ ] It can restore records
   - [ ] It can replicate records
   - [ ] It can force delete records
+  - [ ] It can filter table records
+  - [ ] It can reset table filters
+  - [ ] It can remove table filters
 
 ## Running the package tests
 
