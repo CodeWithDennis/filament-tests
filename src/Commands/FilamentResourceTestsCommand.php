@@ -188,24 +188,12 @@ class FilamentResourceTestsCommand extends Command
 
         // Delete Action
         if ($this->getResourceTableActionNames($resource)->contains('delete')) {
-
-            if (! $this->hasSoftDeletes($resource)) {
-                $stubs[] = 'Deleting';
-            } else {
-                $stubs[] = 'DeletingSoftDeletes';
-            }
-
+            $stubs[] = ! $this->hasSoftDeletes($resource) ? 'Deleting' : 'DeletingSoftDeletes';
         }
 
         // Bulk Delete Action
         if ($this->getResourceTableBulkActionNames($resource)->contains('delete')) {
-
-            if (! $this->hasSoftDeletes($resource)) {
-                $stubs[] = 'BulkDeleting';
-            } else {
-                $stubs[] = 'BulkDeletingSoftDeletes';
-            }
-
+            $stubs[] = ! $this->hasSoftDeletes($resource) ? 'BulkDeleting' : 'BulkDeletingSoftDeletes';
         }
 
         // Return the stubs
