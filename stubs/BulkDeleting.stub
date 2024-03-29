@@ -2,7 +2,7 @@ it('can bulk delete records', function () {
     $records = $MODEL_SINGULAR_NAME$::factory()->count(3)->create();
 
     livewire(List$MODEL_PLURAL_NAME$::class)
-        ->callTableBulkAction(\Filament\Tables\Actions\DeleteBulkAction::class, $records);
+        ->callTableBulkAction(DeleteBulkAction::class, $records);
 
     foreach ($records as $record) {
         $this->assertModelMissing($record);

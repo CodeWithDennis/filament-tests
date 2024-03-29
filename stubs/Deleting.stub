@@ -2,7 +2,7 @@ it('can delete records', function () {
     $record = $MODEL_SINGULAR_NAME$::factory()->create();
 
     livewire(List$MODEL_PLURAL_NAME$::class)
-        ->callTableAction(\Filament\Tables\Actions\DeleteAction::class, $record);
+        ->callTableAction(DeleteAction::class, $record);
 
     $this->assertModelMissing($record);
 });
