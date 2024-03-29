@@ -3,10 +3,10 @@
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/codewithdennis/filament-resource-tests.svg?style=flat-square)](https://packagist.org/packages/codewithdennis/filament-resource-tests)
 [![Total Downloads](https://img.shields.io/packagist/dt/codewithdennis/filament-resource-tests.svg?style=flat-square)](https://packagist.org/packages/codewithdennis/filament-resource-tests)
 
-A package that creates PEST tests specifically tailored for your Filament resources.
+A package that creates PEST tests specifically tailored for your Filament components.
 
-### This package is still in development and not ready for use.
-Please do not use it in production.
+## This package is still in development and not ready for use.
+### Please do not use it in production.
 
 ## Installation
 You can install the package via composer:
@@ -49,6 +49,27 @@ If you don't specify a resource name, you will be prompted to choose one or more
 ```bash
 php artisan make:filament-resource-test
 ````
+
+## Tests
+Tests are generated on demand and are tailored to the component that you're generating tests for. For example, if the resource component doesn't have any sortable columns, then the tests for sorting 
+won't be generated.
+
+**Resources**
+  - [x] [It can render page](https://filamentphp.com/docs/3.x/tables/testing#render)
+  - [x] [It can sort column](https://filamentphp.com/docs/3.x/tables/testing#sorting)
+  - [x] [It can render column](https://filamentphp.com/docs/3.x/tables/testing#columns)
+  - [x] [It can search column](https://filamentphp.com/docs/3.x/tables/testing#searching)
+  - [x] [It has column](https://filamentphp.com/docs/3.x/tables/testing#existence)
+  - [x] [It can delete records](https://filamentphp.com/docs/3.x/tables/testing#calling-actions)
+  - [x] [It can soft delete records](https://filamentphp.com/docs/3.x/tables/testing#calling-actions)
+  - [x] [It can bulk delete records](https://filamentphp.com/docs/3.x/tables/testing#calling-actions)
+  - [x] [It can bulk soft delete records](https://filamentphp.com/docs/3.x/tables/testing#calling-actions)
+  - [ ] It can restore records
+  - [ ] It can replicate records
+  - [ ] It can force delete records
+  - [ ] It can filter table records
+  - [ ] It can reset table filters
+  - [ ] It can remove table filters
 
 ## Running the package tests
 
