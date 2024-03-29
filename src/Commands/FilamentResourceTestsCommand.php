@@ -187,7 +187,7 @@ class FilamentResourceTestsCommand extends Command
         }
 
         // Delete Action
-        if ($this->getResourceTableActionNames($resource)->contains('delete') && $this->getTableColumns($resource)->isNotEmpty()) {
+        if ($this->getResourceTableActionNames($resource)->contains('delete')) {
 
             if (! $this->hasSoftDeletes($resource)) {
                 $stubs[] = 'Deleting';
@@ -198,7 +198,7 @@ class FilamentResourceTestsCommand extends Command
         }
 
         // Bulk Delete Action
-        if ($this->getResourceTableBulkActionNames($resource)->contains('delete') && $this->getTableColumns($resource)->isNotEmpty()) {
+        if ($this->getResourceTableBulkActionNames($resource)->contains('delete')) {
 
             if (! $this->hasSoftDeletes($resource)) {
                 $stubs[] = 'BulkDeleting';
