@@ -51,9 +51,10 @@ php artisan make:filament-resource-test
 ````
 
 ### Generated Tests
-Tests will only be generated if they can actually be used. For example, if the resource doesn't have any sortable columns, then the tests for sorting won't be generated.
+Tests are generated on demand and are tailored to the component that you're generating tests for. For example, if the resource component doesn't have any sortable columns, then the tests for sorting 
+won't be generated.
 
-In these examples, we'll assume that we have a `Blog` model and a `BlogResource` resource that have the following columns:
+In these examples, we'll assume that we have a `BlogResource` resource with the following columns:
 - id
 - name
 
