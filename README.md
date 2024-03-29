@@ -3,10 +3,10 @@
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/codewithdennis/filament-resource-tests.svg?style=flat-square)](https://packagist.org/packages/codewithdennis/filament-resource-tests)
 [![Total Downloads](https://img.shields.io/packagist/dt/codewithdennis/filament-resource-tests.svg?style=flat-square)](https://packagist.org/packages/codewithdennis/filament-resource-tests)
 
-A package that creates PEST tests specifically tailored for your Filament resources.
+A package that creates PEST tests specifically tailored for your Filament application.
 
-### This package is still in development and not ready for use.
-Please do not use it in production.
+## This package is still in development and not ready for use.
+### Please do not use it in production.
 
 ## Installation
 You can install the package via composer:
@@ -49,6 +49,146 @@ If you don't specify a resource name, you will be prompted to choose one or more
 ```bash
 php artisan make:filament-resource-test
 ````
+
+## Generated Tests
+Tests will only be generated if they can actually be used. For example, if the resource doesn't have any sortable columns, then the tests for sorting won't be generated. 
+
+In these examples, we'll assume that we have a `Blog` model and a `BlogResource` resource that have the following columns:
+- id
+- name
+
+### Render Page
+```php
+it('can render page', function () {
+    livewire(ListBlogs::class)->assertSuccessful();
+});
+```
+### Render Columns
+```php
+it('can render column', function (string $column) {
+    Blog::factory()->count(3)->create();
+
+    livewire(ListBlogs::class)->assertCanRenderTableColumn($column);
+})->with(['id', 'name']);
+```
+
+### Has Column
+```php
+it('has column', function (string $column) {
+    livewire(ListBlogs::class)
+        ->assertTableColumnExists($column);
+})->with(['id', 'name']);
+```
+
+### Sorting Columns
+```php
+it('can sort column', function (string $column) {
+    $records = Blog::factory()->count(3)->create();
+
+    livewire(ListBlogs::class)
+        ->sortTable($column)
+        ->assertCanSeeTableRecords($records->sortBy($column), inOrder: true)
+        ->sortTable($column, 'desc')
+        ->assertCanSeeTableRecords($records->sortByDesc($column), inOrder: true);
+})->with(['id', 'name']);
+```
+
+### Searching Columns
+```php
+it('can search column', function (string $column) {
+    $records = Blog::factory()->count(3)->create();
+
+    $search = $records->first()->{$column};
+
+    livewire(ListBlogs::class)
+        ->searchTable($search)
+        ->assertCanSeeTableRecords($records->where($column, $search))
+        ->assertCanNotSeeTableRecords($records->where($column, '!=', $search));
+})->with(['id', 'name']);
+```
+
+### Individual Search Columns
+```php
+it('can individually search by column', function (string $column) {
+    $records = Blog::factory()->count(3)->create();
+
+    $search = $records->first()->{$column};
+
+    livewire(ListBlogs::class)
+        ->searchTableColumns([$column => $search])
+        ->assertCanSeeTableRecords($records->where($column, $search))
+        ->assertCanNotSeeTableRecords($records->where($column, '!=', $search));
+})->with(['id', 'name']);
+```
+
+### Trashed
+```php
+it('cannot display trashed records by default', function () {
+    $records = Blog::factory()->count(3)->create();
+
+    $trashedRecords = Blog::factory()->trashed()->count(6)->create();
+
+    livewire(ListBlogs::class)
+        ->assertCanSeeTableRecords($records)
+        ->assertCanNotSeeTableRecords($trashedRecords)
+        ->assertCountTableRecords(3);
+});
+```
+
+### Deleting
+```php
+it('can delete records', function () {
+    $record = Blog::factory()->create();
+
+    livewire(ListBlogs::class)
+        ->callTableAction(DeleteAction::class, $record);
+
+    $this->assertModelMissing($record);
+});
+```
+### Deleting (SoftDelete)
+```php
+it('can soft delete records', function () {
+    $record = Blog::factory()->create();
+
+    livewire(ListBlogs::class)
+        ->callTableAction(DeleteAction::class, $record);
+
+    $this->assertSoftDeleted($record);
+});
+```
+
+### Bulk Deleting
+```php
+it('can bulk delete records', function () {
+    $records = Blog::factory()->count(3)->create();
+
+    livewire(ListBlogs::class)
+        ->callTableBulkAction(DeleteBulkAction::class, $records);
+
+    foreach ($records as $record) {
+        $this->assertModelMissing($record);
+    }
+
+    expect(Blog::find($records->pluck('id')))->toBeEmpty();
+});
+```
+
+### Bulk Deleting (SoftDelete)
+```php
+it('can bulk soft delete records', function () {
+    $records = Blog::factory()->count(3)->create();
+
+    livewire(ListBlogs::class)
+        ->callTableBulkAction(DeleteBulkAction::class, $records);
+
+    foreach ($records as $record) {
+        $this->assertSoftDeleted($record);
+    }
+
+    expect(Blog::find($records->pluck('id')))->toBeEmpty();
+});
+```
 
 ## Running the package tests
 
