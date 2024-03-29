@@ -127,6 +127,11 @@ class FilamentResourceTestsCommand extends Command
             ->filter(fn ($column) => ! $column->isToggledHiddenByDefault());
     }
 
+    protected function hasSoftDeletes(Resource $resource): bool
+    {
+        return method_exists($resource->getModel(), 'bootSoftDeletes');
+    }
+
     protected function getStubs(Resource $resource): array
     {
         // Base stubs that are always included
@@ -154,6 +159,11 @@ class FilamentResourceTestsCommand extends Command
         // Check if there are individually searchable columns
         if ($this->getIndividuallySearchableColumns($resource)->isNotEmpty()) {
             $stubs[] = 'IndividuallySearchColumn';
+        }
+
+        // Check that trashed columns are not displayed by default
+        if ($this->hasSoftDeletes($resource) && $this->getTableColumns($resource)->isNotEmpty()) {
+            $stubs[] = 'Trashed';
         }
 
         // Return the stubs
