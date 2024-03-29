@@ -1,12 +1,12 @@
 it('can bulk soft delete records', function () {
     $records = $MODEL_SINGULAR_NAME$::factory()->count(3)->create();
 
-        livewire(List$MODEL_PLURAL_NAME$::class)
-            ->callTableBulkAction(\Filament\Tables\Actions\DeleteBulkAction::class, $records);
+    livewire(List$MODEL_PLURAL_NAME$::class)
+        ->callTableBulkAction(\Filament\Tables\Actions\DeleteBulkAction::class, $records);
 
-        foreach ($records as $record) {
-            $this->assertSoftDeleted($record);
-        }
+    foreach ($records as $record) {
+        $this->assertSoftDeleted($record);
+    }
 
-        expect($MODEL_SINGULAR_NAME$::count())->toBe(0);
+    expect($MODEL_SINGULAR_NAME$::count())->toBe(0);
 });
