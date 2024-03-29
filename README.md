@@ -50,20 +50,23 @@ If you don't specify a resource name, you will be prompted to choose one or more
 php artisan make:filament-resource-test
 ````
 
-## Generated Tests
+### Generated Tests
 Tests will only be generated if they can actually be used. For example, if the resource doesn't have any sortable columns, then the tests for sorting won't be generated. 
 
 In these examples, we'll assume that we have a `Blog` model and a `BlogResource` resource that have the following columns:
 - id
 - name
 
-### Render Page
+**To ensure a table component renders**
+
 ```php
 it('can render page', function () {
     livewire(ListBlogs::class)->assertSuccessful();
 });
 ```
-### Render Columns
+
+**To ensure that a certain columns are rendered**
+
 ```php
 it('can render column', function (string $column) {
     Blog::factory()->count(3)->create();
@@ -72,7 +75,8 @@ it('can render column', function (string $column) {
 })->with(['id', 'name']);
 ```
 
-### Has Column
+**To ensure that columns exists**
+
 ```php
 it('has column', function (string $column) {
     livewire(ListBlogs::class)
@@ -80,7 +84,8 @@ it('has column', function (string $column) {
 })->with(['id', 'name']);
 ```
 
-### Sorting Columns
+**To ensure that a certain columns are sortable**
+
 ```php
 it('can sort column', function (string $column) {
     $records = Blog::factory()->count(3)->create();
@@ -93,7 +98,8 @@ it('can sort column', function (string $column) {
 })->with(['id', 'name']);
 ```
 
-### Searching Columns
+**To ensure that a certain columns are searchable**
+
 ```php
 it('can search column', function (string $column) {
     $records = Blog::factory()->count(3)->create();
@@ -107,7 +113,8 @@ it('can search column', function (string $column) {
 })->with(['id', 'name']);
 ```
 
-### Individual Search Columns
+**To ensure that a certain columns are individually searchable**
+
 ```php
 it('can individually search by column', function (string $column) {
     $records = Blog::factory()->count(3)->create();
@@ -121,7 +128,8 @@ it('can individually search by column', function (string $column) {
 })->with(['id', 'name']);
 ```
 
-### Trashed
+**To ensure that a certain records are not displayed by default**
+
 ```php
 it('cannot display trashed records by default', function () {
     $records = Blog::factory()->count(3)->create();
@@ -135,7 +143,8 @@ it('cannot display trashed records by default', function () {
 });
 ```
 
-### Deleting
+**To ensure that the delete action works**
+
 ```php
 it('can delete records', function () {
     $record = Blog::factory()->create();
@@ -146,7 +155,9 @@ it('can delete records', function () {
     $this->assertModelMissing($record);
 });
 ```
-### Deleting (SoftDelete)
+
+**To ensure that the soft delete action works**
+
 ```php
 it('can soft delete records', function () {
     $record = Blog::factory()->create();
@@ -158,7 +169,8 @@ it('can soft delete records', function () {
 });
 ```
 
-### Bulk Deleting
+**To ensure that the delete bulk action works**
+
 ```php
 it('can bulk delete records', function () {
     $records = Blog::factory()->count(3)->create();
@@ -174,7 +186,8 @@ it('can bulk delete records', function () {
 });
 ```
 
-### Bulk Deleting (SoftDelete)
+**To ensure that the soft delete bulk action works**
+
 ```php
 it('can bulk soft delete records', function () {
     $records = Blog::factory()->count(3)->create();
