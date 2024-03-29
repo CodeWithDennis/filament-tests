@@ -132,13 +132,30 @@ class FilamentResourceTestsCommand extends Command
         return method_exists($resource->getModel(), 'bootSoftDeletes');
     }
 
+    protected function getResourceTableActions(Resource $resource): Collection
+    {
+        return collect($this->getResourceTable($resource)->getFlatActions());
+    }
+
+    protected function getResourceTableActionNames(Resource $resource): Collection
+    {
+        return $this->getResourceTableActions($resource)->map(fn ($action) => $action->getName());
+    }
+
+    protected function getResourceTableBulkActions(Resource $resource): Collection
+    {
+        return collect($this->getResourceTable($resource)->getFlatBulkActions());
+    }
+
+    protected function getResourceTableBulkActionNames(Resource $resource): Collection
+    {
+        return $this->getResourceTableBulkActions($resource)->map(fn ($action) => $action->getName());
+    }
+
     protected function getStubs(Resource $resource): array
     {
         // Base stubs that are always included
         $stubs = ['Base', 'RenderPage'];
-
-        // Get the columns of the resource table
-        $columns = collect($this->getResourceTable($resource)->getColumns());
 
         // Add additional stubs based on the columns
         if ($this->getTableColumns($resource)->isNotEmpty()) {
@@ -164,6 +181,16 @@ class FilamentResourceTestsCommand extends Command
         // Check that trashed columns are not displayed by default
         if ($this->hasSoftDeletes($resource) && $this->getTableColumns($resource)->isNotEmpty()) {
             $stubs[] = 'Trashed';
+        }
+
+        // Check if there is a delete action
+        if ($this->getResourceTableActionNames($resource)->contains('delete')) {
+            $stubs[] = ! $this->hasSoftDeletes($resource) ? 'Deleting' : 'DeletingSoftDeletes';
+        }
+
+        // Check if there is a bulk delete action
+        if ($this->getResourceTableBulkActionNames($resource)->contains('delete')) {
+            $stubs[] = ! $this->hasSoftDeletes($resource) ? 'BulkDeleting' : 'BulkDeletingSoftDeletes';
         }
 
         // Return the stubs
