@@ -2,9 +2,9 @@
 
 namespace CodeWithDennis\FilamentResourceTests\Tests;
 
+use CodeWithDennis\FilamentResourceTests\FilamentResourceTestsServiceProvider;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Orchestra\Testbench\TestCase as Orchestra;
-use CodeWithDennis\FilamentResourceTests\FilamentResourceTestsServiceProvider;
 
 class TestCase extends Orchestra
 {
@@ -12,9 +12,9 @@ class TestCase extends Orchestra
     {
         parent::setUp();
 
-//        Factory::guessFactoryNamesUsing(
-//            fn (string $modelName) => 'CodeWithDennis\\FilamentResourceTests\\Database\\Factories\\'.class_basename($modelName).'Factory'
-//        );
+        //        Factory::guessFactoryNamesUsing(
+        //            fn (string $modelName) => 'CodeWithDennis\\FilamentResourceTests\\Database\\Factories\\'.class_basename($modelName).'Factory'
+        //        );
     }
 
     protected function getPackageProviders($app)
