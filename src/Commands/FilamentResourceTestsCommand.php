@@ -129,7 +129,7 @@ class FilamentResourceTestsCommand extends Command
 
     protected function hasSoftDeletes(Resource $resource): bool
     {
-        return method_exists($resource->getModel(), 'trashed');
+        return method_exists($resource->getModel(), 'bootSoftDeletes');
     }
 
     protected function getStubs(Resource $resource): array
