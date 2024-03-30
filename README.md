@@ -57,16 +57,23 @@ composer require pestphp/pest-plugin-laravel --dev
 ## Usage
 
 You can create a new test for a resource by running the following command:
+> The following name formats are supported: `blog`, `Blog`, `BlogResource`
 
 ```bash
 php artisan make:filament-resource-test BlogResource
 ```
 
-If you don't specify a resource name, you will be prompted to choose one or more resources to create tests for.
+If you don't specify a resource name, you will be prompted to choose one or more resources to create tests interactively.
 
 ```bash
 php artisan make:filament-resource-test
 ````
+## Options
+
+| Option       | Description |
+|--------------|-------------|
+| `--all` `-a` | Create tests for all Filament resources |
+| `--force` `-f` | Overwrite existing tests |
 
 ## Tests
 Tests are generated on demand and are tailored to the component that you're generating tests for. For example, if the resource component doesn't have any sortable columns, then the tests for sorting 
