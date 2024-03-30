@@ -377,7 +377,7 @@ class FilamentResourceTestsCommand extends Command
             'RESOURCE_TABLE_INDIVIDUALLY_SEARCHABLE_COLUMNS' => $this->convertDoubleQuotedArrayString($this->getIndividuallySearchableColumns($resource)->keys()),
         ];
     }
-    
+
     protected function getNormalizedResourceName(string $name): string
     {
         return str($name)->ucfirst()->finish('Resource');
