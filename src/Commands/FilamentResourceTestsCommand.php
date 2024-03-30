@@ -187,6 +187,21 @@ class FilamentResourceTestsCommand extends Command
         return collect($table->getFilters())->map(fn ($action) => $action->getName());
     }
 
+    protected function hasTableAction(string $action, Resource $resource): bool
+    {
+        return $this->getResourceTableActionNames($resource)->contains($action);
+    }
+
+    protected function hasTableBulkAction(string $action, Resource $resource): bool
+    {
+        return $this->getResourceTableBulkActionNames($resource)->contains($action);
+    }
+
+    protected function hasTableFilter(string $filter, Table $table): bool
+    {
+        return $this->getResourceTableFilterNames($table)->contains($filter);
+    }
+
     protected function getStubs(Resource $resource): array
     {
         // Get the resource table
@@ -222,39 +237,39 @@ class FilamentResourceTestsCommand extends Command
         }
 
         // Check if there is a delete action
-        if ($this->getResourceTableActionNames($resource)->contains('delete')) {
+        if ($this->hasTableAction('delete', $resource)) {
             $stubs[] = ! $this->hasSoftDeletes($resource) ? 'Delete' : 'SoftDelete';
         }
 
         // Check if there is a bulk delete action
-        if ($this->getResourceTableBulkActionNames($resource)->contains('delete')) {
+        if ($this->hasTableBulkAction('delete', $resource)) {
             $stubs[] = ! $this->hasSoftDeletes($resource) ? 'BulkDelete' : 'BulkSoftDelete';
         }
 
         // Check if there is a replicate action
-        if ($this->getResourceTableActionNames($resource)->contains('replicate')) {
+        if ($this->hasTableAction('replicate', $resource)) {
             $stubs[] = 'Replicate';
         }
 
         // Check if there is a trashed filter
-        if ($this->getResourceTableFilterNames($resourceTable)->contains('trashed') && $this->hasSoftDeletes($resource)) {
+        if ($this->hasTableFilter('trashed', $resourceTable) && $this->hasSoftDeletes($resource)) {
             // Check if there is a restore action
-            if ($this->getResourceTableActionNames($resource)->contains('restore')) {
+            if ($this->hasTableAction('restore', $resource)) {
                 $stubs[] = 'Restore';
             }
 
             // Check if there is a bulk restore action
-            if ($this->getResourceTableBulkActionNames($resource)->contains('restore')) {
+            if ($this->hasTableBulkAction('restore', $resource)) {
                 $stubs[] = 'BulkRestore';
             }
 
             // Check if there is a force delete action
-            if ($this->getResourceTableActionNames($resource)->contains('forceDelete')) {
+            if ($this->hasTableAction('forceDelete', $resource)) {
                 $stubs[] = 'ForceDelete';
             }
 
             // Check if there is a bulk force delete action
-            if ($this->getResourceTableBulkActionNames($resource)->contains('forceDelete')) {
+            if ($this->hasTableBulkAction('forceDelete', $resource)) {
                 $stubs[] = 'BulkForceDelete';
             }
         }
