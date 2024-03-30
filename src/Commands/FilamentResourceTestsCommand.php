@@ -21,8 +21,8 @@ class FilamentResourceTestsCommand extends Command
 {
     protected $signature = 'make:filament-resource-test
                             {name? : The name of the resource}
-                            {--f|force : Force overwrite the existing test}
-                            {--a|all : Create tests for all Filament resources}';
+                            {--a|all : Create tests for all Filament resources}
+                            {--f|force : Force overwrite the existing test}';
 
     protected $description = 'Create tests for a Filament components';
 
