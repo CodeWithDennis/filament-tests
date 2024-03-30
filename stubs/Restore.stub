@@ -11,4 +11,3 @@ it('can restore records', function () {
 
      expect($record->refresh()->trashed())->toBeFalse();
 });
-
