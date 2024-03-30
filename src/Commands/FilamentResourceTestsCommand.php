@@ -50,22 +50,22 @@ class FilamentResourceTestsCommand extends Command
             ->map(fn ($resource): string => str($resource)->afterLast('Resources\\'));
 
         if (! $this->argument('name')) {
-           if (! $this->option('all')) {
-               // Ask the user to select the resource they want to create a test for
-               $selectedResources = multiselect(
-                   label: 'What is the resource you would like to create this test for?',
-                   options: $availableResources->flatten(),
-                   required: true,
-               );
+            if (! $this->option('all')) {
+                // Ask the user to select the resource they want to create a test for
+                $selectedResources = multiselect(
+                    label: 'What is the resource you would like to create this test for?',
+                    options: $availableResources->flatten(),
+                    required: true,
+                );
 
-               // Check if the first selected item is numeric (on windows without WSL multiselect returns an array of numeric strings)
-               if (is_numeric($selectedResources[0] ?? null)) {
-                   // Convert the indexed selection back to the original resource path => resource name
-                   $selectedResources = collect($selectedResources)
-                       ->mapWithKeys(fn ($index) => [
-                           $availableResources->keys()->get($index) => $availableResources->get($availableResources->keys()->get($index)),
-                       ]);
-               }
+                // Check if the first selected item is numeric (on windows without WSL multiselect returns an array of numeric strings)
+                if (is_numeric($selectedResources[0] ?? null)) {
+                    // Convert the indexed selection back to the original resource path => resource name
+                    $selectedResources = collect($selectedResources)
+                        ->mapWithKeys(fn ($index) => [
+                            $availableResources->keys()->get($index) => $availableResources->get($availableResources->keys()->get($index)),
+                        ]);
+                }
             } else {
                 // User wants to create tests for all resources
                 $selectedResources = $availableResources->all();
@@ -76,6 +76,7 @@ class FilamentResourceTestsCommand extends Command
 
             if (! $availableResources->contains($suppliedResourceName)) {
                 $this->error("The resource {$suppliedResourceName} does not exist.");
+
                 return self::FAILURE;
             }
 
@@ -96,7 +97,7 @@ class FilamentResourceTestsCommand extends Command
             // Get the contents of the test file
             $contents = $this->getSourceFile($resource);
 
-            if ( $this->files->exists($path) && ! $this->option('force')) {
+            if ($this->files->exists($path) && ! $this->option('force')) {
                 // Ask the user if they want to overwrite the existing test
                 if (! confirm("The test for {$selectedResource} already exists. Do you want to overwrite it?")) {
                     // Skip this resource
