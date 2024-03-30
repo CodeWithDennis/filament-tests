@@ -4,7 +4,7 @@ it('can force delete records', function () {
 
     assert($record->trashed());
 
-    livewire(ListBlogs::class)
+    livewire(List$MODEL_PLURAL_NAME$::class)
         ->filterTable('trashed', true)
         ->assertCanSeeTableRecords([$record])
         ->callTableAction(\Filament\Tables\Actions\ForceDeleteAction::class, $record);
