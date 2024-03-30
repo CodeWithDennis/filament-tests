@@ -152,8 +152,21 @@ class FilamentResourceTestsCommand extends Command
         return $this->getResourceTableBulkActions($resource)->map(fn ($action) => $action->getName());
     }
 
+    protected function getResourceTableFilters(Table $table): array
+    {
+        return $table->getFilters();
+    }
+
+    protected function getResourceTableFilterNames(Table $table): Collection
+    {
+        return collect($table->getFilters())->map(fn ($action) => $action->getName());
+    }
+
     protected function getStubs(Resource $resource): array
     {
+        // Get the resource table
+        $resourceTable = $this->getResourceTable($resource);
+
         // Base stubs that are always included
         $stubs = ['Base', 'RenderPage'];
 
@@ -196,6 +209,11 @@ class FilamentResourceTestsCommand extends Command
         // Check if there is a replicate action
         if ($this->getResourceTableActionNames($resource)->contains('replicate')) {
             $stubs[] = 'Replicate';
+        }
+
+        // Check if there is a restore action
+        if ($this->hasSoftDeletes($resource) && $this->getResourceTableFilterNames($resourceTable)->contains('trashed') && $this->getResourceTableActionNames($resource)->contains('restore')) {
+            $stubs[] = 'Restore';
         }
 
         // Return the stubs
@@ -305,11 +323,6 @@ class FilamentResourceTestsCommand extends Command
         return str($string)
             ->replace('"', '\'')
             ->replace(',', ', ');
-    }
-
-    protected function getResourceTableFilters(Table $table): array
-    {
-        return $table->getFilters();
     }
 
     protected function getStubVariables(Resource $resource): array // TODO: This part is a bit messy, maybe refactor it
