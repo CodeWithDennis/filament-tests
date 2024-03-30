@@ -48,7 +48,7 @@ class FilamentResourceTestsCommand extends Command
         // Get the available resources
         $availableResources = $this->getResources()
             ->map(fn ($resource): string => str($resource)->afterLast('Resources\\'));
-
+        
         if (! $this->argument('name')) {
             // Ask the user to select the resource they want to create a test for
             $selectedResources = ! $this->option('all') ? multiselect(
@@ -162,44 +162,29 @@ class FilamentResourceTestsCommand extends Command
         return collect($this->getResourceTable($resource)->getFlatActions());
     }
 
-    protected function getResourceTableActionNames(Resource $resource): Collection
-    {
-        return $this->getResourceTableActions($resource)->map(fn ($action) => $action->getName());
-    }
-
     protected function getResourceTableBulkActions(Resource $resource): Collection
     {
         return collect($this->getResourceTable($resource)->getFlatBulkActions());
     }
 
-    protected function getResourceTableBulkActionNames(Resource $resource): Collection
+    protected function getResourceTableFilters(Table $table): Collection
     {
-        return $this->getResourceTableBulkActions($resource)->map(fn ($action) => $action->getName());
-    }
-
-    protected function getResourceTableFilters(Table $table): array
-    {
-        return $table->getFilters();
-    }
-
-    protected function getResourceTableFilterNames(Table $table): Collection
-    {
-        return collect($table->getFilters())->map(fn ($action) => $action->getName());
+        return collect($table->getFilters());
     }
 
     protected function hasTableAction(string $action, Resource $resource): bool
     {
-        return $this->getResourceTableActionNames($resource)->contains($action);
+        return $this->getResourceTableActions($resource)->map(fn ($action) => $action->getName())->contains($action);
     }
 
     protected function hasTableBulkAction(string $action, Resource $resource): bool
     {
-        return $this->getResourceTableBulkActionNames($resource)->contains($action);
+        return $this->getResourceTableBulkActions($resource)->map(fn ($action) => $action->getName())->contains($action);
     }
 
     protected function hasTableFilter(string $filter, Table $table): bool
     {
-        return $this->getResourceTableFilterNames($table)->contains($filter);
+        return $this->getResourceTableFilters($table)->map(fn ($filter) => $filter->getName())->contains($filter);
     }
 
     protected function getStubs(Resource $resource): array
