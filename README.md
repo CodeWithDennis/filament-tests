@@ -1,4 +1,4 @@
-# Filament Resource Testshttps://github.com/CodeWithDennis/filament-resource-tests/pulls
+# Filament Resource Tests
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/codewithdennis/filament-resource-tests.svg?style=flat-square)](https://packagist.org/packages/codewithdennis/filament-resource-tests)
 [![Total Downloads](https://img.shields.io/packagist/dt/codewithdennis/filament-resource-tests.svg?style=flat-square)](https://packagist.org/packages/codewithdennis/filament-resource-tests)
