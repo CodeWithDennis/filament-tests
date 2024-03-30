@@ -50,25 +50,20 @@ class FilamentResourceTestsCommand extends Command
             ->map(fn ($resource): string => str($resource)->afterLast('Resources\\'));
 
         if (! $this->argument('name')) {
-            if (! $this->option('all')) {
-                // Ask the user to select the resource they want to create a test for
-                $selectedResources = multiselect(
-                    label: 'What is the resource you would like to create this test for?',
-                    options: $availableResources->flatten(),
-                    required: true,
-                );
+            // Ask the user to select the resource they want to create a test for
+            $selectedResources = ! $this->option('all') ? multiselect(
+                label: 'What is the resource you would like to create this test for?',
+                options: $availableResources->flatten(),
+                required: true,
+            ) : $availableResources->flatten();
 
-                // Check if the first selected item is numeric (on windows without WSL multiselect returns an array of numeric strings)
-                if (is_numeric($selectedResources[0] ?? null)) {
-                    // Convert the indexed selection back to the original resource path => resource name
-                    $selectedResources = collect($selectedResources)
-                        ->mapWithKeys(fn ($index) => [
-                            $availableResources->keys()->get($index) => $availableResources->get($availableResources->keys()->get($index)),
-                        ]);
-                }
-            } else {
-                // User wants to create tests for all resources
-                $selectedResources = $availableResources->all();
+            // Check if the first selected item is numeric (on windows without WSL multiselect returns an array of numeric strings)
+            if (is_numeric($selectedResources[0] ?? null)) {
+                // Convert the indexed selection back to the original resource path => resource name
+                $selectedResources = collect($selectedResources)
+                    ->mapWithKeys(fn ($index) => [
+                        $availableResources->keys()->get($index) => $availableResources->get($availableResources->keys()->get($index)),
+                    ]);
             }
         } else {
             // User supplied a resource name
