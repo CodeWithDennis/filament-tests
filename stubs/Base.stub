@@ -5,6 +5,7 @@ use Filament\Tables\Actions\DeleteAction;
 use Filament\Tables\Actions\DeleteBulkAction;
 use Filament\Tables\Actions\RestoreAction;
 use Filament\Tables\Actions\ReplicateAction;
+use Filament\Tables\Actions\RestoreBulkAction;
 $MODEL_IMPORT$
 
 use function Pest\Laravel\actingAs;
