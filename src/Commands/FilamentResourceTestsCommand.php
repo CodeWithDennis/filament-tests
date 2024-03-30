@@ -273,7 +273,7 @@ class FilamentResourceTestsCommand extends Command
 
         return $match ? app()->make($match) : null;
     }
-    
+
     // Get the available resources
     protected function getAvailableResources(): Collection
     {
