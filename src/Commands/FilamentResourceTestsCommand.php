@@ -174,17 +174,18 @@ class FilamentResourceTestsCommand extends Command
         if (is_numeric($selectedResources[0] ?? null)) {
             // Convert the indexed selection back to the original resource path => resource name
             $selectedResources = collect($selectedResources)
-                ->mapWithKeys(fn($index) => [
+                ->mapWithKeys(fn ($index) => [
                     $availableResources->keys()->get($index) => $availableResources->get($availableResources->keys()->get($index)),
                 ]);
         }
+
         return $selectedResources;
     }
 
     public function getAvailableResources(): Collection
     {
         return $this->getResources()
-            ->map(fn($resource): string => str($resource)->afterLast('Resources\\'));
+            ->map(fn ($resource): string => str($resource)->afterLast('Resources\\'));
     }
 
     protected function getResourceTableFilters(Table $table): array
