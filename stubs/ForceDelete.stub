@@ -7,7 +7,7 @@ it('can force delete records', function () {
     livewire(List$MODEL_PLURAL_NAME$::class)
         ->filterTable('trashed', true)
         ->assertCanSeeTableRecords([$record])
-        ->callTableAction(\Filament\Tables\Actions\ForceDeleteAction::class, $record);
+        ->callTableAction(ForceDeleteAction::class, $record);
 
     \Pest\Laravel\assertModelMissing($record);
 });
