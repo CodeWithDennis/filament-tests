@@ -227,6 +227,11 @@ class FilamentResourceTestsCommand extends Command
             if ($this->getResourceTableActionNames($resource)->contains('forceDelete')) {
                 $stubs[] = 'ForceDelete';
             }
+
+            // Check if there is a bulk force delete action
+            if ($this->getResourceTableBulkActionNames($resource)->contains('forceDelete')) {
+                $stubs[] = 'BulkForceDelete';
+            }
         }
 
         // Return the stubs
