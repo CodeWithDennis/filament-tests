@@ -45,10 +45,8 @@ class FilamentResourceTestsCommand extends Command
 
     public function handle(): int
     {
-        // Get the available resources
-        $availableResources = $this->getResources()
-            ->map(fn ($resource): string => str($resource)->afterLast('Resources\\'));
-
+        $availableResources = $this->getAvailableResources();
+        
         if (! $this->argument('name')) {
             // Ask the user to select the resource they want to create a test for
             $selectedResources = ! $this->option('all') ? multiselect(
@@ -387,5 +385,11 @@ class FilamentResourceTestsCommand extends Command
             'RESOURCE_TABLE_SEARCHABLE_COLUMNS' => $this->convertDoubleQuotedArrayString($this->getSearchableColumns($resource)->keys()),
             'RESOURCE_TABLE_INDIVIDUALLY_SEARCHABLE_COLUMNS' => $this->convertDoubleQuotedArrayString($this->getIndividuallySearchableColumns($resource)->keys()),
         ];
+    }
+
+    // Get the available resources
+    protected function getAvailableResources()
+    {
+      return $this->getResources()->map(fn ($resource): string => str($resource)->afterLast('Resources\\'));
     }
 }
