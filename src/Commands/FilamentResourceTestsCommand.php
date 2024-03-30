@@ -219,6 +219,11 @@ class FilamentResourceTestsCommand extends Command
             $stubs[] = 'Replicate';
         }
 
+        // Check if there is a view action
+        if ($this->hasTableAction('view', $resource)) {
+            $stubs[] = 'View';
+        }
+
         // Check if there is a trashed filter
         if ($this->hasTableFilter('trashed', $resourceTable) && $this->hasSoftDeletes($resource)) {
             // Check if there is a restore action
