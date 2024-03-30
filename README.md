@@ -67,7 +67,7 @@ won't be generated.
   - [x] It can restore records
   - [x] It can bulk restore records
   - [x] It can replicate records
-  - [ ] It can force delete records
+  - [x] It can force delete records
   - [ ] It can filter table records
   - [ ] It can reset table filters
   - [ ] It can remove table filters
