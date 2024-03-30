@@ -32,7 +32,7 @@ class FilamentResourceTestsCommand extends Command
         $this->files = $files;
     }
 
-    protected function normalizeResourceName(string $name): string
+    protected function getNormalizedResourceName(string $name): string
     {
         $name = ucfirst($name);
 
@@ -46,42 +46,19 @@ class FilamentResourceTestsCommand extends Command
     public function handle(): int
     {
         // Get the available resources
-        $availableResources = $this->getResources()
-            ->map(fn ($resource): string => str($resource)->afterLast('Resources\\'));
+        $availableResources = $this->getAvailableResources();
 
-        if (! $this->argument('name')) {
-            if (! $this->option('all')) {
-                // Ask the user to select the resource they want to create a test for
-                $selectedResources = multiselect(
-                    label: 'What is the resource you would like to create this test for?',
-                    options: $availableResources->flatten(),
-                    required: true,
-                );
+        $selectedResources = match (true) {
+            // No name argument was passed, let the user select the resources interactively
+            ! $this->argument('name')
+                && ! $this->option('all') => $this->getInteractivelySelectedResources($availableResources),
 
-                // Check if the first selected item is numeric (on windows without WSL multiselect returns an array of numeric strings)
-                if (is_numeric($selectedResources[0] ?? null)) {
-                    // Convert the indexed selection back to the original resource path => resource name
-                    $selectedResources = collect($selectedResources)
-                        ->mapWithKeys(fn ($index) => [
-                            $availableResources->keys()->get($index) => $availableResources->get($availableResources->keys()->get($index)),
-                        ]);
-                }
-            } else {
-                // User wants to create tests for all resources
-                $selectedResources = $availableResources->all();
-            }
-        } else {
+            // User wants to create tests for all resources
+            $this->option('all') => $availableResources->all(),
+
             // User supplied a resource name
-            $suppliedResourceName = $this->normalizeResourceName($this->argument('name'));
-
-            if (! $availableResources->contains($suppliedResourceName)) {
-                $this->error("The resource {$suppliedResourceName} does not exist.");
-
-                return self::FAILURE;
-            }
-
-            $selectedResources = [$availableResources->search($suppliedResourceName) => $suppliedResourceName];
-        }
+            default => [$availableResources->search($this->getNormalizedResourceName($this->argument('name'))) => $this->getNormalizedResourceName($this->argument('name'))],
+        };
 
         foreach ($selectedResources as $selectedResource) {
             // Get the resource class based on the selected resource
@@ -180,6 +157,34 @@ class FilamentResourceTestsCommand extends Command
     protected function getResourceTableBulkActionNames(Resource $resource): Collection
     {
         return $this->getResourceTableBulkActions($resource)->map(fn ($action) => $action->getName());
+    }
+
+    public function getInteractivelySelectedResources(): Collection|array
+    {
+        $availableResources = $this->getAvailableResources();
+
+        // Ask the user to select the resource they want to create a test for
+        $selectedResources = multiselect(
+            label: 'What is the resource you would like to create this test for?',
+            options: $availableResources->flatten(),
+            required: true,
+        );
+
+        // Check if the first selected item is numeric (on windows without WSL multiselect returns an array of numeric strings)
+        if (is_numeric($selectedResources[0] ?? null)) {
+            // Convert the indexed selection back to the original resource path => resource name
+            $selectedResources = collect($selectedResources)
+                ->mapWithKeys(fn($index) => [
+                    $availableResources->keys()->get($index) => $availableResources->get($availableResources->keys()->get($index)),
+                ]);
+        }
+        return $selectedResources;
+    }
+
+    public function getAvailableResources(): Collection
+    {
+        return $this->getResources()
+            ->map(fn($resource): string => str($resource)->afterLast('Resources\\'));
     }
 
     protected function getResourceTableFilters(Table $table): array
