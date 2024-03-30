@@ -10,4 +10,4 @@ it('can restore records', function () {
         ->callTableAction(RestoreAction::class, $record);
 
     expect($record->refresh()->trashed())->toBeFalse();
-});
+})->group('table', 'table-actions');

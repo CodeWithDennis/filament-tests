@@ -1,3 +1,5 @@
 it('can render column', function (string $column) {
     livewire(List$MODEL_PLURAL_NAME$::class)->assertCanRenderTableColumn($column);
-})->with($RESOURCE_TABLE_COLUMNS_INITIALLY_VISIBLE$);
+})
+    ->with($RESOURCE_TABLE_COLUMNS_INITIALLY_VISIBLE$)
+    ->group('table', 'rendering');

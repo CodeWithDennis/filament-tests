@@ -9,4 +9,4 @@ it('can bulk soft delete records', function () {
     }
 
     expect($MODEL_SINGULAR_NAME$::find($records->pluck('id')))->toBeEmpty();
-});
+})->group('table', 'table-bulk-actions');

@@ -13,4 +13,4 @@ it('can bulk restore records', function () {
         ->callTableBulkAction(RestoreBulkAction::class, $records);
 
     expect($MODEL_SINGULAR_NAME$::onlyTrashed()->count())->toBe(0);
-});
+})->group('table', 'table-bulk-actions');

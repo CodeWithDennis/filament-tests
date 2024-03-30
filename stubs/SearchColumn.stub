@@ -7,4 +7,6 @@ it('can search column', function (string $column) {
         ->searchTable($search)
         ->assertCanSeeTableRecords($records->where($column, $search))
         ->assertCanNotSeeTableRecords($records->where($column, '!=', $search));
-})->with($RESOURCE_TABLE_SEARCHABLE_COLUMNS$);
+})
+    ->with($RESOURCE_TABLE_SEARCHABLE_COLUMNS$)
+    ->group('table');
