@@ -1,4 +1,4 @@
-# Filament Resource Tests
+# Filament Resource Testshttps://github.com/CodeWithDennis/filament-resource-tests/pulls
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/codewithdennis/filament-resource-tests.svg?style=flat-square)](https://packagist.org/packages/codewithdennis/filament-resource-tests)
 [![Total Downloads](https://img.shields.io/packagist/dt/codewithdennis/filament-resource-tests.svg?style=flat-square)](https://packagist.org/packages/codewithdennis/filament-resource-tests)
@@ -12,7 +12,7 @@ A package that creates PEST tests specifically tailored for your Filament compon
 You can install the package via composer:
 
 ```bash
-composer require codewithdennis/filament-resource-tests
+composer require codewithdennis/filament-resource-tests --dev
 ```
 
 You can publish the config file with:
@@ -36,6 +36,24 @@ return [
     'separate_tests_into_folders' => env('FILAMENT_RESOURCE_TESTS_SEPARATE_TESTS_INTO_FOLDERS', false),
 ];
 ```
+
+## Requirements
+
+This package generates [PestPHP](https://pestphp.com/docs/installation) tests, make sure you have it installed in your project. You can install it by running the following command:
+
+```bash
+composer require pestphp/pest --dev --with-all-dependencies
+```
+
+Make sure you have the following packages installed as well:
+
+```bash
+composer require pestphp/pest-plugin-livewire --dev
+```
+```bash
+composer require pestphp/pest-plugin-laravel --dev
+```
+
 ## Usage
 
 You can create a new test for a resource by running the following command:
@@ -67,7 +85,7 @@ won't be generated.
   - [x] It can restore records
   - [x] It can bulk restore records
   - [x] It can replicate records
-  - [ ] It can force delete records
+  - [x] It can force delete records
   - [ ] It can filter table records
   - [ ] It can reset table filters
   - [ ] It can remove table filters
