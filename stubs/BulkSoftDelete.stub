@@ -1,5 +1,5 @@
 it('can bulk soft delete records', function () {
-    $records = $MODEL_SINGULAR_NAME$::factory()->count(3)->create();
+    $records = $MODEL_SINGULAR_NAME$::factory(3)->create();
 
     livewire(List$MODEL_PLURAL_NAME$::class)
         ->callTableBulkAction(DeleteBulkAction::class, $records);
