@@ -48,7 +48,7 @@ class FilamentResourceTestsCommand extends Command
         // Get the available resources
         $availableResources = $this->getResources()
             ->map(fn ($resource): string => str($resource)->afterLast('Resources\\'));
-        
+
         if (! $this->argument('name')) {
             // Ask the user to select the resource they want to create a test for
             $selectedResources = ! $this->option('all') ? multiselect(
