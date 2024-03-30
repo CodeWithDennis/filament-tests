@@ -23,13 +23,9 @@ class FilamentResourceTestsCommand extends Command
 
     protected $description = 'Create tests for a Filament components';
 
-    protected Filesystem $files;
-
-    public function __construct(Filesystem $files)
+    public function __construct(protected Filesystem $files)
     {
         parent::__construct();
-
-        $this->files = $files;
     }
 
     public function handle(): int
