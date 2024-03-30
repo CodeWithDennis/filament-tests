@@ -3,6 +3,7 @@
 use App\Filament\Resources\$RESOURCE$\Pages\List$MODEL_PLURAL_NAME$;
 use Filament\Tables\Actions\DeleteAction;
 use Filament\Tables\Actions\DeleteBulkAction;
+use Filament\Tables\Actions\ReplicateAction;
 $MODEL_IMPORT$
 
 use function Pest\Laravel\actingAs;
