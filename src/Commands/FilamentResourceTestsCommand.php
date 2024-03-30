@@ -193,6 +193,11 @@ class FilamentResourceTestsCommand extends Command
             $stubs[] = ! $this->hasSoftDeletes($resource) ? 'BulkDeleting' : 'BulkDeletingSoftDeletes';
         }
 
+        // Check if there is a restore action
+        if ($this->hasSoftDeletes($resource) && $this->getResourceTableActionNames($resource)->contains('restore')) {
+            $stubs[] = 'Restore';
+        }
+
         // Return the stubs
         return $stubs;
     }
