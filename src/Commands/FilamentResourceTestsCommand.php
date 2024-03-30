@@ -32,7 +32,7 @@ class FilamentResourceTestsCommand extends Command
         $this->files = $files;
     }
 
-    protected function normalizeResourceName(string $name): string
+    protected function getNormalizedResourceName(string $name): string
     {
         $name = ucfirst($name);
 
@@ -67,7 +67,7 @@ class FilamentResourceTestsCommand extends Command
             }
         } else {
             // User supplied a resource name
-            $suppliedResourceName = $this->normalizeResourceName($this->argument('name'));
+            $suppliedResourceName = $this->getNormalizedResourceName($this->argument('name'));
 
             if (! $availableResources->contains($suppliedResourceName)) {
                 $this->error("The resource {$suppliedResourceName} does not exist.");
