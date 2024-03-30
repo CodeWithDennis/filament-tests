@@ -1,0 +1,13 @@
+it('can force delete records', function () {
+    $record = $MODEL_SINGULAR_NAME$::factory()->create();
+    $record->delete();
+
+    assert($record->trashed());
+
+    livewire(ListBlogs::class)
+        ->filterTable('trashed', true)
+        ->assertCanSeeTableRecords([$record])
+        ->callTableAction(\Filament\Tables\Actions\ForceDeleteAction::class, $record);
+
+    \Pest\Laravel\assertModelMissing($record);
+});
