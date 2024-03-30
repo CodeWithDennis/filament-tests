@@ -64,7 +64,7 @@ won't be generated.
   - [x] It can soft delete records
   - [x] It can bulk delete records
   - [x] It can bulk soft delete records
-  - [ ] It can restore records
+  - [x] It can restore records
   - [x] It can replicate records
   - [ ] It can force delete records
   - [ ] It can filter table records
