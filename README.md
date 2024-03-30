@@ -63,7 +63,7 @@ You can create a new test for a resource by running the following command:
 php artisan make:filament-resource-test BlogResource
 ```
 
-If you don't specify a resource name, you will be prompted to choose one or more resources to create tests interactively.
+If you don't specify a resource name, you will be prompted to choose one or more resources to create tests for interactively.
 
 ```bash
 php artisan make:filament-resource-test
