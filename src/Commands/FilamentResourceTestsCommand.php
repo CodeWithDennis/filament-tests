@@ -273,6 +273,12 @@ class FilamentResourceTestsCommand extends Command
 
         return $match ? app()->make($match) : null;
     }
+    
+    // Get the available resources
+    protected function getAvailableResources(): Collection
+    {
+        return $this->getResources()->map(fn ($resource): string => str($resource)->afterLast('Resources\\'));
+    }
 
     protected function getSourceFilePath(string $name): string
     {
@@ -385,11 +391,5 @@ class FilamentResourceTestsCommand extends Command
             'RESOURCE_TABLE_SEARCHABLE_COLUMNS' => $this->convertDoubleQuotedArrayString($this->getSearchableColumns($resource)->keys()),
             'RESOURCE_TABLE_INDIVIDUALLY_SEARCHABLE_COLUMNS' => $this->convertDoubleQuotedArrayString($this->getIndividuallySearchableColumns($resource)->keys()),
         ];
-    }
-
-    // Get the available resources
-    protected function getAvailableResources(): Collection
-    {
-        return $this->getResources()->map(fn ($resource): string => str($resource)->afterLast('Resources\\'));
     }
 }
