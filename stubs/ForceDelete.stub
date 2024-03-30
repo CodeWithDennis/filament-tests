@@ -9,5 +9,5 @@ it('can force delete records', function () {
         ->assertCanSeeTableRecords([$record])
         ->callTableAction(ForceDeleteAction::class, $record);
 
-    \Pest\Laravel\assertModelMissing($record);
+    assertModelMissing($record);
 });
