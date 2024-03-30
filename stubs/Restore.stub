@@ -9,5 +9,5 @@ it('can restore records', function () {
         ->assertCanSeeTableRecords([$record])
         ->callTableAction(RestoreAction::class, $record);
 
-     expect($record->refresh()->trashed())->toBeFalse();
+    expect($record->refresh()->trashed())->toBeFalse();
 });
