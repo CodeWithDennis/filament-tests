@@ -212,14 +212,14 @@ class FilamentResourceTestsCommand extends Command
         }
 
         // Check if there is a trashed filter
-        if ($this->getResourceTableFilterNames($resourceTable)->contains('trashed')) {
+        if ($this->getResourceTableFilterNames($resourceTable)->contains('trashed') && $this->hasSoftDeletes($resource)) {
             // Check if there is a restore action
-            if ($this->hasSoftDeletes($resource) && $this->getResourceTableActionNames($resource)->contains('restore')) {
+            if ($this->getResourceTableActionNames($resource)->contains('restore')) {
                 $stubs[] = 'Restore';
             }
 
             // Check if there is a bulk restore action
-            if ($this->hasSoftDeletes($resource) && $this->getResourceTableBulkActionNames($resource)->contains('restore')) {
+            if ($this->getResourceTableBulkActionNames($resource)->contains('restore')) {
                 $stubs[] = 'BulkRestore';
             }
         }
