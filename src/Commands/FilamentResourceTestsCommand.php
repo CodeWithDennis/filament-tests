@@ -390,6 +390,6 @@ class FilamentResourceTestsCommand extends Command
     // Get the available resources
     protected function getAvailableResources(): Collection
     {
-      return $this->getResources()->map(fn ($resource): string => str($resource)->afterLast('Resources\\'));
+        return $this->getResources()->map(fn ($resource): string => str($resource)->afterLast('Resources\\'));
     }
 }
