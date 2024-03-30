@@ -45,9 +45,7 @@ class FilamentResourceTestsCommand extends Command
 
     public function handle(): int
     {
-        // Get the available resources
-        $availableResources = $this->getResources()
-            ->map(fn ($resource): string => str($resource)->afterLast('Resources\\'));
+        $availableResources = $this->getAvailableResources();
 
         if (! $this->argument('name')) {
             // Ask the user to select the resource they want to create a test for
@@ -274,6 +272,12 @@ class FilamentResourceTestsCommand extends Command
             ->first(fn ($value): bool => str_contains($value, $resource) && class_exists($value));
 
         return $match ? app()->make($match) : null;
+    }
+
+    // Get the available resources
+    protected function getAvailableResources(): Collection
+    {
+        return $this->getResources()->map(fn ($resource): string => str($resource)->afterLast('Resources\\'));
     }
 
     protected function getSourceFilePath(string $name): string
