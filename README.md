@@ -46,6 +46,7 @@ composer require pestphp/pest --dev --with-all-dependencies
 ```
 
 Make sure you have the following packages installed as well:
+
 ```bash
 composer require pestphp/pest-plugin-livewire --dev
 ```
