@@ -65,7 +65,7 @@ won't be generated.
   - [x] [It can bulk delete records](https://filamentphp.com/docs/3.x/tables/testing#calling-actions)
   - [x] [It can bulk soft delete records](https://filamentphp.com/docs/3.x/tables/testing#calling-actions)
   - [ ] It can restore records
-  - [ ] It can replicate records
+  - [x] It can replicate records
   - [ ] It can force delete records
   - [ ] It can filter table records
   - [ ] It can reset table filters
