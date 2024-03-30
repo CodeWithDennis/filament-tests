@@ -94,9 +94,16 @@ class FilamentResourceTestsCommand extends Command
         return self::SUCCESS;
     }
 
-    protected function getTableColumns(Resource $resource): Collection
+    protected function getIndividuallySearchableColumns(Resource $resource): Collection
     {
-        return collect($this->getResourceTable($resource)->getColumns());
+        return $this->getTableColumns($resource)
+            ->filter(fn ($column) => $column->isIndividuallySearchable());
+    }
+
+    protected function getInitiallyVisibleColumns(Resource $resource): Collection
+    {
+        return $this->getTableColumns($resource)
+            ->filter(fn ($column) => ! $column->isToggledHiddenByDefault());
     }
 
     protected function getSearchableColumns(Resource $resource): Collection
@@ -111,10 +118,9 @@ class FilamentResourceTestsCommand extends Command
             ->filter(fn ($column) => $column->isSortable());
     }
 
-    protected function getIndividuallySearchableColumns(Resource $resource): Collection
+    protected function getTableColumns(Resource $resource): Collection
     {
-        return $this->getTableColumns($resource)
-            ->filter(fn ($column) => $column->isIndividuallySearchable());
+        return collect($this->getResourceTable($resource)->getColumns());
     }
 
     protected function getToggleableColumns(Resource $resource): Collection
@@ -127,17 +133,6 @@ class FilamentResourceTestsCommand extends Command
     {
         return $this->getTableColumns($resource)
             ->filter(fn ($column) => $column->isToggledHiddenByDefault());
-    }
-
-    protected function getInitiallyVisibleColumns(Resource $resource): Collection
-    {
-        return $this->getTableColumns($resource)
-            ->filter(fn ($column) => ! $column->isToggledHiddenByDefault());
-    }
-
-    protected function hasSoftDeletes(Resource $resource): bool
-    {
-        return method_exists($resource->getModel(), 'bootSoftDeletes');
     }
 
     protected function getResourceTableActions(Resource $resource): Collection
@@ -155,6 +150,11 @@ class FilamentResourceTestsCommand extends Command
         return collect($table->getFilters());
     }
 
+    protected function hasSoftDeletes(Resource $resource): bool
+    {
+        return method_exists($resource->getModel(), 'bootSoftDeletes');
+    }
+
     protected function hasTableAction(string $action, Resource $resource): bool
     {
         return $this->getResourceTableActions($resource)->map(fn ($action) => $action->getName())->contains($action);
@@ -168,6 +168,121 @@ class FilamentResourceTestsCommand extends Command
     protected function hasTableFilter(string $filter, Table $table): bool
     {
         return $this->getResourceTableFilters($table)->map(fn ($filter) => $filter->getName())->contains($filter);
+    }
+
+    protected function getAvailableResources(): Collection
+    {
+        return $this->getResources()->map(fn ($resource): string => str($resource)->afterLast('Resources\\'));
+    }
+
+    protected function getResourceClass(string $resource): ?Resource
+    {
+        $match = $this->getResources()
+            ->first(fn ($value): bool => str_contains($value, $resource) && class_exists($value));
+
+        return $match ? app()->make($match) : null;
+    }
+
+    protected function getResourceCreateFields(Resource $resource): array
+    {
+        return $this->getResourceCreateForm($resource)->getFlatFields();
+    }
+
+    protected function getResourceCreateForm(Resource $resource): Form
+    {
+        $livewire = app('livewire')->new(CreateRecord::class);
+
+        return $resource::form(new Form($livewire));
+    }
+
+    protected function getResourceEditFields(Resource $resource): array
+    {
+        return $this->getResourceEditForm($resource)->getFlatFields();
+    }
+
+    protected function getResourceEditForm(Resource $resource): Form
+    {
+        $livewire = app('livewire')->new(EditRecord::class);
+
+        return $resource::form(new Form($livewire));
+    }
+
+    protected function getResourceRequiredCreateFields(Resource $resource): Collection
+    {
+        return collect($this->getResourceCreateForm($resource)->getFlatFields())
+            ->filter(fn ($field) => $field->isRequired());
+    }
+
+    protected function getResourceRequiredEditFields(Resource $resource): Collection
+    {
+        return collect($this->getResourceEditForm($resource)->getFlatFields())
+            ->filter(fn ($field) => $field->isRequired());
+    }
+
+    protected function getResourceTable(Resource $resource): Table
+    {
+        $livewire = app('livewire')->new(ListRecords::class);
+
+        return $resource::table(new Table($livewire));
+    }
+
+    protected function getResources(): Collection
+    {
+        return collect(Filament::getResources());
+    }
+
+    protected function getSourceFile(Resource $resource): array|bool|string
+    {
+        $contents = '';
+
+        foreach ($this->getStubs($resource) as $stub) {
+            $contents .= $this->getStubContents(__DIR__.'/../../stubs/'.$stub.'.stub', $this->getStubVariables($resource));
+        }
+
+        return $contents;
+    }
+
+    protected function getSourceFilePath(string $name): string
+    {
+        $directory = trim(config('filament-resource-tests.directory_name'), '/');
+
+        if (config('filament-resource-tests.separate_tests_into_folders')) {
+            $directory .= DIRECTORY_SEPARATOR.$name;
+        }
+
+        return $directory.DIRECTORY_SEPARATOR.$name.'Test.php';
+    }
+
+    protected function getStubContents(string $stub, array $stubVariables = []): array|bool|string
+    {
+        $contents = file_get_contents($stub);
+
+        foreach ($stubVariables as $search => $replace) {
+            $contents = str_replace('$'.$search.'$', $replace, $contents);
+        }
+
+        return $contents.PHP_EOL;
+    }
+
+    protected function getStubVariables(Resource $resource): array // TODO: This part is a bit messy, maybe refactor it
+    {
+        $resourceModel = $resource->getModel();
+        $userModel = User::class;
+        $modelImport = $resourceModel === $userModel ? "use {$resourceModel};" : "use {$resourceModel};\nuse {$userModel};";
+
+        return [
+            'RESOURCE' => str($resource::class)->afterLast('\\'),
+            'MODEL_IMPORT' => $modelImport,
+            'MODEL_SINGULAR_NAME' => str($resourceModel)->afterLast('\\'),
+            'MODEL_PLURAL_NAME' => str($resourceModel)->afterLast('\\')->plural(),
+            'RESOURCE_TABLE_COLUMNS' => $this->convertDoubleQuotedArrayString($this->getTableColumns($resource)->keys()),
+            'RESOURCE_TABLE_COLUMNS_INITIALLY_VISIBLE' => $this->convertDoubleQuotedArrayString($this->getInitiallyVisibleColumns($resource)->keys()),
+            'RESOURCE_TABLE_COLUMNS_TOGGLED_HIDDEN_BY_DEFAULT' => $this->convertDoubleQuotedArrayString($this->getToggledHiddenByDefaultColumns($resource)->keys()),
+            'RESOURCE_TABLE_TOGGLEABLE_COLUMNS' => $this->convertDoubleQuotedArrayString($this->getToggleableColumns($resource)->keys()),
+            'RESOURCE_TABLE_SORTABLE_COLUMNS' => $this->convertDoubleQuotedArrayString($this->getSortableColumns($resource)->keys()),
+            'RESOURCE_TABLE_SEARCHABLE_COLUMNS' => $this->convertDoubleQuotedArrayString($this->getSearchableColumns($resource)->keys()),
+            'RESOURCE_TABLE_INDIVIDUALLY_SEARCHABLE_COLUMNS' => $this->convertDoubleQuotedArrayString($this->getIndividuallySearchableColumns($resource)->keys()),
+        ];
     }
 
     protected function getStubs(Resource $resource): array
@@ -246,136 +361,11 @@ class FilamentResourceTestsCommand extends Command
         return $stubs;
     }
 
-    protected function getResources(): Collection
-    {
-        return collect(Filament::getResources());
-    }
-
-    protected function getResourceClass(string $resource): ?Resource
-    {
-        $match = $this->getResources()
-            ->first(fn ($value): bool => str_contains($value, $resource) && class_exists($value));
-
-        return $match ? app()->make($match) : null;
-    }
-
-    // Get the available resources
-    protected function getAvailableResources(): Collection
-    {
-        return $this->getResources()->map(fn ($resource): string => str($resource)->afterLast('Resources\\'));
-    }
-
-    protected function getSourceFilePath(string $name): string
-    {
-        $directory = trim(config('filament-resource-tests.directory_name'), '/');
-
-        if (config('filament-resource-tests.separate_tests_into_folders')) {
-            $directory .= DIRECTORY_SEPARATOR.$name;
-        }
-
-        return $directory.DIRECTORY_SEPARATOR.$name.'Test.php';
-    }
-
-    protected function makeDirectory($path): string
-    {
-        if (! $this->files->isDirectory($path)) {
-            $this->files->makeDirectory($path, 0777, true, true);
-        }
-
-        return $path;
-    }
-
-    protected function getSourceFile(Resource $resource): array|bool|string
-    {
-        $contents = '';
-
-        foreach ($this->getStubs($resource) as $stub) {
-            $contents .= $this->getStubContents(__DIR__.'/../../stubs/'.$stub.'.stub', $this->getStubVariables($resource));
-        }
-
-        return $contents;
-    }
-
-    protected function getStubContents(string $stub, array $stubVariables = []): array|bool|string
-    {
-        $contents = file_get_contents($stub);
-
-        foreach ($stubVariables as $search => $replace) {
-            $contents = str_replace('$'.$search.'$', $replace, $contents);
-        }
-
-        return $contents.PHP_EOL;
-    }
-
-    protected function getResourceRequiredCreateFields(Resource $resource): Collection
-    {
-        return collect($this->getResourceCreateForm($resource)->getFlatFields())
-            ->filter(fn ($field) => $field->isRequired());
-    }
-
-    protected function getResourceRequiredEditFields(Resource $resource): Collection
-    {
-        return collect($this->getResourceEditForm($resource)->getFlatFields())
-            ->filter(fn ($field) => $field->isRequired());
-    }
-
-    protected function getResourceCreateFields(Resource $resource): array
-    {
-        return $this->getResourceCreateForm($resource)->getFlatFields();
-    }
-
-    protected function getResourceEditFields(Resource $resource): array
-    {
-        return $this->getResourceEditForm($resource)->getFlatFields();
-    }
-
-    protected function getResourceEditForm(Resource $resource): Form
-    {
-        $livewire = app('livewire')->new(EditRecord::class);
-
-        return $resource::form(new Form($livewire));
-    }
-
-    protected function getResourceCreateForm(Resource $resource): Form
-    {
-        $livewire = app('livewire')->new(CreateRecord::class);
-
-        return $resource::form(new Form($livewire));
-    }
-
-    protected function getResourceTable(Resource $resource): Table
-    {
-        $livewire = app('livewire')->new(ListRecords::class);
-
-        return $resource::table(new Table($livewire));
-    }
-
     protected function convertDoubleQuotedArrayString(string $string): string
     {
         return str($string)
             ->replace('"', '\'')
             ->replace(',', ', ');
-    }
-
-    protected function getStubVariables(Resource $resource): array // TODO: This part is a bit messy, maybe refactor it
-    {
-        $resourceModel = $resource->getModel();
-        $userModel = User::class;
-        $modelImport = $resourceModel === $userModel ? "use {$resourceModel};" : "use {$resourceModel};\nuse {$userModel};";
-
-        return [
-            'RESOURCE' => str($resource::class)->afterLast('\\'),
-            'MODEL_IMPORT' => $modelImport,
-            'MODEL_SINGULAR_NAME' => str($resourceModel)->afterLast('\\'),
-            'MODEL_PLURAL_NAME' => str($resourceModel)->afterLast('\\')->plural(),
-            'RESOURCE_TABLE_COLUMNS' => $this->convertDoubleQuotedArrayString($this->getTableColumns($resource)->keys()),
-            'RESOURCE_TABLE_COLUMNS_INITIALLY_VISIBLE' => $this->convertDoubleQuotedArrayString($this->getInitiallyVisibleColumns($resource)->keys()),
-            'RESOURCE_TABLE_COLUMNS_TOGGLED_HIDDEN_BY_DEFAULT' => $this->convertDoubleQuotedArrayString($this->getToggledHiddenByDefaultColumns($resource)->keys()),
-            'RESOURCE_TABLE_TOGGLEABLE_COLUMNS' => $this->convertDoubleQuotedArrayString($this->getToggleableColumns($resource)->keys()),
-            'RESOURCE_TABLE_SORTABLE_COLUMNS' => $this->convertDoubleQuotedArrayString($this->getSortableColumns($resource)->keys()),
-            'RESOURCE_TABLE_SEARCHABLE_COLUMNS' => $this->convertDoubleQuotedArrayString($this->getSearchableColumns($resource)->keys()),
-            'RESOURCE_TABLE_INDIVIDUALLY_SEARCHABLE_COLUMNS' => $this->convertDoubleQuotedArrayString($this->getIndividuallySearchableColumns($resource)->keys()),
-        ];
     }
 
     protected function getNormalizedResourceName(string $name): string
@@ -387,5 +377,14 @@ class FilamentResourceTestsCommand extends Command
         }
 
         return $name;
+    }
+
+    protected function makeDirectory($path): string
+    {
+        if (! $this->files->isDirectory($path)) {
+            $this->files->makeDirectory($path, 0777, true, true);
+        }
+
+        return $path;
     }
 }
