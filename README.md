@@ -118,6 +118,25 @@ You can also run all your tests except the ones for this package by running the 
 vendor/bin/pest --exclude-group=filament-resource-tests
 ```
 
+## Available variables inside stubs
+
+All variables that are being replaced in the stubs are surrounded by `$` signs and are UPPERCASED.
+
+| Name                  | Description                                                                                           | Type     | Example                | Additional Context                                                             |
+|-----------------------|-------------------------------------------------------------------------------------------------------|----------|------------------------|--------------------------------------------------------------------------------|
+| `$RESOURCE$` | Outputs the resource name                                                                             | `string` | `BlogResource`         | -                                                                              |
+| `$MODEL_IMPORT$`        | Outputs the given model including the use statement and closing semicolon                             | `string` | `use App\Models\Blog;` | -                                                                              |
+| `$MODEL_SINGULAR_NAME$` | Outputs the singular name of the model                                                                | `string` | `Blog`                 | -                                                                              |
+| `$MODEL_PLURAL_NAME$`   | Outputs the plural name of the model                                                                  | `string` | `Blogs`                | -                                                                              |
+| `$RESOURCE_TABLE_COLUMNS$` | Outputs the table columns for the resource                                                            | `array`  | `[...columns]`         | -                                                                              |
+| `$RESOURCE_TABLE_COLUMNS_INITIALLY_VISIBLE$` | Outputs the table columns that are initially  _(isToggledHiddenByDefault: false)_ for the resource    | `array`  | `[...columns]`         | -                                                                              |
+|`$RESOURCE_TABLE_COLUMNS_TOGGLED_HIDDEN_BY_DEFAULT$` | Outputs the table columns that are initially hidden _(isToggledHiddenByDefault: true)_ for the resource | `array`  | `[...columns]`         | `->toggleable(isToggledHiddenByDefault: true)` \| `->toggledHiddenByDefault()` |
+|`$RESOURCE_TABLE_TOGGLEABLE_COLUMNS$` | Outputs the table columns that can be toggled _(isToggleable: true)_ for the resource                 | `array`  | `[...columns]`         | `->toggleable()`                                                               |
+|`$RESOURCE_TABLE_SORTABLE_COLUMNS$` | Outputs the table columns that can be sorted _(isSortable: true)_ for the resource                    | `array`  | `[...columns]`         | `->sortable()`                                                                 |
+|`$RESOURCE_TABLE_SEARCHABLE_COLUMNS$` | Outputs the table columns that can be searched for the resource                     | `array`  | `[...columns]`         | `->searchable()`                                                               |
+|`$RESOURCE_TABLE_INDIVIDUALLY_SEARCHABLE_COLUMNS$` | Outputs the table columns that can be individually searched for the resource                     | `array`  | `[...columns]`         | `->searchable(isIndividual: true)`                                                               |
+
+
 ## Credits
 
 - [CodeWithDennis](https://github.com/CodeWithDennis)
