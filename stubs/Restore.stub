@@ -6,8 +6,10 @@ it('can restore records', function () {
 
     livewire(List$MODEL_PLURAL_NAME$::class)
         ->filterTable('trashed', true)
-        ->callTableAction(ReplicateAction::class, $record);
+        ->assertCanSeeTableRecords([$record])
+        ->callTableAction(RestoreAction::class, $record);
 
-     expect(! $record->trashed())->toBeFalse();
+     expect($record->refresh()->trashed())->toBeFalse();
 });
 
+    
