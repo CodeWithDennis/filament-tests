@@ -2,5 +2,5 @@ it('can render view action', function () {
     $record = $MODEL_SINGULAR_NAME$::factory()->create();
 
     livewire(List$MODEL_PLURAL_NAME$::class)
-        ->callTableAction(ViewAction::class, $record);;
+        ->callTableAction(ViewAction::class, $record);
 })->todo();
