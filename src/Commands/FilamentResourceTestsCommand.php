@@ -373,7 +373,7 @@ class FilamentResourceTestsCommand extends Command
             'RESOURCE_TABLE_INDIVIDUALLY_SEARCHABLE_COLUMNS' => $this->getIndividuallySearchableColumns($resource)->keys(),
         ];
 
-        $converted = array_map(function($value) {
+        $converted = array_map(function ($value) {
             return $this->convertDoubleQuotedArrayString($value);
         }, $toBeConverted);
 
