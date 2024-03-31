@@ -360,25 +360,32 @@ class FilamentResourceTestsCommand extends Command
             ->replace(',', ', ');
     }
 
-    protected function getStubVariables(Resource $resource): array // TODO: This part is a bit messy, maybe refactor it
+    protected function getStubVariables(Resource $resource): array
     {
         $resourceModel = $resource->getModel();
         $userModel = User::class;
         $modelImport = $resourceModel === $userModel ? "use {$resourceModel};" : "use {$resourceModel};\nuse {$userModel};";
 
-        return [
+        $toBeConverted = [
+            'RESOURCE_TABLE_COLUMNS' => $this->getTableColumns($resource)->keys(),
+            'RESOURCE_TABLE_COLUMNS_INITIALLY_VISIBLE' => $this->getInitiallyVisibleColumns($resource)->keys(),
+            'RESOURCE_TABLE_COLUMNS_TOGGLED_HIDDEN_BY_DEFAULT' => $this->getToggledHiddenByDefaultColumns($resource)->keys(),
+            'RESOURCE_TABLE_TOGGLEABLE_COLUMNS' => $this->getToggleableColumns($resource)->keys(),
+            'RESOURCE_TABLE_SORTABLE_COLUMNS' => $this->getSortableColumns($resource)->keys(),
+            'RESOURCE_TABLE_SEARCHABLE_COLUMNS' => $this->getSearchableColumns($resource)->keys(),
+            'RESOURCE_TABLE_INDIVIDUALLY_SEARCHABLE_COLUMNS' => $this->getIndividuallySearchableColumns($resource)->keys(),
+        ];
+
+        $converted = array_map(function ($value) {
+            return $this->convertDoubleQuotedArrayString($value);
+        }, $toBeConverted);
+
+        return array_merge([
             'RESOURCE' => str($resource::class)->afterLast('\\'),
             'MODEL_IMPORT' => $modelImport,
             'MODEL_SINGULAR_NAME' => str($resourceModel)->afterLast('\\'),
             'MODEL_PLURAL_NAME' => str($resourceModel)->afterLast('\\')->plural(),
-            'RESOURCE_TABLE_COLUMNS' => $this->convertDoubleQuotedArrayString($this->getTableColumns($resource)->keys()),
-            'RESOURCE_TABLE_COLUMNS_INITIALLY_VISIBLE' => $this->convertDoubleQuotedArrayString($this->getInitiallyVisibleColumns($resource)->keys()),
-            'RESOURCE_TABLE_COLUMNS_TOGGLED_HIDDEN_BY_DEFAULT' => $this->convertDoubleQuotedArrayString($this->getToggledHiddenByDefaultColumns($resource)->keys()),
-            'RESOURCE_TABLE_TOGGLEABLE_COLUMNS' => $this->convertDoubleQuotedArrayString($this->getToggleableColumns($resource)->keys()),
-            'RESOURCE_TABLE_SORTABLE_COLUMNS' => $this->convertDoubleQuotedArrayString($this->getSortableColumns($resource)->keys()),
-            'RESOURCE_TABLE_SEARCHABLE_COLUMNS' => $this->convertDoubleQuotedArrayString($this->getSearchableColumns($resource)->keys()),
-            'RESOURCE_TABLE_INDIVIDUALLY_SEARCHABLE_COLUMNS' => $this->convertDoubleQuotedArrayString($this->getIndividuallySearchableColumns($resource)->keys()),
-        ];
+        ], $converted);
     }
 
     protected function getNormalizedResourceName(string $name): string
