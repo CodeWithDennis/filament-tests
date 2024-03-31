@@ -390,12 +390,6 @@ class FilamentResourceTestsCommand extends Command
 
     protected function getNormalizedResourceName(string $name): string
     {
-        $name = ucfirst($name);
-
-        if (! str_contains($name, 'Resource')) {
-            $name .= 'Resource';
-        }
-
-        return $name;
+        return str($name)->ucfirst()->finish('Resource');
     }
 }
