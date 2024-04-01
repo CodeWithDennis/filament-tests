@@ -1,0 +1,8 @@
+it('has the correct descriptions above and below', function (string $column, string $description, string $position) {
+
+   $record = $MODEL_SINGULAR_NAME$::factory()->create();
+
+    livewire(List$MODEL_PLURAL_NAME$::class)
+        ->assertTableColumnHasDescription($column, $description, $record, $position)
+        ->assertTableColumnDoesNotHaveDescription($column, $description, $record, ($position === 'above') ? 'below' : 'above');
+})->with($RESOURCE_TABLE_COLUMNS_DESCRIPTIONS$);
