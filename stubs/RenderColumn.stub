@@ -1,9 +1,7 @@
-describe('column rendering', function(){
-    it('can render column', function (string $column) {
-        livewire(List$MODEL_PLURAL_NAME$::class)->assertCanRenderTableColumn($column);
-    })->with($RESOURCE_TABLE_COLUMNS_INITIALLY_VISIBLE$);
+it('can render column', function (string $column) {
+    livewire(List$MODEL_PLURAL_NAME$::class)->assertCanRenderTableColumn($column);
+})->with($RESOURCE_TABLE_COLUMNS_INITIALLY_VISIBLE$);
 
-    it('cannot render column', function (string $column) {
-        livewire(List$MODEL_PLURAL_NAME$::class)->assertCanNotRenderTableColumn($column);
-    })->with($RESOURCE_TABLE_COLUMNS_TOGGLED_HIDDEN_BY_DEFAULT$);
-});
+it('cannot render column', function (string $column) {
+    livewire(List$MODEL_PLURAL_NAME$::class)->assertCanNotRenderTableColumn($column);
+})->with($RESOURCE_TABLE_COLUMNS_TOGGLED_HIDDEN_BY_DEFAULT$);
