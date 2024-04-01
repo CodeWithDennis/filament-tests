@@ -290,7 +290,13 @@ class FilamentResourceTestsCommand extends Command
         $contents = '';
 
         foreach ($this->getStubs($resource) as $stub) {
-            $contents .= $this->getStubContents(__DIR__.'/../../stubs/'.$stub.'.stub', $this->getStubVariables($resource));
+
+            // check if the user has published stubs, then use the published stubs otherwise use the package stubs
+            if ($this->files->exists(base_path('stubs/vendor/filament-resource-tests/'.$stub.'.stub'))) {
+                $contents .= $this->getStubContents(base_path('stubs/vendor/filament-resource-tests/'.$stub.'.stub'), $this->getStubVariables($resource));
+            } else {
+                $contents .= $this->getStubContents(__DIR__.'/../../stubs/'.$stub.'.stub', $this->getStubVariables($resource));
+            }
         }
 
         return $contents;
