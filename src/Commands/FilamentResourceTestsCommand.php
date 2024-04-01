@@ -150,16 +150,21 @@ class FilamentResourceTestsCommand extends Command
             ->filter(fn ($column) => $column->getDescriptionBelow());
     }
 
-    protected function getTableColumnDescription(Resource $resource): array
+    protected function getTableColumnDescriptionAbove(Resource $resource): array
     {
-        return $this->getTableColumns($resource)
-            ->filter(fn ($column) => $column->getDescriptionAbove() || $column->getDescriptionBelow())
-            ->mapWithKeys(fn ($column) => [
-                $column->getName() => [
-                    'column' => $column->getName(),
-                    'description' => $column->getDescriptionAbove() ?? $column->getDescriptionBelow(),
-                    'position' => $column->getDescriptionAbove() ? 'above' : 'below',
-                ],
+        return $this->getDescriptionAboveColumns($resource)
+            ->map(fn ($column) => [
+                'column' => $column->getName(),
+                'description' => $column->getDescriptionAbove(),
+            ])->toArray();
+    }
+
+    protected function getTableColumnDescriptionBelow(Resource $resource): array
+    {
+        return $this->getDescriptionBelowColumns($resource)
+            ->map(fn ($column) => [
+                'column' => $column->getName(),
+                'description' => $column->getDescriptionBelow(),
             ])->toArray();
     }
 
@@ -227,8 +232,14 @@ class FilamentResourceTestsCommand extends Command
             $stubs[] = 'IndividuallySearchColumn';
         }
 
-        if ($this->getDescriptionAboveColumns($resource)->isNotEmpty() || $this->getDescriptionBelowColumns($resource)->isNotEmpty()) {
-            $stubs[] = 'Description';
+        // Check if there is a description above
+        if ($this->getDescriptionAboveColumns($resource)->isNotEmpty()) {
+            $stubs[] = 'DescriptionAbove';
+        }
+
+        // Check if there is a description below
+        if ($this->getDescriptionBelowColumns($resource)->isNotEmpty()) {
+            $stubs[] = 'DescriptionBelow';
         }
 
         // Check that trashed columns are not displayed by default
@@ -431,7 +442,8 @@ class FilamentResourceTestsCommand extends Command
             'MODEL_IMPORT' => $modelImport,
             'MODEL_SINGULAR_NAME' => str($resourceModel)->afterLast('\\'),
             'MODEL_PLURAL_NAME' => str($resourceModel)->afterLast('\\')->plural(),
-            'RESOURCE_TABLE_COLUMNS_DESCRIPTIONS' => $this->transformToPestDataset($this->getTableColumnDescription($resource), ['column', 'description', 'position']),
+            'RESOURCE_TABLE_COLUMNS_DESCRIPTIONS_ABOVE' => $this->transformToPestDataset($this->getTableColumnDescriptionAbove($resource), ['column', 'description']),
+            'RESOURCE_TABLE_COLUMNS_DESCRIPTIONS_BELOW' => $this->transformToPestDataset($this->getTableColumnDescriptionBelow($resource), ['column', 'description']),
         ], $converted);
     }
 
