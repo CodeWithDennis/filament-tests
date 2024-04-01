@@ -294,7 +294,7 @@ class FilamentResourceTestsCommand extends Command
             // user defined stubs
             $path = base_path("stubs/vendor/filament-resource-tests/{$stub}.stub");
 
-            if (!$this->files->exists($path)) {
+            if (! $this->files->exists($path)) {
                 // default stubs
                 $path = __DIR__."/../../stubs/{$stub}.stub";
             }
