@@ -153,16 +153,15 @@ class FilamentResourceTestsCommand extends Command
     protected function getTableColumnDescription(Resource $resource): array
     {
         return $this->getTableColumns($resource)
-            ->filter(fn($column) => $column->getDescriptionAbove() || $column->getDescriptionBelow())
-            ->mapWithKeys(fn($column) => [
+            ->filter(fn ($column) => $column->getDescriptionAbove() || $column->getDescriptionBelow())
+            ->mapWithKeys(fn ($column) => [
                 $column->getName() => [
                     'column' => $column->getName(),
                     'description' => $column->getDescriptionAbove() ?? $column->getDescriptionBelow(),
                     'position' => $column->getDescriptionAbove() ? 'above' : 'below',
-                ]
+                ],
             ])->toArray();
     }
-
 
     protected function hasSoftDeletes(Resource $resource): bool
     {
@@ -228,11 +227,9 @@ class FilamentResourceTestsCommand extends Command
             $stubs[] = 'IndividuallySearchColumn';
         }
 
-
         if ($this->getDescriptionAboveColumns($resource)->isNotEmpty() || $this->getDescriptionBelowColumns($resource)->isNotEmpty()) {
             $stubs[] = 'Description';
         }
-
 
         // Check that trashed columns are not displayed by default
         if ($this->hasSoftDeletes($resource) && $this->getTableColumns($resource)->isNotEmpty()) {
@@ -392,7 +389,8 @@ class FilamentResourceTestsCommand extends Command
             ->replace(',', ', ');
     }
 
-    protected function transformToPestDataset(array $source, array $keys): string {
+    protected function transformToPestDataset(array $source, array $keys): string
+    {
         $transformed = [];
 
         foreach ($source as $item) {
@@ -433,7 +431,7 @@ class FilamentResourceTestsCommand extends Command
             'MODEL_IMPORT' => $modelImport,
             'MODEL_SINGULAR_NAME' => str($resourceModel)->afterLast('\\'),
             'MODEL_PLURAL_NAME' => str($resourceModel)->afterLast('\\')->plural(),
-            'RESOURCE_TABLE_COLUMNS_DESCRIPTIONS' => $this->transformToPestDataset($this->getTableColumnDescription($resource), ['column','description', 'position']),
+            'RESOURCE_TABLE_COLUMNS_DESCRIPTIONS' => $this->transformToPestDataset($this->getTableColumnDescription($resource), ['column', 'description', 'position']),
         ], $converted);
     }
 
