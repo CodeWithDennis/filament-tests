@@ -81,6 +81,7 @@ won't be generated.
 
 **Resources**
   - [x] [It can render page](https://filamentphp.com/docs/3.x/tables/testing#render)
+  - [x] [It can not render page](https://filamentphp.com/docs/3.x/tables/testing#render)
   - [x] [It can sort column](https://filamentphp.com/docs/3.x/tables/testing#sorting)
   - [x] [It can render column](https://filamentphp.com/docs/3.x/tables/testing#columns)
   - [x] [It can search column](https://filamentphp.com/docs/3.x/tables/testing#searching)
