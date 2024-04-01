@@ -5,8 +5,11 @@
 
 A package that creates PEST tests specifically tailored for your Filament components.
 
-## This package is still in development and not ready for use.
-### Please do not use it in production.
+## Early development
+
+This package is still in early development. Some features may not be available yet or may not work as expected. If you encounter any issues, please create an [issue](https://github.com/CodeWithDennis/filament-resource-tests/issues) on this repository.
+
+> 🔴 This package is not production-ready yet, use it at your own risk. ⚠️
 
 ## Installation
 You can install the package via composer:
