@@ -118,7 +118,19 @@ You can also run all your tests except the ones for this package by running the 
 vendor/bin/pest --exclude-group=filament-resource-tests
 ```
 
-## Available variables inside stubs
+## Stubs
+
+Filament-Resource-Tests uses stubs to generate the tests. 
+
+### Publishing Stubs
+
+You can customize the stubs by publishing them to your project:
+
+```bash
+php artisan vendor:publish --tag="filament-resource-tests-stubs"
+```
+
+### Available variables inside stubs
 
 All variables that are being replaced in the stubs are surrounded by `$` signs and are UPPERCASED.
 
