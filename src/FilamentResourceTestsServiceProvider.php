@@ -19,7 +19,7 @@ class FilamentResourceTestsServiceProvider extends PackageServiceProvider
     public function boot(): void
     {
         $this->publishes([
-            __DIR__ . '/../stubs' => base_path('stubs/vendor/filament-resource-tests'),
+            __DIR__.'/../stubs' => base_path('stubs/vendor/filament-resource-tests'),
         ], 'filament-resource-tests-stubs');
     }
 }
