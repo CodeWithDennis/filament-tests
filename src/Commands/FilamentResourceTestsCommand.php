@@ -5,6 +5,7 @@ namespace CodeWithDennis\FilamentResourceTests\Commands;
 use App\Models\User;
 use Filament\Facades\Filament;
 use Filament\Forms\Form;
+use Filament\Pages\Auth\Login;
 use Filament\Resources\Pages\CreateRecord;
 use Filament\Resources\Pages\EditRecord;
 use Filament\Resources\Pages\ListRecords;
@@ -138,6 +139,11 @@ class FilamentResourceTestsCommand extends Command
             ->filter(fn ($column) => ! $column->isToggledHiddenByDefault());
     }
 
+    protected function getLoginPage(): ?Login
+    {
+        return app(Login::class);
+    }
+
     protected function hasSoftDeletes(Resource $resource): bool
     {
         return method_exists($resource->getModel(), 'bootSoftDeletes');
@@ -200,6 +206,11 @@ class FilamentResourceTestsCommand extends Command
         // Check if there are individually searchable columns
         if ($this->getIndividuallySearchableColumns($resource)->isNotEmpty()) {
             $stubs[] = 'IndividuallySearchColumn';
+        }
+
+        // Check if there is a login page
+        if ($this->getLoginPage()) {
+            $stubs[] = 'Login';
         }
 
         // Check that trashed columns are not displayed by default

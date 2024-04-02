@@ -1,6 +1,7 @@
 <?php
 
 use App\Filament\Resources\{{ RESOURCE }}\Pages\List{{ MODEL_PLURAL_NAME }};
+use Filament\Pages\Auth\Login;
 use Filament\Tables\Actions\DeleteAction;
 use Filament\Tables\Actions\DeleteBulkAction;
 use Filament\Tables\Actions\RestoreAction;

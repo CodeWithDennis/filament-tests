@@ -1,0 +1,9 @@
+it('can render the login page', function () {
+    livewire(Login::class)
+        ->assertRedirect(route('filament.app.pages.dashboard'));
+
+    Auth::logout();
+
+    livewire(Login::class)
+        ->assertSuccessful();
+})->group('rendering');
