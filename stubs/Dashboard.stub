@@ -1,4 +1,4 @@
-it('can render the dashboard', function () {
-    livewire(\App\Filament\Pages\Dashboard::class)
+it('can render the dashboard', function (string $dashboard) {
+    get($dashboard::getUrl())
         ->assertSuccessful();
-});
+})->with($DASHBOARD_PAGES$);

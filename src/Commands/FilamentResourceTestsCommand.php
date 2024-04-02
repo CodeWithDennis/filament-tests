@@ -173,9 +173,11 @@ class FilamentResourceTestsCommand extends Command
         return $this->getResourceTableFilters($table)->map(fn ($filter) => $filter->getName())->contains($filter);
     }
 
-    protected function hasDashboardPage(): bool
+    protected function getDashboards(): Collection
     {
-        return class_exists('App\\Filament\\Pages\\Dashboard');
+        return collect(Filament::getPages())
+            ->filter(fn ($page) => is_subclass_of($page, 'Filament\Pages\Dashboard'))
+            ->values();
     }
 
     protected function getStubs(Resource $resource): array
@@ -193,7 +195,7 @@ class FilamentResourceTestsCommand extends Command
         }
 
         // Check if there is a dashboard page
-        if ($this->hasDashboardPage()) {
+        if ($this->getDashboards()->isNotEmpty()) {
             $stubs[] = 'Dashboard';
         }
 
@@ -367,7 +369,8 @@ class FilamentResourceTestsCommand extends Command
     {
         return str($string)
             ->replace('"', '\'')
-            ->replace(',', ', ');
+            ->replace(',', ', ')
+            ->replace('\\\\', '\\');
     }
 
     protected function getStubVariables(Resource $resource): array
@@ -384,6 +387,7 @@ class FilamentResourceTestsCommand extends Command
             'RESOURCE_TABLE_SORTABLE_COLUMNS' => $this->getSortableColumns($resource)->keys(),
             'RESOURCE_TABLE_SEARCHABLE_COLUMNS' => $this->getSearchableColumns($resource)->keys(),
             'RESOURCE_TABLE_INDIVIDUALLY_SEARCHABLE_COLUMNS' => $this->getIndividuallySearchableColumns($resource)->keys(),
+            'DASHBOARD_PAGES' => $this->getDashboards(),
         ];
 
         $converted = array_map(function ($value) {
