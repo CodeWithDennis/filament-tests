@@ -139,7 +139,7 @@ class FilamentResourceTestsCommand extends Command
             ->filter(fn ($column) => ! $column->isToggledHiddenByDefault());
     }
 
-    protected function getLoginPage(): ?Login
+    protected function getLoginPage(): Login
     {
         return app(Login::class);
     }
