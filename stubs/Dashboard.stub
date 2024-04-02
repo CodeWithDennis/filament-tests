@@ -1,4 +1,5 @@
 it('can render the dashboard', function (string $dashboard) {
     get($dashboard::getUrl())
         ->assertSuccessful();
-})->with($DASHBOARD_PAGES$);
+})->with($DASHBOARD_PAGES$)
+    ->group('table', 'rendering');
