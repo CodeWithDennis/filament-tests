@@ -1,4 +1,4 @@
 it('has column', function (string $column) {
-    livewire(List$MODEL_PLURAL_NAME$::class)
+    livewire(List{{ MODEL_PLURAL_NAME }}::class)
         ->assertTableColumnExists($column);
-})->with($RESOURCE_TABLE_COLUMNS$);
+})->with({{ RESOURCE_TABLE_COLUMNS }});
