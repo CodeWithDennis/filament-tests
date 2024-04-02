@@ -2,4 +2,18 @@ it('can render the dashboard', function (string $dashboard) {
     get($dashboard::getUrl())
         ->assertSuccessful();
 })->with({{ DASHBOARD_PAGES }})
-    ->group('table', 'rendering');
+    ->group('rendering');
+
+it('can render the dashboard heading', function (string $dashboard) {
+    get($dashboard::getUrl())
+        ->assertSuccessful()
+        ->assertSee(app($dashboard)->getHeading());
+})->with({{ DASHBOARD_PAGES }})
+    ->group('rendering');
+
+it('can render the dashboard subheading', function (string $dashboard) {
+    get($dashboard::getUrl())
+        ->assertSuccessful()
+        ->assertSee(app($dashboard)->getSubheading());
+})->with({{ DASHBOARD_PAGES }})
+    ->group('rendering');
