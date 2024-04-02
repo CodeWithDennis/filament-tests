@@ -97,6 +97,16 @@ class FilamentResourceTestsCommand extends Command
         return self::SUCCESS;
     }
 
+    protected function getResourcePages(Resource $resource): Collection
+    {
+        return collect($resource::getPages())->keys();
+    }
+
+    protected function hasPage(string $name, Resource $resource): bool
+    {
+        return $this->getResourcePages($resource)->contains($name);
+    }
+
     protected function getTableColumns(Resource $resource): Collection
     {
         return collect($this->getResourceTable($resource)->getColumns());
@@ -180,6 +190,11 @@ class FilamentResourceTestsCommand extends Command
 
         // Base stubs that are always included
         $stubs = ['Base', 'RenderPage'];
+
+        // Check if there is a create page
+        if ($this->hasPage('create', $resource)) {
+            $stubs[] = 'Create';
+        }
 
         // Add additional stubs based on the columns
         if ($this->getTableColumns($resource)->isNotEmpty()) {
