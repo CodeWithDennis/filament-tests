@@ -41,20 +41,18 @@ class FilamentResourceTestsCommand extends Command
 
             $resourceNames = explode(',', $onlyOption);
             $normalizedResourceNames = collect($resourceNames)
-                ->map(fn($resource) => $this->getNormalizedResourceName($resource));
+                ->map(fn ($resource) => $this->getNormalizedResourceName($resource));
 
             $selectedResources = $availableResources
-                ->reject(fn($resource) => ! $normalizedResourceNames->contains($resource));
-        }
-        elseif ($exceptOption = $this->option('except')) {
+                ->reject(fn ($resource) => ! $normalizedResourceNames->contains($resource));
+        } elseif ($exceptOption = $this->option('except')) {
             $resourceNames = explode(',', $exceptOption);
             $normalizedResourceNames = collect($resourceNames)
-                ->map(fn($resource) => $this->getNormalizedResourceName($resource));
+                ->map(fn ($resource) => $this->getNormalizedResourceName($resource));
 
             $selectedResources = $availableResources
-                ->reject(fn($resource) => $normalizedResourceNames->contains($resource));
-        }
-        elseif ($nameOption = $this->argument('name')) {
+                ->reject(fn ($resource) => $normalizedResourceNames->contains($resource));
+        } elseif ($nameOption = $this->argument('name')) {
 
             $resourceName = $this->getNormalizedResourceName($nameOption);
 
@@ -62,6 +60,7 @@ class FilamentResourceTestsCommand extends Command
                 $selectedResources = collect([$availableResources->search($nameOption) => $resourceName]);
             } else {
                 $this->error("The resource {$nameOption} does not exist.");
+
                 return self::FAILURE;
             }
         } else {
@@ -72,18 +71,18 @@ class FilamentResourceTestsCommand extends Command
                 required: true,
             );
             $selectedResources = is_numeric($options[0] ?? null)
-                ? collect($options)->mapWithKeys(fn($index) => [
+                ? collect($options)->mapWithKeys(fn ($index) => [
                     $availableResources->keys()->get($index) => $availableResources->get($availableResources->keys()->get($index)),
                 ])
                 : $options;
         }
 
-        $selectedResources->each(function ($resource) use ($availableResources) {
+        $selectedResources->each(function ($resource) {
             $path = $this->getSourceFilePath($resource);
 
             // overwrite silently if --force is used
-            if (!$this->option('force') && $this->files->exists($path)) {
-                if (!confirm("The test for {$resource} already exists. Do you want to overwrite it?")) {
+            if (! $this->option('force') && $this->files->exists($path)) {
+                if (! confirm("The test for {$resource} already exists. Do you want to overwrite it?")) {
                     return;
                 }
             }
@@ -95,8 +94,6 @@ class FilamentResourceTestsCommand extends Command
 
         return self::SUCCESS;
     }
-
-
 
     protected function getTableColumns(Resource $resource): Collection
     {
