@@ -1,3 +1,3 @@
 it('can render the create page', function () {
-   get(Create$MODEL_SINGULAR_NAME$::class::getUrl())->assertSuccessful();
+   get(Create{{ MODEL_SINGULAR_NAME }}::class::getUrl())->assertSuccessful();
 })->group('rendering');
