@@ -19,7 +19,10 @@ use function Laravel\Prompts\multiselect;
 
 class FilamentResourceTestsCommand extends Command
 {
-    protected $signature = 'make:filament-resource-test {name? : The name of the resource} {--f|force : Force overwrite the existing test} {--a|all : Create tests for all Filament resources}';
+    protected $signature = 'make:filament-resource-test
+                            {name? : The name of the resource}
+                            {--a|all : Create tests for all Filament resources}
+                            {--f|force : Force overwrite the existing test}';
 
     protected $description = 'Create tests for a Filament components';
 
@@ -306,9 +309,9 @@ class FilamentResourceTestsCommand extends Command
         $contents = file_get_contents($stub);
 
         foreach ($stubVariables as $search => $replace) {
-            $contents = str_replace('$'.$search.'$', $replace, $contents);
+            $contents = preg_replace("/\{\{\s*{$search}\s*\}\}/", $replace, $contents);
         }
-
+        
         return $contents.PHP_EOL;
     }
 
@@ -362,35 +365,36 @@ class FilamentResourceTestsCommand extends Command
             ->replace(',', ', ');
     }
 
-    protected function getStubVariables(Resource $resource): array // TODO: This part is a bit messy, maybe refactor it
+    protected function getStubVariables(Resource $resource): array
     {
         $resourceModel = $resource->getModel();
         $userModel = User::class;
         $modelImport = $resourceModel === $userModel ? "use {$resourceModel};" : "use {$resourceModel};\nuse {$userModel};";
 
-        return [
+        $toBeConverted = [
+            'RESOURCE_TABLE_COLUMNS' => $this->getTableColumns($resource)->keys(),
+            'RESOURCE_TABLE_COLUMNS_INITIALLY_VISIBLE' => $this->getInitiallyVisibleColumns($resource)->keys(),
+            'RESOURCE_TABLE_COLUMNS_TOGGLED_HIDDEN_BY_DEFAULT' => $this->getToggledHiddenByDefaultColumns($resource)->keys(),
+            'RESOURCE_TABLE_TOGGLEABLE_COLUMNS' => $this->getToggleableColumns($resource)->keys(),
+            'RESOURCE_TABLE_SORTABLE_COLUMNS' => $this->getSortableColumns($resource)->keys(),
+            'RESOURCE_TABLE_SEARCHABLE_COLUMNS' => $this->getSearchableColumns($resource)->keys(),
+            'RESOURCE_TABLE_INDIVIDUALLY_SEARCHABLE_COLUMNS' => $this->getIndividuallySearchableColumns($resource)->keys(),
+        ];
+
+        $converted = array_map(function ($value) {
+            return $this->convertDoubleQuotedArrayString($value);
+        }, $toBeConverted);
+
+        return array_merge([
             'RESOURCE' => str($resource::class)->afterLast('\\'),
             'MODEL_IMPORT' => $modelImport,
             'MODEL_SINGULAR_NAME' => str($resourceModel)->afterLast('\\'),
             'MODEL_PLURAL_NAME' => str($resourceModel)->afterLast('\\')->plural(),
-            'RESOURCE_TABLE_COLUMNS' => $this->convertDoubleQuotedArrayString($this->getTableColumns($resource)->keys()),
-            'RESOURCE_TABLE_COLUMNS_INITIALLY_VISIBLE' => $this->convertDoubleQuotedArrayString($this->getInitiallyVisibleColumns($resource)->keys()),
-            'RESOURCE_TABLE_COLUMNS_TOGGLED_HIDDEN_BY_DEFAULT' => $this->convertDoubleQuotedArrayString($this->getToggledHiddenByDefaultColumns($resource)->keys()),
-            'RESOURCE_TABLE_TOGGLEABLE_COLUMNS' => $this->convertDoubleQuotedArrayString($this->getToggleableColumns($resource)->keys()),
-            'RESOURCE_TABLE_SORTABLE_COLUMNS' => $this->convertDoubleQuotedArrayString($this->getSortableColumns($resource)->keys()),
-            'RESOURCE_TABLE_SEARCHABLE_COLUMNS' => $this->convertDoubleQuotedArrayString($this->getSearchableColumns($resource)->keys()),
-            'RESOURCE_TABLE_INDIVIDUALLY_SEARCHABLE_COLUMNS' => $this->convertDoubleQuotedArrayString($this->getIndividuallySearchableColumns($resource)->keys()),
-        ];
+        ], $converted);
     }
 
     protected function getNormalizedResourceName(string $name): string
     {
-        $name = ucfirst($name);
-
-        if (! str_contains($name, 'Resource')) {
-            $name .= 'Resource';
-        }
-
-        return $name;
+        return str($name)->ucfirst()->finish('Resource');
     }
 }

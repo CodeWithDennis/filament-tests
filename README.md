@@ -5,8 +5,11 @@
 
 A package that creates PEST tests specifically tailored for your Filament components.
 
-## This package is still in development and not ready for use.
-### Please do not use it in production.
+## Early development
+
+This package is still in early development. Some features may not be available yet or may not work as expected. If you encounter any issues, please create an [issue](https://github.com/CodeWithDennis/filament-resource-tests/issues) on this repository.
+
+> 🔴 This package is not production-ready yet, use it at your own risk. ⚠️
 
 ## Installation
 You can install the package via composer:
@@ -81,6 +84,7 @@ won't be generated.
 
 **Resources**
   - [x] [It can render page](https://filamentphp.com/docs/3.x/tables/testing#render)
+  - [x] [It can not render page](https://filamentphp.com/docs/3.x/tables/testing#render)
   - [x] [It can sort column](https://filamentphp.com/docs/3.x/tables/testing#sorting)
   - [x] [It can render column](https://filamentphp.com/docs/3.x/tables/testing#columns)
   - [x] [It can search column](https://filamentphp.com/docs/3.x/tables/testing#searching)
