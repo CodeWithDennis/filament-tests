@@ -319,9 +319,9 @@ class FilamentResourceTestsCommand extends Command
         $contents = file_get_contents($stub);
 
         foreach ($stubVariables as $search => $replace) {
-            $contents = str_replace('$'.$search.'$', $replace, $contents);
+            $contents = preg_replace("/\{\{\s*{$search}\s*\}\}/", $replace, $contents);
         }
-
+        
         return $contents.PHP_EOL;
     }
 
