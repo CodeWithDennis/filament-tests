@@ -3,5 +3,5 @@ it('can render view action', function () {
 
     livewire(List{{ MODEL_PLURAL_NAME }}::class)
         ->callTableAction(ViewAction::class, $record);
-})->group('table', 'table-actions');
+})->group('table', 'table-actions')
 ->todo();
