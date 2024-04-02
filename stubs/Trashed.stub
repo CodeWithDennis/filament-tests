@@ -1,9 +1,9 @@
 it('cannot display trashed records by default', function () {
-    $records = $MODEL_SINGULAR_NAME$::factory(3)->create();
+    $records = {{ MODEL_SINGULAR_NAME }}::factory(3)->create();
 
-    $trashedRecords = $MODEL_SINGULAR_NAME$::factory(6)->trashed()->create();
+    $trashedRecords = {{ MODEL_SINGULAR_NAME }}::factory(6)->trashed()->create();
 
-    livewire(List$MODEL_PLURAL_NAME$::class)
+    livewire(List{{ MODEL_PLURAL_NAME }}::class)
         ->assertCanSeeTableRecords($records)
         ->assertCanNotSeeTableRecords($trashedRecords)
         ->assertCountTableRecords(3);

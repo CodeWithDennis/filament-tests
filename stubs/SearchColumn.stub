@@ -1,10 +1,10 @@
 it('can search column', function (string $column) {
-    $records = $MODEL_SINGULAR_NAME$::factory(3)->create();
+    $records = {{ MODEL_SINGULAR_NAME }}::factory(3)->create();
 
     $search = $records->first()->{$column};
 
-    livewire(List$MODEL_PLURAL_NAME$::class)
+    livewire(List{{ MODEL_PLURAL_NAME }}::class)
         ->searchTable($search)
         ->assertCanSeeTableRecords($records->where($column, $search))
         ->assertCanNotSeeTableRecords($records->where($column, '!=', $search));
-})->with($RESOURCE_TABLE_SEARCHABLE_COLUMNS$);
+})->with({{ RESOURCE_TABLE_SEARCHABLE_COLUMNS }});
