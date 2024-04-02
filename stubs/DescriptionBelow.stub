@@ -3,4 +3,5 @@ it('has the correct descriptions below', function (string $column, string $descr
 
     livewire(List{{ MODEL_PLURAL_NAME }}::class)
         ->assertTableColumnHasDescription($column, $description, $record, 'below');
-})->with({{ RESOURCE_TABLE_COLUMNS_DESCRIPTIONS_BELOW }});
+})->with({{ RESOURCE_TABLE_COLUMNS_DESCRIPTIONS_BELOW }})
+    ->group('table', 'rendering');
