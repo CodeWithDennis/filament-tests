@@ -4,4 +4,5 @@ it('can render edit action', function (string $column) {
     livewire(List{{ MODEL_PLURAL_NAME }}::class)
         ->callTableAction(EditAction::class, $record, data: [])
         ->assertHasNoTableActionErrors();
-})->todo();
+})->group('table', 'table-actions')
+->todo();
