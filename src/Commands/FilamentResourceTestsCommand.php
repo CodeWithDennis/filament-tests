@@ -304,11 +304,9 @@ class FilamentResourceTestsCommand extends Command
         $contents = file_get_contents($stub);
 
         foreach ($stubVariables as $search => $replace) {
-
-            // replace anything between double curly braces with the value of the variable it can be {{xxx}} or {{ xxx }}
             $contents = preg_replace("/\{\{\s*{$search}\s*\}\}/", $replace, $contents);
         }
-
+        
         return $contents.PHP_EOL;
     }
 
