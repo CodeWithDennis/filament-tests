@@ -306,7 +306,7 @@ class FilamentResourceTestsCommand extends Command
         foreach ($stubVariables as $search => $replace) {
             $contents = preg_replace("/\{\{\s*{$search}\s*\}\}/", $replace, $contents);
         }
-        
+
         return $contents.PHP_EOL;
     }
 
