@@ -196,6 +196,11 @@ class FilamentResourceTestsCommand extends Command
             $stubs[] = 'Create';
         }
 
+        // Check if there is an edit page
+        if ($this->hasPage('edit', $resource)) {
+            $stubs[] = 'Edit';
+        }
+
         // Add additional stubs based on the columns
         if ($this->getTableColumns($resource)->isNotEmpty()) {
             $stubs[] = 'HasColumn';
