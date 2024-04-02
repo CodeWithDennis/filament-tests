@@ -1,6 +1,7 @@
 <?php
 
 use App\Filament\Resources\{{ RESOURCE }}\Pages\Create{{ MODEL_SINGULAR_NAME }};
+use App\Filament\Resources\{{ RESOURCE }}\Pages\Edit{{ MODEL_SINGULAR_NAME }};
 use App\Filament\Resources\{{ RESOURCE }}\Pages\List{{ MODEL_PLURAL_NAME }};
 
 use Filament\Tables\Actions\DeleteAction;
