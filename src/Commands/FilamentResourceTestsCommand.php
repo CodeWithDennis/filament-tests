@@ -180,6 +180,11 @@ class FilamentResourceTestsCommand extends Command
             ->values();
     }
 
+    protected function getDashboardWidgets(string $dashboard): Collection
+    {
+        return collect(app($dashboard)->getWidgets());
+    }
+
     protected function getStubs(Resource $resource): array
     {
         // Get the resource table
