@@ -1,9 +1,9 @@
 it('can sort column', function (string $column) {
-    $records = $MODEL_SINGULAR_NAME$::factory(3)->create();
+    $records = {{ MODEL_SINGULAR_NAME }}::factory(3)->create();
 
-    livewire(List$MODEL_PLURAL_NAME$::class)
+    livewire(List{{ MODEL_PLURAL_NAME }}::class)
         ->sortTable($column)
         ->assertCanSeeTableRecords($records->sortBy($column), inOrder: true)
         ->sortTable($column, 'desc')
         ->assertCanSeeTableRecords($records->sortByDesc($column), inOrder: true);
-})->with($RESOURCE_TABLE_SORTABLE_COLUMNS$);
+})->with({{ RESOURCE_TABLE_SORTABLE_COLUMNS }});

@@ -1,10 +1,10 @@
 it('can force delete records', function () {
-    $record = $MODEL_SINGULAR_NAME$::factory()->create();
+    $record = {{ MODEL_SINGULAR_NAME }}::factory()->create();
     $record->delete();
 
     assert($record->trashed());
 
-    livewire(List$MODEL_PLURAL_NAME$::class)
+    livewire(List{{ MODEL_PLURAL_NAME }}::class)
         ->filterTable('trashed', true)
         ->assertCanSeeTableRecords([$record])
         ->callTableAction(ForceDeleteAction::class, $record);
