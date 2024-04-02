@@ -5,6 +5,7 @@ namespace CodeWithDennis\FilamentResourceTests\Commands;
 use App\Models\User;
 use Filament\Facades\Filament;
 use Filament\Forms\Form;
+use Filament\Pages\Dashboard as BasePage;
 use Filament\Resources\Pages\CreateRecord;
 use Filament\Resources\Pages\EditRecord;
 use Filament\Resources\Pages\ListRecords;
@@ -173,6 +174,11 @@ class FilamentResourceTestsCommand extends Command
         return $this->getResourceTableFilters($table)->map(fn ($filter) => $filter->getName())->contains($filter);
     }
 
+    protected function hasDashboardPage(): bool
+    {
+        return class_exists('App\\Filament\\Pages\\Dashboard');
+    }
+
     protected function getStubs(Resource $resource): array
     {
         // Get the resource table
@@ -181,10 +187,16 @@ class FilamentResourceTestsCommand extends Command
         // Base stubs that are always included
         $stubs = ['Base', 'RenderPage'];
 
+
         // Add additional stubs based on the columns
         if ($this->getTableColumns($resource)->isNotEmpty()) {
             $stubs[] = 'HasColumn';
             $stubs[] = 'RenderColumn';
+        }
+
+        // Check if there is a dashboard page
+        if ($this->hasDashboardPage()) {
+            $stubs[] = 'Dashboard';
         }
 
         // Check if there are sortable columns

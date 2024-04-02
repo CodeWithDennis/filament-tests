@@ -1,0 +1,4 @@
+it('renders the dashboard', function () {
+    livewire(\App\Filament\Pages\Dashboard::class)
+        ->assertSuccessful();
+});
