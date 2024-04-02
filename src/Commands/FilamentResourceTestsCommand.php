@@ -22,7 +22,9 @@ class FilamentResourceTestsCommand extends Command
     protected $signature = 'make:filament-resource-test
                             {name? : The name of the resource}
                             {--a|all : Create tests for all Filament resources}
-                            {--f|force : Force overwrite the existing test}';
+                            {--f|force : Force overwrite the existing test}
+                            {--o|only= : Create tests for only the specified resources}
+                            {--e|except= : Exclude the specified resources}';
 
     protected $description = 'Create tests for a Filament components';
 
@@ -35,67 +37,66 @@ class FilamentResourceTestsCommand extends Command
     {
         $availableResources = $this->getAvailableResources();
 
-        if (! $this->argument('name')) {
-            // Ask the user to select the resource they want to create a test for
-            $selectedResources = ! $this->option('all') ? multiselect(
+        if ($onlyOption = $this->option('only')) {
+
+            $resourceNames = explode(',', $onlyOption);
+            $normalizedResourceNames = collect($resourceNames)
+                ->map(fn($resource) => $this->getNormalizedResourceName($resource));
+
+            $selectedResources = $availableResources
+                ->reject(fn($resource) => ! $normalizedResourceNames->contains($resource));
+        }
+        elseif ($exceptOption = $this->option('except')) {
+            $resourceNames = explode(',', $exceptOption);
+            $normalizedResourceNames = collect($resourceNames)
+                ->map(fn($resource) => $this->getNormalizedResourceName($resource));
+
+            $selectedResources = $availableResources
+                ->reject(fn($resource) => $normalizedResourceNames->contains($resource));
+        }
+        elseif ($nameOption = $this->argument('name')) {
+
+            $resourceName = $this->getNormalizedResourceName($nameOption);
+
+            if ($availableResources->contains($resourceName)) {
+                $selectedResources = collect([$availableResources->search($nameOption) => $resourceName]);
+            } else {
+                $this->error("The resource {$nameOption} does not exist.");
+                return self::FAILURE;
+            }
+        } else {
+            // handle --all or prompt
+            $options = $this->option('all') ? $availableResources->flatten() : multiselect(
                 label: 'What is the resource you would like to create this test for?',
                 options: $availableResources->flatten(),
                 required: true,
-            ) : $availableResources->flatten();
-
-            // Check if the first selected item is numeric (on windows without WSL multiselect returns an array of numeric strings)
-            if (is_numeric($selectedResources[0] ?? null)) {
-                // Convert the indexed selection back to the original resource path => resource name
-                $selectedResources = collect($selectedResources)
-                    ->mapWithKeys(fn ($index) => [
-                        $availableResources->keys()->get($index) => $availableResources->get($availableResources->keys()->get($index)),
-                    ]);
-            }
-        } else {
-            // User supplied a resource name
-            $suppliedResourceName = $this->getNormalizedResourceName($this->argument('name'));
-
-            if (! $availableResources->contains($suppliedResourceName)) {
-                $this->error("The resource {$suppliedResourceName} does not exist.");
-
-                return self::FAILURE;
-            }
-
-            $selectedResources = [$availableResources->search($suppliedResourceName) => $suppliedResourceName];
+            );
+            $selectedResources = is_numeric($options[0] ?? null)
+                ? collect($options)->mapWithKeys(fn($index) => [
+                    $availableResources->keys()->get($index) => $availableResources->get($availableResources->keys()->get($index)),
+                ])
+                : $options;
         }
 
-        foreach ($selectedResources as $selectedResource) {
-            // Get the resource class based on the selected resource
-            $resource = $this->getResourceClass($selectedResource);
+        $selectedResources->each(function ($resource) use ($availableResources) {
+            $path = $this->getSourceFilePath($resource);
 
-            // Get the path where the test file will be created
-            $path = $this->getSourceFilePath($selectedResource);
-
-            // Create the directory if it doesn't exist
-            // TODO: (fix) We don't need to create the directory if it already exists (looping right now)
-            $this->makeDirectory(dirname($path));
-
-            // Get the contents of the test file
-            $contents = $this->getSourceFile($resource);
-
-            if ($this->files->exists($path) && ! $this->option('force')) {
-                // Ask the user if they want to overwrite the existing test
-                if (! confirm("The test for {$selectedResource} already exists. Do you want to overwrite it?")) {
-                    // Skip this resource
-                    continue;
+            // overwrite silently if --force is used
+            if (!$this->option('force') && $this->files->exists($path)) {
+                if (!confirm("The test for {$resource} already exists. Do you want to overwrite it?")) {
+                    return;
                 }
             }
 
-            // Write the contents to the file
-            $this->files->put($path, $contents);
+            $this->makeDirectory(dirname($path));
+            $this->files->put($path, $this->getSourceFile($this->getResourceClass($resource)));
+            $this->info("Test for {$resource} created successfully.");
+        });
 
-            // Output a success message
-            $this->info("Test for {$selectedResource} created successfully.");
-        }
-
-        // Return success
         return self::SUCCESS;
     }
+
+
 
     protected function getTableColumns(Resource $resource): Collection
     {
@@ -390,6 +391,6 @@ class FilamentResourceTestsCommand extends Command
 
     protected function getNormalizedResourceName(string $name): string
     {
-        return str($name)->ucfirst()->finish('Resource');
+        return str(trim($name))->ucfirst()->finish('Resource');
     }
 }
