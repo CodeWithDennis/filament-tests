@@ -131,10 +131,10 @@ vendor/bin/pest --exclude-group=filament-tests
 | Name          | Includes                                                |
 |---------------|---------------------------------------------------------|
 | `page`        | Runs the tests for the pages                            |
+| `rendering` | Runs the tests that check if the page renders correctly |
 | `table`       | Runs the tests for the table                            |
 | `table-actions` | Runs the tests for table actions                        |
 | `table-bulk-actions` | Runs the tests for table bulk actions                   |
-| `rendering` | Runs the tests that check if the page renders correctly |
 > You can add any of those above groups to either `--exclude-group` or `--group` to include or exclude them from the test run. You can comma-separate multiple groups.
 
 ## Credits
