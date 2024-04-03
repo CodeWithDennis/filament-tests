@@ -1,13 +1,13 @@
 # Filament Resource Tests
 
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/codewithdennis/filament-resource-tests.svg?style=flat-square)](https://packagist.org/packages/codewithdennis/filament-resource-tests)
-[![Total Downloads](https://img.shields.io/packagist/dt/codewithdennis/filament-resource-tests.svg?style=flat-square)](https://packagist.org/packages/codewithdennis/filament-resource-tests)
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/codewithdennis/filament-tests.svg?style=flat-square)](https://packagist.org/packages/codewithdennis/filament-tests)
+[![Total Downloads](https://img.shields.io/packagist/dt/codewithdennis/filament-tests.svg?style=flat-square)](https://packagist.org/packages/codewithdennis/filament-tests)
 
 A package that creates PEST tests specifically tailored for your Filament components.
 
 ## Early development
 
-This package is still in early development. Some features may not be available yet or may not work as expected. If you encounter any issues, please create an [issue](https://github.com/CodeWithDennis/filament-resource-tests/issues) on this repository.
+This package is still in early development. Some features may not be available yet or may not work as expected. If you encounter any issues, please create an [issue](https://github.com/CodeWithDennis/filament-tests/issues) on this repository.
 
 > 🔴 This package is not production-ready yet, use it at your own risk. ⚠️
 
@@ -15,13 +15,13 @@ This package is still in early development. Some features may not be available y
 You can install the package via composer:
 
 ```bash
-composer require codewithdennis/filament-resource-tests --dev
+composer require codewithdennis/filament-tests --dev
 ```
 
 You can publish the config file with:
 
 ```bash
-php artisan vendor:publish --tag="filament-resource-tests-config"
+php artisan vendor:publish --tag="filament-tests-config"
 ```
 
 This is the contents of the published config file:
@@ -116,13 +116,13 @@ vendor/bin/pest
 You can choose to only run the tests for this package by running the following command:
 
 ```bash
-vendor/bin/pest --group=filament-resource-tests
+vendor/bin/pest --group=filament-tests
 ```
 
 You can also run all your tests except the ones for this package by running the following command:
 
 ```bash
-vendor/bin/pest --exclude-group=filament-resource-tests
+vendor/bin/pest --exclude-group=filament-tests
 ```
 
 ## Credits

@@ -11,7 +11,7 @@ class FilamentResourceTestsServiceProvider extends PackageServiceProvider
     public function configurePackage(Package $package): void
     {
         $package
-            ->name('filament-resource-tests')
+            ->name('filament-tests')
             ->hasConfigFile()
             ->hasCommand(FilamentResourceTestsCommand::class);
     }

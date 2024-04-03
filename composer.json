@@ -1,15 +1,14 @@
 {
-    "name": "codewithdennis/filament-resource-tests",
+    "name": "codewithdennis/filament-tests",
     "description": "A package that creates PEST tests specifically tailored for your filament resources",
     "keywords": [
-        "CodeWithDennis",
         "laravel",
-        "filament-resource-tests",
+        "filament-tests",
         "filamentphp",
         "php",
         "pest"
     ],
-    "homepage": "https://github.com/codewithdennis/filament-resource-tests",
+    "homepage": "https://github.com/codewithdennis/filament-tests",
     "license": "MIT",
     "authors": [
         {

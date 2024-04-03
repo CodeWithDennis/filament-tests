@@ -17,7 +17,7 @@ use function Pest\Laravel\assertModelMissing;
 use function Pest\Laravel\get;
 use function Pest\Livewire\livewire;
 
-uses()->group('filament-resource-tests');
+uses()->group('filament-tests');
 
 beforeEach(function () {
     actingAs(User::factory()->create());
