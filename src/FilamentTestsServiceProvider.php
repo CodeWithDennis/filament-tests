@@ -1,8 +1,8 @@
 <?php
 
-namespace CodeWithDennis\FilamentResourceTests;
+namespace CodeWithDennis\FilamentTests;
 
-use CodeWithDennis\FilamentResourceTests\Commands\FilamentTestsCommand;
+use CodeWithDennis\FilamentTests\Commands\FilamentTestsCommand;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 

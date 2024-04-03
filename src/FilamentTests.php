@@ -1,6 +1,6 @@
 <?php
 
-namespace CodeWithDennis\FilamentResourceTests;
+namespace CodeWithDennis\FilamentTests;
 
 class FilamentTests
 {

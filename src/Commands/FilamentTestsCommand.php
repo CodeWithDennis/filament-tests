@@ -1,6 +1,6 @@
 <?php
 
-namespace CodeWithDennis\FilamentResourceTests\Commands;
+namespace CodeWithDennis\FilamentTests\Commands;
 
 use App\Models\User;
 use Filament\Facades\Filament;
