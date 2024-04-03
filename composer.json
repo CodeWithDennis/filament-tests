@@ -53,10 +53,10 @@
     "extra": {
         "laravel": {
             "providers": [
-                "CodeWithDennis\\FilamentResourceTests\\FilamentResourceTestsServiceProvider"
+                "FilamentTestsServiceProvider"
             ],
             "aliases": {
-                "FilamentResourceTests": "CodeWithDennis\\FilamentResourceTests\\Facades\\FilamentResourceTests"
+                "FilamentResourceTests": "FilamentTests"
             }
         }
     },

@@ -2,6 +2,6 @@
 
 namespace CodeWithDennis\FilamentResourceTests;
 
-class FilamentResourceTests
+class FilamentTests
 {
 }

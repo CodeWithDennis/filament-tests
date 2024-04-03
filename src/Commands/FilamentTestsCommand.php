@@ -17,7 +17,7 @@ use Illuminate\Support\Collection;
 use function Laravel\Prompts\confirm;
 use function Laravel\Prompts\multiselect;
 
-class FilamentResourceTestsCommand extends Command
+class FilamentTestsCommand extends Command
 {
     protected $signature = 'make:filament-resource-test
                             {name? : The name of the resource}
