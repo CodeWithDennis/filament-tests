@@ -243,7 +243,6 @@ class FilamentTestsCommand extends Command
             $stubs[] = $this->getStubPath('RenderEditPage', 'page/rendering');
         }
 
-
         // Add additional stubs based on the columns
         if ($this->getTableColumns($resource)->isNotEmpty()) {
             $stubs[] = $this->getStubPath('HasColumn', 'table');
