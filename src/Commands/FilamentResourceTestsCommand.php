@@ -35,9 +35,9 @@ class FilamentResourceTestsCommand extends Command
     {
         $availableResources = $this->getAvailableResources();
 
-        if (!$this->argument('name')) {
+        if (! $this->argument('name')) {
             // Ask the user to select the resource they want to create a test for
-            $selectedResources = !$this->option('all') ? multiselect(
+            $selectedResources = ! $this->option('all') ? multiselect(
                 label: 'What is the resource you would like to create this test for?',
                 options: $availableResources->flatten(),
                 required: true,
@@ -47,7 +47,7 @@ class FilamentResourceTestsCommand extends Command
             if (is_numeric($selectedResources[0] ?? null)) {
                 // Convert the indexed selection back to the original resource path => resource name
                 $selectedResources = collect($selectedResources)
-                    ->mapWithKeys(fn($index) => [
+                    ->mapWithKeys(fn ($index) => [
                         $availableResources->keys()->get($index) => $availableResources->get($availableResources->keys()->get($index)),
                     ]);
             }
@@ -55,7 +55,7 @@ class FilamentResourceTestsCommand extends Command
             // User supplied a resource name
             $suppliedResourceName = $this->getNormalizedResourceName($this->argument('name'));
 
-            if (!$availableResources->contains($suppliedResourceName)) {
+            if (! $availableResources->contains($suppliedResourceName)) {
                 $this->error("The resource {$suppliedResourceName} does not exist.");
 
                 return self::FAILURE;
@@ -78,9 +78,9 @@ class FilamentResourceTestsCommand extends Command
             // Get the contents of the test file
             $contents = $this->getSourceFile($resource);
 
-            if ($this->files->exists($path) && !$this->option('force')) {
+            if ($this->files->exists($path) && ! $this->option('force')) {
                 // Ask the user if they want to overwrite the existing test
-                if (!confirm("The test for {$selectedResource} already exists. Do you want to overwrite it?")) {
+                if (! confirm("The test for {$selectedResource} already exists. Do you want to overwrite it?")) {
                     // Skip this resource
                     continue;
                 }
@@ -105,55 +105,55 @@ class FilamentResourceTestsCommand extends Command
     protected function getSearchableColumns(Resource $resource): Collection
     {
         return $this->getTableColumns($resource)
-            ->filter(fn($column) => $column->isSearchable());
+            ->filter(fn ($column) => $column->isSearchable());
     }
 
     protected function getSortableColumns(Resource $resource): Collection
     {
         return $this->getTableColumns($resource)
-            ->filter(fn($column) => $column->isSortable());
+            ->filter(fn ($column) => $column->isSortable());
     }
 
     protected function getIndividuallySearchableColumns(Resource $resource): Collection
     {
         return $this->getTableColumns($resource)
-            ->filter(fn($column) => $column->isIndividuallySearchable());
+            ->filter(fn ($column) => $column->isIndividuallySearchable());
     }
 
     protected function getToggleableColumns(Resource $resource): Collection
     {
         return $this->getTableColumns($resource)
-            ->filter(fn($column) => $column->isToggleable());
+            ->filter(fn ($column) => $column->isToggleable());
     }
 
     protected function getToggledHiddenByDefaultColumns(Resource $resource): Collection
     {
         return $this->getTableColumns($resource)
-            ->filter(fn($column) => $column->isToggledHiddenByDefault());
+            ->filter(fn ($column) => $column->isToggledHiddenByDefault());
     }
 
     protected function getInitiallyVisibleColumns(Resource $resource): Collection
     {
         return $this->getTableColumns($resource)
-            ->filter(fn($column) => !$column->isToggledHiddenByDefault());
+            ->filter(fn ($column) => ! $column->isToggledHiddenByDefault());
     }
 
     protected function getDescriptionAboveColumns(Resource $resource): Collection
     {
         return $this->getTableColumns($resource)
-            ->filter(fn($column) => $column->getDescriptionAbove());
+            ->filter(fn ($column) => $column->getDescriptionAbove());
     }
 
     protected function getDescriptionBelowColumns(Resource $resource): Collection
     {
         return $this->getTableColumns($resource)
-            ->filter(fn($column) => $column->getDescriptionBelow());
+            ->filter(fn ($column) => $column->getDescriptionBelow());
     }
 
     protected function getTableColumnDescriptionAbove(Resource $resource): array
     {
         return $this->getDescriptionAboveColumns($resource)
-            ->map(fn($column) => [
+            ->map(fn ($column) => [
                 'column' => $column->getName(),
                 'description' => $column->getDescriptionAbove(),
             ])->toArray();
@@ -162,7 +162,7 @@ class FilamentResourceTestsCommand extends Command
     protected function getTableColumnDescriptionBelow(Resource $resource): array
     {
         return $this->getDescriptionBelowColumns($resource)
-            ->map(fn($column) => [
+            ->map(fn ($column) => [
                 'column' => $column->getName(),
                 'description' => $column->getDescriptionBelow(),
             ])->toArray();
@@ -190,17 +190,17 @@ class FilamentResourceTestsCommand extends Command
 
     protected function hasTableAction(string $action, Resource $resource): bool
     {
-        return $this->getResourceTableActions($resource)->map(fn($action) => $action->getName())->contains($action);
+        return $this->getResourceTableActions($resource)->map(fn ($action) => $action->getName())->contains($action);
     }
 
     protected function hasTableBulkAction(string $action, Resource $resource): bool
     {
-        return $this->getResourceTableBulkActions($resource)->map(fn($action) => $action->getName())->contains($action);
+        return $this->getResourceTableBulkActions($resource)->map(fn ($action) => $action->getName())->contains($action);
     }
 
     protected function hasTableFilter(string $filter, Table $table): bool
     {
-        return $this->getResourceTableFilters($table)->map(fn($filter) => $filter->getName())->contains($filter);
+        return $this->getResourceTableFilters($table)->map(fn ($filter) => $filter->getName())->contains($filter);
     }
 
     protected function getStubs(Resource $resource): array
@@ -217,7 +217,7 @@ class FilamentResourceTestsCommand extends Command
         }
 
         // Check if there are initially visible columns
-        if($this->getInitiallyVisibleColumns($resource)->isNotEmpty()) {
+        if ($this->getInitiallyVisibleColumns($resource)->isNotEmpty()) {
             $stubs[] = 'RenderColumn';
         }
 
@@ -258,12 +258,12 @@ class FilamentResourceTestsCommand extends Command
 
         // Check if there is a delete action
         if ($this->hasTableAction('delete', $resource)) {
-            $stubs[] = !$this->hasSoftDeletes($resource) ? 'Delete' : 'SoftDelete';
+            $stubs[] = ! $this->hasSoftDeletes($resource) ? 'Delete' : 'SoftDelete';
         }
 
         // Check if there is a bulk delete action
         if ($this->hasTableBulkAction('delete', $resource)) {
-            $stubs[] = !$this->hasSoftDeletes($resource) ? 'BulkDelete' : 'BulkSoftDelete';
+            $stubs[] = ! $this->hasSoftDeletes($resource) ? 'BulkDelete' : 'BulkSoftDelete';
         }
 
         // Check if there is a replicate action
@@ -306,7 +306,7 @@ class FilamentResourceTestsCommand extends Command
     protected function getResourceClass(string $resource): ?Resource
     {
         $match = $this->getResources()
-            ->first(fn($value): bool => str_contains($value, $resource) && class_exists($value));
+            ->first(fn ($value): bool => str_contains($value, $resource) && class_exists($value));
 
         return $match ? app()->make($match) : null;
     }
@@ -314,7 +314,7 @@ class FilamentResourceTestsCommand extends Command
     // Get the available resources
     protected function getAvailableResources(): Collection
     {
-        return $this->getResources()->map(fn($resource): string => str($resource)->afterLast('Resources\\'));
+        return $this->getResources()->map(fn ($resource): string => str($resource)->afterLast('Resources\\'));
     }
 
     protected function getSourceFilePath(string $name): string
@@ -330,7 +330,7 @@ class FilamentResourceTestsCommand extends Command
 
     protected function makeDirectory($path): string
     {
-        if (!$this->files->isDirectory($path)) {
+        if (! $this->files->isDirectory($path)) {
             $this->files->makeDirectory($path, 0777, true, true);
         }
 
@@ -362,13 +362,13 @@ class FilamentResourceTestsCommand extends Command
     protected function getResourceRequiredCreateFields(Resource $resource): Collection
     {
         return collect($this->getResourceCreateForm($resource)->getFlatFields())
-            ->filter(fn($field) => $field->isRequired());
+            ->filter(fn ($field) => $field->isRequired());
     }
 
     protected function getResourceRequiredEditFields(Resource $resource): Collection
     {
         return collect($this->getResourceEditForm($resource)->getFlatFields())
-            ->filter(fn($field) => $field->isRequired());
+            ->filter(fn ($field) => $field->isRequired());
     }
 
     protected function getResourceCreateFields(Resource $resource): array
