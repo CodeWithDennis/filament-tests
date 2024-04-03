@@ -214,10 +214,13 @@ class FilamentTestsCommand extends Command
 
     protected function getStubPath(string $for, ?string $in = null): string
     {
-        $basePath = __DIR__.'/../../stubs';
+        $basePath = __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'stubs';
 
-        return $in ? "{$basePath}/{$in}/{$for}.stub" : "{$basePath}/{$for}.stub";
+        return $in
+            ? $basePath . DIRECTORY_SEPARATOR . $in . DIRECTORY_SEPARATOR . $for . '.stub'
+            : $basePath . DIRECTORY_SEPARATOR . $for . '.stub';
     }
+
 
     protected function getStubs(Resource $resource): array
     {
