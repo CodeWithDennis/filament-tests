@@ -72,8 +72,7 @@ class FilamentTestsCommand extends Command
             $path = $this->getSourceFilePath($selectedResource);
 
             // Create the directory if it doesn't exist
-            // TODO: (fix) We don't need to create the directory if it already exists (looping right now)
-            $this->makeDirectory(dirname($path));
+            $this->files->ensureDirectoryExists(dirname($path));
 
             // Get the contents of the test file
             $contents = $this->getSourceFile($resource);
@@ -346,15 +345,6 @@ class FilamentTestsCommand extends Command
         }
 
         return $directory.DIRECTORY_SEPARATOR.$name.'Test.php';
-    }
-
-    protected function makeDirectory($path): string
-    {
-        if (! $this->files->isDirectory($path)) {
-            $this->files->makeDirectory($path, 0777, true, true);
-        }
-
-        return $path;
     }
 
     protected function getSourceFile(Resource $resource): array|bool|string
