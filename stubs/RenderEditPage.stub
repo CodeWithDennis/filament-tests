@@ -1,4 +1,4 @@
-it('can render the edit page', function () {
+it('can render edit page', function () {
     $record = {{ MODEL_SINGULAR_NAME }}::factory()->create();
 
     get({{ RESOURCE }}::getUrl('edit', ['record' => $record]))->assertSuccessful();
