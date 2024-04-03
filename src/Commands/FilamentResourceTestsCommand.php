@@ -214,7 +214,16 @@ class FilamentResourceTestsCommand extends Command
         // Add additional stubs based on the columns
         if ($this->getTableColumns($resource)->isNotEmpty()) {
             $stubs[] = 'HasColumn';
+        }
+
+        // Check if there are initially visible columns
+        if ($this->getInitiallyVisibleColumns($resource)->isNotEmpty()) {
             $stubs[] = 'RenderColumn';
+        }
+
+        // Check if there are toggleable columns that are hidden by default
+        if ($this->getToggledHiddenByDefaultColumns($resource)->isNotEmpty()) {
+            $stubs[] = 'CannotRenderColumn';
         }
 
         // Check if there are sortable columns
