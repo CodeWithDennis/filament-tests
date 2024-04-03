@@ -19,7 +19,7 @@ use function Laravel\Prompts\multiselect;
 
 class FilamentTestsCommand extends Command
 {
-    protected $signature = 'make:filament-resource-test
+    protected $signature = 'make:filament-test
                             {name? : The name of the resource}
                             {--a|all : Create tests for all Filament resources}
                             {--f|force : Force overwrite the existing test}';
