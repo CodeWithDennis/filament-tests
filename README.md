@@ -84,6 +84,8 @@ won't be generated.
 
 **Resources**
   - [x] [It can render page](https://filamentphp.com/docs/3.x/tables/testing#render)
+  - [x] [It can render create page](https://filamentphp.com/docs/3.x/panels/testing#create)
+  - [x] [It can render edit page](https://filamentphp.com/docs/3.x/panels/testing#edit)
   - [x] [It can not render page](https://filamentphp.com/docs/3.x/tables/testing#render)
   - [x] [It can sort column](https://filamentphp.com/docs/3.x/tables/testing#sorting)
   - [x] [It can render column](https://filamentphp.com/docs/3.x/tables/testing#columns)
