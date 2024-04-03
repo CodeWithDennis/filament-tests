@@ -139,11 +139,6 @@ class FilamentResourceTestsCommand extends Command
             ->filter(fn ($column) => ! $column->isToggledHiddenByDefault());
     }
 
-    protected function hasLogin(): bool
-    {
-        return Filament::hasLogin();
-    }
-
     protected function getLoginRouteAction(): ?string
     {
         return Filament::getDefaultPanel()->getLoginRouteAction();
@@ -219,7 +214,7 @@ class FilamentResourceTestsCommand extends Command
         }
 
         // Check if there is a login page
-        if ($this->hasLogin()) {
+        if (Filament::hasLogin()) {
             $stubs[] = 'Login';
         }
 
