@@ -13,7 +13,7 @@ This package is still in early development. Some features may not be available y
 
 ## Requirements
 
-This package requires [Filament v3](https://filamentphp.com/docs/3.x/panels/installation) or later. The same requirements apply.
+This package requires [Filament v3](https://filamentphp.com/docs/3.x/panels/installation) or later to run. 
 
 * PHP 8.1+
 * Laravel v10.0+
