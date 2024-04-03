@@ -83,6 +83,7 @@ Tests are generated on demand and are tailored to the component that you're gene
 won't be generated.
 
 **Resources**
+  - [x] It can render the login page
   - [x] [It can render page](https://filamentphp.com/docs/3.x/tables/testing#render)
   - [x] [It can not render page](https://filamentphp.com/docs/3.x/tables/testing#render)
   - [x] [It can sort column](https://filamentphp.com/docs/3.x/tables/testing#sorting)
