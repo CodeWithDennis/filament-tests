@@ -132,6 +132,16 @@ class FilamentResourceTestsCommand extends Command
             ->filter(fn ($column) => $column->isToggledHiddenByDefault());
     }
 
+    protected function getLoginRouteAction(): ?string
+    {
+        return Filament::getDefaultPanel()->getLoginRouteAction();
+    }
+
+    protected function getPath(): string
+    {
+        return Filament::getDefaultPanel()->getPath();
+    }
+
     protected function getInitiallyVisibleColumns(Resource $resource): Collection
     {
         return $this->getTableColumns($resource)
@@ -230,6 +240,11 @@ class FilamentResourceTestsCommand extends Command
         // Check if there are individually searchable columns
         if ($this->getIndividuallySearchableColumns($resource)->isNotEmpty()) {
             $stubs[] = 'IndividuallySearchColumn';
+        }
+
+        // Check if there is a login page
+        if (Filament::hasLogin()) {
+            $stubs[] = 'Login';
         }
 
         // Check if there is a description above
@@ -431,6 +446,8 @@ class FilamentResourceTestsCommand extends Command
             'RESOURCE_TABLE_SORTABLE_COLUMNS' => $this->getSortableColumns($resource)->keys(),
             'RESOURCE_TABLE_SEARCHABLE_COLUMNS' => $this->getSearchableColumns($resource)->keys(),
             'RESOURCE_TABLE_INDIVIDUALLY_SEARCHABLE_COLUMNS' => $this->getIndividuallySearchableColumns($resource)->keys(),
+            'PANEL_PATH' => str($this->getPath())->wrap("'"),
+            'LOGIN_ROUTE_ACTION' => str($this->getLoginRouteAction())->prepend('\\'),
         ];
 
         $converted = array_map(function ($value) {
