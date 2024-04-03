@@ -85,6 +85,7 @@ won't be generated.
   - [x] [It can render column](https://filamentphp.com/docs/3.x/tables/testing#columns)
   - [x] [It can search column](https://filamentphp.com/docs/3.x/tables/testing#searching)
   - [x] [It has column](https://filamentphp.com/docs/3.x/tables/testing#existence)
+  - [x] [It has the correct descriptions](https://filamentphp.com/docs/3.x/tables/testing#descriptions)
   - [x] It can delete records
   - [x] It can soft delete records
   - [x] It can bulk delete records
