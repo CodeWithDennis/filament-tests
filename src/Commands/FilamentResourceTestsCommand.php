@@ -138,6 +138,36 @@ class FilamentResourceTestsCommand extends Command
             ->filter(fn ($column) => ! $column->isToggledHiddenByDefault());
     }
 
+    protected function getDescriptionAboveColumns(Resource $resource): Collection
+    {
+        return $this->getTableColumns($resource)
+            ->filter(fn ($column) => $column->getDescriptionAbove());
+    }
+
+    protected function getDescriptionBelowColumns(Resource $resource): Collection
+    {
+        return $this->getTableColumns($resource)
+            ->filter(fn ($column) => $column->getDescriptionBelow());
+    }
+
+    protected function getTableColumnDescriptionAbove(Resource $resource): array
+    {
+        return $this->getDescriptionAboveColumns($resource)
+            ->map(fn ($column) => [
+                'column' => $column->getName(),
+                'description' => $column->getDescriptionAbove(),
+            ])->toArray();
+    }
+
+    protected function getTableColumnDescriptionBelow(Resource $resource): array
+    {
+        return $this->getDescriptionBelowColumns($resource)
+            ->map(fn ($column) => [
+                'column' => $column->getName(),
+                'description' => $column->getDescriptionBelow(),
+            ])->toArray();
+    }
+
     protected function hasSoftDeletes(Resource $resource): bool
     {
         return method_exists($resource->getModel(), 'bootSoftDeletes');
@@ -200,6 +230,16 @@ class FilamentResourceTestsCommand extends Command
         // Check if there are individually searchable columns
         if ($this->getIndividuallySearchableColumns($resource)->isNotEmpty()) {
             $stubs[] = 'IndividuallySearchColumn';
+        }
+
+        // Check if there is a description above
+        if ($this->getDescriptionAboveColumns($resource)->isNotEmpty()) {
+            $stubs[] = 'DescriptionAbove';
+        }
+
+        // Check if there is a description below
+        if ($this->getDescriptionBelowColumns($resource)->isNotEmpty()) {
+            $stubs[] = 'DescriptionBelow';
         }
 
         // Check that trashed columns are not displayed by default
@@ -360,6 +400,23 @@ class FilamentResourceTestsCommand extends Command
             ->replace(',', ', ');
     }
 
+    protected function transformToPestDataset(array $source, array $keys): string
+    {
+        $transformed = [];
+
+        foreach ($source as $item) {
+            $transformedItem = [];
+            foreach ($keys as $key) {
+                if (isset($item[$key])) {
+                    $transformedItem[] = $item[$key];
+                }
+            }
+            $transformed[] = $transformedItem;
+        }
+
+        return $this->convertDoubleQuotedArrayString(json_encode($transformed, JSON_UNESCAPED_UNICODE));
+    }
+
     protected function getStubVariables(Resource $resource): array
     {
         $resourceModel = $resource->getModel();
@@ -385,6 +442,8 @@ class FilamentResourceTestsCommand extends Command
             'MODEL_IMPORT' => $modelImport,
             'MODEL_SINGULAR_NAME' => str($resourceModel)->afterLast('\\'),
             'MODEL_PLURAL_NAME' => str($resourceModel)->afterLast('\\')->plural(),
+            'RESOURCE_TABLE_COLUMNS_DESCRIPTIONS_ABOVE' => $this->transformToPestDataset($this->getTableColumnDescriptionAbove($resource), ['column', 'description']),
+            'RESOURCE_TABLE_COLUMNS_DESCRIPTIONS_BELOW' => $this->transformToPestDataset($this->getTableColumnDescriptionBelow($resource), ['column', 'description']),
         ], $converted);
     }
 

@@ -1,0 +1,6 @@
+it('has the correct descriptions above', function (string $column, string $description) {
+   $record = {{ MODEL_SINGULAR_NAME }}::factory()->create();
+
+    livewire(List{{ MODEL_PLURAL_NAME }}::class)
+        ->assertTableColumnHasDescription($column, $description, $record, 'above');
+})->with({{ RESOURCE_TABLE_COLUMNS_DESCRIPTIONS_ABOVE }})->group('table', 'rendering');
