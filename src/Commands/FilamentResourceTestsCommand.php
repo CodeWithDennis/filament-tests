@@ -139,9 +139,19 @@ class FilamentResourceTestsCommand extends Command
             ->filter(fn ($column) => ! $column->isToggledHiddenByDefault());
     }
 
-    protected function getLoginPage(): Login
+    protected function hasLogin(): bool
     {
-        return app(Login::class);
+        return Filament::hasLogin();
+    }
+
+    protected function getLoginRouteAction(): ?string
+    {
+        return Filament::getDefaultPanel()->getLoginRouteAction();
+    }
+
+    protected function getPath(): string
+    {
+        return Filament::getDefaultPanel()->getPath();
     }
 
     protected function hasSoftDeletes(Resource $resource): bool
@@ -209,7 +219,7 @@ class FilamentResourceTestsCommand extends Command
         }
 
         // Check if there is a login page
-        if ($this->getLoginPage()) {
+        if ($this->hasLogin()) {
             $stubs[] = 'Login';
         }
 
@@ -385,6 +395,8 @@ class FilamentResourceTestsCommand extends Command
             'RESOURCE_TABLE_SORTABLE_COLUMNS' => $this->getSortableColumns($resource)->keys(),
             'RESOURCE_TABLE_SEARCHABLE_COLUMNS' => $this->getSearchableColumns($resource)->keys(),
             'RESOURCE_TABLE_INDIVIDUALLY_SEARCHABLE_COLUMNS' => $this->getIndividuallySearchableColumns($resource)->keys(),
+            'PANEL_PATH' => str($this->getPath())->wrap("'"),
+            'LOGIN_ROUTE_ACTION' => $this->getLoginRouteAction(),
         ];
 
         $converted = array_map(function ($value) {
