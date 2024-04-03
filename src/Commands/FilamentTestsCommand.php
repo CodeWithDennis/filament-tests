@@ -24,7 +24,7 @@ class FilamentTestsCommand extends Command
                             {--a|all : Create tests for all Filament resources}
                             {--f|force : Force overwrite the existing test}';
 
-    protected $description = 'Create tests for a Filament components';
+    protected $description = 'Create a new test for a Filament component';
 
     public function __construct(protected Filesystem $files)
     {
