@@ -1,7 +1,7 @@
 it('can reset table filters', function () {
     $posts = {{ MODEL_SINGULAR_NAME }}::factory()->count(3)->create();
 
-    livewire({{ MODEL_SINGULAR_NAME }}Resource\Pages\List{{ MODEL_PLURAL_NAME }}::class)
+    livewire(List{{ MODEL_PLURAL_NAME }}::class)
         ->resetTableFilters()
         ->assertCanSeeTableRecords($posts);
 });
