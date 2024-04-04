@@ -11,14 +11,6 @@ This package is still in early development. Some features may not be available y
 
 > 🔴 This package is not production-ready yet, use it at your own risk. ⚠️
 
-## Requirements
-
-This package requires [Filament v3](https://filamentphp.com/docs/3.x/panels/installation) or later to run. 
-
-* PHP 8.1+
-* Laravel v10.0+
-* Livewire v3.0+
-
 ## Installation
 You can install the package via composer:
 
@@ -50,6 +42,7 @@ return [
 
 ## Requirements
 
+This package requires [Filament v3](https://filamentphp.com/docs/3.x/panels/installation) or later to run.
 This package generates [PestPHP](https://pestphp.com/docs/installation) tests, make sure you have it installed in your project. You can install it by running the following command:
 
 ```bash
