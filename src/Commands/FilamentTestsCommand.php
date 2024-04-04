@@ -306,6 +306,11 @@ class FilamentTestsCommand extends Command
             $stubs[] = $this->getStubPath('Replicate', 'Table/Actions');
         }
 
+        // Check there are table filters
+        if ($this->getResourceTableFilters($resourceTable)->isNotEmpty()) {
+            $stubs[] = $this->getStubPath('CanResetFilters', 'Table/Filters');
+        }
+
         // Check if there is a trashed filter
         if ($this->hasTableFilter('trashed', $resourceTable) && $this->hasSoftDeletes($resource)) {
             // Check if there is a restore action
