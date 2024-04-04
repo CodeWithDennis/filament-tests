@@ -230,56 +230,56 @@ class FilamentTestsCommand extends Command
 
         // Base stubs that are always included
         $stubs[] = $this->getStubPath('Base');
-        $stubs[] = $this->getStubPath('RenderPage');
+        $stubs[] = $this->getStubPath('RenderPage', 'Table');
 
         // Check if there is a create page
         if ($this->hasPage('create', $resource)) {
-            $stubs[] = $this->getStubPath('RenderCreatePage', 'Page/Rendering');
+            $stubs[] = $this->getStubPath('RenderCreatePage', 'Page');
         }
 
         // Check if there is an edit page
         if ($this->hasPage('edit', $resource)) {
-            $stubs[] = $this->getStubPath('RenderEditPage', 'Page/Rendering');
+            $stubs[] = $this->getStubPath('RenderEditPage', 'Page');
         }
 
         // Add additional stubs based on the columns
         if ($this->getTableColumns($resource)->isNotEmpty()) {
-            $stubs[] = $this->getStubPath('HasColumn', 'Table');
+            $stubs[] = $this->getStubPath('HasColumn', 'Table/Columns');
         }
 
         // Check if there are initially visible columns
         if ($this->getInitiallyVisibleColumns($resource)->isNotEmpty()) {
-            $stubs[] = $this->getStubPath('RenderColumn', 'Table/Rendering');
+            $stubs[] = $this->getStubPath('RenderColumn', 'Table/Columns');
         }
 
         // Check if there are toggleable columns that are hidden by default
         if ($this->getToggledHiddenByDefaultColumns($resource)->isNotEmpty()) {
-            $stubs[] = $this->getStubPath('CannotRenderColumn', 'Table/Rendering');
+            $stubs[] = $this->getStubPath('CannotRenderColumn', 'Table/Columns');
         }
 
         // Check if there are sortable columns
         if ($this->getSortableColumns($resource)->isNotEmpty()) {
-            $stubs[] = $this->getStubPath('SortColumn', 'Table');
+            $stubs[] = $this->getStubPath('SortColumn', 'Table/Columns');
         }
 
         // Check if there are searchable columns
         if ($this->getSearchableColumns($resource)->isNotEmpty()) {
-            $stubs[] = $this->getStubPath('SearchColumn', 'Table');
+            $stubs[] = $this->getStubPath('SearchColumn', 'Table/Columns');
         }
 
         // Check if there are individually searchable columns
         if ($this->getIndividuallySearchableColumns($resource)->isNotEmpty()) {
-            $stubs[] = $this->getStubPath('IndividuallySearchColumn', 'Table');
+            $stubs[] = $this->getStubPath('IndividuallySearchColumn', 'Table/Columns');
         }
 
         // Check if there is a description above
         if ($this->getDescriptionAboveColumns($resource)->isNotEmpty()) {
-            $stubs[] = $this->getStubPath('DescriptionAbove', 'Table');
+            $stubs[] = $this->getStubPath('DescriptionAbove', 'Table/Columns');
         }
 
         // Check if there is a description below
         if ($this->getDescriptionBelowColumns($resource)->isNotEmpty()) {
-            $stubs[] = $this->getStubPath('DescriptionBelow', 'Table');
+            $stubs[] = $this->getStubPath('DescriptionBelow', 'Table/Columns');
         }
 
         // Check that trashed columns are not displayed by default
