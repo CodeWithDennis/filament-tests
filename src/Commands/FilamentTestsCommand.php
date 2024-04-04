@@ -212,104 +212,120 @@ class FilamentTestsCommand extends Command
         return $this->getResourceTableFilters($table)->map(fn ($filter) => $filter->getName())->contains($filter);
     }
 
+    protected function getStubPath(string $for, ?string $in = null): string
+    {
+        $basePath = __DIR__.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'stubs';
+
+        return $in
+            ? $basePath.DIRECTORY_SEPARATOR.$in.DIRECTORY_SEPARATOR.$for.'.stub'
+            : $basePath.DIRECTORY_SEPARATOR.$for.'.stub';
+    }
+
     protected function getStubs(Resource $resource): array
     {
         // Get the resource table
         $resourceTable = $this->getResourceTable($resource);
 
+        $stubs = [];
+
         // Base stubs that are always included
-        $stubs = ['Base', 'RenderPage'];
+        $stubs[] = $this->getStubPath('Base');
+        $stubs[] = $this->getStubPath('RenderPage', 'Page');
 
         // Check if there is a create page
         if ($this->hasPage('create', $resource)) {
-            $stubs[] = 'RenderCreatePage';
+            $stubs[] = $this->getStubPath('RenderCreatePage', 'Page');
         }
 
         // Check if there is an edit page
         if ($this->hasPage('edit', $resource)) {
-            $stubs[] = 'RenderEditPage';
+            $stubs[] = $this->getStubPath('RenderEditPage', 'Page');
         }
 
         // Add additional stubs based on the columns
         if ($this->getTableColumns($resource)->isNotEmpty()) {
-            $stubs[] = 'HasColumn';
+            $stubs[] = $this->getStubPath('HasColumn', 'Table/Columns');
         }
 
         // Check if there are initially visible columns
         if ($this->getInitiallyVisibleColumns($resource)->isNotEmpty()) {
-            $stubs[] = 'RenderColumn';
+            $stubs[] = $this->getStubPath('RenderColumn', 'Table/Columns');
         }
 
         // Check if there are toggleable columns that are hidden by default
         if ($this->getToggledHiddenByDefaultColumns($resource)->isNotEmpty()) {
-            $stubs[] = 'CannotRenderColumn';
+            $stubs[] = $this->getStubPath('CannotRenderColumn', 'Table/Columns');
         }
 
         // Check if there are sortable columns
         if ($this->getSortableColumns($resource)->isNotEmpty()) {
-            $stubs[] = 'SortColumn';
+            $stubs[] = $this->getStubPath('SortColumn', 'Table/Columns');
         }
 
         // Check if there are searchable columns
         if ($this->getSearchableColumns($resource)->isNotEmpty()) {
-            $stubs[] = 'SearchColumn';
+            $stubs[] = $this->getStubPath('SearchColumn', 'Table/Columns');
         }
 
         // Check if there are individually searchable columns
         if ($this->getIndividuallySearchableColumns($resource)->isNotEmpty()) {
-            $stubs[] = 'IndividuallySearchColumn';
+            $stubs[] = $this->getStubPath('IndividuallySearchColumn', 'Table/Columns');
         }
 
         // Check if there is a description above
         if ($this->getDescriptionAboveColumns($resource)->isNotEmpty()) {
-            $stubs[] = 'DescriptionAbove';
+            $stubs[] = $this->getStubPath('DescriptionAbove', 'Table/Columns');
         }
 
         // Check if there is a description below
         if ($this->getDescriptionBelowColumns($resource)->isNotEmpty()) {
-            $stubs[] = 'DescriptionBelow';
+            $stubs[] = $this->getStubPath('DescriptionBelow', 'Table/Columns');
         }
 
         // Check that trashed columns are not displayed by default
         if ($this->hasSoftDeletes($resource) && $this->getTableColumns($resource)->isNotEmpty()) {
-            $stubs[] = 'Trashed';
+            $stubs[] = $this->getStubPath('Trashed', 'Table');
         }
 
         // Check if there is a delete action
         if ($this->hasTableAction('delete', $resource)) {
-            $stubs[] = ! $this->hasSoftDeletes($resource) ? 'Delete' : 'SoftDelete';
+            $stubs[] = ! $this->hasSoftDeletes($resource)
+                ? $this->getStubPath('Delete', 'Table/Actions')
+                : $this->getStubPath('SoftDelete', 'Table/Actions');
         }
 
         // Check if there is a bulk delete action
         if ($this->hasTableBulkAction('delete', $resource)) {
-            $stubs[] = ! $this->hasSoftDeletes($resource) ? 'BulkDelete' : 'BulkSoftDelete';
+            $stubs[] = ! $this->hasSoftDeletes($resource)
+                ? $this->getStubPath('Delete', 'Table/BulkActions')
+                : $this->getStubPath('SoftDelete', 'Table/BulkActions');
         }
 
         // Check if there is a replicate action
         if ($this->hasTableAction('replicate', $resource)) {
-            $stubs[] = 'Replicate';
+            $stubs[] = $this->getStubPath('Replicate', 'Table/Actions');
         }
 
         // Check if there is a trashed filter
         if ($this->hasTableFilter('trashed', $resourceTable) && $this->hasSoftDeletes($resource)) {
             // Check if there is a restore action
             if ($this->hasTableAction('restore', $resource)) {
-                $stubs[] = 'Restore';
-            }
-
-            // Check if there is a bulk restore action
-            if ($this->hasTableBulkAction('restore', $resource)) {
-                $stubs[] = 'BulkRestore';
+                $stubs[] = $this->getStubPath('Restore', 'Table/Actions');
             }
 
             // Check if there is a force delete action
             if ($this->hasTableAction('forceDelete', $resource)) {
-                $stubs[] = 'ForceDelete';
+                $stubs[] = $this->getStubPath('ForceDelete', 'Table/Actions');
+            }
+
+            // Check if there is a bulk restore action
+            if ($this->hasTableBulkAction('restore', $resource)) {
+                $stubs[] = $this->getStubPath('Restore', 'Table/BulkActions');
             }
 
             // Check if there is a bulk force delete action
             if ($this->hasTableBulkAction('forceDelete', $resource)) {
-                $stubs[] = 'BulkForceDelete';
+                $stubs[] = $this->getStubPath('ForceDelete', 'Table/BulkActions');
             }
         }
 
@@ -352,7 +368,7 @@ class FilamentTestsCommand extends Command
         $contents = '';
 
         foreach ($this->getStubs($resource) as $stub) {
-            $contents .= $this->getStubContents(__DIR__.'/../../stubs/'.$stub.'.stub', $this->getStubVariables($resource));
+            $contents .= $this->getStubContents($stub, $this->getStubVariables($resource));
         }
 
         return $contents;

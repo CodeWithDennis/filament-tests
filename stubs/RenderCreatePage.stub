@@ -1,3 +1,0 @@
-it('can render create page', function () {
-   get({{ RESOURCE }}::getUrl('create'))->assertSuccessful();
-})->group('rendering');

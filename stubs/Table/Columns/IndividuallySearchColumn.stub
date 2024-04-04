@@ -7,4 +7,4 @@ it('can individually search by column', function (string $column) {
         ->searchTableColumns([$column => $search])
         ->assertCanSeeTableRecords($records->where($column, $search))
         ->assertCanNotSeeTableRecords($records->where($column, '!=', $search));
-})->with({{ RESOURCE_TABLE_INDIVIDUALLY_SEARCHABLE_COLUMNS }});
+})->with({{ RESOURCE_TABLE_INDIVIDUALLY_SEARCHABLE_COLUMNS }})->group('table');

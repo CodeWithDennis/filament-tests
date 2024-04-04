@@ -1,0 +1,3 @@
+it('can render create page', function () {
+   livewire(Create{{ MODEL_SINGULAR_NAME }}::class)->assertSuccessful();
+})->group('render');

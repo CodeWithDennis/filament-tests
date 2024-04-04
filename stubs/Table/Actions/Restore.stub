@@ -1,4 +1,4 @@
-it('can force delete records', function () {
+it('can restore records', function () {
     $record = {{ MODEL_SINGULAR_NAME }}::factory()->create();
     $record->delete();
 
@@ -7,7 +7,7 @@ it('can force delete records', function () {
     livewire(List{{ MODEL_PLURAL_NAME }}::class)
         ->filterTable('trashed', true)
         ->assertCanSeeTableRecords([$record])
-        ->callTableAction(ForceDeleteAction::class, $record);
+        ->callTableAction(RestoreAction::class, $record);
 
-    assertModelMissing($record);
-});
+    expect($record->refresh()->trashed())->toBeFalse();
+})->group('table', 'table-actions');

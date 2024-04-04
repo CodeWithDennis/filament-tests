@@ -1,0 +1,5 @@
+it('can render edit page', function () {
+    $record = {{ MODEL_SINGULAR_NAME }}::factory()->create();
+
+    livewire(Edit{{ MODEL_SINGULAR_NAME }}::class, ['record' => $record->getRouteKey()])->assertSuccessful();
+})->group('render');

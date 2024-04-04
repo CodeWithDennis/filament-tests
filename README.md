@@ -75,10 +75,10 @@ php artisan make:filament-test
 ````
 ## Options
 
-| Option       | Description |
-|--------------|-------------|
-| `--all` `-a` | Create tests for all Filament resources |
-| `--force` `-f` | Overwrite existing tests |
+| Option         | Description                             |
+|----------------|-----------------------------------------|
+| `--all` `-a`   | Create tests for all Filament resources |
+| `--force` `-f` | Overwrite existing tests                |
 
 ## Tests
 Tests are generated on demand and are tailored to the component that you're generating tests for. For example, if the resource component doesn't have any sortable columns, then the tests for sorting 
@@ -126,6 +126,16 @@ You can also run all your tests except the ones for this package by running the 
 ```bash
 vendor/bin/pest --exclude-group=filament-tests
 ```
+
+### Additional grouping options
+| Name                 | Includes                                                |
+|----------------------|---------------------------------------------------------|
+| `page`               | Runs the tests for the pages                            |
+| `render`             | Runs the tests that check if the page renders correctly |
+| `table`              | Runs the tests for the table                            |
+| `table-actions`      | Runs the tests for table actions                        |
+| `table-bulk-actions` | Runs the tests for table bulk actions                   |
+> You can add any of those above groups to either `--exclude-group` or `--group` to include or exclude them from the test run. You can comma-separate multiple groups.
 
 ## Credits
 
