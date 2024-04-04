@@ -43,6 +43,7 @@ return [
 ## Requirements
 
 This package requires [Filament v3](https://filamentphp.com/docs/3.x/panels/installation) or later to run.
+
 This package generates [PestPHP](https://pestphp.com/docs/installation) tests, make sure you have it installed in your project. You can install it by running the following command:
 
 ```bash
