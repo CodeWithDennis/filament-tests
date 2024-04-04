@@ -7,4 +7,4 @@ it('cannot display trashed records by default', function () {
         ->assertCanSeeTableRecords($records)
         ->assertCanNotSeeTableRecords($trashedRecords)
         ->assertCountTableRecords(3);
-});
+})->group('table');
