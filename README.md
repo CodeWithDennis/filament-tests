@@ -103,8 +103,8 @@ won't be generated.
   - [x] It can replicate records
   - [x] It can force delete records
   - [x] It can bulk force delete records
+  - [x] It can reset table filters
   - [ ] It can filter table records
-  - [ ] It can reset table filters
   - [ ] It can remove table filters
 
 ## Running the package tests
@@ -130,6 +130,7 @@ vendor/bin/pest --exclude-group=filament-tests
 ### Additional grouping options
 | Name                 | Includes                                                |
 |----------------------|---------------------------------------------------------|
+| `filters`            | Runs the tests for the filters                          |
 | `page`               | Runs the tests for the pages                            |
 | `render`             | Runs the tests that check if the page renders correctly |
 | `table`              | Runs the tests for the table                            |
