@@ -307,7 +307,7 @@ class FilamentTestsCommand extends Command
         }
 
         // Check there are table filters
-        if($this->getResourceTableFilters($resourceTable)->isNotEmpty()) {
+        if ($this->getResourceTableFilters($resourceTable)->isNotEmpty()) {
             $stubs[] = $this->getStubPath('CanResetFilters', 'Table/Filters');
         }
 
