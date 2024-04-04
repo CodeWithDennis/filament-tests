@@ -150,8 +150,7 @@ class FilamentTestsCommand extends Command
     protected function getDescriptionAboveColumns(Resource $resource): Collection
     {
         return $this->getTableColumns($resource)
-            ->filter(fn ($column) =>
-                method_exists($column, 'description') &&
+            ->filter(fn ($column) => method_exists($column, 'description') &&
                 $column->getDescriptionAbove()
             );
     }
@@ -159,8 +158,7 @@ class FilamentTestsCommand extends Command
     protected function getDescriptionBelowColumns(Resource $resource): Collection
     {
         return $this->getTableColumns($resource)
-            ->filter(fn ($column) =>
-                method_exists($column, 'description') &&
+            ->filter(fn ($column) => method_exists($column, 'description') &&
                 $column->getDescriptionBelow()
             );
     }
