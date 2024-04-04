@@ -1,0 +1,10 @@
+it('can remove {{ RESOURCE_TABLE_FIRST_FILTER_NAME }} table filter', function () {
+    $records = {{ MODEL_SINGULAR_NAME }}::factory(3)->create();
+
+    livewire(List{{ MODEL_PLURAL_NAME }}::class)
+        ->assertCanSeeTableRecords($records)
+        ->filterTable('{{ RESOURCE_TABLE_FIRST_FILTER_NAME }}', {{ RESOURCE_TABLE_FIRST_FILTER_VALUE }})
+        ->assertCanNotSeeTableRecords($records)
+        ->removeTableFilter('{{ RESOURCE_TABLE_FIRST_FILTER_NAME }}')
+        ->assertCanNotSeeTableRecords($records);
+});
