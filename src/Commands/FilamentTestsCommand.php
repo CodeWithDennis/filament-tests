@@ -230,7 +230,7 @@ class FilamentTestsCommand extends Command
 
         // Base stubs that are always included
         $stubs[] = $this->getStubPath('Base');
-        $stubs[] = $this->getStubPath('RenderPage', 'Table');
+        $stubs[] = $this->getStubPath('RenderPage', 'Page');
 
         // Check if there is a create page
         if ($this->hasPage('create', $resource)) {
