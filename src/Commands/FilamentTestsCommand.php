@@ -454,12 +454,12 @@ class FilamentTestsCommand extends Command
 
         $toBeConverted = [
             'RESOURCE_TABLE_COLUMNS' => $this->getTableColumns($resource)->keys(),
-            'RESOURCE_TABLE_COLUMNS_INITIALLY_VISIBLE' => $this->getInitiallyVisibleColumns($resource)->keys(),
-            'RESOURCE_TABLE_COLUMNS_TOGGLED_HIDDEN_BY_DEFAULT' => $this->getToggledHiddenByDefaultColumns($resource)->keys(),
-            'RESOURCE_TABLE_TOGGLEABLE_COLUMNS' => $this->getToggleableColumns($resource)->keys(),
-            'RESOURCE_TABLE_SORTABLE_COLUMNS' => $this->getSortableColumns($resource)->keys(),
-            'RESOURCE_TABLE_SEARCHABLE_COLUMNS' => $this->getSearchableColumns($resource)->keys(),
+            'RESOURCE_TABLE_INITIALLY_VISIBLE_COLUMNS' => $this->getInitiallyVisibleColumns($resource)->keys(),
+            'RESOURCE_TABLE_TOGGLED_HIDDEN_BY_DEFAULT_COLUMNS' => $this->getToggledHiddenByDefaultColumns($resource)->keys(),
             'RESOURCE_TABLE_INDIVIDUALLY_SEARCHABLE_COLUMNS' => $this->getIndividuallySearchableColumns($resource)->keys(),
+            'RESOURCE_TABLE_SEARCHABLE_COLUMNS' => $this->getSearchableColumns($resource)->keys(),
+            'RESOURCE_TABLE_SORTABLE_COLUMNS' => $this->getSortableColumns($resource)->keys(),
+            'RESOURCE_TABLE_TOGGLEABLE_COLUMNS' => $this->getToggleableColumns($resource)->keys(),
         ];
 
         $converted = array_map(function ($value) {
@@ -467,12 +467,12 @@ class FilamentTestsCommand extends Command
         }, $toBeConverted);
 
         return array_merge([
-            'RESOURCE' => str($resource::class)->afterLast('\\'),
             'MODEL_IMPORT' => $modelImport,
-            'MODEL_SINGULAR_NAME' => str($resourceModel)->afterLast('\\'),
             'MODEL_PLURAL_NAME' => str($resourceModel)->afterLast('\\')->plural(),
-            'RESOURCE_TABLE_COLUMNS_DESCRIPTIONS_ABOVE' => $this->transformToPestDataset($this->getTableColumnDescriptionAbove($resource), ['column', 'description']),
-            'RESOURCE_TABLE_COLUMNS_DESCRIPTIONS_BELOW' => $this->transformToPestDataset($this->getTableColumnDescriptionBelow($resource), ['column', 'description']),
+            'MODEL_SINGULAR_NAME' => str($resourceModel)->afterLast('\\'),
+            'RESOURCE' => str($resource::class)->afterLast('\\'),
+            'RESOURCE_TABLE_DESCRIPTIONS_ABOVE_COLUMNS' => $this->transformToPestDataset($this->getTableColumnDescriptionAbove($resource), ['column', 'description']),
+            'RESOURCE_TABLE_DESCRIPTIONS_BELOW_COLUMNS' => $this->transformToPestDataset($this->getTableColumnDescriptionBelow($resource), ['column', 'description']),
         ], $converted);
     }
 
