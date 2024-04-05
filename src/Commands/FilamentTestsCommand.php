@@ -190,13 +190,10 @@ class FilamentTestsCommand extends Command
     protected function getTableColumnWithOptions(Resource $resource): array
     {
         return $this->getTableSelectColumns($resource)
-            ->map(function ($column) {
-
-                return [
-                    'column' => $column->getName(),
-                    'options' => $column->getOptions(),
-                ];
-            })->toArray();
+            ->map(fn($column) => [
+                'column' => $column->getName(),
+                'options' => $column->getOptions(),
+            ])->toArray();
     }
 
     protected function hasSoftDeletes(Resource $resource): bool
