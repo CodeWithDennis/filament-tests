@@ -111,6 +111,11 @@ class FilamentTestsCommand extends Command
         return collect($this->getResourceTable($resource)->getColumns());
     }
 
+    protected function hasDeferredLoading(Resource $resource): bool
+    {
+        return $this->getResourceTable($resource)->isLoadingDeferred();
+    }
+
     protected function getSearchableColumns(Resource $resource): Collection
     {
         return $this->getTableColumns($resource)
@@ -263,17 +268,23 @@ class FilamentTestsCommand extends Command
 
         // Check if there are sortable columns
         if ($this->getSortableColumns($resource)->isNotEmpty()) {
-            $stubs[] = $this->getStubPath('SortColumn', 'Table/Columns');
+            $stubs[] = $this->hasDeferredLoading($resource)
+                ? $this->getStubPath('SortColumn', 'Table/Deferred/Columns')
+                : $this->getStubPath('SortColumn', 'Table/Columns');
         }
 
         // Check if there are searchable columns
         if ($this->getSearchableColumns($resource)->isNotEmpty()) {
-            $stubs[] = $this->getStubPath('SearchColumn', 'Table/Columns');
+            $stubs[] = $this->hasDeferredLoading($resource)
+                ? $this->getStubPath('SearchColumn', 'Table/Deferred/Columns')
+                : $this->getStubPath('SearchColumn', 'Table/Columns');
         }
 
         // Check if there are individually searchable columns
         if ($this->getIndividuallySearchableColumns($resource)->isNotEmpty()) {
-            $stubs[] = $this->getStubPath('IndividuallySearchColumn', 'Table/Columns');
+            $stubs[] = $this->hasDeferredLoading($resource)
+                ? $this->getStubPath('IndividuallySearchColumn', 'Table/Deferred/Columns')
+                : $this->getStubPath('IndividuallySearchColumn', 'Table/Columns');
         }
 
         // Check if there is a description above
@@ -288,7 +299,9 @@ class FilamentTestsCommand extends Command
 
         // Check that trashed columns are not displayed by default
         if ($this->hasSoftDeletes($resource) && $this->getTableColumns($resource)->isNotEmpty()) {
-            $stubs[] = $this->getStubPath('Trashed', 'Table');
+            $stubs[] = $this->hasDeferredLoading($resource)
+                ? $this->getStubPath('Trashed', 'Table/Deferred')
+                : $this->getStubPath('Trashed', 'Table');
         }
 
         // Check if there is a delete action
@@ -312,29 +325,39 @@ class FilamentTestsCommand extends Command
 
         // Check there are table filters
         if ($this->getResourceTableFilters($resourceTable)->isNotEmpty()) {
-            $stubs[] = $this->getStubPath('CanResetFilters', 'Table/Filters');
+            $stubs[] = $this->hasDeferredLoading($resource)
+                ?  $this->getStubPath('CanResetFilters', 'Table/Deferred/Filters')
+                :  $this->getStubPath('CanResetFilters', 'Table/Filters');
         }
 
         // Check if there is a trashed filter
         if ($this->hasTableFilter('trashed', $resourceTable) && $this->hasSoftDeletes($resource)) {
             // Check if there is a restore action
             if ($this->hasTableAction('restore', $resource)) {
-                $stubs[] = $this->getStubPath('Restore', 'Table/Actions');
+                $stubs[] = $this->hasDeferredLoading($resource)
+                    ? $this->getStubPath('Restore', 'Table/Deferred/Actions')
+                    : $this->getStubPath('Restore', 'Table/Actions');
             }
 
             // Check if there is a force delete action
             if ($this->hasTableAction('forceDelete', $resource)) {
-                $stubs[] = $this->getStubPath('ForceDelete', 'Table/Actions');
+                $stubs[] = $this->hasDeferredLoading($resource)
+                    ? $this->getStubPath('ForceDelete', 'Table/Deferred/Actions')
+                    : $this->getStubPath('ForceDelete', 'Table/Actions');
             }
 
             // Check if there is a bulk restore action
             if ($this->hasTableBulkAction('restore', $resource)) {
-                $stubs[] = $this->getStubPath('Restore', 'Table/BulkActions');
+                $stubs[] = $this->hasDeferredLoading($resource)
+                    ? $this->getStubPath('Restore', 'Table/Deferred/BulkActions')
+                    : $this->getStubPath('Restore', 'Table/BulkActions');
             }
 
             // Check if there is a bulk force delete action
             if ($this->hasTableBulkAction('forceDelete', $resource)) {
-                $stubs[] = $this->getStubPath('ForceDelete', 'Table/BulkActions');
+                $stubs[] = $this->hasDeferredLoading($resource)
+                    ? $this->getStubPath('ForceDelete', 'Table/Deferred/BulkActions')
+                    : $this->getStubPath('ForceDelete', 'Table/BulkActions');
             }
         }
 

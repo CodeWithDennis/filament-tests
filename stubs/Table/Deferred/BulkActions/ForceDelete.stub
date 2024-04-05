@@ -1,0 +1,21 @@
+it('can bulk force delete records', function () {
+    $records = {{ MODEL_SINGULAR_NAME }}::factory(3)->create();
+
+    foreach ($records as $record) {
+        $record->delete();
+
+        $this->assertSoftDeleted($record);
+    }
+
+    livewire(List{{ MODEL_PLURAL_NAME }}::class)
+        ->filterTable('trashed', true)
+        ->loadTable()
+        ->assertCanSeeTableRecords($records)
+        ->callTableBulkAction(ForceDeleteBulkAction::class, $records);
+
+    foreach ($records as $record) {
+        $this->assertModelMissing($record);
+    }
+
+    expect({{ MODEL_SINGULAR_NAME }}::count())->toBe(0);
+})->group('table', 'table-bulk-actions');

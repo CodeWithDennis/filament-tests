@@ -1,0 +1,17 @@
+it('can bulk restore records', function () {
+    $records = {{ MODEL_SINGULAR_NAME }}::factory(3)->create();
+
+    foreach ($records as $record) {
+        $record->delete();
+
+        $this->assertSoftDeleted($record);
+    }
+
+    livewire(List{{ MODEL_PLURAL_NAME }}::class)
+        ->filterTable('trashed', true)
+        ->loadTable()
+        ->assertCanSeeTableRecords($records)
+        ->callTableBulkAction(RestoreBulkAction::class, $records);
+
+    expect({{ MODEL_SINGULAR_NAME }}::onlyTrashed()->count())->toBe(0);
+})->group('table', 'table-bulk-actions');
