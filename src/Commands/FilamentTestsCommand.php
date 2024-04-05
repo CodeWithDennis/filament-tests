@@ -518,7 +518,7 @@ class FilamentTestsCommand extends Command
             'RESOURCE' => str($resource::class)->afterLast('\\'),
             'RESOURCE_TABLE_DESCRIPTIONS_ABOVE_COLUMNS' => $this->transformToPestDataset($this->getTableColumnDescriptionAbove($resource), ['column', 'description']),
             'RESOURCE_TABLE_DESCRIPTIONS_BELOW_COLUMNS' => $this->transformToPestDataset($this->getTableColumnDescriptionBelow($resource), ['column', 'description']),
-            'RESOURCE_SELECT_COLUMNS' => $this->transformToPestDataset($this->getTableColumnWithOptions($resource), ['column', 'options']),
+            'RESOURCE_TABLE_SELECT_COLUMNS' => $this->transformToPestDataset($this->getTableColumnWithOptions($resource), ['column', 'options']),
         ], $converted);
     }
 
