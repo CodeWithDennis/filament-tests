@@ -190,7 +190,7 @@ class FilamentTestsCommand extends Command
     protected function getTableColumnWithOptions(Resource $resource): array
     {
         return $this->getTableSelectColumns($resource)
-            ->map(fn($column) => [
+            ->map(fn ($column) => [
                 'column' => $column->getName(),
                 'options' => $column->getOptions(),
             ])->toArray();
