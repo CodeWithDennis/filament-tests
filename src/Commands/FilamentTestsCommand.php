@@ -184,8 +184,7 @@ class FilamentTestsCommand extends Command
     protected function getTableSelectColumns(Resource $resource): Collection
     {
         return $this->getTableColumns($resource)
-            ->filter(fn ($column) => $column instanceof \Filament\Tables\Columns\SelectColumn)
-            ;
+            ->filter(fn ($column) => $column instanceof \Filament\Tables\Columns\SelectColumn);
     }
 
     protected function getTableColumnWithOptions(Resource $resource): array
