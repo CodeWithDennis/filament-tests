@@ -326,8 +326,8 @@ class FilamentTestsCommand extends Command
         // Check there are table filters
         if ($this->getResourceTableFilters($resourceTable)->isNotEmpty()) {
             $stubs[] = $this->hasDeferredLoading($resource)
-                ?  $this->getStubPath('CanResetFilters', 'Table/Deferred/Filters')
-                :  $this->getStubPath('CanResetFilters', 'Table/Filters');
+                ? $this->getStubPath('CanResetFilters', 'Table/Deferred/Filters')
+                : $this->getStubPath('CanResetFilters', 'Table/Filters');
         }
 
         // Check if there is a trashed filter
