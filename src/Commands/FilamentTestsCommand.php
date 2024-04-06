@@ -231,6 +231,11 @@ class FilamentTestsCommand extends Command
         return collect($table->getFilters());
     }
 
+    protected function hasDeferredLoading(Resource $resource): bool
+    {
+        return $this->getResourceTable($resource)->isLoadingDeferred();
+    }
+
     protected function hasTableAction(string $action, Resource $resource): bool
     {
         return $this->getResourceTableActions($resource)->map(fn ($action) => $action->getName())->contains($action);
@@ -540,11 +545,18 @@ class FilamentTestsCommand extends Command
             'RESOURCE_TABLE_DESCRIPTIONS_BELOW_COLUMNS' => $this->transformToPestDataset($this->getTableColumnDescriptionBelow($resource), ['column', 'description']),
             'RESOURCE_TABLE_EXTRA_ATTRIBUTES_COLUMNS' => $this->transformToPestDataset($this->getExtraAttributesColumnValues($resource), ['column', 'attributes']),
             'RESOURCE_TABLE_SELECT_COLUMNS' => $this->transformToPestDataset($this->getTableSelectColumnsWithOptions($resource), ['column', 'options']),
+            'RESOURCE_TABLE_HAS_DEFERRED_LOADING_LOAD_TABLE_METHOD' => $this->hasDeferredLoading($resource) ? $this->getDeferredLoadingMethod() : '',
+
         ], $converted);
     }
 
     protected function getNormalizedResourceName(string $name): string
     {
         return str($name)->ucfirst()->finish('Resource');
+    }
+
+    protected function getDeferredLoadingMethod(): string
+    {
+        return "\n\t\t->loadTable()";
     }
 }

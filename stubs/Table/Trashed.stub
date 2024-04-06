@@ -3,7 +3,7 @@ it('cannot display trashed records by default', function () {
 
     $trashedRecords = {{ MODEL_SINGULAR_NAME }}::factory(6)->trashed()->create();
 
-    livewire(List{{ MODEL_PLURAL_NAME }}::class)
+    livewire(List{{ MODEL_PLURAL_NAME }}::class){{ RESOURCE_TABLE_HAS_DEFERRED_LOADING_LOAD_TABLE_METHOD }}
         ->assertCanSeeTableRecords($records)
         ->assertCanNotSeeTableRecords($trashedRecords)
         ->assertCountTableRecords(3);
