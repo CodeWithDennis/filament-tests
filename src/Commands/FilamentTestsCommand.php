@@ -181,7 +181,6 @@ class FilamentTestsCommand extends Command
             ])->toArray();
     }
 
-
     protected function getExtraAttributesColumns(Resource $resource): Collection
     {
         return $this->getTableColumns($resource)
@@ -194,9 +193,9 @@ class FilamentTestsCommand extends Command
             ->map(fn ($column) => [
                 'column' => $column->getName(),
                 'attributes' => $column->getExtraAttributes(),
-        ])->toArray();
+            ])->toArray();
     }
-  
+
     protected function getTableSelectColumns(Resource $resource): Collection
     {
         return $this->getTableColumns($resource)
