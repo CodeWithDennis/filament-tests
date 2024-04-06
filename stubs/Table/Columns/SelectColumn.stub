@@ -1,0 +1,6 @@
+it('has the correct options', function (string $column, array $options) {
+    $record = {{ MODEL_SINGULAR_NAME }}::factory()->create();
+
+    livewire(List{{ MODEL_PLURAL_NAME }}::class)
+        ->assertTableSelectColumnHasOptions($column, $options, $record);
+})->with({{ RESOURCE_TABLE_SELECT_COLUMNS }})->group('table');

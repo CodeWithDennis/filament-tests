@@ -181,6 +181,21 @@ class FilamentTestsCommand extends Command
             ])->toArray();
     }
 
+    protected function getTableSelectColumns(Resource $resource): Collection
+    {
+        return $this->getTableColumns($resource)
+            ->filter(fn ($column) => $column instanceof \Filament\Tables\Columns\SelectColumn);
+    }
+
+    protected function getTableSelectColumnsWithOptions(Resource $resource): array
+    {
+        return $this->getTableSelectColumns($resource)
+            ->map(fn ($column) => [
+                'column' => $column->getName(),
+                'options' => $column->getOptions(),
+            ])->toArray();
+    }
+
     protected function hasSoftDeletes(Resource $resource): bool
     {
         return method_exists($resource->getModel(), 'bootSoftDeletes');
@@ -284,6 +299,11 @@ class FilamentTestsCommand extends Command
         // Check if there is a description below
         if ($this->getDescriptionBelowColumns($resource)->isNotEmpty()) {
             $stubs[] = $this->getStubPath('DescriptionBelow', 'Table/Columns');
+        }
+
+        // Check if there are select columns
+        if ($this->getTableSelectColumns($resource)->isNotEmpty()) {
+            $stubs[] = $this->getStubPath('SelectColumn', 'Table/Columns');
         }
 
         // Check that trashed columns are not displayed by default
@@ -446,19 +466,29 @@ class FilamentTestsCommand extends Command
 
     protected function transformToPestDataset(array $source, array $keys): string
     {
-        $transformed = [];
+        $result = [];
 
         foreach ($source as $item) {
-            $transformedItem = [];
+            $temp = [];
+
             foreach ($keys as $key) {
                 if (isset($item[$key])) {
-                    $transformedItem[] = $item[$key];
+                    if (is_array($item[$key])) {
+                        $nestedArray = [];
+                        foreach ($item[$key] as $nestedKey => $nestedValue) {
+                            $nestedArray[] = "'$nestedKey' => '$nestedValue'";
+                        }
+                        $temp[] = '['.implode(', ', $nestedArray).']';
+                    } else {
+                        $temp[] = "'".$item[$key]."'";
+                    }
                 }
             }
-            $transformed[] = $transformedItem;
+
+            $result[] = '['.implode(', ', $temp).']';
         }
 
-        return $this->convertDoubleQuotedArrayString(json_encode($transformed, JSON_UNESCAPED_UNICODE));
+        return $this->convertDoubleQuotedArrayString('['.implode(', ', $result).']');
     }
 
     protected function getStubVariables(Resource $resource): array
@@ -488,6 +518,7 @@ class FilamentTestsCommand extends Command
             'RESOURCE' => str($resource::class)->afterLast('\\'),
             'RESOURCE_TABLE_DESCRIPTIONS_ABOVE_COLUMNS' => $this->transformToPestDataset($this->getTableColumnDescriptionAbove($resource), ['column', 'description']),
             'RESOURCE_TABLE_DESCRIPTIONS_BELOW_COLUMNS' => $this->transformToPestDataset($this->getTableColumnDescriptionBelow($resource), ['column', 'description']),
+            'RESOURCE_TABLE_SELECT_COLUMNS' => $this->transformToPestDataset($this->getTableSelectColumnsWithOptions($resource), ['column', 'options']),
         ], $converted);
     }
 
