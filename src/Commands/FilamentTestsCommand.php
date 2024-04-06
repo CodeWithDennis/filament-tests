@@ -181,6 +181,7 @@ class FilamentTestsCommand extends Command
             ])->toArray();
     }
 
+
     protected function getExtraAttributesColumns(Resource $resource): Collection
     {
         return $this->getTableColumns($resource)
@@ -193,6 +194,21 @@ class FilamentTestsCommand extends Command
             ->map(fn ($column) => [
                 'column' => $column->getName(),
                 'attributes' => $column->getExtraAttributes(),
+        ])->toArray();
+    }
+  
+    protected function getTableSelectColumns(Resource $resource): Collection
+    {
+        return $this->getTableColumns($resource)
+            ->filter(fn ($column) => $column instanceof \Filament\Tables\Columns\SelectColumn);
+    }
+
+    protected function getTableSelectColumnsWithOptions(Resource $resource): array
+    {
+        return $this->getTableSelectColumns($resource)
+            ->map(fn ($column) => [
+                'column' => $column->getName(),
+                'options' => $column->getOptions(),
             ])->toArray();
     }
 
@@ -299,6 +315,11 @@ class FilamentTestsCommand extends Command
         // Check if there is a description below
         if ($this->getDescriptionBelowColumns($resource)->isNotEmpty()) {
             $stubs[] = $this->getStubPath('DescriptionBelow', 'Table/Columns');
+        }
+
+        // Check if there are select columns
+        if ($this->getTableSelectColumns($resource)->isNotEmpty()) {
+            $stubs[] = $this->getStubPath('SelectColumn', 'Table/Columns');
         }
 
         // Check that trashed columns are not displayed by default
@@ -519,6 +540,7 @@ class FilamentTestsCommand extends Command
             'RESOURCE_TABLE_DESCRIPTIONS_ABOVE_COLUMNS' => $this->transformToPestDataset($this->getTableColumnDescriptionAbove($resource), ['column', 'description']),
             'RESOURCE_TABLE_DESCRIPTIONS_BELOW_COLUMNS' => $this->transformToPestDataset($this->getTableColumnDescriptionBelow($resource), ['column', 'description']),
             'RESOURCE_TABLE_EXTRA_ATTRIBUTES_COLUMNS' => $this->transformToPestDataset($this->getExtraAttributesColumnValues($resource), ['column', 'attributes']),
+            'RESOURCE_TABLE_SELECT_COLUMNS' => $this->transformToPestDataset($this->getTableSelectColumnsWithOptions($resource), ['column', 'options']),
         ], $converted);
     }
 

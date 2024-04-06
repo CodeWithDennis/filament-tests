@@ -95,6 +95,7 @@ won't be generated.
   - [x] [It has column](https://filamentphp.com/docs/3.x/tables/testing#existence)
   - [x] [It has the correct descriptions](https://filamentphp.com/docs/3.x/tables/testing#descriptions)
   - [x] [It has extra attributes](https://filamentphp.com/docs/3.x/tables/testing#extra-attributes)
+  - [x] It has the correct options (SelectColumn)
   - [x] It can delete records
   - [x] It can soft delete records
   - [x] It can bulk delete records
