@@ -299,7 +299,7 @@ class FilamentTestsCommand extends Command
 
             // TODO: support deferred loading
             if ($this->tableHasPagination($resource)) {
-                $stubs[] =$this->getStubPath('ListRecordsPaginated', 'Page/Index');
+                $stubs[] = $this->getStubPath('ListRecordsPaginated', 'Page/Index');
             }
         }
 
