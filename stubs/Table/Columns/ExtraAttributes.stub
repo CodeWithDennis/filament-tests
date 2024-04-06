@@ -1,0 +1,6 @@
+it('has extra attributes', function (string $column, array $extraAttributes) {
+    $record = {{ MODEL_SINGULAR_NAME }}::factory()->create();
+
+    livewire(List{{ MODEL_PLURAL_NAME }}::class)
+        ->assertTableColumnHasExtraAttributes($column, $extraAttributes, $record);
+})->with({{ RESOURCE_TABLE_EXTRA_ATTRIBUTES_COLUMNS }});
