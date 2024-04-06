@@ -4,7 +4,7 @@ it('can search column', function (string $column) {
     $search = $records->first()->{$column};
 
     livewire(List{{ MODEL_PLURAL_NAME }}::class)
-        ->searchTable($search){{ RESOURCE_TABLE_HAS_DEFERRED_LOADING_LOAD_TABLE_METHOD }}
+        ->searchTable($search){{ LOAD_TABLE_METHOD_IF_DEFERRED }}
         ->assertCanSeeTableRecords($records->where($column, $search))
         ->assertCanNotSeeTableRecords($records->where($column, '!=', $search));
 })->with({{ RESOURCE_TABLE_SEARCHABLE_COLUMNS }})->group('table');

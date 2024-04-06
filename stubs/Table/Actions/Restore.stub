@@ -5,7 +5,7 @@ it('can restore records', function () {
     assert($record->trashed());
 
     livewire(List{{ MODEL_PLURAL_NAME }}::class)
-        ->filterTable('trashed', true){{ RESOURCE_TABLE_HAS_DEFERRED_LOADING_LOAD_TABLE_METHOD }}
+        ->filterTable('trashed', true){{ LOAD_TABLE_METHOD_IF_DEFERRED }}
         ->assertCanSeeTableRecords([$record])
         ->callTableAction(RestoreAction::class, $record);
 

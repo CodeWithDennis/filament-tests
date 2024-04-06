@@ -2,6 +2,6 @@ it('can reset table filters', function () {
     $records = {{ MODEL_SINGULAR_NAME }}::factory(3)->create();
 
     livewire(List{{ MODEL_PLURAL_NAME }}::class)
-        ->resetTableFilters(){{ RESOURCE_TABLE_HAS_DEFERRED_LOADING_LOAD_TABLE_METHOD }}
+        ->resetTableFilters(){{ LOAD_TABLE_METHOD_IF_DEFERRED }}
         ->assertCanSeeTableRecords($records);
 })->group('filters', 'table');

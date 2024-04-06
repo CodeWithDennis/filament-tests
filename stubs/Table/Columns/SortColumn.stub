@@ -2,8 +2,8 @@ it('can sort column', function (string $column) {
     $records = {{ MODEL_SINGULAR_NAME }}::factory(3)->create();
 
     livewire(List{{ MODEL_PLURAL_NAME }}::class)
-        ->sortTable($column){{ RESOURCE_TABLE_HAS_DEFERRED_LOADING_LOAD_TABLE_METHOD }}
+        ->sortTable($column){{ LOAD_TABLE_METHOD_IF_DEFERRED }}
         ->assertCanSeeTableRecords($records->sortBy($column), inOrder: true)
-        ->sortTable($column, 'desc'){{ RESOURCE_TABLE_HAS_DEFERRED_LOADING_LOAD_TABLE_METHOD }}
+        ->sortTable($column, 'desc'){{ LOAD_TABLE_METHOD_IF_DEFERRED }}
         ->assertCanSeeTableRecords($records->sortByDesc($column), inOrder: true);
 })->with({{ RESOURCE_TABLE_SORTABLE_COLUMNS }})->group('table');
