@@ -26,6 +26,10 @@ class FilamentTestsCommand extends Command
 
     protected $description = 'Create a new test for a Filament component';
 
+    protected int $baseUsers = 1;
+
+    protected int $defaultFactoryCount = 3;
+
     public function __construct(protected Filesystem $files)
     {
         parent::__construct();
@@ -216,6 +220,24 @@ class FilamentTestsCommand extends Command
         return method_exists($resource->getModel(), 'bootSoftDeletes');
     }
 
+    protected function tableHasPagination(Resource $resource): bool
+    {
+        return $this->getResourceTable($resource)->isPaginated();
+    }
+
+    protected function getTableDefaultPaginationPageOption(Resource $resource): int|string|null
+    {
+        return $this->getResourceTable($resource)->getDefaultPaginationPageOption();
+    }
+
+    protected function getTablePaginationPageOptions(Resource $resource): array
+    {
+        return collect($this->getResourceTable($resource)->getPaginationPageOptions())
+            ->map(fn ($option) => [
+                'options' => $option,
+            ])->toArray();
+    }
+
     protected function getResourceTableActions(Resource $resource): Collection
     {
         return collect($this->getResourceTable($resource)->getFlatActions());
@@ -264,16 +286,30 @@ class FilamentTestsCommand extends Command
 
         // Base stubs that are always included
         $stubs[] = $this->getStubPath('Base');
-        $stubs[] = $this->getStubPath('RenderPage', 'Page');
+
+        // Check if there is an index page
+        if ($this->hasPage('index', $resource)) {
+            $stubs[] = $this->getStubPath('Render', 'Page/Index');
+
+            // TODO: support deferred loading
+            $stubs[] = $this->tableHasPagination($resource)
+                ? $this->getStubPath('ListRecordsPaginated', 'Page/Index')
+                : $this->getStubPath('ListRecords', 'Page/Index');
+        }
 
         // Check if there is a create page
         if ($this->hasPage('create', $resource)) {
-            $stubs[] = $this->getStubPath('RenderCreatePage', 'Page');
+            $stubs[] = $this->getStubPath('Render', 'Page/Create');
         }
 
         // Check if there is an edit page
         if ($this->hasPage('edit', $resource)) {
-            $stubs[] = $this->getStubPath('RenderEditPage', 'Page');
+            $stubs[] = $this->getStubPath('Render', 'Page/Edit');
+        }
+
+        // Check if there is a view page
+        if ($this->hasPage('view', $resource)) {
+            $stubs[] = $this->getStubPath('Render', 'Page/View');
         }
 
         // Add additional stubs based on the columns
@@ -518,6 +554,9 @@ class FilamentTestsCommand extends Command
         $modelImport = $resourceModel === $userModel ? "use {$resourceModel};" : "use {$resourceModel};\nuse {$userModel};";
 
         $toBeConverted = [
+            'BASE_COUNT' => $this->getBaseCount($resource),
+            'DEFAULT_FACTORY_COUNT' => $this->getDefaultFactoryCount($resource),
+            'ASSERT_FACTORY_COUNT' => $this->getFactoryCount($resource),
             'RESOURCE_TABLE_COLUMNS' => $this->getTableColumns($resource)->keys(),
             'RESOURCE_TABLE_INITIALLY_VISIBLE_COLUMNS' => $this->getInitiallyVisibleColumns($resource)->keys(),
             'RESOURCE_TABLE_TOGGLED_HIDDEN_BY_DEFAULT_COLUMNS' => $this->getToggledHiddenByDefaultColumns($resource)->keys(),
@@ -525,6 +564,7 @@ class FilamentTestsCommand extends Command
             'RESOURCE_TABLE_SEARCHABLE_COLUMNS' => $this->getSearchableColumns($resource)->keys(),
             'RESOURCE_TABLE_SORTABLE_COLUMNS' => $this->getSortableColumns($resource)->keys(),
             'RESOURCE_TABLE_TOGGLEABLE_COLUMNS' => $this->getToggleableColumns($resource)->keys(),
+            'DEFAULT_PER_PAGE_OPTION' => $this->getTableDefaultPaginationPageOption($resource),
         ];
 
         $converted = array_map(function ($value) {
@@ -540,11 +580,46 @@ class FilamentTestsCommand extends Command
             'RESOURCE_TABLE_DESCRIPTIONS_BELOW_COLUMNS' => $this->transformToPestDataset($this->getTableColumnDescriptionBelow($resource), ['column', 'description']),
             'RESOURCE_TABLE_EXTRA_ATTRIBUTES_COLUMNS' => $this->transformToPestDataset($this->getExtraAttributesColumnValues($resource), ['column', 'attributes']),
             'RESOURCE_TABLE_SELECT_COLUMNS' => $this->transformToPestDataset($this->getTableSelectColumnsWithOptions($resource), ['column', 'options']),
+            'PER_PAGE_OPTIONS' => $this->transformToPestDataset($this->getTablePaginationPageOptions($resource), ['options']),
+
         ], $converted);
     }
 
     protected function getNormalizedResourceName(string $name): string
     {
         return str($name)->ucfirst()->finish('Resource');
+    }
+
+    protected function getGoToPageMethod(int $page = 2): string
+    {
+        return "\n\t\t->call('gotoPage', {$page})";
+    }
+
+    protected function isUserModel(Resource $resource): bool
+    {
+        return $resource->getModel() === User::class;
+    }
+
+    protected function getFactoryCount(Resource $resource): int
+    {
+        return $this->isUserModel($resource)
+            ? $this->baseUsers + $this->getDefaultFactoryCount($resource)
+            : $this->getDefaultFactoryCount($resource);
+    }
+
+    protected function getBaseCount(Resource $resource): int
+    {
+        return $this->isUserModel($resource) ? $this->baseUsers : 0;
+    }
+
+    protected function getDefaultFactoryCount(Resource $resource): int|string|null
+    {
+        if ($this->tableHasPagination($resource)) {
+            $perPage = $this->getTableDefaultPaginationPageOption($resource);
+
+            return $perPage + 1;
+        }
+
+        return $this->defaultFactoryCount;
     }
 }
