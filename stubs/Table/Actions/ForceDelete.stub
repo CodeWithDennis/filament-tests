@@ -5,7 +5,7 @@ it('can force delete records', function () {
     assert($record->trashed());
 
     livewire(List{{ MODEL_PLURAL_NAME }}::class)
-        ->filterTable('trashed', true)
+        ->filterTable('trashed', true){{ LOAD_TABLE_METHOD_IF_DEFERRED }}
         ->assertCanSeeTableRecords([$record])
         ->callTableAction(ForceDeleteAction::class, $record);
 

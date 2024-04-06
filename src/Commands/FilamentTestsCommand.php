@@ -181,7 +181,6 @@ class FilamentTestsCommand extends Command
             ])->toArray();
     }
 
-
     protected function getExtraAttributesColumns(Resource $resource): Collection
     {
         return $this->getTableColumns($resource)
@@ -194,9 +193,9 @@ class FilamentTestsCommand extends Command
             ->map(fn ($column) => [
                 'column' => $column->getName(),
                 'attributes' => $column->getExtraAttributes(),
-        ])->toArray();
+            ])->toArray();
     }
-  
+
     protected function getTableSelectColumns(Resource $resource): Collection
     {
         return $this->getTableColumns($resource)
@@ -230,6 +229,11 @@ class FilamentTestsCommand extends Command
     protected function getResourceTableFilters(Table $table): Collection
     {
         return collect($table->getFilters());
+    }
+
+    protected function tableHasDefferedLoading(Resource $resource): bool
+    {
+        return $this->getResourceTable($resource)->isLoadingDeferred();
     }
 
     protected function hasTableAction(string $action, Resource $resource): bool
@@ -541,11 +545,18 @@ class FilamentTestsCommand extends Command
             'RESOURCE_TABLE_DESCRIPTIONS_BELOW_COLUMNS' => $this->transformToPestDataset($this->getTableColumnDescriptionBelow($resource), ['column', 'description']),
             'RESOURCE_TABLE_EXTRA_ATTRIBUTES_COLUMNS' => $this->transformToPestDataset($this->getExtraAttributesColumnValues($resource), ['column', 'attributes']),
             'RESOURCE_TABLE_SELECT_COLUMNS' => $this->transformToPestDataset($this->getTableSelectColumnsWithOptions($resource), ['column', 'options']),
+            'LOAD_TABLE_METHOD_IF_DEFERRED' => $this->tableHasDefferedLoading($resource) ? $this->getDeferredLoadingMethod() : '',
+
         ], $converted);
     }
 
     protected function getNormalizedResourceName(string $name): string
     {
         return str($name)->ucfirst()->finish('Resource');
+    }
+
+    protected function getDeferredLoadingMethod(): string
+    {
+        return "\n\t\t->loadTable()";
     }
 }

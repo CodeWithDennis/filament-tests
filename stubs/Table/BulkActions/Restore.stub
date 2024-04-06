@@ -8,7 +8,7 @@ it('can bulk restore records', function () {
     }
 
     livewire(List{{ MODEL_PLURAL_NAME }}::class)
-        ->filterTable('trashed', true)
+        ->filterTable('trashed', true){{ LOAD_TABLE_METHOD_IF_DEFERRED }}
         ->assertCanSeeTableRecords($records)
         ->callTableBulkAction(RestoreBulkAction::class, $records);
 
