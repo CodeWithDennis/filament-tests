@@ -253,7 +253,7 @@ class FilamentTestsCommand extends Command
         return collect($table->getFilters());
     }
 
-    protected function tableHasDefferedLoading(Resource $resource): bool
+    protected function tableHasDeferredLoading(Resource $resource): bool
     {
         return $this->getResourceTable($resource)->isLoadingDeferred();
     }
@@ -281,6 +281,8 @@ class FilamentTestsCommand extends Command
             ? $basePath.DIRECTORY_SEPARATOR.$in.DIRECTORY_SEPARATOR.$for.'.stub'
             : $basePath.DIRECTORY_SEPARATOR.$for.'.stub';
     }
+
+
 
     protected function getStubs(Resource $resource): array
     {
@@ -587,7 +589,7 @@ class FilamentTestsCommand extends Command
             'RESOURCE_TABLE_DESCRIPTIONS_BELOW_COLUMNS' => $this->transformToPestDataset($this->getTableColumnDescriptionBelow($resource), ['column', 'description']),
             'RESOURCE_TABLE_EXTRA_ATTRIBUTES_COLUMNS' => $this->transformToPestDataset($this->getExtraAttributesColumnValues($resource), ['column', 'attributes']),
             'RESOURCE_TABLE_SELECT_COLUMNS' => $this->transformToPestDataset($this->getTableSelectColumnsWithOptions($resource), ['column', 'options']),
-            'LOAD_TABLE_METHOD_IF_DEFERRED' => $this->tableHasDefferedLoading($resource) ? $this->getDeferredLoadingMethod() : '',
+            'LOAD_TABLE_METHOD_IF_DEFERRED' => $this->tableHasDeferredLoading($resource) ? $this->getDeferredLoadingMethod() : '',
 
         ], $converted);
     }
