@@ -573,7 +573,6 @@ class FilamentTestsCommand extends Command
         $userModel = User::class;
         $modelImport = $resourceModel === $userModel ? "use {$resourceModel};" : "use {$resourceModel};\nuse {$userModel};";
 
-
         $toBeConverted = [
             'RESOURCE_TABLE_COLUMNS' => $this->getTableColumns($resource)->keys(),
             'RESOURCE_TABLE_INITIALLY_VISIBLE_COLUMNS' => $this->getInitiallyVisibleColumns($resource)->keys(),
@@ -594,7 +593,7 @@ class FilamentTestsCommand extends Command
             'USER_MODEL_PLURAL_NAME' => str($userModel)->afterLast('\\')->plural,
             'USER_MODEL_SINGULAR_NAME_LOWER' => str($userModel)->afterLast('\\')->lower(),
             'USER_MODEL_PLURAL_NAME_LOWER' => str($userModel)->afterLast('\\')->plural()->lower(),
-//            'TENANCY_FACTORY_ATTRIBUTES' => $this->getFactoryAttributes($resource),
+            //            'TENANCY_FACTORY_ATTRIBUTES' => $this->getFactoryAttributes($resource),
         ];
 
         $converted = array_map(function ($value) {
