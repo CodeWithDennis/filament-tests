@@ -3,6 +3,7 @@
 use App\Filament\Resources\{{ RESOURCE }}\Pages\List{{ MODEL_PLURAL_NAME }};
 use App\Filament\Resources\{{ MODEL_SINGULAR_NAME}}Resource\Pages\Create{{ MODEL_SINGULAR_NAME}};
 use App\Filament\Resources\{{ MODEL_SINGULAR_NAME}}Resource\Pages\Edit{{ MODEL_SINGULAR_NAME}};
+use App\Filament\Resources\{{ MODEL_SINGULAR_NAME}}Resource\Pages\View{{ MODEL_SINGULAR_NAME}};
 use App\Filament\Resources\{{ RESOURCE }};
 use Filament\Tables\Actions\DeleteAction;
 use Filament\Tables\Actions\DeleteBulkAction;

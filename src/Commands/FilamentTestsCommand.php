@@ -26,6 +26,10 @@ class FilamentTestsCommand extends Command
 
     protected $description = 'Create a new test for a Filament component';
 
+    protected int $baseUsers = 1;
+
+    protected int $defaultFactoryCount = 3;
+
     public function __construct(protected Filesystem $files)
     {
         parent::__construct();
@@ -104,6 +108,16 @@ class FilamentTestsCommand extends Command
     protected function hasPage(string $name, Resource $resource): bool
     {
         return $this->getResourcePages($resource)->contains($name);
+    }
+
+    protected function tableHasPagination(Resource $resource): bool
+    {
+        return $this->getResourceTable($resource)->isPaginated();
+    }
+
+    protected function getTableDefaultPaginationPageOption(Resource $resource): int|string|null
+    {
+        return $this->getResourceTable($resource)->getDefaultPaginationPageOption();
     }
 
     protected function getTableColumns(Resource $resource): Collection
@@ -231,7 +245,7 @@ class FilamentTestsCommand extends Command
         return collect($table->getFilters());
     }
 
-    protected function tableHasDefferedLoading(Resource $resource): bool
+    protected function tableHasDeferredLoading(Resource $resource): bool
     {
         return $this->getResourceTable($resource)->isLoadingDeferred();
     }
@@ -269,117 +283,131 @@ class FilamentTestsCommand extends Command
 
         // Base stubs that are always included
         $stubs[] = $this->getStubPath('Base');
-        $stubs[] = $this->getStubPath('RenderPage', 'Page');
+
+        // Check if there is an index page
+        if ($this->hasPage('index', $resource)) {
+            $stubs[] = $this->getStubPath('Render', 'Page/Index');
+            $stubs[] = $this->getStubPath('ListRecords', 'Page/Index');
+
+            if ($this->tableHasPagination($resource)) {
+                $stubs[] = $this->getStubPath('ListRecordsPaginated', 'Page/Index');
+            }
+        }
 
         // Check if there is a create page
         if ($this->hasPage('create', $resource)) {
-            $stubs[] = $this->getStubPath('RenderCreatePage', 'Page');
+            $stubs[] = $this->getStubPath('Render', 'Page/Create');
         }
 
         // Check if there is an edit page
         if ($this->hasPage('edit', $resource)) {
-            $stubs[] = $this->getStubPath('RenderEditPage', 'Page');
+            $stubs[] = $this->getStubPath('Render', 'Page/Edit');
+        }
+
+        // Check if there is a view page
+        if ($this->hasPage('view', $resource)) {
+            $stubs[] = $this->getStubPath('Render', 'Page/View');
         }
 
         // Add additional stubs based on the columns
         if ($this->getTableColumns($resource)->isNotEmpty()) {
-            $stubs[] = $this->getStubPath('HasColumn', 'Table/Columns');
+            $stubs[] = $this->getStubPath('Exist', 'Page/Index/Table/Columns');
         }
 
         // Check if there are initially visible columns
         if ($this->getInitiallyVisibleColumns($resource)->isNotEmpty()) {
-            $stubs[] = $this->getStubPath('RenderColumn', 'Table/Columns');
+            $stubs[] = $this->getStubPath('Render', 'Page/Index/Table/Columns');
         }
 
         // Check if there are toggleable columns that are hidden by default
         if ($this->getToggledHiddenByDefaultColumns($resource)->isNotEmpty()) {
-            $stubs[] = $this->getStubPath('CannotRenderColumn', 'Table/Columns');
+            $stubs[] = $this->getStubPath('CannotRender', 'Page/Index/Table/Columns');
         }
 
         // Check if there are sortable columns
         if ($this->getSortableColumns($resource)->isNotEmpty()) {
-            $stubs[] = $this->getStubPath('SortColumn', 'Table/Columns');
+            $stubs[] = $this->getStubPath('Sort', 'Page/Index/Table/Columns');
         }
 
         // Check if there are searchable columns
         if ($this->getSearchableColumns($resource)->isNotEmpty()) {
-            $stubs[] = $this->getStubPath('SearchColumn', 'Table/Columns');
+            $stubs[] = $this->getStubPath('Search', 'Page/Index/Table/Columns');
         }
 
         // Check if there are individually searchable columns
         if ($this->getIndividuallySearchableColumns($resource)->isNotEmpty()) {
-            $stubs[] = $this->getStubPath('IndividuallySearchColumn', 'Table/Columns');
+            $stubs[] = $this->getStubPath('SearchIndividually', 'Page/Index/Table/Columns');
         }
 
         // Check if there is a description above
         if ($this->getDescriptionAboveColumns($resource)->isNotEmpty()) {
-            $stubs[] = $this->getStubPath('DescriptionAbove', 'Table/Columns');
+            $stubs[] = $this->getStubPath('DescriptionAbove', 'Page/Index/Table/Columns');
         }
 
         // Check if there is a description below
         if ($this->getDescriptionBelowColumns($resource)->isNotEmpty()) {
-            $stubs[] = $this->getStubPath('DescriptionBelow', 'Table/Columns');
+            $stubs[] = $this->getStubPath('DescriptionBelow', 'Page/Index/Table/Columns');
         }
 
         // Check if there are select columns
         if ($this->getTableSelectColumns($resource)->isNotEmpty()) {
-            $stubs[] = $this->getStubPath('SelectColumn', 'Table/Columns');
+            $stubs[] = $this->getStubPath('Select', 'Page/Index/Table/Columns');
         }
 
         // Check that trashed columns are not displayed by default
         if ($this->hasSoftDeletes($resource) && $this->getTableColumns($resource)->isNotEmpty()) {
-            $stubs[] = $this->getStubPath('Trashed', 'Table');
+            $stubs[] = $this->getStubPath('Trashed', 'Page/Index');
         }
 
         // Check if there are columns with extra attributes
         if ($this->getExtraAttributesColumns($resource)->isNotEmpty()) {
-            $stubs[] = $this->getStubPath('ExtraAttributes', 'Table/Columns');
+            $stubs[] = $this->getStubPath('ExtraAttributes', 'Page/Index/Table/Columns');
         }
 
         // Check if there is a delete action
         if ($this->hasTableAction('delete', $resource)) {
             $stubs[] = ! $this->hasSoftDeletes($resource)
-                ? $this->getStubPath('Delete', 'Table/Actions')
-                : $this->getStubPath('SoftDelete', 'Table/Actions');
+                ? $this->getStubPath('Delete', 'Page/Index/Table/Actions')
+                : $this->getStubPath('SoftDelete', 'Page/Index/Table/Actions');
         }
 
         // Check if there is a bulk delete action
         if ($this->hasTableBulkAction('delete', $resource)) {
             $stubs[] = ! $this->hasSoftDeletes($resource)
-                ? $this->getStubPath('Delete', 'Table/BulkActions')
-                : $this->getStubPath('SoftDelete', 'Table/BulkActions');
+                ? $this->getStubPath('Delete', 'Page/Index/Table/BulkActions')
+                : $this->getStubPath('SoftDelete', 'Page/Index/Table/BulkActions');
         }
 
         // Check if there is a replicate action
         if ($this->hasTableAction('replicate', $resource)) {
-            $stubs[] = $this->getStubPath('Replicate', 'Table/Actions');
+            $stubs[] = $this->getStubPath('Replicate', 'Page/Index/Table/Actions');
         }
 
         // Check there are table filters
         if ($this->getResourceTableFilters($resourceTable)->isNotEmpty()) {
-            $stubs[] = $this->getStubPath('CanResetFilters', 'Table/Filters');
+            $stubs[] = $this->getStubPath('Reset', 'Page/Index/Table/Filters');
         }
 
         // Check if there is a trashed filter
         if ($this->hasTableFilter('trashed', $resourceTable) && $this->hasSoftDeletes($resource)) {
             // Check if there is a restore action
             if ($this->hasTableAction('restore', $resource)) {
-                $stubs[] = $this->getStubPath('Restore', 'Table/Actions');
+                $stubs[] = $this->getStubPath('Restore', 'Page/Index/Table/Actions');
             }
 
             // Check if there is a force delete action
             if ($this->hasTableAction('forceDelete', $resource)) {
-                $stubs[] = $this->getStubPath('ForceDelete', 'Table/Actions');
+                $stubs[] = $this->getStubPath('ForceDelete', 'Page/Index/Table/Actions');
             }
 
             // Check if there is a bulk restore action
             if ($this->hasTableBulkAction('restore', $resource)) {
-                $stubs[] = $this->getStubPath('Restore', 'Table/BulkActions');
+                $stubs[] = $this->getStubPath('Restore', 'Page/Index/Table/BulkActions');
             }
 
             // Check if there is a bulk force delete action
             if ($this->hasTableBulkAction('forceDelete', $resource)) {
-                $stubs[] = $this->getStubPath('ForceDelete', 'Table/BulkActions');
+                $stubs[] = $this->getStubPath('ForceDelete', 'Page/Index/Table/BulkActions');
             }
         }
 
@@ -530,6 +558,8 @@ class FilamentTestsCommand extends Command
             'RESOURCE_TABLE_SEARCHABLE_COLUMNS' => $this->getSearchableColumns($resource)->keys(),
             'RESOURCE_TABLE_SORTABLE_COLUMNS' => $this->getSortableColumns($resource)->keys(),
             'RESOURCE_TABLE_TOGGLEABLE_COLUMNS' => $this->getToggleableColumns($resource)->keys(),
+            'DEFAULT_PER_PAGE_OPTION' => $this->getTableDefaultPaginationPageOption($resource),
+            'DEFAULT_PAGINATED_RECORDS_FACTORY_COUNT' => $this->getTableDefaultPaginationPageOption($resource) * 2,
         ];
 
         $converted = array_map(function ($value) {
@@ -545,7 +575,7 @@ class FilamentTestsCommand extends Command
             'RESOURCE_TABLE_DESCRIPTIONS_BELOW_COLUMNS' => $this->transformToPestDataset($this->getTableColumnDescriptionBelow($resource), ['column', 'description']),
             'RESOURCE_TABLE_EXTRA_ATTRIBUTES_COLUMNS' => $this->transformToPestDataset($this->getExtraAttributesColumnValues($resource), ['column', 'attributes']),
             'RESOURCE_TABLE_SELECT_COLUMNS' => $this->transformToPestDataset($this->getTableSelectColumnsWithOptions($resource), ['column', 'options']),
-            'LOAD_TABLE_METHOD_IF_DEFERRED' => $this->tableHasDefferedLoading($resource) ? $this->getDeferredLoadingMethod() : '',
+            'LOAD_TABLE_METHOD_IF_DEFERRED' => $this->tableHasDeferredLoading($resource) ? $this->getDeferredLoadingMethod() : '',
 
         ], $converted);
     }
