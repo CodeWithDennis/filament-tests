@@ -1,5 +1,5 @@
 it('can list records on the index page', function () {
-    $records = {{ MODEL_SINGULAR_NAME }}::factory(3)->create();
+    $records = {{ MODEL_SINGULAR_NAME }}::factory(3)->create({{ MULTI_TENANCY_FACTORY_ATTRIBUTES }});
 
     livewire(List{{ MODEL_PLURAL_NAME }}::class){{ LOAD_TABLE_METHOD_IF_DEFERRED }}
         ->assertCanSeeTableRecords($records);

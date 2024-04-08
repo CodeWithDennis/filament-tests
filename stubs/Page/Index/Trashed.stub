@@ -1,7 +1,7 @@
 it('cannot display trashed records by default', function () {
-    $records = {{ MODEL_SINGULAR_NAME }}::factory(3)->create();
+    $records = {{ MODEL_SINGULAR_NAME }}::factory(3)->create({{ MULTI_TENANCY_FACTORY_ATTRIBUTES }});
 
-    $trashedRecords = {{ MODEL_SINGULAR_NAME }}::factory(6)->trashed()->create();
+    $trashedRecords = {{ MODEL_SINGULAR_NAME }}::factory(6)->trashed()->create({{ MULTI_TENANCY_FACTORY_ATTRIBUTES }});
 
     livewire(List{{ MODEL_PLURAL_NAME }}::class){{ LOAD_TABLE_METHOD_IF_DEFERRED }}
         ->assertCanSeeTableRecords($records)

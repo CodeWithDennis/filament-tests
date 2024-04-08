@@ -1,5 +1,5 @@
 it('can render the edit page', function () {
-    $record = {{ MODEL_SINGULAR_NAME }}::factory()->create();
+    $record = {{ MODEL_SINGULAR_NAME }}::factory()->create({{ MULTI_TENANCY_FACTORY_ATTRIBUTES }});
 
     livewire(Edit{{ MODEL_SINGULAR_NAME }}::class, ['record' => $record->getRouteKey()])->assertSuccessful();
 })->group('render');

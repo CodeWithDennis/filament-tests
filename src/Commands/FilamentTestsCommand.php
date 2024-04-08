@@ -282,7 +282,9 @@ class FilamentTestsCommand extends Command
         $stubs = [];
 
         // Base stubs that are always included
-        $stubs[] = $this->getStubPath('Base');
+        $stubs[] = $this->hasMultiTenancy($resource)
+            ? $this->getStubPath('BaseMultiTenancy')
+            : $this->getStubPath('Base');
 
         // Check if there is an index page
         if ($this->hasPage('index', $resource)) {
@@ -510,6 +512,27 @@ class FilamentTestsCommand extends Command
         return $resource::table(new Table($livewire));
     }
 
+    protected function hasMultiTenancy(Resource $resource): bool
+    {
+        return Filament::getDefaultPanel()->hasTenancy();
+    }
+
+    protected function getMultiTenancyModel(): ?string
+    {
+        return Filament::getDefaultPanel()->getTenantModel();
+    }
+
+    protected function getMultiTenancyModelFactoryAttributes(Resource $resource): ?string
+    {
+        if (! $this->hasMultiTenancy($resource)) {
+            return null;
+        }
+
+        $tenant = str($this->getMultiTenancyModel())->afterLast('\\')->lower();
+
+        return "['{$tenant}_id' => \$this->{$tenant}->getKey()]";
+    }
+
     protected function convertDoubleQuotedArrayString(string $string): string
     {
         return str($string)
@@ -550,6 +573,7 @@ class FilamentTestsCommand extends Command
         $userModel = User::class;
         $modelImport = $resourceModel === $userModel ? "use {$resourceModel};" : "use {$resourceModel};\nuse {$userModel};";
 
+
         $toBeConverted = [
             'RESOURCE_TABLE_COLUMNS' => $this->getTableColumns($resource)->keys(),
             'RESOURCE_TABLE_INITIALLY_VISIBLE_COLUMNS' => $this->getInitiallyVisibleColumns($resource)->keys(),
@@ -560,6 +584,17 @@ class FilamentTestsCommand extends Command
             'RESOURCE_TABLE_TOGGLEABLE_COLUMNS' => $this->getToggleableColumns($resource)->keys(),
             'DEFAULT_PER_PAGE_OPTION' => $this->getTableDefaultPaginationPageOption($resource),
             'DEFAULT_PAGINATED_RECORDS_FACTORY_COUNT' => $this->getTableDefaultPaginationPageOption($resource) * 2,
+            'TENANT_MODEL' => $this->getMultiTenancyModel(),
+            'TENANT_MODEL_SINGULAR_NAME' => str($this->getMultiTenancyModel())->afterLast('\\'),
+            'TENANT_MODEL_PLURAL_NAME' => str($this->getMultiTenancyModel())->afterLast('\\')->plural(),
+            'TENANT_MODEL_SINGULAR_NAME_LOWER' => str($this->getMultiTenancyModel())->afterLast('\\')->lower(),
+            'TENANT_MODEL_PLURAL_NAME_LOWER' => str($this->getMultiTenancyModel())->afterLast('\\')->plural()->lower(),
+            'USER_MODEL' => $userModel,
+            'USER_MODEL_SINGULAR_NAME' => str($userModel)->afterLast('\\'),
+            'USER_MODEL_PLURAL_NAME' => str($userModel)->afterLast('\\')->plural,
+            'USER_MODEL_SINGULAR_NAME_LOWER' => str($userModel)->afterLast('\\')->lower(),
+            'USER_MODEL_PLURAL_NAME_LOWER' => str($userModel)->afterLast('\\')->plural()->lower(),
+//            'TENANCY_FACTORY_ATTRIBUTES' => $this->getFactoryAttributes($resource),
         ];
 
         $converted = array_map(function ($value) {
@@ -576,7 +611,7 @@ class FilamentTestsCommand extends Command
             'RESOURCE_TABLE_EXTRA_ATTRIBUTES_COLUMNS' => $this->transformToPestDataset($this->getExtraAttributesColumnValues($resource), ['column', 'attributes']),
             'RESOURCE_TABLE_SELECT_COLUMNS' => $this->transformToPestDataset($this->getTableSelectColumnsWithOptions($resource), ['column', 'options']),
             'LOAD_TABLE_METHOD_IF_DEFERRED' => $this->tableHasDeferredLoading($resource) ? $this->getDeferredLoadingMethod() : '',
-
+            'MULTI_TENANCY_FACTORY_ATTRIBUTES' => $this->getMultiTenancyModelFactoryAttributes($resource),
         ], $converted);
     }
 

@@ -1,5 +1,5 @@
 it('can bulk force delete records', function () {
-    $records = {{ MODEL_SINGULAR_NAME }}::factory(3)->create();
+    $records = {{ MODEL_SINGULAR_NAME }}::factory(3)->create({{ MULTI_TENANCY_FACTORY_ATTRIBUTES }});
 
     foreach ($records as $record) {
         $record->delete();
