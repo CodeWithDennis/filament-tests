@@ -550,7 +550,6 @@ class FilamentTestsCommand extends Command
         $userModel = User::class;
         $modelImport = $resourceModel === $userModel ? "use {$resourceModel};" : "use {$resourceModel};\nuse {$userModel};";
 
-
         $toBeConverted = [
             'RESOLVED_GROUP_METHOD' => $this->getGroupMethod($stubPath),
             'RESOURCE_TABLE_COLUMNS' => $this->getTableColumns($resource)->keys(),
@@ -604,11 +603,11 @@ class FilamentTestsCommand extends Command
             $base->pop();
         }
 
-        $groups = $base->map(fn($group) => str($group)->lower())->sort();
+        $groups = $base->map(fn ($group) => str($group)->lower())->sort();
 
         $groupsArray = $groups->toArray();
 
-        return  "'" . implode("','", $groupsArray) . "'";
+        return "'".implode("','", $groupsArray)."'";
     }
 
     protected function getGroupMethod(string $stubPath): string
