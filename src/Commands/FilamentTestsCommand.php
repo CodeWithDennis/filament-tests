@@ -282,8 +282,6 @@ class FilamentTestsCommand extends Command
             : $basePath.DIRECTORY_SEPARATOR.$for.'.stub';
     }
 
-
-
     protected function getStubs(Resource $resource): array
     {
         // Get the resource table
