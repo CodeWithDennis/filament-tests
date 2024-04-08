@@ -5,4 +5,4 @@ it('can replicate records', function () {
         ->callTableAction(ReplicateAction::class, $record);
 
     expect({{ MODEL_SINGULAR_NAME }}::count())->toBe(2);
-})->group('table', 'table-actions');
+}){{ RESOLVED_GROUP_METHOD }};
