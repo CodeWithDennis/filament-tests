@@ -4,7 +4,7 @@ it('can list records on the index page with pagination', function () {
     $page1 = {{ MODEL_SINGULAR_NAME }}::limit({{ DEFAULT_PER_PAGE_OPTION }})->get();
     $page2 = {{ MODEL_SINGULAR_NAME }}::skip({{ DEFAULT_PER_PAGE_OPTION }})->limit({{ DEFAULT_PER_PAGE_OPTION }})->get();
 
-    livewire(List{{ MODEL_PLURAL_NAME }}::class)
+    livewire(List{{ MODEL_PLURAL_NAME }}::class){{ LOAD_TABLE_METHOD_IF_DEFERRED }}
         ->assertCanSeeTableRecords($page1)
         ->call('gotoPage', 2)
         ->assertCanSeeTableRecords($page2);
