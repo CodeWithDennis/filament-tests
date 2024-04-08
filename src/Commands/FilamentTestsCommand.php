@@ -571,6 +571,7 @@ class FilamentTestsCommand extends Command
             'RESOURCE_TABLE_SORTABLE_COLUMNS' => $this->getSortableColumns($resource)->keys(),
             'RESOURCE_TABLE_TOGGLEABLE_COLUMNS' => $this->getToggleableColumns($resource)->keys(),
             'DEFAULT_PER_PAGE_OPTION' => $this->getTableDefaultPaginationPageOption($resource),
+            'DEFAULT_PAGINATED_RECORDS_FACTORY_COUNT' => $this->getTableDefaultPaginationPageOption($resource) * 2,
             'PER_PAGE_OPTIONS' => $this->transformToPestDataset($this->getTablePaginationPageOptions($resource), ['options']),
         ];
 
