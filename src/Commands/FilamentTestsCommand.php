@@ -573,6 +573,7 @@ class FilamentTestsCommand extends Command
         $userModel = User::class;
         $modelImport = $resourceModel === $userModel ? "use {$resourceModel};" : "use {$resourceModel};\nuse {$userModel};";
 
+
         // Variables that can be directly converted to string representation
         $toBeConverted = [
 
