@@ -120,14 +120,6 @@ class FilamentTestsCommand extends Command
         return $this->getResourceTable($resource)->getDefaultPaginationPageOption();
     }
 
-    protected function getTablePaginationPageOptions(Resource $resource): array
-    {
-        return collect($this->getResourceTable($resource)->getPaginationPageOptions())
-            ->map(fn ($option) => [
-                'options' => $option,
-            ])->toArray();
-    }
-
     protected function getTableColumns(Resource $resource): Collection
     {
         return collect($this->getResourceTable($resource)->getColumns());
@@ -297,7 +289,6 @@ class FilamentTestsCommand extends Command
             $stubs[] = $this->getStubPath('Render', 'Page/Index');
             $stubs[] = $this->getStubPath('ListRecords', 'Page/Index');
 
-            // TODO: support deferred loading
             if ($this->tableHasPagination($resource)) {
                 $stubs[] = $this->getStubPath('ListRecordsPaginated', 'Page/Index');
             }
@@ -560,9 +551,6 @@ class FilamentTestsCommand extends Command
         $modelImport = $resourceModel === $userModel ? "use {$resourceModel};" : "use {$resourceModel};\nuse {$userModel};";
 
         $toBeConverted = [
-            'BASE_COUNT' => $this->getBaseCount($resource),
-            'DEFAULT_FACTORY_COUNT' => $this->getDefaultFactoryCount($resource),
-            'ASSERT_FACTORY_COUNT' => $this->getFactoryCount($resource),
             'RESOURCE_TABLE_COLUMNS' => $this->getTableColumns($resource)->keys(),
             'RESOURCE_TABLE_INITIALLY_VISIBLE_COLUMNS' => $this->getInitiallyVisibleColumns($resource)->keys(),
             'RESOURCE_TABLE_TOGGLED_HIDDEN_BY_DEFAULT_COLUMNS' => $this->getToggledHiddenByDefaultColumns($resource)->keys(),
@@ -572,7 +560,6 @@ class FilamentTestsCommand extends Command
             'RESOURCE_TABLE_TOGGLEABLE_COLUMNS' => $this->getToggleableColumns($resource)->keys(),
             'DEFAULT_PER_PAGE_OPTION' => $this->getTableDefaultPaginationPageOption($resource),
             'DEFAULT_PAGINATED_RECORDS_FACTORY_COUNT' => $this->getTableDefaultPaginationPageOption($resource) * 2,
-            'PER_PAGE_OPTIONS' => $this->transformToPestDataset($this->getTablePaginationPageOptions($resource), ['options']),
         ];
 
         $converted = array_map(function ($value) {
@@ -601,33 +588,5 @@ class FilamentTestsCommand extends Command
     protected function getDeferredLoadingMethod(): string
     {
         return "\n\t\t->loadTable()";
-    }
-
-    protected function isUserModel(Resource $resource): bool
-    {
-        return $resource->getModel() === User::class;
-    }
-
-    protected function getFactoryCount(Resource $resource): int
-    {
-        return $this->isUserModel($resource)
-            ? $this->baseUsers + $this->getDefaultFactoryCount($resource)
-            : $this->getDefaultFactoryCount($resource);
-    }
-
-    protected function getBaseCount(Resource $resource): int
-    {
-        return $this->isUserModel($resource) ? $this->baseUsers : 0;
-    }
-
-    protected function getDefaultFactoryCount(Resource $resource): int|string|null
-    {
-        if ($this->tableHasPagination($resource)) {
-            $perPage = $this->getTableDefaultPaginationPageOption($resource);
-
-            return $perPage + 1;
-        }
-
-        return $this->defaultFactoryCount;
     }
 }
