@@ -573,8 +573,14 @@ class FilamentTestsCommand extends Command
         $userModel = User::class;
         $modelImport = $resourceModel === $userModel ? "use {$resourceModel};" : "use {$resourceModel};\nuse {$userModel};";
 
-
+        // Variables that can be directly converted to string representation
         $toBeConverted = [
+
+            // Resource
+            'MODEL_IMPORT' => $modelImport,
+            'MODEL_PLURAL_NAME' => str($resourceModel)->afterLast('\\')->plural(),
+            'MODEL_SINGULAR_NAME' => str($resourceModel)->afterLast('\\'),
+            'RESOURCE' => str($resource::class)->afterLast('\\'),
             'RESOURCE_TABLE_COLUMNS' => $this->getTableColumns($resource)->keys(),
             'RESOURCE_TABLE_INITIALLY_VISIBLE_COLUMNS' => $this->getInitiallyVisibleColumns($resource)->keys(),
             'RESOURCE_TABLE_TOGGLED_HIDDEN_BY_DEFAULT_COLUMNS' => $this->getToggledHiddenByDefaultColumns($resource)->keys(),
@@ -582,36 +588,43 @@ class FilamentTestsCommand extends Command
             'RESOURCE_TABLE_SEARCHABLE_COLUMNS' => $this->getSearchableColumns($resource)->keys(),
             'RESOURCE_TABLE_SORTABLE_COLUMNS' => $this->getSortableColumns($resource)->keys(),
             'RESOURCE_TABLE_TOGGLEABLE_COLUMNS' => $this->getToggleableColumns($resource)->keys(),
+
+            // Pagination
             'DEFAULT_PER_PAGE_OPTION' => $this->getTableDefaultPaginationPageOption($resource),
             'DEFAULT_PAGINATED_RECORDS_FACTORY_COUNT' => $this->getTableDefaultPaginationPageOption($resource) * 2,
+
+            // Multi-tenancy
             'TENANT_MODEL' => $this->getMultiTenancyModel(),
             'TENANT_MODEL_SINGULAR_NAME' => str($this->getMultiTenancyModel())->afterLast('\\'),
             'TENANT_MODEL_PLURAL_NAME' => str($this->getMultiTenancyModel())->afterLast('\\')->plural(),
             'TENANT_MODEL_SINGULAR_NAME_LOWER' => str($this->getMultiTenancyModel())->afterLast('\\')->lower(),
             'TENANT_MODEL_PLURAL_NAME_LOWER' => str($this->getMultiTenancyModel())->afterLast('\\')->plural()->lower(),
+            'MULTI_TENANCY_FACTORY_ATTRIBUTES' => $this->getMultiTenancyModelFactoryAttributes($resource),
+
+            // User model
             'USER_MODEL' => $userModel,
             'USER_MODEL_SINGULAR_NAME' => str($userModel)->afterLast('\\'),
             'USER_MODEL_PLURAL_NAME' => str($userModel)->afterLast('\\')->plural,
             'USER_MODEL_SINGULAR_NAME_LOWER' => str($userModel)->afterLast('\\')->lower(),
             'USER_MODEL_PLURAL_NAME_LOWER' => str($userModel)->afterLast('\\')->plural()->lower(),
-//            'TENANCY_FACTORY_ATTRIBUTES' => $this->getFactoryAttributes($resource),
         ];
 
         $converted = array_map(function ($value) {
             return $this->convertDoubleQuotedArrayString($value);
         }, $toBeConverted);
 
+        // Variables that require additional processing to be passed as a dataset
         return array_merge([
-            'MODEL_IMPORT' => $modelImport,
-            'MODEL_PLURAL_NAME' => str($resourceModel)->afterLast('\\')->plural(),
-            'MODEL_SINGULAR_NAME' => str($resourceModel)->afterLast('\\'),
-            'RESOURCE' => str($resource::class)->afterLast('\\'),
+
+            // Table
             'RESOURCE_TABLE_DESCRIPTIONS_ABOVE_COLUMNS' => $this->transformToPestDataset($this->getTableColumnDescriptionAbove($resource), ['column', 'description']),
             'RESOURCE_TABLE_DESCRIPTIONS_BELOW_COLUMNS' => $this->transformToPestDataset($this->getTableColumnDescriptionBelow($resource), ['column', 'description']),
             'RESOURCE_TABLE_EXTRA_ATTRIBUTES_COLUMNS' => $this->transformToPestDataset($this->getExtraAttributesColumnValues($resource), ['column', 'attributes']),
             'RESOURCE_TABLE_SELECT_COLUMNS' => $this->transformToPestDataset($this->getTableSelectColumnsWithOptions($resource), ['column', 'options']),
+
+            // Deferred loading
             'LOAD_TABLE_METHOD_IF_DEFERRED' => $this->tableHasDeferredLoading($resource) ? $this->getDeferredLoadingMethod() : '',
-            'MULTI_TENANCY_FACTORY_ATTRIBUTES' => $this->getMultiTenancyModelFactoryAttributes($resource),
+
         ], $converted);
     }
 
