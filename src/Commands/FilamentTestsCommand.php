@@ -603,7 +603,7 @@ class FilamentTestsCommand extends Command
     {
         return "\n\t\t->loadTable()";
     }
-    
+
     protected function isUserModel(Resource $resource): bool
     {
         return $resource->getModel() === User::class;
