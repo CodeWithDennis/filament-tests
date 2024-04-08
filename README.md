@@ -81,8 +81,13 @@ php artisan make:filament-test
 | `--force` `-f` | Overwrite existing tests                |
 
 ## Tests
-Tests are generated on demand and are tailored to the component that you're generating tests for. For example, if the resource component doesn't have any sortable columns, then the tests for sorting 
-won't be generated.
+
+This package will automatically determine the type of tests that need to be generated based on the features your application uses. The following features are automatically detected:
+
+> `multi-tenancy`, `soft-deletes`
+
+Additionally, it will detect if you are using the following methods within your resources: 
+> `->sortable()`, `->searchable()`, `->description()`, `->extraAttributes()`
 
 **Resources**
   - [x] [It can render page](https://filamentphp.com/docs/3.x/tables/testing#render)
