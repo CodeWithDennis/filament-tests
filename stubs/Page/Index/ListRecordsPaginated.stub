@@ -1,14 +1,12 @@
 it('can list records on the index page with pagination', function () {
     expect({{ MODEL_SINGULAR_NAME }}::count())->toBe({{ BASE_COUNT }});
 
-    $modelPrimaryKey = (new {{ MODEL_SINGULAR_NAME }}())->getKeyName();
-
     {{ MODEL_SINGULAR_NAME }}::factory({{ DEFAULT_FACTORY_COUNT }})->create();
 
     expect({{ MODEL_SINGULAR_NAME }}::count())->toBe({{ ASSERT_FACTORY_COUNT }});
 
-    $page1 = {{ MODEL_SINGULAR_NAME }}::orderBy($modelPrimaryKey)->limit({{ DEFAULT_PER_PAGE_OPTION }})->get();
-    $page2 = {{ MODEL_SINGULAR_NAME }}::orderBy($modelPrimaryKey)->skip({{ DEFAULT_PER_PAGE_OPTION }})->limit({{ DEFAULT_PER_PAGE_OPTION }})->get();
+    $page1 = {{ MODEL_SINGULAR_NAME }}::limit({{ DEFAULT_PER_PAGE_OPTION }})->get();
+    $page2 = {{ MODEL_SINGULAR_NAME }}::skip({{ DEFAULT_PER_PAGE_OPTION }})->limit({{ DEFAULT_PER_PAGE_OPTION }})->get();
 
     livewire(List{{ MODEL_PLURAL_NAME }}::class)
         ->assertCanSeeTableRecords($page1)
