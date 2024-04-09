@@ -520,8 +520,8 @@ class FilamentTestsCommand extends Command
 
     protected function getMultiTenancyModelFactoryAttributes(Resource $resource): ?string
     {
-        if (! $this->hasMultiTenancy($resource) || ! $this->getMultiTenancyModel()) {
-            return '';
+        if (! $this->hasMultiTenancy($resource)) {
+            return null;
         }
 
         $tenant = str($this->getMultiTenancyModel())->afterLast('\\')->lower();
@@ -607,7 +607,7 @@ class FilamentTestsCommand extends Command
         ];
 
         $converted = array_map(function ($value) {
-            return $this->convertDoubleQuotedArrayString($value);
+            return $this->convertDoubleQuotedArrayString($value ?? '');
         }, $toBeConverted);
 
         // Variables that require additional processing to be passed as a dataset
