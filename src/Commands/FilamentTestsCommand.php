@@ -602,7 +602,7 @@ class FilamentTestsCommand extends Command
             $base->pop();
         }
 
-        $groups = $base->map(fn ($group) => str($group)->lower())->sort();
+        $groups = $base->map(fn ($group) => str($group)->kebab()->lower())->sort();
 
         $groupsArray = $groups->toArray();
 
