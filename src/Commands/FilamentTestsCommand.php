@@ -120,7 +120,7 @@ class FilamentTestsCommand extends Command
             $tableRows[] = [$filename, $numTests, $duration];
         }
 
-        $this->info(count($generated) . ' test(s) created successfully.');
+        $this->info('Tests for ' .count($generated) . ' resources have been created successfully.');
         $this->table(['Resource', 'No. Tests', 'Duration'], $tableRows);
 
         // Return success
