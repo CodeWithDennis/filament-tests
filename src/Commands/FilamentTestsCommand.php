@@ -287,7 +287,7 @@ class FilamentTestsCommand extends Command
                     ->map(fn ($action) => $action->getName()),
 
                 'hidden' => collect($actions)
-                    ->filter(fn ($action) => !$action->isVisible())
+                    ->filter(fn ($action) => ! $action->isVisible())
                     ->map(fn ($action) => $action->getName()),
             ]);
 
@@ -653,7 +653,7 @@ class FilamentTestsCommand extends Command
         $userModel = User::class;
         $modelImport = $resourceModel === $userModel ? "use {$resourceModel};" : "use {$resourceModel};\nuse {$userModel};";
 
-//        dd($this->getIndexHeaderActions($resource)['visible']->values());
+        //        dd($this->getIndexHeaderActions($resource)['visible']->values());
 
         $toBeConverted = [
             'RESOLVED_GROUP_METHOD' => $this->getGroupMethod($stubPath),
