@@ -448,7 +448,7 @@ class FilamentTestsCommand extends Command
         $contents = '';
 
         foreach ($this->getStubs($resource) as $stub) {
-            $contents .= $this->getStubContents($stub, $this->getStubVariables($resource));
+            $contents .= $this->getStubContents($stub, $this->getStubVariables($resource, $stub));
         }
 
         return $contents;
@@ -563,7 +563,7 @@ class FilamentTestsCommand extends Command
         return $this->convertDoubleQuotedArrayString('['.implode(', ', $result).']');
     }
 
-    protected function getStubVariables(Resource $resource): array
+    protected function getStubVariables(Resource $resource, string $stubPath): array
     {
         $resourceModel = $resource->getModel();
         $userModel = User::class;
@@ -577,6 +577,7 @@ class FilamentTestsCommand extends Command
             'MODEL_PLURAL_NAME' => str($resourceModel)->afterLast('\\')->plural(),
             'MODEL_SINGULAR_NAME' => str($resourceModel)->afterLast('\\'),
             'RESOURCE' => str($resource::class)->afterLast('\\'),
+            'RESOLVED_GROUP_METHOD' => $this->getGroupMethod($stubPath),
             'RESOURCE_TABLE_COLUMNS' => $this->getTableColumns($resource)->keys(),
             'RESOURCE_TABLE_INITIALLY_VISIBLE_COLUMNS' => $this->getInitiallyVisibleColumns($resource)->keys(),
             'RESOURCE_TABLE_TOGGLED_HIDDEN_BY_DEFAULT_COLUMNS' => $this->getToggledHiddenByDefaultColumns($resource)->keys(),
@@ -620,7 +621,6 @@ class FilamentTestsCommand extends Command
 
             // Deferred loading
             'LOAD_TABLE_METHOD_IF_DEFERRED' => $this->tableHasDeferredLoading($resource) ? $this->getDeferredLoadingMethod() : '',
-
         ], $converted);
     }
 
@@ -632,5 +632,28 @@ class FilamentTestsCommand extends Command
     protected function getDeferredLoadingMethod(): string
     {
         return "\n\t\t->loadTable()";
+    }
+
+    protected function resolveGroupByStubPath(string $stubPath): ?string
+    {
+        $stubPath = str($stubPath)->replace('\\', '/');
+
+        $base = str($stubPath)->after('/stubs/')->beforeLast('/');
+
+        $base = str($base)->explode('/');
+
+        if (str($base->last())->contains('.stub')) {
+            $base->pop();
+        }
+
+        $groups = $base->map(fn ($group) => str($group)->kebab()->lower())
+            ->sort()->toArray();
+
+        return "'".implode("','", $groups)."'";
+    }
+
+    protected function getGroupMethod(string $stubPath): string
+    {
+        return "->group({$this->resolveGroupByStubPath($stubPath)})";
     }
 }

@@ -10,4 +10,4 @@ it('can force delete records', function () {
         ->callTableAction(ForceDeleteAction::class, $record);
 
     assertModelMissing($record);
-})->group('table', 'table-actions');
+}){{ RESOLVED_GROUP_METHOD }};
