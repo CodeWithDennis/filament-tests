@@ -26,6 +26,8 @@ class FilamentTestsCommand extends Command
 
     protected $description = 'Create a new test for a Filament component';
 
+    protected int $numTests = 0;
+
     protected int $baseUsers = 1;
 
     protected int $defaultFactoryCount = 3;
@@ -38,6 +40,8 @@ class FilamentTestsCommand extends Command
     public function handle(): int
     {
         $availableResources = $this->getAvailableResources();
+
+        $generated = [];
 
         if (! $this->argument('name')) {
             // Ask the user to select the resource they want to create a test for
@@ -69,6 +73,8 @@ class FilamentTestsCommand extends Command
         }
 
         foreach ($selectedResources as $selectedResource) {
+            $start = microtime(true);
+
             // Get the resource class based on the selected resource
             $resource = $this->getResourceClass($selectedResource);
 
@@ -92,12 +98,43 @@ class FilamentTestsCommand extends Command
             // Write the contents to the file
             $this->files->put($path, $contents);
 
-            // Output a success message
-            $this->info("Test for {$selectedResource} created successfully.");
+            $end = microtime(true);
+
+            // duration in ms
+            $duration = round(($end - $start) * 1000, 0);
+
+            $generated[] = [
+                'name' => $selectedResource,
+                'numTests' => $this->numTests,
+                'duration' => $duration,
+            ];
         }
+
+        $tableRows = [];
+
+        foreach ($generated as $item) {
+            $filename = $item['name'];
+            $numTests = $item['numTests'];
+            $duration = $item['duration'] . 'ms';
+
+            $tableRows[] = [$filename, $numTests, $duration];
+        }
+
+        $this->info(count($generated) . ' test(s) created successfully.');
+        $this->table(['Resource', 'No. Tests', 'Duration'], $tableRows);
 
         // Return success
         return self::SUCCESS;
+    }
+
+    protected function resetNumTests(): void
+    {
+        $this->numTests = 0;
+    }
+
+    protected function incrementNumTests(int $by = 1): void
+    {
+        $this->numTests += $by;
     }
 
     protected function getResourcePages(Resource $resource): Collection
@@ -296,6 +333,8 @@ class FilamentTestsCommand extends Command
 
     protected function getStubs(Resource $resource): array
     {
+        $this->resetNumTests();
+
         // Get the resource table
         $resourceTable = $this->getResourceTable($resource);
 
@@ -309,84 +348,102 @@ class FilamentTestsCommand extends Command
             $stubs[] = $this->getStubPath('Render', 'Page/Index');
             $stubs[] = $this->getStubPath('ListRecords', 'Page/Index');
 
+            $this->incrementNumTests(2);
+
             if ($this->tableHasPagination($resource)) {
                 $stubs[] = $this->getStubPath('ListRecordsPaginated', 'Page/Index');
+                $this->incrementNumTests();
             }
         }
 
         // Check if there is a create page
         if ($this->hasPage('create', $resource)) {
             $stubs[] = $this->getStubPath('Render', 'Page/Create');
+            $this->incrementNumTests();
         }
 
         // Check if there is an edit page
         if ($this->hasPage('edit', $resource)) {
             $stubs[] = $this->getStubPath('Render', 'Page/Edit');
+            $this->incrementNumTests();
         }
 
         // Check if there is a view page
         if ($this->hasPage('view', $resource)) {
             $stubs[] = $this->getStubPath('Render', 'Page/View');
+            $this->incrementNumTests();
         }
 
         // Add additional stubs based on the columns
         if ($this->getTableColumns($resource)->isNotEmpty()) {
             $stubs[] = $this->getStubPath('Exist', 'Page/Index/Table/Columns');
+            $this->incrementNumTests();
         }
 
         // Check if there are initially visible columns
         if ($this->getInitiallyVisibleColumns($resource)->isNotEmpty()) {
             $stubs[] = $this->getStubPath('Render', 'Page/Index/Table/Columns');
+            $this->incrementNumTests();
         }
 
         // Check if there are toggleable columns that are hidden by default
         if ($this->getToggledHiddenByDefaultColumns($resource)->isNotEmpty()) {
             $stubs[] = $this->getStubPath('CannotRender', 'Page/Index/Table/Columns');
+            $this->incrementNumTests();
         }
 
         // Check if there are sortable columns
         if ($this->getSortableColumns($resource)->isNotEmpty()) {
             $stubs[] = $this->getStubPath('Sort', 'Page/Index/Table/Columns');
+            $this->incrementNumTests();
         }
 
         // Check if there are searchable columns
         if ($this->getSearchableColumns($resource)->isNotEmpty()) {
             $stubs[] = $this->getStubPath('Search', 'Page/Index/Table/Columns');
+            $this->incrementNumTests();
         }
 
         // Check if there are individually searchable columns
         if ($this->getIndividuallySearchableColumns($resource)->isNotEmpty()) {
             $stubs[] = $this->getStubPath('SearchIndividually', 'Page/Index/Table/Columns');
+            $this->incrementNumTests();
         }
 
         // Check if there is a description above
         if ($this->getDescriptionAboveColumns($resource)->isNotEmpty()) {
             $stubs[] = $this->getStubPath('DescriptionAbove', 'Page/Index/Table/Columns');
+            $this->incrementNumTests();
         }
 
         // Check if there is a description below
         if ($this->getDescriptionBelowColumns($resource)->isNotEmpty()) {
             $stubs[] = $this->getStubPath('DescriptionBelow', 'Page/Index/Table/Columns');
+            $this->incrementNumTests();
         }
 
         // Check if there are select columns
         if ($this->getTableSelectColumns($resource)->isNotEmpty()) {
             $stubs[] = $this->getStubPath('Select', 'Page/Index/Table/Columns');
+            $this->incrementNumTests();
         }
 
         // Check that trashed columns are not displayed by default
         if ($this->hasSoftDeletes($resource) && $this->getTableColumns($resource)->isNotEmpty()) {
             $stubs[] = $this->getStubPath('Trashed', 'Page/Index');
+            $this->incrementNumTests();
         }
 
         // Check if there are columns with extra attributes
         if ($this->getExtraAttributesColumns($resource)->isNotEmpty()) {
             $stubs[] = $this->getStubPath('ExtraAttributes', 'Page/Index/Table/Columns');
+            $this->incrementNumTests();
         }
 
         // Check if it has any table actions
         if ($this->hasAnyTableAction($resource, $this->getTableActionNames($resource)->toArray())) {
             $stubs[] = $this->getStubPath('Exist', 'Page/Index/Table/Actions');
+            $this->incrementNumTests();
         }
 
         // Check if there is a delete action
@@ -394,11 +451,14 @@ class FilamentTestsCommand extends Command
             $stubs[] = ! $this->hasSoftDeletes($resource)
                 ? $this->getStubPath('Delete', 'Page/Index/Table/Actions')
                 : $this->getStubPath('SoftDelete', 'Page/Index/Table/Actions');
+
+            $this->incrementNumTests();
         }
 
         // Check if it has any table bulk actions
         if ($this->hasAnyTableBulkAction($resource, $this->getTableBulkActionNames($resource)->toArray())) {
             $stubs[] = $this->getStubPath('Exist', 'Page/Index/Table/BulkActions');
+            $this->incrementNumTests();
         }
 
         // Check if there is a bulk delete action
@@ -406,16 +466,20 @@ class FilamentTestsCommand extends Command
             $stubs[] = ! $this->hasSoftDeletes($resource)
                 ? $this->getStubPath('Delete', 'Page/Index/Table/BulkActions')
                 : $this->getStubPath('SoftDelete', 'Page/Index/Table/BulkActions');
+
+            $this->incrementNumTests();
         }
 
         // Check if there is a replicate action
         if ($this->hasTableAction('replicate', $resource)) {
             $stubs[] = $this->getStubPath('Replicate', 'Page/Index/Table/Actions');
+            $this->incrementNumTests();
         }
 
         // Check there are table filters
         if ($this->getResourceTableFilters($resourceTable)->isNotEmpty()) {
             $stubs[] = $this->getStubPath('Reset', 'Page/Index/Table/Filters');
+            $this->incrementNumTests();
         }
 
         // Check if there is a trashed filter
@@ -423,21 +487,25 @@ class FilamentTestsCommand extends Command
             // Check if there is a restore action
             if ($this->hasTableAction('restore', $resource)) {
                 $stubs[] = $this->getStubPath('Restore', 'Page/Index/Table/Actions');
+                $this->incrementNumTests();
             }
 
             // Check if there is a force delete action
             if ($this->hasTableAction('forceDelete', $resource)) {
                 $stubs[] = $this->getStubPath('ForceDelete', 'Page/Index/Table/Actions');
+                $this->incrementNumTests();
             }
 
             // Check if there is a bulk restore action
             if ($this->hasTableBulkAction('restore', $resource)) {
                 $stubs[] = $this->getStubPath('Restore', 'Page/Index/Table/BulkActions');
+                $this->incrementNumTests();
             }
 
             // Check if there is a bulk force delete action
             if ($this->hasTableBulkAction('forceDelete', $resource)) {
                 $stubs[] = $this->getStubPath('ForceDelete', 'Page/Index/Table/BulkActions');
+                $this->incrementNumTests();
             }
         }
 
