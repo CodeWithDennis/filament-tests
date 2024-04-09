@@ -450,7 +450,7 @@ class FilamentTestsCommand extends Command
         $contents = '';
 
         foreach ($this->getStubs($resource) as $stub) {
-            $contents .= $this->getStubContents($stub, $this->getStubVariables($resource));
+            $contents .= $this->getStubContents($stub, $this->getStubVariables($resource, $stub));
         }
 
         return $contents;
@@ -544,13 +544,14 @@ class FilamentTestsCommand extends Command
         return $this->convertDoubleQuotedArrayString('['.implode(', ', $result).']');
     }
 
-    protected function getStubVariables(Resource $resource): array
+    protected function getStubVariables(Resource $resource, string $stubPath): array
     {
         $resourceModel = $resource->getModel();
         $userModel = User::class;
         $modelImport = $resourceModel === $userModel ? "use {$resourceModel};" : "use {$resourceModel};\nuse {$userModel};";
 
         $toBeConverted = [
+            'RESOLVED_GROUP_METHOD' => $this->getGroupMethod($stubPath),
             'RESOURCE_TABLE_COLUMNS' => $this->getTableColumns($resource)->keys(),
             'RESOURCE_TABLE_INITIALLY_VISIBLE_COLUMNS' => $this->getInitiallyVisibleColumns($resource)->keys(),
             'RESOURCE_TABLE_TOGGLED_HIDDEN_BY_DEFAULT_COLUMNS' => $this->getToggledHiddenByDefaultColumns($resource)->keys(),
@@ -576,7 +577,6 @@ class FilamentTestsCommand extends Command
             'RESOURCE_TABLE_EXTRA_ATTRIBUTES_COLUMNS' => $this->transformToPestDataset($this->getExtraAttributesColumnValues($resource), ['column', 'attributes']),
             'RESOURCE_TABLE_SELECT_COLUMNS' => $this->transformToPestDataset($this->getTableSelectColumnsWithOptions($resource), ['column', 'options']),
             'LOAD_TABLE_METHOD_IF_DEFERRED' => $this->tableHasDeferredLoading($resource) ? $this->getDeferredLoadingMethod() : '',
-
         ], $converted);
     }
 
@@ -588,5 +588,28 @@ class FilamentTestsCommand extends Command
     protected function getDeferredLoadingMethod(): string
     {
         return "\n\t\t->loadTable()";
+    }
+
+    protected function resolveGroupByStubPath(string $stubPath): ?string
+    {
+        $stubPath = str($stubPath)->replace('\\', '/');
+
+        $base = str($stubPath)->after('/stubs/')->beforeLast('/');
+
+        $base = str($base)->explode('/');
+
+        if (str($base->last())->contains('.stub')) {
+            $base->pop();
+        }
+
+        $groups = $base->map(fn ($group) => str($group)->kebab()->lower())
+            ->sort()->toArray();
+
+        return "'".implode("','", $groups)."'";
+    }
+
+    protected function getGroupMethod(string $stubPath): string
+    {
+        return "->group({$this->resolveGroupByStubPath($stubPath)})";
     }
 }
