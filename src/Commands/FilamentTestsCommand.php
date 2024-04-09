@@ -520,8 +520,8 @@ class FilamentTestsCommand extends Command
 
     protected function getMultiTenancyModelFactoryAttributes(Resource $resource): ?string
     {
-        if (! $this->hasMultiTenancy($resource)) {
-            return null;
+        if (! $this->hasMultiTenancy($resource) || ! $this->getMultiTenancyModel()) {
+            return '';
         }
 
         $tenant = str($this->getMultiTenancyModel())->afterLast('\\')->lower();
