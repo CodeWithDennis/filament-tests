@@ -1,0 +1,4 @@
+it('has the correct URL for table action', function (string $action, string $url) {
+    livewire(List{{ MODEL_PLURAL_NAME }}::class)
+        ->assertTableActionHasUrl($action, $url);
+})->with({{ RESOURCE_TABLE_ACTIONS_WITH_URL }}){{ RESOLVED_GROUP_METHOD }};
