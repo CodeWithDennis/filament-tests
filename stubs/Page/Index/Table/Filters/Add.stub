@@ -1,0 +1,9 @@
+it('can add filter', function (string $filter, mixed $value) {
+    $records = {{ MODEL_SINGULAR_NAME }}::factory(6)->create();
+
+    livewire(List{{ MODEL_PLURAL_NAME }}::class){{ LOAD_TABLE_METHOD_IF_DEFERRED }}
+        ->assertCanSeeTableRecords($records)
+        ->filterTable($filter)
+        ->assertCanSeeTableRecords($records->where($filter, $value))
+        ->assertCanNotSeeTableRecords($records->where($filter, $value));
+})->group('filters', 'table')->with({{ RESOURCE_TABLE_FILTERS }});

@@ -245,6 +245,15 @@ class FilamentTestsCommand extends Command
         return collect($table->getFilters());
     }
 
+    protected function resourceTableFiltersWithValue(Resource $resource): array
+    {
+        return $this->getResourceTableFilters($this->getResourceTable($resource))
+            ->map(fn ($column) => [
+                'name' => $column->getName(),
+                'value' => 'test',
+            ])->toArray();
+    }
+
     protected function tableHasDeferredLoading(Resource $resource): bool
     {
         return $this->getResourceTable($resource)->isLoadingDeferred();
@@ -386,6 +395,7 @@ class FilamentTestsCommand extends Command
         // Check there are table filters
         if ($this->getResourceTableFilters($resourceTable)->isNotEmpty()) {
             $stubs[] = $this->getStubPath('Reset', 'Page/Index/Table/Filters');
+            $stubs[] = $this->getStubPath('Add', 'Page/Index/Table/Filters');
         }
 
         // Check if there is a trashed filter
@@ -577,6 +587,7 @@ class FilamentTestsCommand extends Command
             'RESOURCE_TABLE_EXTRA_ATTRIBUTES_COLUMNS' => $this->transformToPestDataset($this->getExtraAttributesColumnValues($resource), ['column', 'attributes']),
             'RESOURCE_TABLE_SELECT_COLUMNS' => $this->transformToPestDataset($this->getTableSelectColumnsWithOptions($resource), ['column', 'options']),
             'LOAD_TABLE_METHOD_IF_DEFERRED' => $this->tableHasDeferredLoading($resource) ? $this->getDeferredLoadingMethod() : '',
+            'RESOURCE_TABLE_FILTERS' => $this->transformToPestDataset($this->resourceTableFiltersWithValue($resource), ['name', 'value']),
         ], $converted);
     }
 
