@@ -250,9 +250,19 @@ class FilamentTestsCommand extends Command
         return $this->getResourceTable($resource)->isLoadingDeferred();
     }
 
+    protected function getTableActionNames(Resource $resource): Collection
+    {
+        return $this->getResourceTableActions($resource)->map(fn ($action) => $action->getName());
+    }
+
     protected function hasTableAction(string $action, Resource $resource): bool
     {
         return $this->getResourceTableActions($resource)->map(fn ($action) => $action->getName())->contains($action);
+    }
+
+    protected function hasAnyTableAction(Resource $resource, array $actions): bool
+    {
+        return $this->getResourceTableActions($resource)->map(fn ($action) => $action->getName())->intersect($actions)->isNotEmpty();
     }
 
     protected function hasTableBulkAction(string $action, Resource $resource): bool
@@ -362,6 +372,11 @@ class FilamentTestsCommand extends Command
         // Check if there are columns with extra attributes
         if ($this->getExtraAttributesColumns($resource)->isNotEmpty()) {
             $stubs[] = $this->getStubPath('ExtraAttributes', 'Page/Index/Table/Columns');
+        }
+
+        // Check if it has any table actions
+        if ($this->hasAnyTableAction($resource, $this->getTableActionNames($resource)->toArray())) {
+            $stubs[] = $this->getStubPath('Exist', 'Page/Index/Table/Actions');
         }
 
         // Check if there is a delete action
@@ -559,6 +574,7 @@ class FilamentTestsCommand extends Command
             'RESOURCE_TABLE_SEARCHABLE_COLUMNS' => $this->getSearchableColumns($resource)->keys(),
             'RESOURCE_TABLE_SORTABLE_COLUMNS' => $this->getSortableColumns($resource)->keys(),
             'RESOURCE_TABLE_TOGGLEABLE_COLUMNS' => $this->getToggleableColumns($resource)->keys(),
+            'RESOURCE_TABLE_ACTIONS' => $this->getTableActionNames($resource)->keys(),
             'DEFAULT_PER_PAGE_OPTION' => $this->getTableDefaultPaginationPageOption($resource),
             'DEFAULT_PAGINATED_RECORDS_FACTORY_COUNT' => $this->getTableDefaultPaginationPageOption($resource) * 2,
         ];

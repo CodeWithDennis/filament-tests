@@ -106,6 +106,7 @@ won't be generated.
   - [x] It can force delete records
   - [x] It can bulk force delete records
   - [x] It can reset table filters
+  - [x] It has table actions
   - [ ] It can filter table records
   - [ ] It can remove table filters
 
