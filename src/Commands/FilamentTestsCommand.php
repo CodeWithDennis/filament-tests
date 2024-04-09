@@ -602,11 +602,10 @@ class FilamentTestsCommand extends Command
             $base->pop();
         }
 
-        $groups = $base->map(fn ($group) => str($group)->kebab()->lower())->sort();
+        $groups = $base->map(fn ($group) => str($group)->kebab()->lower())
+            ->sort()->toArray();
 
-        $groupsArray = $groups->toArray();
-
-        return "'".implode("','", $groupsArray)."'";
+        return "'".implode("','", $groups)."'";
     }
 
     protected function getGroupMethod(string $stubPath): string
