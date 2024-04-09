@@ -115,12 +115,12 @@ class FilamentTestsCommand extends Command
         foreach ($generated as $item) {
             $filename = $item['name'];
             $numTests = $item['numTests'];
-            $duration = $item['duration'] . 'ms';
+            $duration = $item['duration'].'ms';
 
             $tableRows[] = [$filename, $numTests, $duration];
         }
 
-        $this->info(count($generated) . ' test(s) created successfully.');
+        $this->info(count($generated).' test(s) created successfully.');
         $this->table(['Resource', 'No. Tests', 'Duration'], $tableRows);
 
         // Return success
