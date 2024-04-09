@@ -265,9 +265,19 @@ class FilamentTestsCommand extends Command
         return $this->getResourceTableActions($resource)->map(fn ($action) => $action->getName())->intersect($actions)->isNotEmpty();
     }
 
+    protected function hasAnyTableBulkAction(Resource $resource, array $actions): bool
+    {
+        return $this->getResourceTableBulkActions($resource)->map(fn ($action) => $action->getName())->intersect($actions)->isNotEmpty();
+    }
+
     protected function hasTableBulkAction(string $action, Resource $resource): bool
     {
         return $this->getResourceTableBulkActions($resource)->map(fn ($action) => $action->getName())->contains($action);
+    }
+
+    protected function getTableBulkActionNames(Resource $resource): Collection
+    {
+        return $this->getResourceTableBulkActions($resource)->map(fn ($action) => $action->getName());
     }
 
     protected function hasTableFilter(string $filter, Table $table): bool
@@ -384,6 +394,11 @@ class FilamentTestsCommand extends Command
             $stubs[] = ! $this->hasSoftDeletes($resource)
                 ? $this->getStubPath('Delete', 'Page/Index/Table/Actions')
                 : $this->getStubPath('SoftDelete', 'Page/Index/Table/Actions');
+        }
+
+        // Check if it has any table bulk actions
+        if ($this->hasAnyTableBulkAction($resource, $this->getTableBulkActionNames($resource)->toArray())) {
+            $stubs[] = $this->getStubPath('Exist', 'Page/Index/Table/BulkActions');
         }
 
         // Check if there is a bulk delete action
@@ -575,6 +590,7 @@ class FilamentTestsCommand extends Command
             'RESOURCE_TABLE_SORTABLE_COLUMNS' => $this->getSortableColumns($resource)->keys(),
             'RESOURCE_TABLE_TOGGLEABLE_COLUMNS' => $this->getToggleableColumns($resource)->keys(),
             'RESOURCE_TABLE_ACTIONS' => $this->getTableActionNames($resource)->keys(),
+            'RESOURCE_TABLE_BULK_ACTIONS' => $this->getTableBulkActionNames($resource)->keys(),
             'DEFAULT_PER_PAGE_OPTION' => $this->getTableDefaultPaginationPageOption($resource),
             'DEFAULT_PAGINATED_RECORDS_FACTORY_COUNT' => $this->getTableDefaultPaginationPageOption($resource) * 2,
         ];
