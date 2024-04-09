@@ -4,4 +4,4 @@ it('can list records on the index page with pagination', function () {
     livewire(List{{ MODEL_PLURAL_NAME }}::class){{ LOAD_TABLE_METHOD_IF_DEFERRED }}
         ->call('gotoPage', 2)
         ->assertCanSeeTableRecords($records->skip({{ DEFAULT_PER_PAGE_OPTION }}));
-})->group('table');
+}){{ RESOLVED_GROUP_METHOD }};

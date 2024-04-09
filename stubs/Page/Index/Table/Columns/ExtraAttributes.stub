@@ -3,4 +3,4 @@ it('has extra attributes', function (string $column, array $extraAttributes) {
 
     livewire(List{{ MODEL_PLURAL_NAME }}::class)
         ->assertTableColumnHasExtraAttributes($column, $extraAttributes, $record);
-})->with({{ RESOURCE_TABLE_EXTRA_ATTRIBUTES_COLUMNS }});
+})->with({{ RESOURCE_TABLE_EXTRA_ATTRIBUTES_COLUMNS }}){{ RESOLVED_GROUP_METHOD }};

@@ -17,4 +17,4 @@ it('can bulk force delete records', function () {
     }
 
     expect({{ MODEL_SINGULAR_NAME }}::count())->toBe(0);
-})->group('table', 'table-bulk-actions');
+}){{ RESOLVED_GROUP_METHOD }};

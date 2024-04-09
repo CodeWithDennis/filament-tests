@@ -3,4 +3,4 @@ it('can list records on the index page', function () {
 
     livewire(List{{ MODEL_PLURAL_NAME }}::class){{ LOAD_TABLE_METHOD_IF_DEFERRED }}
         ->assertCanSeeTableRecords($records);
-})->group('table');
+}){{ RESOLVED_GROUP_METHOD }};

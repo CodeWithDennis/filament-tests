@@ -5,4 +5,4 @@ it('can soft delete records', function () {
         ->callTableAction(DeleteAction::class, $record);
 
     $this->assertSoftDeleted($record);
-})->group('table', 'table-actions');
+}){{ RESOLVED_GROUP_METHOD }};
