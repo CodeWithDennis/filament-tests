@@ -270,6 +270,52 @@ class FilamentTestsCommand extends Command
         return $this->getResourceTable($resource)->isLoadingDeferred();
     }
 
+    protected function getIndexHeaderActions(Resource $resource): Collection
+    {
+        $defaults = [
+            'all' => collect(),
+            'visible' => collect(),
+            'hidden' => collect(),
+        ];
+
+        $indexPage = $resource::getPages()['index'] ?? null;
+
+        if (! $indexPage) {
+            return collect($defaults);
+        }
+
+        try {
+            $reflection = new \ReflectionClass($indexPage);
+
+            $pageProperty = $reflection->getProperty('page');
+
+            $page = $pageProperty->getValue($indexPage);
+
+            $page = app()->make($page);
+
+            $reflection = new \ReflectionClass($page);
+
+            $getHeaderActionsProperty = $reflection->getMethod('getHeaderActions');
+
+            $actions = $getHeaderActionsProperty->invoke($page);
+
+            return collect([
+                'all' => collect($actions)->map(fn ($action) => $action->getName()),
+
+                'visible' => collect($actions)
+                    ->filter(fn ($action) => $action->isVisible())
+                    ->map(fn ($action) => $action->getName()),
+
+                'hidden' => collect($actions)
+                    ->filter(fn ($action) => ! $action->isVisible())
+                    ->map(fn ($action) => $action->getName()),
+            ]);
+
+        } catch (\Throwable) {
+            return collect($defaults);
+        }
+    }
+
     protected function getTableActionNames(Resource $resource): Collection
     {
         return $this->getResourceTableActions($resource)->map(fn ($action) => $action->getName());
@@ -339,6 +385,21 @@ class FilamentTestsCommand extends Command
         return $this->getResourceTableBulkActions($resource)->map(fn ($action) => $action->getName())->intersect($actions)->isNotEmpty();
     }
 
+    protected function hasAnyIndexHeaderAction(Resource $resource, array $actions): bool
+    {
+        return $this->getIndexHeaderActions($resource)['all']->intersect($actions)->isNotEmpty();
+    }
+
+    protected function hasAnyHiddenIndexHeaderAction(Resource $resource, array $actions): bool
+    {
+        return $this->getIndexHeaderActions($resource)['hidden']->intersect($actions)->isNotEmpty();
+    }
+
+    protected function hasAnyVisibleIndexHeaderAction(Resource $resource, array $actions): bool
+    {
+        return $this->getIndexHeaderActions($resource)['visible']->intersect($actions)->isNotEmpty();
+    }
+
     protected function hasTableBulkAction(string $action, Resource $resource): bool
     {
         return $this->getResourceTableBulkActions($resource)->map(fn ($action) => $action->getName())->contains($action);
@@ -380,6 +441,18 @@ class FilamentTestsCommand extends Command
 
             if ($this->tableHasPagination($resource)) {
                 $stubs[] = $this->getStubPath('ListRecordsPaginated', 'Page/Index');
+            }
+
+            if ($this->hasAnyIndexHeaderAction($resource, $this->getIndexHeaderActions($resource)['all']->toArray())) {
+                $stubs[] = $this->getStubPath('Exist', 'Page/Index/Actions');
+            }
+
+            if ($this->hasAnyVisibleIndexHeaderAction($resource, $this->getIndexHeaderActions($resource)['visible']->toArray())) {
+                $stubs[] = $this->getStubPath('Visible', 'Page/Index/Actions');
+            }
+
+            if ($this->hasAnyHiddenIndexHeaderAction($resource, $this->getIndexHeaderActions($resource)['hidden']->toArray())) {
+                $stubs[] = $this->getStubPath('Hidden', 'Page/Index/Actions');
             }
 
             if ($this->tableHasHeading($resource)) {
@@ -682,6 +755,9 @@ class FilamentTestsCommand extends Command
             'RESOURCE_TABLE_DESCRIPTION' => str($this->getTableDescription($resource))->wrap('\''),
             'DEFAULT_PER_PAGE_OPTION' => $this->getTableDefaultPaginationPageOption($resource),
             'DEFAULT_PAGINATED_RECORDS_FACTORY_COUNT' => $this->getTableDefaultPaginationPageOption($resource) * 2,
+            'INDEX_PAGE_HEADER_ACTIONS' => $this->getIndexHeaderActions($resource)['all']->values(),
+            'INDEX_PAGE_VISIBLE_HEADER_ACTIONS' => $this->getIndexHeaderActions($resource)['visible']->values(),
+            'INDEX_PAGE_HIDDEN_HEADER_ACTIONS' => $this->getIndexHeaderActions($resource)['hidden']->values(),
         ];
 
         $converted = array_map(function ($value) {

@@ -110,6 +110,9 @@ won't be generated.
   - [x] It has the correct URL for table action
   - [x] It has the correct URL and opens in a new tab for table action
   - [x] It has table bulk actions
+  - [X] It has header actions on the index page
+  - [X] It cannot render header actions on the index page
+  - [X] It can render header actions on the index page
   - [x] It has the correct table heading
   - [x] It has the correct table description
   - [ ] It can filter table records

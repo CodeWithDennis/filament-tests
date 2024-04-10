@@ -1,0 +1,4 @@
+it('can render header actions on the index page', function (string $action) {
+    livewire(List{{ MODEL_PLURAL_NAME }}::class)
+        ->assertActionVisible($action);
+})->with({{ INDEX_PAGE_VISIBLE_HEADER_ACTIONS }}){{ RESOLVED_GROUP_METHOD }};
