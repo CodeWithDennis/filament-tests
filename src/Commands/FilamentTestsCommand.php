@@ -739,8 +739,6 @@ class FilamentTestsCommand extends Command
         $userModel = User::class;
         $modelImport = $resourceModel === $userModel ? "use {$resourceModel};" : "use {$resourceModel};\nuse {$userModel};";
 
-        //        dd($this->getIndexHeaderActions($resource)['visible']->values());
-
         $toBeConverted = [
             'RESOLVED_GROUP_METHOD' => $this->getGroupMethod($stubPath),
             'RESOURCE_TABLE_COLUMNS' => $this->getTableColumns($resource)->keys(),
