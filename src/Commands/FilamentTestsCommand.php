@@ -3,6 +3,7 @@
 namespace CodeWithDennis\FilamentTests\Commands;
 
 use App\Models\User;
+use CodeWithDennis\FilamentTests\Services\StubHandler;
 use Filament\Facades\Filament;
 use Filament\Forms\Form;
 use Filament\Resources\Pages\CreateRecord;
@@ -29,6 +30,11 @@ class FilamentTestsCommand extends Command
     public function __construct(protected Filesystem $files)
     {
         parent::__construct();
+    }
+
+    public function stubHandler(Resource $resource): StubHandler
+    {
+        return new StubHandler($resource);
     }
 
     public function handle(): int
@@ -65,350 +71,27 @@ class FilamentTestsCommand extends Command
         }
 
         foreach ($selectedResources as $selectedResource) {
-            // Get the resource class based on the selected resource
             $resource = $this->getResourceClass($selectedResource);
 
-            // Get the path where the test file will be created
             $path = $this->getSourceFilePath($selectedResource);
 
-            // Create the directory if it doesn't exist
             $this->files->ensureDirectoryExists(dirname($path));
 
-            // Get the contents of the test file
             $contents = $this->getSourceFile($resource);
 
             if ($this->files->exists($path) && ! $this->option('force')) {
                 // Ask the user if they want to overwrite the existing test
                 if (! confirm("The test for {$selectedResource} already exists. Do you want to overwrite it?")) {
-                    // Skip this resource
                     continue;
                 }
             }
 
-            // Write the contents to the file
             $this->files->put($path, $contents);
 
-            // Output a success message
             $this->info("Test for {$selectedResource} created successfully.");
         }
 
-        // Return success
         return self::SUCCESS;
-    }
-
-    protected function getResourcePages(Resource $resource): Collection
-    {
-        return collect($resource::getPages())->keys();
-    }
-
-    protected function hasPage(string $name, Resource $resource): bool
-    {
-        return $this->getResourcePages($resource)->contains($name);
-    }
-
-    protected function tableHasPagination(Resource $resource): bool
-    {
-        return $this->getResourceTable($resource)->isPaginated();
-    }
-
-    protected function tableHasHeading(Resource $resource): bool
-    {
-        return $this->getResourceTable($resource)->getHeading() !== null;
-    }
-
-    protected function getTableHeading(Resource $resource): ?string
-    {
-        return $this->getResourceTable($resource)->getHeading();
-    }
-
-    protected function tableHasDescription(Resource $resource): bool
-    {
-        return $this->getResourceTable($resource)->getDescription() !== null;
-    }
-
-    protected function getTableDescription(Resource $resource): ?string
-    {
-        return $this->getResourceTable($resource)->getDescription();
-    }
-
-    protected function getTableDefaultPaginationPageOption(Resource $resource): int|string|null
-    {
-        return $this->getResourceTable($resource)->getDefaultPaginationPageOption();
-    }
-
-    protected function getTableColumns(Resource $resource): Collection
-    {
-        return collect($this->getResourceTable($resource)->getColumns());
-    }
-
-    protected function getSearchableColumns(Resource $resource): Collection
-    {
-        return $this->getTableColumns($resource)
-            ->filter(fn ($column) => $column->isSearchable());
-    }
-
-    protected function getSortableColumns(Resource $resource): Collection
-    {
-        return $this->getTableColumns($resource)
-            ->filter(fn ($column) => $column->isSortable());
-    }
-
-    protected function getIndividuallySearchableColumns(Resource $resource): Collection
-    {
-        return $this->getTableColumns($resource)
-            ->filter(fn ($column) => $column->isIndividuallySearchable());
-    }
-
-    protected function getToggleableColumns(Resource $resource): Collection
-    {
-        return $this->getTableColumns($resource)
-            ->filter(fn ($column) => $column->isToggleable());
-    }
-
-    protected function getToggledHiddenByDefaultColumns(Resource $resource): Collection
-    {
-        return $this->getTableColumns($resource)
-            ->filter(fn ($column) => $column->isToggledHiddenByDefault());
-    }
-
-    protected function getInitiallyVisibleColumns(Resource $resource): Collection
-    {
-        return $this->getTableColumns($resource)
-            ->filter(fn ($column) => ! $column->isToggledHiddenByDefault());
-    }
-
-    protected function getDescriptionAboveColumns(Resource $resource): Collection
-    {
-        return $this->getTableColumns($resource)
-            ->filter(fn ($column) => method_exists($column, 'description') &&
-                $column->getDescriptionAbove()
-            );
-    }
-
-    protected function getDescriptionBelowColumns(Resource $resource): Collection
-    {
-        return $this->getTableColumns($resource)
-            ->filter(fn ($column) => method_exists($column, 'description') &&
-                $column->getDescriptionBelow()
-            );
-    }
-
-    protected function getTableColumnDescriptionAbove(Resource $resource): array
-    {
-        return $this->getDescriptionAboveColumns($resource)
-            ->map(fn ($column) => [
-                'column' => $column->getName(),
-                'description' => $column->getDescriptionAbove(),
-            ])->toArray();
-    }
-
-    protected function getTableColumnDescriptionBelow(Resource $resource): array
-    {
-        return $this->getDescriptionBelowColumns($resource)
-            ->map(fn ($column) => [
-                'column' => $column->getName(),
-                'description' => $column->getDescriptionBelow(),
-            ])->toArray();
-    }
-
-    protected function getExtraAttributesColumns(Resource $resource): Collection
-    {
-        return $this->getTableColumns($resource)
-            ->filter(fn ($column) => $column->getExtraAttributes());
-    }
-
-    protected function getExtraAttributesColumnValues(Resource $resource): array
-    {
-        return $this->getExtraAttributesColumns($resource)
-            ->map(fn ($column) => [
-                'column' => $column->getName(),
-                'attributes' => $column->getExtraAttributes(),
-            ])->toArray();
-    }
-
-    protected function getTableSelectColumns(Resource $resource): Collection
-    {
-        return $this->getTableColumns($resource)
-            ->filter(fn ($column) => $column instanceof \Filament\Tables\Columns\SelectColumn);
-    }
-
-    protected function getTableSelectColumnsWithOptions(Resource $resource): array
-    {
-        return $this->getTableSelectColumns($resource)
-            ->map(fn ($column) => [
-                'column' => $column->getName(),
-                'options' => $column->getOptions(),
-            ])->toArray();
-    }
-
-    protected function hasSoftDeletes(Resource $resource): bool
-    {
-        return method_exists($resource->getModel(), 'bootSoftDeletes');
-    }
-
-    protected function getResourceTableActions(Resource $resource): Collection
-    {
-        return collect($this->getResourceTable($resource)->getFlatActions());
-    }
-
-    protected function getResourceTableBulkActions(Resource $resource): Collection
-    {
-        return collect($this->getResourceTable($resource)->getFlatBulkActions());
-    }
-
-    protected function getResourceTableFilters(Table $table): Collection
-    {
-        return collect($table->getFilters());
-    }
-
-    protected function tableHasDeferredLoading(Resource $resource): bool
-    {
-        return $this->getResourceTable($resource)->isLoadingDeferred();
-    }
-
-    protected function getIndexHeaderActions(Resource $resource): Collection
-    {
-        $defaults = [
-            'all' => collect(),
-            'visible' => collect(),
-            'hidden' => collect(),
-        ];
-
-        $indexPage = $resource::getPages()['index'] ?? null;
-
-        if (! $indexPage) {
-            return collect($defaults);
-        }
-
-        try {
-            $reflection = new \ReflectionClass($indexPage);
-
-            $pageProperty = $reflection->getProperty('page');
-
-            $page = $pageProperty->getValue($indexPage);
-
-            $page = app()->make($page);
-
-            $reflection = new \ReflectionClass($page);
-
-            $getHeaderActionsProperty = $reflection->getMethod('getHeaderActions');
-
-            $actions = $getHeaderActionsProperty->invoke($page);
-
-            return collect([
-                'all' => collect($actions)->map(fn ($action) => $action->getName()),
-
-                'visible' => collect($actions)
-                    ->filter(fn ($action) => $action->isVisible())
-                    ->map(fn ($action) => $action->getName()),
-
-                'hidden' => collect($actions)
-                    ->filter(fn ($action) => ! $action->isVisible())
-                    ->map(fn ($action) => $action->getName()),
-            ]);
-
-        } catch (\Throwable) {
-            return collect($defaults);
-        }
-    }
-
-    protected function getTableActionNames(Resource $resource): Collection
-    {
-        return $this->getResourceTableActions($resource)->map(fn ($action) => $action->getName());
-    }
-
-    protected function getTableActionsWithUrl(Resource $resource): Collection
-    {
-        return $this->getResourceTableActions($resource)
-            ->filter(fn ($action) => $action->getUrl() && ! $action->shouldOpenUrlInNewTab());
-    }
-
-    protected function getTableActionsWithUrlThatShouldOpenInNewTab(Resource $resource): Collection
-    {
-        return $this->getResourceTableActions($resource)
-            ->filter(fn ($action) => $action->getUrl() && $action->shouldOpenUrlInNewTab());
-    }
-
-    protected function hasTableActionWithUrl(Resource $resource): bool
-    {
-        return $this->getTableActionsWithUrl($resource)->isNotEmpty();
-    }
-
-    protected function hasTableActionWithUrlThatShouldOpenInNewTab(Resource $resource): bool
-    {
-        return $this->getTableActionsWithUrlThatShouldOpenInNewTab($resource)->isNotEmpty();
-    }
-
-    protected function getTableActionsWithUrlNames(Resource $resource): Collection
-    {
-        return $this->getTableActionsWithUrl($resource)
-            ->map(fn ($action) => $action->getName());
-    }
-
-    protected function getTableActionsWithUrlThatShouldOpenInNewTabNames(Resource $resource): Collection
-    {
-        return $this->getTableActionsWithUrlThatShouldOpenInNewTab($resource)->map(fn ($action) => $action->getName());
-    }
-
-    protected function getTableActionsWithUrlValues(Resource $resource): array
-    {
-        return $this->getTableActionsWithUrl($resource)->map(fn ($action) => [
-            'name' => $action->getName(),
-            'url' => $action->getUrl(),
-        ])->toArray();
-    }
-
-    protected function getTableActionsWithUrlThatShouldOpenInNewTabValues(Resource $resource): array
-    {
-        return $this->getTableActionsWithUrlThatShouldOpenInNewTab($resource)->map(fn ($action) => [
-            'name' => $action->getName(),
-            'url' => $action->getUrl(),
-        ])->toArray();
-    }
-
-    protected function hasTableAction(string $action, Resource $resource): bool
-    {
-        return $this->getResourceTableActions($resource)->map(fn ($action) => $action->getName())->contains($action);
-    }
-
-    protected function hasAnyTableAction(Resource $resource, array $actions): bool
-    {
-        return $this->getResourceTableActions($resource)->map(fn ($action) => $action->getName())->intersect($actions)->isNotEmpty();
-    }
-
-    protected function hasAnyTableBulkAction(Resource $resource, array $actions): bool
-    {
-        return $this->getResourceTableBulkActions($resource)->map(fn ($action) => $action->getName())->intersect($actions)->isNotEmpty();
-    }
-
-    protected function hasAnyIndexHeaderAction(Resource $resource, array $actions): bool
-    {
-        return $this->getIndexHeaderActions($resource)['all']->intersect($actions)->isNotEmpty();
-    }
-
-    protected function hasAnyHiddenIndexHeaderAction(Resource $resource, array $actions): bool
-    {
-        return $this->getIndexHeaderActions($resource)['hidden']->intersect($actions)->isNotEmpty();
-    }
-
-    protected function hasAnyVisibleIndexHeaderAction(Resource $resource, array $actions): bool
-    {
-        return $this->getIndexHeaderActions($resource)['visible']->intersect($actions)->isNotEmpty();
-    }
-
-    protected function hasTableBulkAction(string $action, Resource $resource): bool
-    {
-        return $this->getResourceTableBulkActions($resource)->map(fn ($action) => $action->getName())->contains($action);
-    }
-
-    protected function getTableBulkActionNames(Resource $resource): Collection
-    {
-        return $this->getResourceTableBulkActions($resource)->map(fn ($action) => $action->getName());
-    }
-
-    protected function hasTableFilter(string $filter, Table $table): bool
-    {
-        return $this->getResourceTableFilters($table)->map(fn ($filter) => $filter->getName())->contains($filter);
     }
 
     protected function getStubPath(string $for, ?string $in = null): string
@@ -420,185 +103,11 @@ class FilamentTestsCommand extends Command
             : $basePath.DIRECTORY_SEPARATOR.$for.'.stub';
     }
 
-    protected function getStubs(Resource $resource): array
+    protected function getStubs(Resource $resource): Collection
     {
-        // Get the resource table
-        $resourceTable = $this->getResourceTable($resource);
+        $handler = $this->stubHandler($resource);
 
-        $stubs = [];
-
-        // Base stubs that are always included
-        $stubs[] = $this->getStubPath('Base');
-
-        // Check if there is an index page
-        if ($this->hasPage('index', $resource)) {
-            $stubs[] = $this->getStubPath('Render', 'Page/Index');
-            $stubs[] = $this->getStubPath('ListRecords', 'Page/Index');
-
-            if ($this->tableHasPagination($resource)) {
-                $stubs[] = $this->getStubPath('ListRecordsPaginated', 'Page/Index');
-            }
-
-            if ($this->hasAnyIndexHeaderAction($resource, $this->getIndexHeaderActions($resource)['all']->toArray())) {
-                $stubs[] = $this->getStubPath('Exist', 'Page/Index/Actions');
-            }
-
-            if ($this->hasAnyVisibleIndexHeaderAction($resource, $this->getIndexHeaderActions($resource)['visible']->toArray())) {
-                $stubs[] = $this->getStubPath('Visible', 'Page/Index/Actions');
-            }
-
-            if ($this->hasAnyHiddenIndexHeaderAction($resource, $this->getIndexHeaderActions($resource)['hidden']->toArray())) {
-                $stubs[] = $this->getStubPath('Hidden', 'Page/Index/Actions');
-            }
-
-            if ($this->tableHasHeading($resource)) {
-                $stubs[] = $this->getStubPath('Heading', 'Page/Index/Table');
-            }
-
-            if ($this->tableHasDescription($resource)) {
-                $stubs[] = $this->getStubPath('Description', 'Page/Index/Table');
-            }
-        }
-
-        // Check if there is a create page
-        if ($this->hasPage('create', $resource)) {
-            $stubs[] = $this->getStubPath('Render', 'Page/Create');
-        }
-
-        // Check if there is an edit page
-        if ($this->hasPage('edit', $resource)) {
-            $stubs[] = $this->getStubPath('Render', 'Page/Edit');
-        }
-
-        // Check if there is a view page
-        if ($this->hasPage('view', $resource)) {
-            $stubs[] = $this->getStubPath('Render', 'Page/View');
-        }
-
-        // Add additional stubs based on the columns
-        if ($this->getTableColumns($resource)->isNotEmpty()) {
-            $stubs[] = $this->getStubPath('Exist', 'Page/Index/Table/Columns');
-        }
-
-        // Check if there are initially visible columns
-        if ($this->getInitiallyVisibleColumns($resource)->isNotEmpty()) {
-            $stubs[] = $this->getStubPath('Render', 'Page/Index/Table/Columns');
-        }
-
-        // Check if there are toggleable columns that are hidden by default
-        if ($this->getToggledHiddenByDefaultColumns($resource)->isNotEmpty()) {
-            $stubs[] = $this->getStubPath('CannotRender', 'Page/Index/Table/Columns');
-        }
-
-        // Check if there are sortable columns
-        if ($this->getSortableColumns($resource)->isNotEmpty()) {
-            $stubs[] = $this->getStubPath('Sort', 'Page/Index/Table/Columns');
-        }
-
-        // Check if there are searchable columns
-        if ($this->getSearchableColumns($resource)->isNotEmpty()) {
-            $stubs[] = $this->getStubPath('Search', 'Page/Index/Table/Columns');
-        }
-
-        // Check if there are individually searchable columns
-        if ($this->getIndividuallySearchableColumns($resource)->isNotEmpty()) {
-            $stubs[] = $this->getStubPath('SearchIndividually', 'Page/Index/Table/Columns');
-        }
-
-        // Check if there is a description above
-        if ($this->getDescriptionAboveColumns($resource)->isNotEmpty()) {
-            $stubs[] = $this->getStubPath('DescriptionAbove', 'Page/Index/Table/Columns');
-        }
-
-        // Check if there is a description below
-        if ($this->getDescriptionBelowColumns($resource)->isNotEmpty()) {
-            $stubs[] = $this->getStubPath('DescriptionBelow', 'Page/Index/Table/Columns');
-        }
-
-        // Check if there are select columns
-        if ($this->getTableSelectColumns($resource)->isNotEmpty()) {
-            $stubs[] = $this->getStubPath('Select', 'Page/Index/Table/Columns');
-        }
-
-        // Check that trashed columns are not displayed by default
-        if ($this->hasSoftDeletes($resource) && $this->getTableColumns($resource)->isNotEmpty()) {
-            $stubs[] = $this->getStubPath('Trashed', 'Page/Index');
-        }
-
-        // Check if there are columns with extra attributes
-        if ($this->getExtraAttributesColumns($resource)->isNotEmpty()) {
-            $stubs[] = $this->getStubPath('ExtraAttributes', 'Page/Index/Table/Columns');
-        }
-
-        // Check if there are any table actions with a URL
-        if ($this->hasTableActionWithUrl($resource)) {
-            $stubs[] = $this->getStubPath('Url', 'Page/Index/Table/Actions');
-        }
-
-        // Check if there are any table actions with a URL that should open in a new tab
-        if ($this->hasTableActionWithUrlThatShouldOpenInNewTab($resource)) {
-            $stubs[] = $this->getStubPath('UrlTab', 'Page/Index/Table/Actions');
-        }
-
-        // Check if it has any table actions
-        if ($this->hasAnyTableAction($resource, $this->getTableActionNames($resource)->toArray())) {
-            $stubs[] = $this->getStubPath('Exist', 'Page/Index/Table/Actions');
-        }
-
-        // Check if there is a delete action
-        if ($this->hasTableAction('delete', $resource)) {
-            $stubs[] = ! $this->hasSoftDeletes($resource)
-                ? $this->getStubPath('Delete', 'Page/Index/Table/Actions')
-                : $this->getStubPath('SoftDelete', 'Page/Index/Table/Actions');
-        }
-
-        // Check if it has any table bulk actions
-        if ($this->hasAnyTableBulkAction($resource, $this->getTableBulkActionNames($resource)->toArray())) {
-            $stubs[] = $this->getStubPath('Exist', 'Page/Index/Table/BulkActions');
-        }
-
-        // Check if there is a bulk delete action
-        if ($this->hasTableBulkAction('delete', $resource)) {
-            $stubs[] = ! $this->hasSoftDeletes($resource)
-                ? $this->getStubPath('Delete', 'Page/Index/Table/BulkActions')
-                : $this->getStubPath('SoftDelete', 'Page/Index/Table/BulkActions');
-        }
-
-        // Check if there is a replicate action
-        if ($this->hasTableAction('replicate', $resource)) {
-            $stubs[] = $this->getStubPath('Replicate', 'Page/Index/Table/Actions');
-        }
-
-        // Check there are table filters
-        if ($this->getResourceTableFilters($resourceTable)->isNotEmpty()) {
-            $stubs[] = $this->getStubPath('Reset', 'Page/Index/Table/Filters');
-        }
-
-        // Check if there is a trashed filter
-        if ($this->hasTableFilter('trashed', $resourceTable) && $this->hasSoftDeletes($resource)) {
-            // Check if there is a restore action
-            if ($this->hasTableAction('restore', $resource)) {
-                $stubs[] = $this->getStubPath('Restore', 'Page/Index/Table/Actions');
-            }
-
-            // Check if there is a force delete action
-            if ($this->hasTableAction('forceDelete', $resource)) {
-                $stubs[] = $this->getStubPath('ForceDelete', 'Page/Index/Table/Actions');
-            }
-
-            // Check if there is a bulk restore action
-            if ($this->hasTableBulkAction('restore', $resource)) {
-                $stubs[] = $this->getStubPath('Restore', 'Page/Index/Table/BulkActions');
-            }
-
-            // Check if there is a bulk force delete action
-            if ($this->hasTableBulkAction('forceDelete', $resource)) {
-                $stubs[] = $this->getStubPath('ForceDelete', 'Page/Index/Table/BulkActions');
-            }
-        }
-
-        // Return the stubs
-        return $stubs;
+        return $handler->getStubs();
     }
 
     protected function getResources(): Collection
@@ -614,7 +123,6 @@ class FilamentTestsCommand extends Command
         return $match ? app()->make($match) : null;
     }
 
-    // Get the available resources
     protected function getAvailableResources(): Collection
     {
         return $this->getResources()->map(fn ($resource): string => str($resource)->afterLast('Resources\\'));
@@ -636,7 +144,10 @@ class FilamentTestsCommand extends Command
         $contents = '';
 
         foreach ($this->getStubs($resource) as $stub) {
-            $contents .= $this->getStubContents($stub, $this->getStubVariables($resource, $stub));
+            if (is_null($stub)) {
+                continue;
+            }
+            $contents .= $this->getStubContents($stub['absolutePath'], $this->getStubVariables($resource, $stub['absolutePath']));
         }
 
         return $contents;
@@ -653,158 +164,23 @@ class FilamentTestsCommand extends Command
         return $contents.PHP_EOL;
     }
 
-    protected function getResourceRequiredCreateFields(Resource $resource): Collection
-    {
-        return collect($this->getResourceCreateForm($resource)->getFlatFields())
-            ->filter(fn ($field) => $field->isRequired());
-    }
-
-    protected function getResourceRequiredEditFields(Resource $resource): Collection
-    {
-        return collect($this->getResourceEditForm($resource)->getFlatFields())
-            ->filter(fn ($field) => $field->isRequired());
-    }
-
-    protected function getResourceCreateFields(Resource $resource): array
-    {
-        return $this->getResourceCreateForm($resource)->getFlatFields();
-    }
-
-    protected function getResourceEditFields(Resource $resource): array
-    {
-        return $this->getResourceEditForm($resource)->getFlatFields();
-    }
-
-    protected function getResourceEditForm(Resource $resource): Form
-    {
-        $livewire = app('livewire')->new(EditRecord::class);
-
-        return $resource::form(new Form($livewire));
-    }
-
-    protected function getResourceCreateForm(Resource $resource): Form
-    {
-        $livewire = app('livewire')->new(CreateRecord::class);
-
-        return $resource::form(new Form($livewire));
-    }
-
-    protected function getResourceTable(Resource $resource): Table
-    {
-        $livewire = app('livewire')->new(ListRecords::class);
-
-        return $resource::table(new Table($livewire));
-    }
-
-    protected function convertDoubleQuotedArrayString(string $string): string
-    {
-        return str($string)
-            ->replace('"', '\'')
-            ->replace(',', ', ');
-    }
-
-    protected function transformToPestDataset(array $source, array $keys): string
-    {
-        $result = [];
-
-        foreach ($source as $item) {
-            $temp = [];
-
-            foreach ($keys as $key) {
-                if (isset($item[$key])) {
-                    if (is_array($item[$key])) {
-                        $nestedArray = [];
-                        foreach ($item[$key] as $nestedKey => $nestedValue) {
-                            $nestedArray[] = "'$nestedKey' => '$nestedValue'";
-                        }
-                        $temp[] = '['.implode(', ', $nestedArray).']';
-                    } else {
-                        $temp[] = "'".$item[$key]."'";
-                    }
-                }
-            }
-
-            $result[] = '['.implode(', ', $temp).']';
-        }
-
-        return $this->convertDoubleQuotedArrayString('['.implode(', ', $result).']');
-    }
-
     protected function getStubVariables(Resource $resource, string $stubPath): array
     {
-        $resourceModel = $resource->getModel();
-        $userModel = User::class;
-        $modelImport = $resourceModel === $userModel ? "use {$resourceModel};" : "use {$resourceModel};\nuse {$userModel};";
+        $variables = [];
+        foreach ($this->getStubs($resource) as $stub) {
+            if (is_null($stub)) {
+                continue;
+            }
+            foreach ($stub['variables'] as $key => $value) {
+                $variables[$key] = $value;
+            }
+        }
 
-        $toBeConverted = [
-            'RESOLVED_GROUP_METHOD' => $this->getGroupMethod($stubPath),
-            'RESOURCE_TABLE_COLUMNS' => $this->getTableColumns($resource)->keys(),
-            'RESOURCE_TABLE_INITIALLY_VISIBLE_COLUMNS' => $this->getInitiallyVisibleColumns($resource)->keys(),
-            'RESOURCE_TABLE_TOGGLED_HIDDEN_BY_DEFAULT_COLUMNS' => $this->getToggledHiddenByDefaultColumns($resource)->keys(),
-            'RESOURCE_TABLE_INDIVIDUALLY_SEARCHABLE_COLUMNS' => $this->getIndividuallySearchableColumns($resource)->keys(),
-            'RESOURCE_TABLE_SEARCHABLE_COLUMNS' => $this->getSearchableColumns($resource)->keys(),
-            'RESOURCE_TABLE_SORTABLE_COLUMNS' => $this->getSortableColumns($resource)->keys(),
-            'RESOURCE_TABLE_TOGGLEABLE_COLUMNS' => $this->getToggleableColumns($resource)->keys(),
-            'RESOURCE_TABLE_ACTIONS' => $this->getTableActionNames($resource)->keys(),
-            'RESOURCE_TABLE_BULK_ACTIONS' => $this->getTableBulkActionNames($resource)->keys(),
-            'RESOURCE_TABLE_HEADING' => str($this->getTableHeading($resource))->wrap('\''),
-            'RESOURCE_TABLE_DESCRIPTION' => str($this->getTableDescription($resource))->wrap('\''),
-            'DEFAULT_PER_PAGE_OPTION' => $this->getTableDefaultPaginationPageOption($resource),
-            'DEFAULT_PAGINATED_RECORDS_FACTORY_COUNT' => $this->getTableDefaultPaginationPageOption($resource) * 2,
-            'INDEX_PAGE_HEADER_ACTIONS' => $this->getIndexHeaderActions($resource)['all']->values(),
-            'INDEX_PAGE_VISIBLE_HEADER_ACTIONS' => $this->getIndexHeaderActions($resource)['visible']->values(),
-            'INDEX_PAGE_HIDDEN_HEADER_ACTIONS' => $this->getIndexHeaderActions($resource)['hidden']->values(),
-        ];
-
-        $converted = array_map(function ($value) {
-            return $this->convertDoubleQuotedArrayString($value);
-        }, $toBeConverted);
-
-        return array_merge([
-            'MODEL_IMPORT' => $modelImport,
-            'MODEL_PLURAL_NAME' => str($resourceModel)->afterLast('\\')->plural(),
-            'MODEL_SINGULAR_NAME' => str($resourceModel)->afterLast('\\'),
-            'RESOURCE' => str($resource::class)->afterLast('\\'),
-            'RESOURCE_TABLE_DESCRIPTIONS_ABOVE_COLUMNS' => $this->transformToPestDataset($this->getTableColumnDescriptionAbove($resource), ['column', 'description']),
-            'RESOURCE_TABLE_DESCRIPTIONS_BELOW_COLUMNS' => $this->transformToPestDataset($this->getTableColumnDescriptionBelow($resource), ['column', 'description']),
-            'RESOURCE_TABLE_EXTRA_ATTRIBUTES_COLUMNS' => $this->transformToPestDataset($this->getExtraAttributesColumnValues($resource), ['column', 'attributes']),
-            'RESOURCE_TABLE_SELECT_COLUMNS' => $this->transformToPestDataset($this->getTableSelectColumnsWithOptions($resource), ['column', 'options']),
-            'LOAD_TABLE_METHOD_IF_DEFERRED' => $this->tableHasDeferredLoading($resource) ? $this->getDeferredLoadingMethod() : '',
-            'RESOURCE_TABLE_ACTIONS_WITH_URL' => $this->transformToPestDataset($this->getTableActionsWithUrlValues($resource), ['name', 'url']),
-            'RESOURCE_TABLE_ACTIONS_WITH_URL_THAT_SHOULD_OPEN_IN_NEW_TAB' => $this->transformToPestDataset($this->getTableActionsWithUrlThatShouldOpenInNewTabValues($resource), ['name', 'url']),
-        ], $converted);
+        return $variables;
     }
 
     protected function getNormalizedResourceName(string $name): string
     {
         return str($name)->ucfirst()->finish('Resource');
-    }
-
-    protected function getDeferredLoadingMethod(): string
-    {
-        return "\n\t\t->loadTable()";
-    }
-
-    protected function resolveGroupByStubPath(string $stubPath): ?string
-    {
-        $stubPath = str($stubPath)->replace('\\', '/');
-
-        $base = str($stubPath)->after('/stubs/')->beforeLast('/');
-
-        $base = str($base)->explode('/');
-
-        if (str($base->last())->contains('.stub')) {
-            $base->pop();
-        }
-
-        $groups = $base->map(fn ($group) => str($group)->kebab()->lower())
-            ->sort()->toArray();
-
-        return "'".implode("','", $groups)."'";
-    }
-
-    protected function getGroupMethod(string $stubPath): string
-    {
-        return "->group({$this->resolveGroupByStubPath($stubPath)})";
     }
 }
