@@ -19,7 +19,7 @@ abstract class Base implements HasGroup, HasName, HasPath
 {
     use EvaluatesClosures;
 
-    public Closure|string|null $group;
+    public Closure|string|null $group = null;
     public Closure|string|null $name;
 
     public Closure|string|null $path;
@@ -50,7 +50,7 @@ abstract class Base implements HasGroup, HasName, HasPath
 
     public function getGroup(): ?string
     {
-        return $this->evaluate($this->group ?? '');
+        return $this->evaluate($this->group);
     }
 
     public function path(string|Closure|null $path): static
