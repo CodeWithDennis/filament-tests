@@ -4,9 +4,9 @@ namespace CodeWithDennis\FilamentTests\Stubs\Page\Index\Table\Actions;
 
 use CodeWithDennis\FilamentTests\Stubs\Base;
 
-class ForceDelete extends Base
+class DeleteForce extends Base
 {
-    public string $name = 'ForceDelete';
+    public string $name = 'DeleteForce';
 
     public ?string $group = 'Page/Index/Table/Actions';
 

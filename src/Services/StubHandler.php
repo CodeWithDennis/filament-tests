@@ -44,11 +44,11 @@ class StubHandler
             \CodeWithDennis\FilamentTests\Stubs\Page\Index\Table\Actions\DeleteSoft::make($resource)->get(),
             \CodeWithDennis\FilamentTests\Stubs\Page\Index\Table\Actions\Replicate::make($resource)->get(),
             \CodeWithDennis\FilamentTests\Stubs\Page\Index\Table\Actions\Restore::make($resource)->get(),
-            \CodeWithDennis\FilamentTests\Stubs\Page\Index\Table\Actions\ForceDelete::make($resource)->get(),
+            \CodeWithDennis\FilamentTests\Stubs\Page\Index\Table\Actions\DeleteForce::make($resource)->get(),
 
             \CodeWithDennis\FilamentTests\Stubs\Page\Index\Table\BulkActions\Restore::make($resource)->get(),
             \CodeWithDennis\FilamentTests\Stubs\Page\Index\Table\BulkActions\Delete::make($resource)->get(),
-            \CodeWithDennis\FilamentTests\Stubs\Page\Index\Table\BulkActions\ForceDelete::make($resource)->get(),
+            \CodeWithDennis\FilamentTests\Stubs\Page\Index\Table\BulkActions\DeleteForce::make($resource)->get(),
 
             \CodeWithDennis\FilamentTests\Stubs\Page\Index\Table\Columns\Exist::make($resource)->get(),
             \CodeWithDennis\FilamentTests\Stubs\Page\Index\Table\Columns\Render::make($resource)->get(),
