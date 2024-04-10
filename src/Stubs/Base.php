@@ -121,7 +121,6 @@ abstract class Base implements HasGroup, HasName, HasPath
             'fileName' => $this->getName().'.stub',
             'path' => $this->getPath(),
             'variables' => $this->getVariables(),
-            'hasDataset' => false,
         ];
     }
 
