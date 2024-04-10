@@ -521,12 +521,12 @@ abstract class Base implements HasGroup, HasName, HasPath
         return "\n\t\t->loadTable()";
     }
 
-    protected function getGroupMethod(): string
+    public function getGroupMethod(): string
     {
         return "->group({$this->toGroupMethod()})";
     }
 
-    protected function toGroupMethod(): ?string
+    public function toGroupMethod(): ?string
     {
         $group = $this->getGroup();
 
