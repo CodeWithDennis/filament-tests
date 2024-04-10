@@ -7,9 +7,9 @@ use CodeWithDennis\FilamentTests\Stubs\Base;
 
 class Delete extends Base
 {
-    public Closure | string | null $name = 'Delete';
+    public Closure|string|null $name = 'Delete';
 
-    public Closure | string | null $group = 'Page/Index/Table/Actions';
+    public Closure|string|null $group = 'Page/Index/Table/Actions';
 
     public function getShouldGenerate(): bool
     {

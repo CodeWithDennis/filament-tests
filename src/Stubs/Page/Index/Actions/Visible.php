@@ -7,9 +7,9 @@ use CodeWithDennis\FilamentTests\Stubs\Base;
 
 class Visible extends Base
 {
-    public Closure | string | null $name = 'Visible';
+    public Closure|string|null $name = 'Visible';
 
-    public Closure | string | null $group = 'Page/Index/Actions';
+    public Closure|string|null $group = 'Page/Index/Actions';
 
     public function getShouldGenerate(): bool
     {

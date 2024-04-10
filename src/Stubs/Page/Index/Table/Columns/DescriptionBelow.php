@@ -7,9 +7,9 @@ use CodeWithDennis\FilamentTests\Stubs\Base;
 
 class DescriptionBelow extends Base
 {
-    public Closure | string | null $name = 'DescriptionBelow';
+    public Closure|string|null $name = 'DescriptionBelow';
 
-    public Closure | string | null $group = 'Page/Index/Table/Columns';
+    public Closure|string|null $group = 'Page/Index/Table/Columns';
 
     public function getShouldGenerate(): bool
     {

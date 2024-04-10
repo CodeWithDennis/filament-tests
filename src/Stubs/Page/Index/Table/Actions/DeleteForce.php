@@ -7,9 +7,9 @@ use CodeWithDennis\FilamentTests\Stubs\Base;
 
 class DeleteForce extends Base
 {
-    public Closure | string | null $name = 'DeleteForce';
+    public Closure|string|null $name = 'DeleteForce';
 
-    public Closure | string | null $group = 'Page/Index/Table/Actions';
+    public Closure|string|null $group = 'Page/Index/Table/Actions';
 
     public function getShouldGenerate(): bool
     {

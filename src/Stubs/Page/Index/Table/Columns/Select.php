@@ -7,9 +7,9 @@ use CodeWithDennis\FilamentTests\Stubs\Base;
 
 class Select extends Base
 {
-    public Closure | string | null $name = 'Select';
+    public Closure|string|null $name = 'Select';
 
-    public Closure | string | null $group = 'Page/Index/Table/Columns';
+    public Closure|string|null $group = 'Page/Index/Table/Columns';
 
     public function getShouldGenerate(): bool
     {

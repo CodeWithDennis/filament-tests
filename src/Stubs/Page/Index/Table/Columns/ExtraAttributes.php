@@ -7,9 +7,9 @@ use CodeWithDennis\FilamentTests\Stubs\Base;
 
 class ExtraAttributes extends Base
 {
-    public Closure | string | null $name = 'ExtraAttributes';
+    public Closure|string|null $name = 'ExtraAttributes';
 
-    public Closure | string | null $group = 'Page/Index/Table/Columns';
+    public Closure|string|null $group = 'Page/Index/Table/Columns';
 
     public function getShouldGenerate(): bool
     {
