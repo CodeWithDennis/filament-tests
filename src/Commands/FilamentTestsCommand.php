@@ -26,10 +26,6 @@ class FilamentTestsCommand extends Command
 
     protected $description = 'Create a new test for a Filament component';
 
-    protected int $baseUsers = 1;
-
-    protected int $defaultFactoryCount = 3;
-
     public function __construct(protected Filesystem $files)
     {
         parent::__construct();
