@@ -115,6 +115,26 @@ class FilamentTestsCommand extends Command
         return $this->getResourceTable($resource)->isPaginated();
     }
 
+    protected function tableHasHeading(Resource $resource): bool
+    {
+        return $this->getResourceTable($resource)->getHeading() !== null;
+    }
+
+    protected function getTableHeading(Resource $resource): ?string
+    {
+        return $this->getResourceTable($resource)->getHeading();
+    }
+
+    protected function tableHasDescription(Resource $resource): bool
+    {
+        return $this->getResourceTable($resource)->getDescription() !== null;
+    }
+
+    protected function getTableDescription(Resource $resource): ?string
+    {
+        return $this->getResourceTable($resource)->getDescription();
+    }
+
     protected function getTableDefaultPaginationPageOption(Resource $resource): int|string|null
     {
         return $this->getResourceTable($resource)->getDefaultPaginationPageOption();
@@ -301,6 +321,55 @@ class FilamentTestsCommand extends Command
         return $this->getResourceTableActions($resource)->map(fn ($action) => $action->getName());
     }
 
+    protected function getTableActionsWithUrl(Resource $resource): Collection
+    {
+        return $this->getResourceTableActions($resource)
+            ->filter(fn ($action) => $action->getUrl() && ! $action->shouldOpenUrlInNewTab());
+    }
+
+    protected function getTableActionsWithUrlThatShouldOpenInNewTab(Resource $resource): Collection
+    {
+        return $this->getResourceTableActions($resource)
+            ->filter(fn ($action) => $action->getUrl() && $action->shouldOpenUrlInNewTab());
+    }
+
+    protected function hasTableActionWithUrl(Resource $resource): bool
+    {
+        return $this->getTableActionsWithUrl($resource)->isNotEmpty();
+    }
+
+    protected function hasTableActionWithUrlThatShouldOpenInNewTab(Resource $resource): bool
+    {
+        return $this->getTableActionsWithUrlThatShouldOpenInNewTab($resource)->isNotEmpty();
+    }
+
+    protected function getTableActionsWithUrlNames(Resource $resource): Collection
+    {
+        return $this->getTableActionsWithUrl($resource)
+            ->map(fn ($action) => $action->getName());
+    }
+
+    protected function getTableActionsWithUrlThatShouldOpenInNewTabNames(Resource $resource): Collection
+    {
+        return $this->getTableActionsWithUrlThatShouldOpenInNewTab($resource)->map(fn ($action) => $action->getName());
+    }
+
+    protected function getTableActionsWithUrlValues(Resource $resource): array
+    {
+        return $this->getTableActionsWithUrl($resource)->map(fn ($action) => [
+            'name' => $action->getName(),
+            'url' => $action->getUrl(),
+        ])->toArray();
+    }
+
+    protected function getTableActionsWithUrlThatShouldOpenInNewTabValues(Resource $resource): array
+    {
+        return $this->getTableActionsWithUrlThatShouldOpenInNewTab($resource)->map(fn ($action) => [
+            'name' => $action->getName(),
+            'url' => $action->getUrl(),
+        ])->toArray();
+    }
+
     protected function hasTableAction(string $action, Resource $resource): bool
     {
         return $this->getResourceTableActions($resource)->map(fn ($action) => $action->getName())->contains($action);
@@ -384,6 +453,13 @@ class FilamentTestsCommand extends Command
 
             if ($this->hasAnyHiddenIndexHeaderAction($resource, $this->getIndexHeaderActions($resource)['hidden']->toArray())) {
                 $stubs[] = $this->getStubPath('Hidden', 'Page/Index/Actions');
+
+            if ($this->tableHasHeading($resource)) {
+                $stubs[] = $this->getStubPath('Heading', 'Page/Index/Table');
+            }
+
+            if ($this->tableHasDescription($resource)) {
+                $stubs[] = $this->getStubPath('Description', 'Page/Index/Table');
             }
         }
 
@@ -455,6 +531,16 @@ class FilamentTestsCommand extends Command
         // Check if there are columns with extra attributes
         if ($this->getExtraAttributesColumns($resource)->isNotEmpty()) {
             $stubs[] = $this->getStubPath('ExtraAttributes', 'Page/Index/Table/Columns');
+        }
+
+        // Check if there are any table actions with a URL
+        if ($this->hasTableActionWithUrl($resource)) {
+            $stubs[] = $this->getStubPath('Url', 'Page/Index/Table/Actions');
+        }
+
+        // Check if there are any table actions with a URL that should open in a new tab
+        if ($this->hasTableActionWithUrlThatShouldOpenInNewTab($resource)) {
+            $stubs[] = $this->getStubPath('UrlTab', 'Page/Index/Table/Actions');
         }
 
         // Check if it has any table actions
@@ -666,6 +752,8 @@ class FilamentTestsCommand extends Command
             'RESOURCE_TABLE_TOGGLEABLE_COLUMNS' => $this->getToggleableColumns($resource)->keys(),
             'RESOURCE_TABLE_ACTIONS' => $this->getTableActionNames($resource)->keys(),
             'RESOURCE_TABLE_BULK_ACTIONS' => $this->getTableBulkActionNames($resource)->keys(),
+            'RESOURCE_TABLE_HEADING' => str($this->getTableHeading($resource))->wrap('\''),
+            'RESOURCE_TABLE_DESCRIPTION' => str($this->getTableDescription($resource))->wrap('\''),
             'DEFAULT_PER_PAGE_OPTION' => $this->getTableDefaultPaginationPageOption($resource),
             'DEFAULT_PAGINATED_RECORDS_FACTORY_COUNT' => $this->getTableDefaultPaginationPageOption($resource) * 2,
             'INDEX_PAGE_HEADER_ACTIONS' => $this->getIndexHeaderActions($resource)['all']->values(),
@@ -687,6 +775,8 @@ class FilamentTestsCommand extends Command
             'RESOURCE_TABLE_EXTRA_ATTRIBUTES_COLUMNS' => $this->transformToPestDataset($this->getExtraAttributesColumnValues($resource), ['column', 'attributes']),
             'RESOURCE_TABLE_SELECT_COLUMNS' => $this->transformToPestDataset($this->getTableSelectColumnsWithOptions($resource), ['column', 'options']),
             'LOAD_TABLE_METHOD_IF_DEFERRED' => $this->tableHasDeferredLoading($resource) ? $this->getDeferredLoadingMethod() : '',
+            'RESOURCE_TABLE_ACTIONS_WITH_URL' => $this->transformToPestDataset($this->getTableActionsWithUrlValues($resource), ['name', 'url']),
+            'RESOURCE_TABLE_ACTIONS_WITH_URL_THAT_SHOULD_OPEN_IN_NEW_TAB' => $this->transformToPestDataset($this->getTableActionsWithUrlThatShouldOpenInNewTabValues($resource), ['name', 'url']),
         ], $converted);
     }
 

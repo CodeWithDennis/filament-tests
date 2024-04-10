@@ -107,10 +107,14 @@ won't be generated.
   - [x] It can bulk force delete records
   - [x] It can reset table filters
   - [x] It has table actions
+  - [x] It has the correct URL for table action
+  - [x] It has the correct URL and opens in a new tab for table action
   - [x] It has table bulk actions
   - [X] It has header actions on the index page
   - [X] It cannot render header actions on the index page
   - [X] It can render header actions on the index page
+  - [x] It has the correct table heading
+  - [x] It has the correct table description
   - [ ] It can filter table records
   - [ ] It can remove table filters
 
@@ -148,6 +152,7 @@ vendor/bin/pest --exclude-group=filament-tests
 ## Credits
 
 - [CodeWithDennis](https://github.com/CodeWithDennis)
+- [Dissto](https://github.com/dissto)
 - [All Contributors](../../contributors)
 
 ## License
