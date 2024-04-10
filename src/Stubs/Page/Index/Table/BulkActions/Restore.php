@@ -7,9 +7,9 @@ use CodeWithDennis\FilamentTests\Stubs\Base;
 
 class Restore extends Base
 {
-    public Closure|string|null $name = 'Restore';
+    public Closure | string | null $name = 'Restore';
 
-    public Closure|string|null $group = 'Page/Index/Table/BulkActions';
+    public Closure | string | null $group = 'Page/Index/Table/BulkActions';
 
     public function getShouldGenerate(): bool
     {

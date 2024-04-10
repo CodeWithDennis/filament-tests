@@ -19,15 +19,15 @@ abstract class Base implements HasGroup, HasName, HasPath
 {
     use EvaluatesClosures;
 
-    public Closure|string|null $group = null;
+    public Closure | string | null $group = null;
 
-    public Closure|string|null $name;
+    public Closure | string | null $name;
 
-    public Closure|string|null $path;
+    public Closure | string | null $path;
 
-    public Closure|bool|null $shouldGenerate = true;
+    public Closure | bool | null $shouldGenerate = true;
 
-    public Closure|array|null $variables;
+    public Closure | array | null $variables;
 
     public function __construct(public Resource $resource) {}
 
@@ -36,7 +36,7 @@ abstract class Base implements HasGroup, HasName, HasPath
         return new static($resource);
     }
 
-    public function group(string|Closure|null $group): static
+    public function group(string | Closure | null $group): static
     {
         $this->group = $group;
 
@@ -48,14 +48,14 @@ abstract class Base implements HasGroup, HasName, HasPath
         return $this->evaluate($this->group);
     }
 
-    public function path(string|Closure|null $path): static
+    public function path(string | Closure | null $path): static
     {
         $this->path = $path;
 
         return $this;
     }
 
-    public function name(string|Closure|null $name): static
+    public function name(string | Closure | null $name): static
     {
         $this->name = $name;
 

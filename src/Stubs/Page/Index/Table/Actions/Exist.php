@@ -7,9 +7,9 @@ use CodeWithDennis\FilamentTests\Stubs\Base;
 
 class Exist extends Base
 {
-    public Closure|string|null $name = 'Exist';
+    public Closure | string | null $name = 'Exist';
 
-    public Closure|string|null $group = 'Page/Index/Table/Actions';
+    public Closure | string | null $group = 'Page/Index/Table/Actions';
 
     public function getShouldGenerate(): bool
     {

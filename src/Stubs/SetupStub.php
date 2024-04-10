@@ -6,7 +6,7 @@ use Closure;
 
 class SetupStub extends Base
 {
-    public Closure|string|null $name = 'Setup';
+    public Closure | string | null $name = 'Setup';
 
     public function getVariables(): array
     {

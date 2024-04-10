@@ -7,9 +7,9 @@ use CodeWithDennis\FilamentTests\Stubs\Base;
 
 class ListRecordsPaginated extends Base
 {
-    public Closure|string|null $name = 'ListRecordsPaginated';
+    public Closure | string | null $name = 'ListRecordsPaginated';
 
-    public Closure|string|null $group = 'Page/Index';
+    public Closure | string | null $group = 'Page/Index';
 
     public function getShouldGenerate(): bool
     {
