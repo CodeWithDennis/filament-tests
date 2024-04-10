@@ -2,13 +2,14 @@
 
 namespace CodeWithDennis\FilamentTests\Stubs\Page\Index\Table\Columns;
 
+use Closure;
 use CodeWithDennis\FilamentTests\Stubs\Base;
 
 class DescriptionAbove extends Base
 {
-    public string $name = 'DescriptionAbove';
+    public Closure|string|null $name = 'DescriptionAbove';
 
-    public ?string $group = 'Page/Index/Table/Columns';
+    public Closure|string|null $group = 'Page/Index/Table/Columns';
 
     public function getShouldGenerate(): bool
     {

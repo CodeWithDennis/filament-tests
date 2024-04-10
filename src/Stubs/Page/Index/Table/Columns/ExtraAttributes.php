@@ -2,13 +2,14 @@
 
 namespace CodeWithDennis\FilamentTests\Stubs\Page\Index\Table\Columns;
 
+use Closure;
 use CodeWithDennis\FilamentTests\Stubs\Base;
 
 class ExtraAttributes extends Base
 {
-    public string $name = 'ExtraAttributes';
+    public Closure|string|null $name = 'ExtraAttributes';
 
-    public ?string $group = 'Page/Index/Table/Columns';
+    public Closure|string|null $group = 'Page/Index/Table/Columns';
 
     public function getShouldGenerate(): bool
     {

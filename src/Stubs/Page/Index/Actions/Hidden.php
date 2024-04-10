@@ -2,13 +2,14 @@
 
 namespace CodeWithDennis\FilamentTests\Stubs\Page\Index\Actions;
 
+use Closure;
 use CodeWithDennis\FilamentTests\Stubs\Base;
 
 class Hidden extends Base
 {
-    public string $name = 'Hidden';
+    public Closure|string|null $name = 'Hidden';
 
-    public ?string $group = 'Page/Index/Actions';
+    public Closure|string|null $group = 'Page/Index/Actions';
 
     public function getShouldGenerate(): bool
     {

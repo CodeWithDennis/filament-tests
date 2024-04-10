@@ -2,13 +2,14 @@
 
 namespace CodeWithDennis\FilamentTests\Stubs\Page\Index\Table\Actions;
 
+use Closure;
 use CodeWithDennis\FilamentTests\Stubs\Base;
 
 class DeleteForce extends Base
 {
-    public string $name = 'DeleteForce';
+    public Closure|string|null $name = 'DeleteForce';
 
-    public ?string $group = 'Page/Index/Table/Actions';
+    public Closure|string|null $group = 'Page/Index/Table/Actions';
 
     public function getShouldGenerate(): bool
     {

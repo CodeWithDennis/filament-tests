@@ -2,13 +2,14 @@
 
 namespace CodeWithDennis\FilamentTests\Stubs\Page\Create;
 
+use Closure;
 use CodeWithDennis\FilamentTests\Stubs\Base;
 
 class Render extends Base
 {
-    public string $name = 'Render';
+    public Closure|string|null $name = 'Render';
 
-    public ?string $group = 'Page/Create';
+    public Closure|string|null $group = 'Page/Create';
 
     public function getShouldGenerate(): bool
     {

@@ -2,13 +2,14 @@
 
 namespace CodeWithDennis\FilamentTests\Stubs\Page\Index;
 
+use Closure;
 use CodeWithDennis\FilamentTests\Stubs\Base;
 
 class Render extends Base
 {
-    public string $name = 'Render';
+    public Closure|string|null $name = 'Render';
 
-    public ?string $group = 'Page/Index';
+    public Closure|string|null $group = 'Page/Index';
 
     public function getShouldGenerate(): bool
     {

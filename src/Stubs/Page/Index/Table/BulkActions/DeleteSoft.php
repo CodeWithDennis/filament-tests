@@ -2,13 +2,14 @@
 
 namespace CodeWithDennis\FilamentTests\Stubs\Page\Index\Table\BulkActions;
 
+use Closure;
 use CodeWithDennis\FilamentTests\Stubs\Base;
 
 class DeleteSoft extends Base
 {
-    public string $name = 'DeleteSoft';
+    public Closure|string|null $name = 'DeleteSoft';
 
-    public ?string $group = 'Page/Index/Table/BulkActions';
+    public Closure|string|null $group = 'Page/Index/Table/BulkActions';
 
     public function getShouldGenerate(): bool
     {

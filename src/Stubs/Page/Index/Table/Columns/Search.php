@@ -2,13 +2,14 @@
 
 namespace CodeWithDennis\FilamentTests\Stubs\Page\Index\Table\Columns;
 
+use Closure;
 use CodeWithDennis\FilamentTests\Stubs\Base;
 
 class Search extends Base
 {
-    public string $name = 'Search';
+    public Closure|string|null $name = 'Search';
 
-    public ?string $group = 'Page/Index/Table/Columns';
+    public Closure|string|null $group = 'Page/Index/Table/Columns';
 
     public function getShouldGenerate(): bool
     {

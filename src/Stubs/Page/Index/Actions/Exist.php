@@ -2,13 +2,14 @@
 
 namespace CodeWithDennis\FilamentTests\Stubs\Page\Index\Actions;
 
+use Closure;
 use CodeWithDennis\FilamentTests\Stubs\Base;
 
 class Exist extends Base
 {
-    public string $name = 'Exist';
+    public Closure|string|null $name = 'Exist';
 
-    public ?string $group = 'Page/Index/Actions';
+    public Closure|string|null $group = 'Page/Index/Actions';
 
     public function getShouldGenerate(): bool
     {

@@ -2,13 +2,14 @@
 
 namespace CodeWithDennis\FilamentTests\Stubs\Page\Index;
 
+use Closure;
 use CodeWithDennis\FilamentTests\Stubs\Base;
 
 class Trashed extends Base
 {
-    public string $name = 'Trashed';
+    public Closure|string|null $name = 'Trashed';
 
-    public ?string $group = 'Page/Index';
+    public Closure|string|null $group = 'Page/Index';
 
     public function getShouldGenerate(): bool
     {

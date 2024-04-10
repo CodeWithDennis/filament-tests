@@ -2,13 +2,14 @@
 
 namespace CodeWithDennis\FilamentTests\Stubs\Page\Index\Table;
 
+use Closure;
 use CodeWithDennis\FilamentTests\Stubs\Base;
 
 class Heading extends Base
 {
-    public string $name = 'Heading';
+    public Closure|string|null $name = 'Heading';
 
-    public ?string $group = 'Page/Index/Table';
+    public Closure|string|null $group = 'Page/Index/Table';
 
     public function getShouldGenerate(): bool
     {

@@ -6,9 +6,9 @@ use CodeWithDennis\FilamentTests\Stubs\Base;
 
 class Reset extends Base
 {
-    public string $name = 'Reset';
+    public Closure|string|null $name = 'Reset';
 
-    public ?string $group = 'Page/Index/Table/Filters';
+    public Closure|string|null $group = 'Page/Index/Table/Filters';
 
     public function getShouldGenerate(): bool
     {

@@ -6,9 +6,9 @@ use CodeWithDennis\FilamentTests\Stubs\Base;
 
 class Render extends Base
 {
-    public string $name = 'Render';
+    public Closure|string|null $name = 'Render';
 
-    public ?string $group = 'Page/Edit';
+    public Closure|string|null $group = 'Page/Edit';
 
     public function getShouldGenerate(): bool
     {

@@ -2,13 +2,14 @@
 
 namespace CodeWithDennis\FilamentTests\Stubs\Page\Index\Table\Columns;
 
+use Closure;
 use CodeWithDennis\FilamentTests\Stubs\Base;
 
 class Sort extends Base
 {
-    public string $name = 'Sort';
+    public Closure|string|null $name = 'Sort';
 
-    public ?string $group = 'Page/Index/Table/Columns';
+    public Closure|string|null $group = 'Page/Index/Table/Columns';
 
     public function getShouldGenerate(): bool
     {
