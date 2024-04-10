@@ -25,16 +25,11 @@ abstract class Base implements HasGroup, HasName, HasPath
 
     public Closure|string|null $path;
 
-    public Resource $resource;
-
     public Closure|bool|null $shouldGenerate = true;
 
     public Closure|array|null $variables;
 
-    public function __construct(Resource $resource)
-    {
-        $this->resource = $resource;
-    }
+    public function __construct(public Resource $resource) {}
 
     public static function make(Resource $resource): self
     {
