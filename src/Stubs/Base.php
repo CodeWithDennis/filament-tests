@@ -20,6 +20,7 @@ abstract class Base implements HasGroup, HasName, HasPath
     use EvaluatesClosures;
 
     public Closure|string|null $group = null;
+
     public Closure|string|null $name;
 
     public Closure|string|null $path;
@@ -39,7 +40,6 @@ abstract class Base implements HasGroup, HasName, HasPath
     {
         return new static($resource);
     }
-
 
     public function group(string|Closure|null $group): static
     {
@@ -74,7 +74,7 @@ abstract class Base implements HasGroup, HasName, HasPath
 
     public function getPath(): string
     {
-        $path = __DIR__.'/../../stubs/' . $this->getGroup() . '/' . $this->getName() . '.stub';
+        $path = __DIR__.'/../../stubs/'.$this->getGroup().'/'.$this->getName().'.stub';
 
         $default = str($path)
             ->replaceMatches('/[\/\\\\]+/', DIRECTORY_SEPARATOR);
