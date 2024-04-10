@@ -149,6 +149,7 @@ vendor/bin/pest --exclude-group=filament-tests
 ## Credits
 
 - [CodeWithDennis](https://github.com/CodeWithDennis)
+- [Dissto](https://github.com/dissto)
 - [All Contributors](../../contributors)
 
 ## License
