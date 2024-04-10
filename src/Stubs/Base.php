@@ -3,20 +3,19 @@
 namespace CodeWithDennis\FilamentTests\Stubs;
 
 use Closure;
+use CodeWithDennis\FilamentTests\Concerns\HasGroup;
+use CodeWithDennis\FilamentTests\Concerns\HasName;
 use CodeWithDennis\FilamentTests\Concerns\HasPath;
-use Filament\Resources\Resource;
-use Filament\Support\Concerns\EvaluatesClosures;
-use Filament\Tables\Table;
-use Filament\Facades\Filament;
 use Filament\Forms\Form;
 use Filament\Resources\Pages\CreateRecord;
 use Filament\Resources\Pages\EditRecord;
 use Filament\Resources\Pages\ListRecords;
-use CodeWithDennis\FilamentTests\Concerns\HasGroup;
-use CodeWithDennis\FilamentTests\Concerns\HasName;
+use Filament\Resources\Resource;
+use Filament\Support\Concerns\EvaluatesClosures;
+use Filament\Tables\Table;
 use Illuminate\Support\Collection;
 
-abstract class Base implements HasPath, HasGroup, HasName
+abstract class Base implements HasGroup, HasName, HasPath
 {
     use EvaluatesClosures;
 
@@ -46,7 +45,7 @@ abstract class Base implements HasPath, HasGroup, HasName
         return new static($resource);
     }
 
-    public function stubRoot(string | Closure | null $stubRoot): static
+    public function stubRoot(string|Closure|null $stubRoot): static
     {
         $this->stubRoot = $stubRoot;
 
@@ -60,7 +59,7 @@ abstract class Base implements HasPath, HasGroup, HasName
         return $this->evaluate($this->stubRoot ?? $default);
     }
 
-    public function group(string | Closure | null $group): static
+    public function group(string|Closure|null $group): static
     {
         $this->group = $group;
 
@@ -72,7 +71,7 @@ abstract class Base implements HasPath, HasGroup, HasName
         return $this->evaluate($this->group);
     }
 
-    public function path(string | Closure | null $path): static
+    public function path(string|Closure|null $path): static
     {
         $this->relativePath = $path;
 
@@ -84,7 +83,7 @@ abstract class Base implements HasPath, HasGroup, HasName
         $group = [rtrim($this->getGroup(), DIRECTORY_SEPARATOR)];
 
         $group = array_filter($group, function ($part) {
-            return !empty($part);
+            return ! empty($part);
         });
 
         $relativePath = implode(DIRECTORY_SEPARATOR, $group);
@@ -92,7 +91,7 @@ abstract class Base implements HasPath, HasGroup, HasName
         $parts = [rtrim($relativePath, DIRECTORY_SEPARATOR)];
 
         $parts = array_filter($parts, function ($part) {
-            return !empty($part);
+            return ! empty($part);
         });
 
         $default = implode(DIRECTORY_SEPARATOR, $parts);
@@ -100,7 +99,7 @@ abstract class Base implements HasPath, HasGroup, HasName
         return $this->evaluate($this->relativePath ?? $default);
     }
 
-    public function name(string | Closure | null $name): static
+    public function name(string|Closure|null $name): static
     {
         $this->name = $name;
 
@@ -112,7 +111,7 @@ abstract class Base implements HasPath, HasGroup, HasName
         return $this->evaluate($this->name);
     }
 
-    public function absolutePath(string | Closure | null $absolutePath): static
+    public function absolutePath(string|Closure|null $absolutePath): static
     {
         $this->absolutePath = $absolutePath;
 
@@ -125,7 +124,7 @@ abstract class Base implements HasPath, HasGroup, HasName
         $parts = explode(DIRECTORY_SEPARATOR, $absolutePath);
 
         $parts = array_filter($parts, function ($part) {
-            return !empty($part);
+            return ! empty($part);
         });
 
         $default = implode(DIRECTORY_SEPARATOR, $parts);
@@ -133,7 +132,7 @@ abstract class Base implements HasPath, HasGroup, HasName
         return $this->evaluate($this->absolutePath ?? $default);
     }
 
-    public function variables(array | Closure | null $variables): static
+    public function variables(array|Closure|null $variables): static
     {
         $this->variables = $variables;
 
@@ -151,7 +150,7 @@ abstract class Base implements HasPath, HasGroup, HasName
         return $this->evaluate(array_merge($defaults, $variables));
     }
 
-    public function shouldGenerate(bool | Closure | null $condition): static
+    public function shouldGenerate(bool|Closure|null $condition): static
     {
         $this->shouldGenerate = $condition;
 
@@ -172,7 +171,7 @@ abstract class Base implements HasPath, HasGroup, HasName
         return [
             'name' => $this->getName(),
             'group' => $this->getGroup(),
-            'fileName' => $this->getName(). '.stub',
+            'fileName' => $this->getName().'.stub',
             'rootPath' => $this->getStubRoot(),
             'relativePath' => $this->getRelativePath(),
             'absolutePath' => $this->getAbsolutePath(),
@@ -214,7 +213,6 @@ abstract class Base implements HasPath, HasGroup, HasName
 
         return $this->convertDoubleQuotedArrayString('['.implode(', ', $result).']');
     }
-
 
     public function getResourceRequiredCreateFields(Resource $resource): Collection
     {
@@ -588,9 +586,8 @@ abstract class Base implements HasPath, HasGroup, HasName
     {
         $group = $this->getGroup();
 
-        $parts = array_filter(array_map(fn ($part) => "'" . strtolower($part) . "'", explode('/', $group)));
+        $parts = array_filter(array_map(fn ($part) => "'".strtolower($part)."'", explode('/', $group)));
 
         return $this->convertDoubleQuotedArrayString(implode(', ', $parts));
     }
-
 }

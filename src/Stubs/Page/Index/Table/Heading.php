@@ -2,7 +2,6 @@
 
 namespace CodeWithDennis\FilamentTests\Stubs\Page\Index\Table;
 
-use Closure;
 use CodeWithDennis\FilamentTests\Stubs\Base;
 
 class Heading extends Base

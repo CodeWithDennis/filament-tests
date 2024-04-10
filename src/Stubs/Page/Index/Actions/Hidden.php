@@ -2,7 +2,6 @@
 
 namespace CodeWithDennis\FilamentTests\Stubs\Page\Index\Actions;
 
-use Closure;
 use CodeWithDennis\FilamentTests\Stubs\Base;
 
 class Hidden extends Base

@@ -2,7 +2,6 @@
 
 namespace CodeWithDennis\FilamentTests\Stubs\Page\Index\Table\BulkActions;
 
-use Closure;
 use CodeWithDennis\FilamentTests\Stubs\Base;
 
 class Delete extends Base

@@ -2,13 +2,14 @@
 
 namespace CodeWithDennis\FilamentTests\Services;
 
-
 use Filament\Resources\Resource;
 use Illuminate\Support\Collection;
 
-class StubHandler {
-
-    public function __construct(public Resource $resource) {}
+class StubHandler
+{
+    public function __construct(public Resource $resource)
+    {
+    }
 
     public function setResource(Resource $resource): static
     {

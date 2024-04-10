@@ -2,7 +2,6 @@
 
 namespace CodeWithDennis\FilamentTests\Stubs\Page\Index\Table\Columns;
 
-use Closure;
 use CodeWithDennis\FilamentTests\Stubs\Base;
 
 class DescriptionAbove extends Base

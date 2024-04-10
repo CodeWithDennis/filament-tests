@@ -2,6 +2,7 @@
 
 namespace CodeWithDennis\FilamentTests\Concerns;
 
-interface HasGroup {
+interface HasGroup
+{
     public function getGroup(): ?string;
 }

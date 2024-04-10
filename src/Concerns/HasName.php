@@ -2,6 +2,7 @@
 
 namespace CodeWithDennis\FilamentTests\Concerns;
 
-interface HasName {
+interface HasName
+{
     public function getName(): string;
 }
