@@ -6,9 +6,7 @@ use Closure;
 
 interface HasPath
 {
-    /**
-     * Get the path to the .stub file relative to the /stubs root.
-     */
-    //    public function path(string | Closure | null $path): string;
-    public function getRelativePath(): string;
+    public function path(string $path): static;
+
+    public function getPath(): string;
 }

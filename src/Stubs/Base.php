@@ -21,12 +21,6 @@ abstract class Base implements HasGroup, HasName, HasPath
 
     public Resource $resource;
 
-    public ?string $stubRoot = null;
-
-    public ?string $relativePath = null;
-
-    public ?string $absolutePath = null;
-
     public array $variables = [];
 
     public ?string $group = null;
@@ -34,6 +28,8 @@ abstract class Base implements HasGroup, HasName, HasPath
     public string $name = '';
 
     public Closure|bool|null $shouldGenerate = true;
+
+    public Closure|string|null $path;
 
     public function __construct(Resource $resource)
     {
@@ -45,19 +41,6 @@ abstract class Base implements HasGroup, HasName, HasPath
         return new static($resource);
     }
 
-    public function stubRoot(string|Closure|null $stubRoot): static
-    {
-        $this->stubRoot = $stubRoot;
-
-        return $this;
-    }
-
-    public function getStubRoot(): string
-    {
-        $default = __DIR__.'/../../stubs';
-
-        return $this->evaluate($this->stubRoot ?? $default);
-    }
 
     public function group(string|Closure|null $group): static
     {
@@ -73,30 +56,9 @@ abstract class Base implements HasGroup, HasName, HasPath
 
     public function path(string|Closure|null $path): static
     {
-        $this->relativePath = $path;
+        $this->path = $path;
 
         return $this;
-    }
-
-    public function getRelativePath(): string
-    {
-        $group = [rtrim($this->getGroup(), DIRECTORY_SEPARATOR)];
-
-        $group = array_filter($group, function ($part) {
-            return ! empty($part);
-        });
-
-        $relativePath = implode(DIRECTORY_SEPARATOR, $group);
-
-        $parts = [rtrim($relativePath, DIRECTORY_SEPARATOR)];
-
-        $parts = array_filter($parts, function ($part) {
-            return ! empty($part);
-        });
-
-        $default = implode(DIRECTORY_SEPARATOR, $parts);
-
-        return $this->evaluate($this->relativePath ?? $default);
     }
 
     public function name(string|Closure|null $name): static
@@ -111,25 +73,14 @@ abstract class Base implements HasGroup, HasName, HasPath
         return $this->evaluate($this->name);
     }
 
-    public function absolutePath(string|Closure|null $absolutePath): static
+    public function getPath(): string
     {
-        $this->absolutePath = $absolutePath;
+        $path = __DIR__.'/../../stubs/' . $this->getGroup() . '/' . $this->getName() . '.stub';
 
-        return $this;
-    }
+        $default = str($path)
+            ->replaceMatches('/[\/\\\\]+/', DIRECTORY_SEPARATOR);
 
-    public function getAbsolutePath(): string
-    {
-        $absolutePath = $this->getStubRoot().DIRECTORY_SEPARATOR.$this->getRelativePath().DIRECTORY_SEPARATOR.$this->getName().'.stub';
-        $parts = explode(DIRECTORY_SEPARATOR, $absolutePath);
-
-        $parts = array_filter($parts, function ($part) {
-            return ! empty($part);
-        });
-
-        $default = implode(DIRECTORY_SEPARATOR, $parts);
-
-        return $this->evaluate($this->absolutePath ?? $default);
+        return $this->evaluate($this->path ?? $default);
     }
 
     public function variables(array|Closure|null $variables): static
@@ -172,9 +123,7 @@ abstract class Base implements HasGroup, HasName, HasPath
             'name' => $this->getName(),
             'group' => $this->getGroup(),
             'fileName' => $this->getName().'.stub',
-            'rootPath' => $this->getStubRoot(),
-            'relativePath' => $this->getRelativePath(),
-            'absolutePath' => $this->getAbsolutePath(),
+            'path' => $this->getPath(),
             'variables' => $this->getVariables(),
             'hasDataset' => false,
         ];
