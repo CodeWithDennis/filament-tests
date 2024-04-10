@@ -50,7 +50,7 @@ abstract class Base implements HasGroup, HasName, HasPath
 
     public function getGroup(): ?string
     {
-        return $this->evaluate($this->group);
+        return $this->evaluate($this->group ?? '');
     }
 
     public function path(string|Closure|null $path): static
