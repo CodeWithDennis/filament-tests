@@ -108,6 +108,8 @@ won't be generated.
   - [x] It can reset table filters
   - [x] It has table actions
   - [x] It has table bulk actions
+  - [x] It has the correct table heading
+  - [x] It has the correct table description
   - [ ] It can filter table records
   - [ ] It can remove table filters
 

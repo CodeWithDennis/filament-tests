@@ -115,6 +115,26 @@ class FilamentTestsCommand extends Command
         return $this->getResourceTable($resource)->isPaginated();
     }
 
+    protected function tableHasHeading(Resource $resource): bool
+    {
+        return $this->getResourceTable($resource)->getHeading() !== null;
+    }
+
+    protected function getTableHeading(Resource $resource): ?string
+    {
+        return $this->getResourceTable($resource)->getHeading();
+    }
+
+    protected function tableHasDescription(Resource $resource): bool
+    {
+        return $this->getResourceTable($resource)->getDescription() !== null;
+    }
+
+    protected function getTableDescription(Resource $resource): ?string
+    {
+        return $this->getResourceTable($resource)->getDescription();
+    }
+
     protected function getTableDefaultPaginationPageOption(Resource $resource): int|string|null
     {
         return $this->getResourceTable($resource)->getDefaultPaginationPageOption();
@@ -311,6 +331,14 @@ class FilamentTestsCommand extends Command
 
             if ($this->tableHasPagination($resource)) {
                 $stubs[] = $this->getStubPath('ListRecordsPaginated', 'Page/Index');
+            }
+
+            if ($this->tableHasHeading($resource)) {
+                $stubs[] = $this->getStubPath('Heading', 'Page/Index/Table');
+            }
+
+            if ($this->tableHasDescription($resource)) {
+                $stubs[] = $this->getStubPath('Description', 'Page/Index/Table');
             }
         }
 
@@ -591,6 +619,8 @@ class FilamentTestsCommand extends Command
             'RESOURCE_TABLE_TOGGLEABLE_COLUMNS' => $this->getToggleableColumns($resource)->keys(),
             'RESOURCE_TABLE_ACTIONS' => $this->getTableActionNames($resource)->keys(),
             'RESOURCE_TABLE_BULK_ACTIONS' => $this->getTableBulkActionNames($resource)->keys(),
+            'RESOURCE_TABLE_HEADING' => str($this->getTableHeading($resource))->wrap('\''),
+            'RESOURCE_TABLE_DESCRIPTION' => str($this->getTableDescription($resource))->wrap('\''),
             'DEFAULT_PER_PAGE_OPTION' => $this->getTableDefaultPaginationPageOption($resource),
             'DEFAULT_PAGINATED_RECORDS_FACTORY_COUNT' => $this->getTableDefaultPaginationPageOption($resource) * 2,
         ];
