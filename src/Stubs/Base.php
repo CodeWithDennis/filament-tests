@@ -106,7 +106,7 @@ abstract class Base implements HasGroup, HasName, HasPath
 
     public function getShouldGenerate(): bool
     {
-        return (bool) ($this->evaluate($this->shouldGenerate) ?? false);
+        return ($this->evaluate($this->shouldGenerate) ?? false);
     }
 
     public function get(): ?array
