@@ -453,6 +453,7 @@ class FilamentTestsCommand extends Command
 
             if ($this->hasAnyHiddenIndexHeaderAction($resource, $this->getIndexHeaderActions($resource)['hidden']->toArray())) {
                 $stubs[] = $this->getStubPath('Hidden', 'Page/Index/Actions');
+            }
 
             if ($this->tableHasHeading($resource)) {
                 $stubs[] = $this->getStubPath('Heading', 'Page/Index/Table');
