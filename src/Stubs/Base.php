@@ -19,17 +19,16 @@ abstract class Base implements HasGroup, HasName, HasPath
 {
     use EvaluatesClosures;
 
+    public Closure|string|null $group;
+    public Closure|string|null $name;
+
+    public Closure|string|null $path;
+
     public Resource $resource;
-
-    public array $variables = [];
-
-    public ?string $group = null;
-
-    public string $name = '';
 
     public Closure|bool|null $shouldGenerate = true;
 
-    public Closure|string|null $path;
+    public Closure|array|null $variables;
 
     public function __construct(Resource $resource)
     {
