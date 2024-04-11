@@ -15,7 +15,7 @@ class Visible extends Base
     public function getVariables(): array
     {
         return [
-            'INDEX_PAGE_VISIBLE_HEADER_ACTIONS' => $this->getIndexHeaderActions($this->resource)['visible']->values(),
+            'INDEX_PAGE_VISIBLE_HEADER_ACTIONS' => $this->convertDoubleQuotedArrayString($this->getIndexHeaderActions($this->resource)['visible']->values()),
         ];
     }
 }

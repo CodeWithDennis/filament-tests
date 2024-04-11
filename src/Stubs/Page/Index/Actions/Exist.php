@@ -15,7 +15,7 @@ class Exist extends Base
     public function getVariables(): array
     {
         return [
-            'INDEX_PAGE_HEADER_ACTIONS' => $this->getIndexHeaderActions($this->resource)['all']->values(),
+            'INDEX_PAGE_HEADER_ACTIONS' => $this->convertDoubleQuotedArrayString($this->getIndexHeaderActions($this->resource)['all']->values()),
         ];
     }
 }

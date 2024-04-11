@@ -14,7 +14,7 @@ class Exist extends Base
     public function getVariables(): array
     {
         return [
-            'RESOURCE_TABLE_COLUMNS' => $this->getTableColumns($this->resource)->keys(),
+            'RESOURCE_TABLE_COLUMNS' => $this->convertDoubleQuotedArrayString($this->getTableColumns($this->resource)->keys()),
         ];
     }
 }

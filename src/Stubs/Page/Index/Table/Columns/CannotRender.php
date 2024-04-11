@@ -14,7 +14,7 @@ class CannotRender extends Base
     public function getVariables(): array
     {
         return [
-            'RESOURCE_TABLE_TOGGLED_HIDDEN_BY_DEFAULT_COLUMNS' => $this->getToggledHiddenByDefaultColumns($this->resource)->keys(),
+            'RESOURCE_TABLE_TOGGLED_HIDDEN_BY_DEFAULT_COLUMNS' => $this->convertDoubleQuotedArrayString($this->getToggledHiddenByDefaultColumns($this->resource)->keys()),
         ];
     }
 }

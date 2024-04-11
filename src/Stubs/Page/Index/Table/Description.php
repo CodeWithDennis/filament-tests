@@ -15,7 +15,7 @@ class Description extends Base
     public function getVariables(): array
     {
         return [
-            'RESOURCE_TABLE_DESCRIPTION' => str($this->getTableDescription($this->resource))->wrap('\''),
+            'RESOURCE_TABLE_DESCRIPTION' => $this->convertDoubleQuotedArrayString(str($this->getTableDescription($this->resource))->wrap('\'')),
         ];
     }
 }

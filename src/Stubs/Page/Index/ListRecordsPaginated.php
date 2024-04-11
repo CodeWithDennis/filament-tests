@@ -14,8 +14,8 @@ class ListRecordsPaginated extends Base
     public function getVariables(): array
     {
         return [
-            'DEFAULT_PER_PAGE_OPTION' => $this->getTableDefaultPaginationPageOption($this->resource),
-            'DEFAULT_PAGINATED_RECORDS_FACTORY_COUNT' => $this->getTableDefaultPaginationPageOption($this->resource) * 2,
+            'DEFAULT_PER_PAGE_OPTION' => $this->convertDoubleQuotedArrayString($this->getTableDefaultPaginationPageOption($this->resource)),
+            'DEFAULT_PAGINATED_RECORDS_FACTORY_COUNT' => $this->convertDoubleQuotedArrayString($this->getTableDefaultPaginationPageOption($this->resource) * 2),
         ];
     }
 }

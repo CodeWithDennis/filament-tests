@@ -14,7 +14,7 @@ class SearchIndividually extends Base
     public function getVariables(): array
     {
         return [
-            'RESOURCE_TABLE_INDIVIDUALLY_SEARCHABLE_COLUMNS' => $this->getIndividuallySearchableColumns($this->resource)->keys(),
+            'RESOURCE_TABLE_INDIVIDUALLY_SEARCHABLE_COLUMNS' => $this->convertDoubleQuotedArrayString($this->getIndividuallySearchableColumns($this->resource)->keys()),
         ];
     }
 }

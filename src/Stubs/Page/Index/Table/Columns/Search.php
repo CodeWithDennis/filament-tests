@@ -14,7 +14,7 @@ class Search extends Base
     public function getVariables(): array
     {
         return [
-            'RESOURCE_TABLE_SEARCHABLE_COLUMNS' => $this->getSearchableColumns($this->resource)->keys(),
+            'RESOURCE_TABLE_SEARCHABLE_COLUMNS' => $this->convertDoubleQuotedArrayString($this->getSearchableColumns($this->resource)->keys()),
         ];
     }
 }

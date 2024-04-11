@@ -15,7 +15,7 @@ class Hidden extends Base
     public function getVariables(): array
     {
         return [
-            'INDEX_PAGE_HIDDEN_HEADER_ACTIONS' => $this->getIndexHeaderActions($this->resource)['hidden']->values(),
+            'INDEX_PAGE_HIDDEN_HEADER_ACTIONS' => $this->convertDoubleQuotedArrayString($this->getIndexHeaderActions($this->resource)['hidden']->values()),
         ];
     }
 }

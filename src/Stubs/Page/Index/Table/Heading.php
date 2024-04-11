@@ -15,7 +15,7 @@ class Heading extends Base
     public function getVariables(): array
     {
         return [
-            'RESOURCE_TABLE_HEADING' => str($this->getTableHeading($this->resource))->wrap('\''),
+            'RESOURCE_TABLE_HEADING' => $this->convertDoubleQuotedArrayString(str($this->getTableHeading($this->resource))->wrap('\'')),
         ];
     }
 }
