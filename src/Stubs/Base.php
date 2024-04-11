@@ -42,9 +42,26 @@ abstract class Base
         return $this;
     }
 
+    public function resolveGroupByNamespace(): ?string
+    {
+        $namespace = get_class($this);
+
+        if (!str_contains($namespace, 'Stubs\\')) {
+            return null;
+        }
+
+        $partAfterStubs = str($namespace)->after('Stubs\\');
+
+        if (!$partAfterStubs->contains('\\')) {
+            return null;
+        }
+
+        return $partAfterStubs->beforeLast('\\')->replace('\\', '/');
+    }
+
     public function getGroup(): ?string
     {
-        return $this->evaluate($this->group);
+        return $this->evaluate($this->group ?? $this->resolveGroupByNamespace());
     }
 
     public function path(string|Closure|null $path): static
