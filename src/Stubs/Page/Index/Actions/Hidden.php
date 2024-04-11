@@ -9,7 +9,7 @@ class Hidden extends Base
     public function getShouldGenerate(): bool
     {
         return $this->hasPage('index', $this->resource)
-            && $this->hasAnyVisibleIndexHeaderAction($this->resource, $this->getIndexHeaderActions($this->resource)['visible']->toArray());
+            && $this->hasAnyHiddenIndexHeaderAction($this->resource, $this->getIndexHeaderActions($this->resource)['visible']->toArray());
     }
 
     public function getVariables(): array
