@@ -9,8 +9,6 @@ class UrlTab extends Base
 {
     public Closure|string|null $name = 'UrlTab';
 
-    public Closure|string|null $group = 'Page/Index/Table/Actions';
-
     public function getShouldGenerate(): bool
     {
         return $this->hasTableActionWithUrlThatShouldOpenInNewTab($this->resource);

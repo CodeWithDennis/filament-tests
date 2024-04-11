@@ -9,8 +9,6 @@ class SearchIndividually extends Base
 {
     public Closure|string|null $name = 'SearchIndividually';
 
-    public Closure|string|null $group = 'Page/Index/Table/Columns';
-
     public function getShouldGenerate(): bool
     {
         return $this->getIndividuallySearchableColumns($this->resource)->isNotEmpty();

@@ -9,8 +9,6 @@ class CannotRender extends Base
 {
     public Closure|string|null $name = 'CannotRender';
 
-    public Closure|string|null $group = 'Page/Index/Table/Columns';
-
     public function getShouldGenerate(): bool
     {
         return $this->getToggledHiddenByDefaultColumns($this->resource)->isNotEmpty();

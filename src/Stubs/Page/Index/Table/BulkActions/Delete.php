@@ -9,8 +9,6 @@ class Delete extends Base
 {
     public Closure|string|null $name = 'Delete';
 
-    public Closure|string|null $group = 'Page/Index/Table/BulkActions';
-
     public function getShouldGenerate(): bool
     {
         return $this->hasTableFilter('trashed', $this->getResourceTable($this->resource))

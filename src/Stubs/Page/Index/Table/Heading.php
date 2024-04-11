@@ -9,8 +9,6 @@ class Heading extends Base
 {
     public Closure|string|null $name = 'Heading';
 
-    public Closure|string|null $group = 'Page/Index/Table';
-
     public function getShouldGenerate(): bool
     {
         return $this->hasPage('index', $this->resource)

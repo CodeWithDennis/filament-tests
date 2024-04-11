@@ -9,8 +9,6 @@ class Restore extends Base
 {
     public Closure|string|null $name = 'Restore';
 
-    public Closure|string|null $group = 'Page/Index/Table/Actions';
-
     public function getShouldGenerate(): bool
     {
         return $this->hasTableFilter('trashed', $this->getResourceTable($this->resource))

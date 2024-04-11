@@ -9,8 +9,6 @@ class ListRecordsPaginated extends Base
 {
     public Closure|string|null $name = 'ListRecordsPaginated';
 
-    public Closure|string|null $group = 'Page/Index';
-
     public function getShouldGenerate(): bool
     {
         return $this->hasPage('index', $this->resource) && $this->tableHasPagination($this->resource);

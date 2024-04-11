@@ -9,8 +9,6 @@ class DescriptionBelow extends Base
 {
     public Closure|string|null $name = 'DescriptionBelow';
 
-    public Closure|string|null $group = 'Page/Index/Table/Columns';
-
     public function getShouldGenerate(): bool
     {
         return $this->getDescriptionBelowColumns($this->resource)->isNotEmpty();

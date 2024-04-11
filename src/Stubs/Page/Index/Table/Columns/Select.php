@@ -9,8 +9,6 @@ class Select extends Base
 {
     public Closure|string|null $name = 'Select';
 
-    public Closure|string|null $group = 'Page/Index/Table/Columns';
-
     public function getShouldGenerate(): bool
     {
         return $this->getTableSelectColumns($this->resource)->isNotEmpty();

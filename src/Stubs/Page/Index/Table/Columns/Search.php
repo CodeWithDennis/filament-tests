@@ -9,8 +9,6 @@ class Search extends Base
 {
     public Closure|string|null $name = 'Search';
 
-    public Closure|string|null $group = 'Page/Index/Table/Columns';
-
     public function getShouldGenerate(): bool
     {
         return $this->getSearchableColumns($this->resource)->isNotEmpty();

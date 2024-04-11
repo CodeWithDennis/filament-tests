@@ -9,8 +9,6 @@ class Render extends Base
 {
     public Closure|string|null $name = 'Render';
 
-    public Closure|string|null $group = 'Page/View';
-
     public function getShouldGenerate(): bool
     {
         return $this->hasPage('view', $this->resource);

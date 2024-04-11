@@ -9,8 +9,6 @@ class Hidden extends Base
 {
     public Closure|string|null $name = 'Hidden';
 
-    public Closure|string|null $group = 'Page/Index/Actions';
-
     public function getShouldGenerate(): bool
     {
         return $this->hasPage('index', $this->resource)

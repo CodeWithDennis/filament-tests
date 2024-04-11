@@ -9,8 +9,6 @@ class Replicate extends Base
 {
     public Closure|string|null $name = 'Replicate';
 
-    public Closure|string|null $group = 'Page/Index/Table/Actions';
-
     public function getShouldGenerate(): bool
     {
         return $this->hasTableAction('replicate', $this->resource);

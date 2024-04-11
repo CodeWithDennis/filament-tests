@@ -9,8 +9,6 @@ class Exist extends Base
 {
     public Closure|string|null $name = 'Exist';
 
-    public Closure|string|null $group = 'Page/Index/Actions';
-
     public function getShouldGenerate(): bool
     {
         return $this->hasPage('index', $this->resource)

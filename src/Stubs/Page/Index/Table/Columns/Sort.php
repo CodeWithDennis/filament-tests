@@ -9,8 +9,6 @@ class Sort extends Base
 {
     public Closure|string|null $name = 'Sort';
 
-    public Closure|string|null $group = 'Page/Index/Table/Columns';
-
     public function getShouldGenerate(): bool
     {
         return $this->getSortableColumns($this->resource)->isNotEmpty();

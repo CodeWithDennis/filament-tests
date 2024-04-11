@@ -9,8 +9,6 @@ class ExtraAttributes extends Base
 {
     public Closure|string|null $name = 'ExtraAttributes';
 
-    public Closure|string|null $group = 'Page/Index/Table/Columns';
-
     public function getShouldGenerate(): bool
     {
         return $this->getExtraAttributesColumns($this->resource)->isNotEmpty();
