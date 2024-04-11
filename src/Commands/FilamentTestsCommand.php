@@ -135,7 +135,9 @@ class FilamentTestsCommand extends Command
         $contents = '';
 
         foreach ($this->getStubs($resource) as $stub) {
-            if (is_null($stub)) continue;
+            if (is_null($stub)) {
+                continue;
+            }
 
             $contents .= $this->getStubContents($stub['path'], $this->getStubVariables($resource, $stub['path']));
         }
@@ -159,7 +161,9 @@ class FilamentTestsCommand extends Command
         $variables = [];
 
         foreach ($this->getStubs($resource) as $stub) {
-            if (is_null($stub)) continue;
+            if (is_null($stub)) {
+                continue;
+            }
 
             foreach ($stub['variables'] as $key => $value) {
                 $variables[$key] = $value;
