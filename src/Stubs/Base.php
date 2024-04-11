@@ -3,9 +3,6 @@
 namespace CodeWithDennis\FilamentTests\Stubs;
 
 use Closure;
-use CodeWithDennis\FilamentTests\Concerns\HasGroup;
-use CodeWithDennis\FilamentTests\Concerns\HasName;
-use CodeWithDennis\FilamentTests\Concerns\HasPath;
 use Filament\Forms\Form;
 use Filament\Resources\Pages\CreateRecord;
 use Filament\Resources\Pages\EditRecord;
@@ -15,7 +12,7 @@ use Filament\Support\Concerns\EvaluatesClosures;
 use Filament\Tables\Table;
 use Illuminate\Support\Collection;
 
-abstract class Base implements HasGroup, HasName, HasPath
+abstract class Base
 {
     use EvaluatesClosures;
 
