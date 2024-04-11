@@ -1,6 +1,5 @@
 it('can list records on the index page with pagination', function () {
-    $records = {{ MODEL_SINGULAR_NAME }}::factory({{ DEFAULT_PAGINATED_RECORDS_FACTORY_COUNT }})
-        ->create();
+    $records = {{ MODEL_SINGULAR_NAME }}::factory({{ DEFAULT_PAGINATED_RECORDS_FACTORY_COUNT }})->create();
 
     livewire(List{{ MODEL_PLURAL_NAME }}::class){{ LOAD_TABLE_METHOD_IF_DEFERRED }}
         ->call('gotoPage', 2)
