@@ -2,7 +2,6 @@
 
 namespace CodeWithDennis\FilamentTests\Commands;
 
-use App\Models\User;
 use CodeWithDennis\FilamentTests\Handlers\StubHandler;
 use Filament\Facades\Filament;
 use Filament\Resources\Resource;
@@ -37,7 +36,6 @@ class FilamentTestsCommand extends Command
         $availableResources = $this->getAvailableResources();
 
         if (! $this->argument('name')) {
-            // Ask the user to select the resource they want to create a test for
             $selectedResources = ! $this->option('all') ? multiselect(
                 label: 'What is the resource you would like to create this test for?',
                 options: $availableResources->flatten(),
@@ -53,7 +51,6 @@ class FilamentTestsCommand extends Command
                     ]);
             }
         } else {
-            // User supplied a resource name
             $suppliedResourceName = $this->getNormalizedResourceName($this->argument('name'));
 
             if (! $availableResources->contains($suppliedResourceName)) {
@@ -75,7 +72,6 @@ class FilamentTestsCommand extends Command
             $contents = $this->getSourceFile($resource);
 
             if ($this->files->exists($path) && ! $this->option('force')) {
-                // Ask the user if they want to overwrite the existing test
                 if (! confirm("The test for {$selectedResource} already exists. Do you want to overwrite it?")) {
                     continue;
                 }
@@ -139,9 +135,8 @@ class FilamentTestsCommand extends Command
         $contents = '';
 
         foreach ($this->getStubs($resource) as $stub) {
-            if (is_null($stub)) {
-                continue;
-            }
+            if (is_null($stub)) continue;
+
             $contents .= $this->getStubContents($stub['path'], $this->getStubVariables($resource, $stub['path']));
         }
 
@@ -153,7 +148,7 @@ class FilamentTestsCommand extends Command
         $contents = file_get_contents($stub);
 
         foreach ($stubVariables as $search => $replace) {
-            $contents = preg_replace("/\{\{\s*{$search}\s*\}\}/", $replace, $contents);
+            $contents = preg_replace("/\{\{\s*{$search}\s*}}/", $replace, $contents);
         }
 
         return $contents.PHP_EOL;
@@ -162,10 +157,10 @@ class FilamentTestsCommand extends Command
     protected function getStubVariables(Resource $resource): array
     {
         $variables = [];
+
         foreach ($this->getStubs($resource) as $stub) {
-            if (is_null($stub)) {
-                continue;
-            }
+            if (is_null($stub)) continue;
+
             foreach ($stub['variables'] as $key => $value) {
                 $variables[$key] = $value;
             }
