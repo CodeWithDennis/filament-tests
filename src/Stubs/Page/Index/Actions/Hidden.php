@@ -7,8 +7,6 @@ use CodeWithDennis\FilamentTests\Stubs\Base;
 
 class Hidden extends Base
 {
-    public Closure|string|null $name = 'Hidden';
-
     public function getShouldGenerate(): bool
     {
         return $this->hasPage('index', $this->resource)

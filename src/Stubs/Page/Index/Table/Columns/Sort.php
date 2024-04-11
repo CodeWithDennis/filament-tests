@@ -7,8 +7,6 @@ use CodeWithDennis\FilamentTests\Stubs\Base;
 
 class Sort extends Base
 {
-    public Closure|string|null $name = 'Sort';
-
     public function getShouldGenerate(): bool
     {
         return $this->getSortableColumns($this->resource)->isNotEmpty();

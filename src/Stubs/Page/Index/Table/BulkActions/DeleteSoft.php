@@ -7,8 +7,6 @@ use CodeWithDennis\FilamentTests\Stubs\Base;
 
 class DeleteSoft extends Base
 {
-    public Closure|string|null $name = 'DeleteSoft';
-
     public function getShouldGenerate(): bool
     {
         return $this->hasTableFilter('trashed', $this->getResourceTable($this->resource))

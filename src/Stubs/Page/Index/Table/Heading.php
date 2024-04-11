@@ -7,8 +7,6 @@ use CodeWithDennis\FilamentTests\Stubs\Base;
 
 class Heading extends Base
 {
-    public Closure|string|null $name = 'Heading';
-
     public function getShouldGenerate(): bool
     {
         return $this->hasPage('index', $this->resource)

@@ -7,8 +7,6 @@ use CodeWithDennis\FilamentTests\Stubs\Base;
 
 class Search extends Base
 {
-    public Closure|string|null $name = 'Search';
-
     public function getShouldGenerate(): bool
     {
         return $this->getSearchableColumns($this->resource)->isNotEmpty();

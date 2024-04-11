@@ -7,8 +7,6 @@ use CodeWithDennis\FilamentTests\Stubs\Base;
 
 class DescriptionAbove extends Base
 {
-    public Closure|string|null $name = 'DescriptionAbove';
-
     public function getShouldGenerate(): bool
     {
         return $this->getDescriptionAboveColumns($this->resource)->isNotEmpty();

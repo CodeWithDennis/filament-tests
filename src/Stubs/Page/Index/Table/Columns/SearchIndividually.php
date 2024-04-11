@@ -7,8 +7,6 @@ use CodeWithDennis\FilamentTests\Stubs\Base;
 
 class SearchIndividually extends Base
 {
-    public Closure|string|null $name = 'SearchIndividually';
-
     public function getShouldGenerate(): bool
     {
         return $this->getIndividuallySearchableColumns($this->resource)->isNotEmpty();

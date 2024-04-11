@@ -7,8 +7,6 @@ use CodeWithDennis\FilamentTests\Stubs\Base;
 
 class Exist extends Base
 {
-    public Closure|string|null $name = 'Exist';
-
     public function getShouldGenerate(): bool
     {
         return $this->hasAnyTableAction($this->resource, $this->getTableActionNames($this->resource)->toArray());

@@ -7,8 +7,6 @@ use CodeWithDennis\FilamentTests\Stubs\Base;
 
 class Trashed extends Base
 {
-    public Closure|string|null $name = 'Trashed';
-
     public function getShouldGenerate(): bool
     {
         return $this->hasSoftDeletes($this->resource) && $this->getTableColumns($this->resource)->isNotEmpty();

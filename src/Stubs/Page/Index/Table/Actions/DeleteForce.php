@@ -7,8 +7,6 @@ use CodeWithDennis\FilamentTests\Stubs\Base;
 
 class DeleteForce extends Base
 {
-    public Closure|string|null $name = 'DeleteForce';
-
     public function getShouldGenerate(): bool
     {
         return $this->hasTableFilter('trashed', $this->getResourceTable($this->resource))

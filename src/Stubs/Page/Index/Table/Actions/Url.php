@@ -7,8 +7,6 @@ use CodeWithDennis\FilamentTests\Stubs\Base;
 
 class Url extends Base
 {
-    public Closure|string|null $name = 'Url';
-
     public function getShouldGenerate(): bool
     {
         return $this->hasTableActionWithUrl($this->resource);

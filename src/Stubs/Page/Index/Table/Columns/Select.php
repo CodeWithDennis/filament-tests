@@ -7,8 +7,6 @@ use CodeWithDennis\FilamentTests\Stubs\Base;
 
 class Select extends Base
 {
-    public Closure|string|null $name = 'Select';
-
     public function getShouldGenerate(): bool
     {
         return $this->getTableSelectColumns($this->resource)->isNotEmpty();

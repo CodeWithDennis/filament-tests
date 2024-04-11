@@ -7,8 +7,6 @@ use CodeWithDennis\FilamentTests\Stubs\Base;
 
 class UrlTab extends Base
 {
-    public Closure|string|null $name = 'UrlTab';
-
     public function getShouldGenerate(): bool
     {
         return $this->hasTableActionWithUrlThatShouldOpenInNewTab($this->resource);

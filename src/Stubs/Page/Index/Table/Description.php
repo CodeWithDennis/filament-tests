@@ -7,8 +7,6 @@ use CodeWithDennis\FilamentTests\Stubs\Base;
 
 class Description extends Base
 {
-    public Closure|string|null $name = 'Description';
-
     public function getShouldGenerate(): bool
     {
         return $this->hasPage('index', $this->resource)

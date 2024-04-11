@@ -7,8 +7,6 @@ use CodeWithDennis\FilamentTests\Stubs\Base;
 
 class ListRecordsPaginated extends Base
 {
-    public Closure|string|null $name = 'ListRecordsPaginated';
-
     public function getShouldGenerate(): bool
     {
         return $this->hasPage('index', $this->resource) && $this->tableHasPagination($this->resource);

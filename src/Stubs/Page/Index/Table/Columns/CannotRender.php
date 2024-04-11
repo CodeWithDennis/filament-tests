@@ -7,8 +7,6 @@ use CodeWithDennis\FilamentTests\Stubs\Base;
 
 class CannotRender extends Base
 {
-    public Closure|string|null $name = 'CannotRender';
-
     public function getShouldGenerate(): bool
     {
         return $this->getToggledHiddenByDefaultColumns($this->resource)->isNotEmpty();

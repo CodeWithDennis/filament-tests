@@ -7,8 +7,6 @@ use CodeWithDennis\FilamentTests\Stubs\Base;
 
 class Delete extends Base
 {
-    public Closure|string|null $name = 'Delete';
-
     public function getShouldGenerate(): bool
     {
         return $this->hasTableFilter('trashed', $this->getResourceTable($this->resource))
