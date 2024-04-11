@@ -18,7 +18,7 @@ abstract class Base
 
     public Closure|string|null $group = null;
 
-    public Closure|string|null $name;
+    public Closure|string|null $name = null;
 
     public Closure|string|null $path;
 
@@ -71,6 +71,13 @@ abstract class Base
         return $this;
     }
 
+    public function resolveNameByClass(): string
+    {
+        $class = get_class($this);
+
+        return str($class)->afterLast('\\');
+    }
+
     public function name(string|Closure|null $name): static
     {
         $this->name = $name;
@@ -80,7 +87,7 @@ abstract class Base
 
     public function getName(): string
     {
-        return $this->evaluate($this->name);
+        return $this->evaluate($this->name ?? $this->resolveNameByClass());
     }
 
     public function getPath(): string
