@@ -139,7 +139,7 @@ class FilamentTestsCommand extends Command
                 continue;
             }
 
-            $contents .= $this->getStubContents($stub['path'], $this->getStubVariables($resource, $stub['path']));
+            $contents .= $this->getStubContents($stub['path'], $this->getStubVariables($resource));
         }
 
         return $contents;
