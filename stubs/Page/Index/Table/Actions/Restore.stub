@@ -1,5 +1,7 @@
 it('can restore records', function () {
-    $record = {{ MODEL_SINGULAR_NAME }}::factory()->create();
+    $record = {{ MODEL_SINGULAR_NAME }}::factory()
+        ->create();
+
     $record->delete();
 
     assert($record->trashed());
@@ -9,5 +11,6 @@ it('can restore records', function () {
         ->assertCanSeeTableRecords([$record])
         ->callTableAction(RestoreAction::class, $record);
 
-    expect($record->refresh()->trashed())->toBeFalse();
+    expect($record->refresh()->trashed())
+        ->toBeFalse();
 }){{ RESOLVED_GROUP_METHOD }};

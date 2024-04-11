@@ -1,5 +1,6 @@
 it('can individually search by column', function (string $column) {
-    $records = {{ MODEL_SINGULAR_NAME }}::factory(3)->create();
+    $records = {{ MODEL_SINGULAR_NAME }}::factory(3)
+        ->create();
 
     $search = $records->first()->{$column};
 

@@ -1,8 +1,10 @@
 it('can replicate records', function () {
-    $record = {{ MODEL_SINGULAR_NAME }}::factory()->create();
+    $record = {{ MODEL_SINGULAR_NAME }}::factory()
+        ->create();
 
     livewire(List{{ MODEL_PLURAL_NAME }}::class)
         ->callTableAction(ReplicateAction::class, $record);
 
-    expect({{ MODEL_SINGULAR_NAME }}::count())->toBe(2);
+    expect({{ MODEL_SINGULAR_NAME }}::count())
+        ->toBe(2);
 }){{ RESOLVED_GROUP_METHOD }};

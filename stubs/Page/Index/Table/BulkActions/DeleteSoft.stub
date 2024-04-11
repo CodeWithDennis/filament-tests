@@ -8,5 +8,6 @@ it('can bulk delete records', function () {
         $this->assertSoftDeleted($record);
     }
 
-    expect({{ MODEL_SINGULAR_NAME }}::find($records->pluck('id')))->toBeEmpty();
+    expect({{ MODEL_SINGULAR_NAME }}::find($records->pluck('id')))
+        ->toBeEmpty();
 }){{ RESOLVED_GROUP_METHOD }};

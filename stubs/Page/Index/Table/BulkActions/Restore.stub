@@ -12,5 +12,6 @@ it('can bulk restore records', function () {
         ->assertCanSeeTableRecords($records)
         ->callTableBulkAction(RestoreBulkAction::class, $records);
 
-    expect({{ MODEL_SINGULAR_NAME }}::onlyTrashed()->count())->toBe(0);
+    expect({{ MODEL_SINGULAR_NAME }}::onlyTrashed()->count())
+        ->toBe(0);
 }){{ RESOLVED_GROUP_METHOD }};
