@@ -46,13 +46,13 @@ abstract class Base
     {
         $namespace = get_class($this);
 
-        if (!str_contains($namespace, 'Stubs\\')) {
+        if (! str_contains($namespace, 'Stubs\\')) {
             return null;
         }
 
         $partAfterStubs = str($namespace)->after('Stubs\\');
 
-        if (!$partAfterStubs->contains('\\')) {
+        if (! $partAfterStubs->contains('\\')) {
             return null;
         }
 
