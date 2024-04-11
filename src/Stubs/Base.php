@@ -110,7 +110,7 @@ abstract class Base
     public function getVariables(): array
     {
         $defaults = [
-            'RESOLVED_GROUP_METHOD' => $this->getGroupMethod($this->group),
+            'RESOLVED_GROUP_METHOD' => $this->getGroupMethod(),
         ];
 
         $variables = $this->variables ?? [];
