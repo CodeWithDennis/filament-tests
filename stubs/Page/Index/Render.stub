@@ -1,3 +1,4 @@
 it('can render the index page', function () {
-    livewire(List{{ MODEL_PLURAL_NAME }}::class)->assertSuccessful();
+    livewire(List{{ MODEL_PLURAL_NAME }}::class)
+        ->assertSuccessful();
 }){{ RESOLVED_GROUP_METHOD }};

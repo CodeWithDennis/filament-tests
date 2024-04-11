@@ -1,4 +1,4 @@
-it('can bulk soft delete records', function () {
+it('can bulk delete records', function () {
     $records = {{ MODEL_SINGULAR_NAME }}::factory(3)->create();
 
     livewire(List{{ MODEL_PLURAL_NAME }}::class)

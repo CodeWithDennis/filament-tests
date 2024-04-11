@@ -1,3 +1,4 @@
 it('can render the create page', function () {
-   livewire(Create{{ MODEL_SINGULAR_NAME }}::class)->assertSuccessful();
+    livewire(Create{{ MODEL_SINGULAR_NAME }}::class)
+        ->assertSuccessful();
 }){{ RESOLVED_GROUP_METHOD }};

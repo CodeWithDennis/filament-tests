@@ -16,5 +16,6 @@ it('can bulk force delete records', function () {
         $this->assertModelMissing($record);
     }
 
-    expect({{ MODEL_SINGULAR_NAME }}::count())->toBe(0);
+    expect({{ MODEL_SINGULAR_NAME }}::count())
+        ->toBe(0);
 }){{ RESOLVED_GROUP_METHOD }};
