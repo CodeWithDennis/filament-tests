@@ -159,7 +159,7 @@ class FilamentTestsCommand extends Command
         return $contents.PHP_EOL;
     }
 
-    protected function getStubVariables(Resource $resource, string $stubPath): array
+    protected function getStubVariables(Resource $resource): array
     {
         $variables = [];
         foreach ($this->getStubs($resource) as $stub) {
