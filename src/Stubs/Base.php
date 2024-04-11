@@ -166,17 +166,17 @@ abstract class Base
                         foreach ($item[$key] as $nestedKey => $nestedValue) {
                             $nestedArray[] = "'$nestedKey' => '$nestedValue'";
                         }
-                        $temp[] = '['.implode(', ', $nestedArray).']';
+                        $temp[] = '['.implode(',', $nestedArray).']';
                     } else {
                         $temp[] = "'".$item[$key]."'";
                     }
                 }
             }
 
-            $result[] = '['.implode(', ', $temp).']';
+            $result[] = '['.implode(',', $temp).']';
         }
 
-        return $this->convertDoubleQuotedArrayString('['.implode(', ', $result).']');
+        return $this->convertDoubleQuotedArrayString('['.implode(',', $result).']');
     }
 
     public function getResourceRequiredCreateFields(Resource $resource): Collection
