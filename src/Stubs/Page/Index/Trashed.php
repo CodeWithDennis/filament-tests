@@ -2,7 +2,6 @@
 
 namespace CodeWithDennis\FilamentTests\Stubs\Page\Index;
 
-use Closure;
 use CodeWithDennis\FilamentTests\Stubs\Base;
 
 class Trashed extends Base

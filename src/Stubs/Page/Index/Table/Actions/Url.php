@@ -2,7 +2,6 @@
 
 namespace CodeWithDennis\FilamentTests\Stubs\Page\Index\Table\Actions;
 
-use Closure;
 use CodeWithDennis\FilamentTests\Stubs\Base;
 
 class Url extends Base
