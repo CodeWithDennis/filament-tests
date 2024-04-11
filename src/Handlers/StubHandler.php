@@ -1,6 +1,6 @@
 <?php
 
-namespace CodeWithDennis\FilamentTests\Services;
+namespace CodeWithDennis\FilamentTests\Handlers;
 
 use Filament\Resources\Resource;
 use Illuminate\Support\Collection;

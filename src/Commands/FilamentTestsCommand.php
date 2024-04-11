@@ -3,7 +3,7 @@
 namespace CodeWithDennis\FilamentTests\Commands;
 
 use App\Models\User;
-use CodeWithDennis\FilamentTests\Services\StubHandler;
+use CodeWithDennis\FilamentTests\Handlers\StubHandler;
 use Filament\Facades\Filament;
 use Filament\Resources\Resource;
 use Illuminate\Console\Command;
