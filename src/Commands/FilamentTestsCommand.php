@@ -262,13 +262,13 @@ class FilamentTestsCommand extends Command
         // we need to unset otherwise a new section will be created for "todos"
         unset($resources['todos']);
 
-        $totals = $resources['selected']->reduce(function ($carry, $item) {
-            $carry['tests'] += $item['tests'];
-            $carry['todos'] += $item['todos'];
-            $carry['duration'] += $item['duration'];
-
-            return $carry;
-        }, ['tests' => 0, 'todos' => 0, 'duration' => 0]);
+        $totals = [
+            'tests' => $resources['selected']->sum('tests'),
+            'todos' => $resources['selected']->sum('todos'),
+            'duration' => $resources['selected']->sum(function ($item) {
+                return (int) str_replace('ms', '', $item['duration']);
+            })
+        ];
 
         $resources->each(function ($items, $status) {
 
