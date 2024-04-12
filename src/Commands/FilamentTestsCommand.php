@@ -259,6 +259,7 @@ class FilamentTestsCommand extends Command
             return $item;
         });
 
+        // we need to unset otherwise a new section will be created for "todos"
         unset($resources['todos']);
 
         $resources->each(function ($items, $status) {
