@@ -298,7 +298,7 @@ class FilamentTestsCommand extends Command
                         $this->components->twoColumnDetail('No. of Todo(s)', $item['todos']);
                     }
 
-                    $this->components->twoColumnDetail('Duration', $item['duration']. 'ms');
+                    $this->components->twoColumnDetail('Duration', $item['duration'].'ms');
                 }
             });
 
