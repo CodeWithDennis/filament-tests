@@ -197,7 +197,7 @@ class FilamentTestsCommand extends Command
         $this->selectedResources->push([
             'name' => $resourceName,
             'tests' => $numTests,
-            'duration' => round($end - $start, 3) * 1000 .'ms',
+            'duration' => round($end - $start, 3) * 1000,
         ]);
 
         if ($countTodos > 0) {
@@ -262,6 +262,14 @@ class FilamentTestsCommand extends Command
         // we need to unset otherwise a new section will be created for "todos"
         unset($resources['todos']);
 
+        $totals = $resources['selected']->reduce(function ($carry, $item) {
+            $carry['tests'] += $item['tests'];
+            $carry['todos'] += $item['todos'];
+            $carry['duration'] += $item['duration'];
+
+            return $carry;
+        }, ['tests' => 0, 'todos' => 0, 'duration' => 0]);
+
         $resources->each(function ($items, $status) {
 
             $color = match ($status) {
@@ -290,9 +298,21 @@ class FilamentTestsCommand extends Command
                         $this->components->twoColumnDetail('No. of Todo(s)', $item['todos']);
                     }
 
-                    $this->components->twoColumnDetail('Duration', $item['duration']);
+                    $this->components->twoColumnDetail('Duration', $item['duration']. 'ms');
                 }
             });
+
         });
+
+        // summary
+        $this->newLine();
+
+        $totalDuration = $totals['duration'] > 1000 ? number_format($totals['duration'] / 1000, 2).'s' : $totals['duration'].'ms';
+
+        $this->components->twoColumnDetail('<options=bold>Total</>');
+        $this->components->twoColumnDetail('No. of Resource(s)', $resources['selected']->count());
+        $this->components->twoColumnDetail('No. of Test(s)', $totals['tests']);
+        $this->components->twoColumnDetail('No. of Todo(s)', $totals['todos']);
+        $this->components->twoColumnDetail('Duration', $totalDuration);
     }
 }
