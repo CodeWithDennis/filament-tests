@@ -40,6 +40,7 @@ class FilamentTestsCommand extends Command
     {
         return new StubHandler($resource);
     }
+
     public function handle(): int
     {
         $this->numTests = 0;
@@ -91,6 +92,7 @@ class FilamentTestsCommand extends Command
             if ($this->files->exists($path) && ! $this->option('force')) {
                 if (! confirm("The test for {$selectedResource} already exists. Do you want to overwrite it?")) {
                     $this->skippedResources->push(['name' => $this->getNormalizedResourceName($selectedResource)]);
+
                     continue;
                 }
             }
@@ -181,7 +183,7 @@ class FilamentTestsCommand extends Command
         $this->selectedResources->push([
             'name' => $resourceName,
             'tests' => $numTests,
-            'duration' => round($end - $start, 3) * 1000 . 'ms',
+            'duration' => round($end - $start, 3) * 1000 .'ms',
         ]);
 
         return $contents;
@@ -243,7 +245,7 @@ class FilamentTestsCommand extends Command
                 default => 'UNKNOWN',
             };
 
-            $items->each(function ($item) use ($status, $color, $statusHeading){
+            $items->each(function ($item) use ($status, $color, $statusHeading) {
                 $this->newLine();
 
                 $this->components->twoColumnDetail('  <fg='.$color.';options=bold>'.$item['name'].'</>', '  <fg='.$color.';options=bold>'.$statusHeading.'</>');
