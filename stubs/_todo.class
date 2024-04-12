@@ -1,0 +1,11 @@
+<?php
+
+{{ NAMESPACE }}
+
+{{ IMPORT_CLOSURE }}
+use CodeWithDennis\FilamentTests\Stubs\Base;
+
+class {{ NAME }} extends Base
+{
+    public Closure|bool $isTodo = true;
+}

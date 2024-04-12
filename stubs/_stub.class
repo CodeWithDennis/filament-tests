@@ -1,0 +1,10 @@
+<?php
+
+{{ NAMESPACE }}
+
+use CodeWithDennis\FilamentTests\Stubs\Base;
+
+class {{ NAME }} extends Base
+{
+    //
+}
