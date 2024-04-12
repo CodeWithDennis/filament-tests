@@ -22,7 +22,6 @@ class StubHandler
     {
         $resource = $this->resource;
 
-
         $stubs = [
             \CodeWithDennis\FilamentTests\Stubs\SetupStub::make($resource)->get(),
 
@@ -73,13 +72,12 @@ class StubHandler
             ...$this->getTodoStubs(),
         ];
 
-
         return collect($stubs);
     }
 
     protected function getTodoStubs()
     {
-       return collect(scandir(__DIR__.'/../Stubs'))
+        return collect(scandir(__DIR__.'/../Stubs'))
             ->filter(fn ($file) => str_ends_with($file, '.php'))
             ->map(fn ($file) => str_replace('.php', '', $file))
             ->map(fn ($file) => '\\CodeWithDennis\\FilamentTests\\Stubs\\'.$file)
