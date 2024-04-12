@@ -2,15 +2,8 @@
 
 namespace CodeWithDennis\FilamentTests\Commands;
 
-use CodeWithDennis\FilamentTests\Handlers\StubHandler;
-use Filament\Facades\Filament;
-use Filament\Resources\Resource;
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
-use Illuminate\Support\Collection;
-
-use function Laravel\Prompts\confirm;
-use function Laravel\Prompts\multiselect;
 
 class FilamentTestsCreateStubCommand extends Command
 {
@@ -30,7 +23,7 @@ class FilamentTestsCreateStubCommand extends Command
         $this->selectRandomEmoji();
     }
 
-    public function handle() : int
+    public function handle(): int
     {
         $this->generateStub();
 
@@ -44,32 +37,32 @@ class FilamentTestsCreateStubCommand extends Command
         $isTodoStub = $this->option('todo');
 
         $normalizedPath = collect(explode('.', $name))
-            ->map(fn($part) => collect(explode('/', $part))
-                ->map(fn($subPart) => ucfirst($subPart))
+            ->map(fn ($part) => collect(explode('/', $part))
+                ->map(fn ($subPart) => ucfirst($subPart))
                 ->implode(DIRECTORY_SEPARATOR)
             );
 
         $className = ucfirst($normalizedPath->pop());
 
-        $stubsBasePath = realpath(__DIR__ . '/../../stubs');
+        $stubsBasePath = realpath(__DIR__.'/../../stubs');
         $stubsCurrentPath = $stubsBasePath;
-        $classesBasePath = realpath(__DIR__ . '/../Stubs');
+        $classesBasePath = realpath(__DIR__.'/../Stubs');
         $classesCurrentPath = $classesBasePath;
 
         $normalizedPath->each(function ($part) use (&$stubsCurrentPath, &$classesCurrentPath) {
-            $stubsCurrentPath .= DIRECTORY_SEPARATOR . $part;
-            $classesCurrentPath .= DIRECTORY_SEPARATOR . $part;
+            $stubsCurrentPath .= DIRECTORY_SEPARATOR.$part;
+            $classesCurrentPath .= DIRECTORY_SEPARATOR.$part;
             $this->files->ensureDirectoryExists($stubsCurrentPath);
             $this->files->ensureDirectoryExists($classesCurrentPath);
         });
 
-        $stubTemplateFile = $stubsBasePath . DIRECTORY_SEPARATOR . ($isTodoStub ? '_todo.stub' : '_stub.stub');
-        $classTemplateFile = $stubsBasePath . DIRECTORY_SEPARATOR . ($isTodoStub ? '_todo.class' : '_stub.class');
+        $stubTemplateFile = $stubsBasePath.DIRECTORY_SEPARATOR.($isTodoStub ? '_todo.stub' : '_stub.stub');
+        $classTemplateFile = $stubsBasePath.DIRECTORY_SEPARATOR.($isTodoStub ? '_todo.class' : '_stub.class');
 
-        $stubFile = $stubsCurrentPath . DIRECTORY_SEPARATOR . $className . '.stub';
+        $stubFile = $stubsCurrentPath.DIRECTORY_SEPARATOR.$className.'.stub';
         $this->createFileFromTemplate($stubFile, $stubTemplateFile, $description, $className, false);
 
-        $classFile = $classesCurrentPath . DIRECTORY_SEPARATOR . $className . '.php';
+        $classFile = $classesCurrentPath.DIRECTORY_SEPARATOR.$className.'.php';
         $this->createFileFromTemplate($classFile, $classTemplateFile, $description, $className, true);
 
         return collect([$name, $description])->all();
@@ -89,17 +82,17 @@ class FilamentTestsCreateStubCommand extends Command
         if ($isClassFile) {
             $content = str_replace('{{ NAME }}', $className, $content);
 
-            $namespacePath = str_replace([realpath(__DIR__ . '/../Stubs'), DIRECTORY_SEPARATOR], ['', '\\'], dirname($filePath));
-            $namespace = trim('CodeWithDennis\FilamentTests\Stubs' . $namespacePath, '\\');
-            $content = str_replace('{{ NAMESPACE }}', 'namespace ' . $namespace . ';', $content);
+            $namespacePath = str_replace([realpath(__DIR__.'/../Stubs'), DIRECTORY_SEPARATOR], ['', '\\'], dirname($filePath));
+            $namespace = trim('CodeWithDennis\FilamentTests\Stubs'.$namespacePath, '\\');
+            $content = str_replace('{{ NAMESPACE }}', 'namespace '.$namespace.';', $content);
 
             if (str_contains($content, '{{ IMPORT_CLOSURE }}')) {
                 $content = str_replace('{{ IMPORT_CLOSURE }}', 'use Closure;', $content);
             }
         }
 
-        if ($this->files->exists($filePath) && !$this->option('force')) {
-            if (!$this->confirm("The {$filePath} file already exists. Do you want to overwrite it?")) {
+        if ($this->files->exists($filePath) && ! $this->option('force')) {
+            if (! $this->confirm("The {$filePath} file already exists. Do you want to overwrite it?")) {
                 return;
             }
         }
