@@ -284,10 +284,10 @@ class FilamentTestsCommand extends Command
                 $this->components->twoColumnDetail('<fg='.$color.';options=bold>'.$item['name'].'</>', '<fg='.$color.';options=bold>'.$statusHeading.'</>');
 
                 if ($status === 'selected') {
-                    $this->components->twoColumnDetail('No. of Tests', $item['tests']);
+                    $this->components->twoColumnDetail('No. of Test(s)', $item['tests']);
 
                     if ($item['todos'] > 0) {
-                        $this->components->twoColumnDetail('Todos', '<fg=blue>'.$item['todos'].'</>');
+                        $this->components->twoColumnDetail('No. of Todo(s)', '<fg=blue>'.$item['todos'].'</>');
                     }
 
                     $this->components->twoColumnDetail('Duration', $item['duration']);
