@@ -287,7 +287,7 @@ class FilamentTestsCommand extends Command
                     $this->components->twoColumnDetail('No. of Tests', $item['tests']);
 
                     if ($item['todos'] > 0) {
-                        $this->components->twoColumnDetail('  <fg=blue>Todos</>', '<fg=blue>'.$item['todos'].'</>');
+                        $this->components->twoColumnDetail('Todos', '<fg=blue>'.$item['todos'].'</>');
                     }
 
                     $this->components->twoColumnDetail('Duration', $item['duration']);
