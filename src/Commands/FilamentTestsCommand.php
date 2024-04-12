@@ -280,11 +280,9 @@ class FilamentTestsCommand extends Command
             $items->each(function ($item) use ($status, $color, $statusHeading) {
                 $this->newLine();
 
-                // Display the resource name with its status color and heading
                 $this->components->twoColumnDetail('<fg='.$color.';options=bold>'.$item['name'].'</>', '<fg='.$color.';options=bold>'.$statusHeading.'</>');
 
                 if ($status === 'selected') {
-                    // For 'selected' status, always show test details
                     $this->components->twoColumnDetail('No. of Tests', $item['tests']);
                     $this->components->twoColumnDetail('Duration', $item['duration']);
 
