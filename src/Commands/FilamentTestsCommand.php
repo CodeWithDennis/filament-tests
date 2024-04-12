@@ -267,7 +267,7 @@ class FilamentTestsCommand extends Command
             'todos' => $resources['selected']->sum('todos'),
             'duration' => $resources['selected']->sum(function ($item) {
                 return (int) str_replace('ms', '', $item['duration']);
-            })
+            }),
         ];
 
         $resources->each(function ($items, $status) {
