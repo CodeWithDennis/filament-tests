@@ -27,6 +27,8 @@ class FilamentTestsCommand extends Command
 
     protected ?Collection $failedResources;
 
+    protected ?Collection $todos;
+
     public function __construct(protected Filesystem $files)
     {
         parent::__construct();
@@ -34,6 +36,7 @@ class FilamentTestsCommand extends Command
         $this->selectedResources = collect();
         $this->skippedResources = collect();
         $this->failedResources = collect();
+        $this->todos = collect();
     }
 
     public function stubHandler(Resource $resource): StubHandler
@@ -104,6 +107,7 @@ class FilamentTestsCommand extends Command
             'selected' => $this->selectedResources,
             'skipped' => $this->skippedResources,
             'failed' => $this->failedResources,
+            'todos' => $this->todos,
         ]);
 
         $this->tableOutput($resources);
@@ -163,15 +167,25 @@ class FilamentTestsCommand extends Command
         $resourceName = str($this->getNormalizedResourceName($resource::class))->afterLast('\\')->toString();
 
         $numTests = 0;
+        $todos = collect();
+        $countTodos = 0;
         $start = 0;
         $end = 0;
 
         foreach ($this->getStubs($resource) as $stub) {
+
             if (is_null($stub)) {
                 continue;
             }
 
-            $numTests++; // each stub is a test
+            if (! $stub['isTodo']) {
+                $numTests++;
+            }
+
+            if ($stub['isTodo']) {
+                $todos->push($stub);
+                $countTodos++;
+            }
 
             $start = microtime(true);
 
@@ -185,6 +199,13 @@ class FilamentTestsCommand extends Command
             'tests' => $numTests,
             'duration' => round($end - $start, 3) * 1000 .'ms',
         ]);
+
+        if ($countTodos > 0) {
+            $this->todos->push([
+                'name' => $resourceName,
+                'count' => $countTodos,
+            ]);
+        }
 
         return $contents;
     }
@@ -229,6 +250,17 @@ class FilamentTestsCommand extends Command
             return $resources['skipped']->contains('name', $item['name']) || $resources['failed']->contains('name', $item['name']);
         })->filter();
 
+        $resources['selected'] = $resources['selected']->map(function ($item) use ($resources) {
+
+            $todoEntry = $resources['todos']->firstWhere('name', $item['name']);
+
+            $item['todos'] = $todoEntry ? $todoEntry['count'] : 0;
+
+            return $item;
+        });
+
+        unset($resources['todos']);
+
         $resources->each(function ($items, $status) {
 
             $color = match ($status) {
@@ -248,11 +280,17 @@ class FilamentTestsCommand extends Command
             $items->each(function ($item) use ($status, $color, $statusHeading) {
                 $this->newLine();
 
-                $this->components->twoColumnDetail('  <fg='.$color.';options=bold>'.$item['name'].'</>', '  <fg='.$color.';options=bold>'.$statusHeading.'</>');
+                // Display the resource name with its status color and heading
+                $this->components->twoColumnDetail('<fg='.$color.';options=bold>'.$item['name'].'</>', '<fg='.$color.';options=bold>'.$statusHeading.'</>');
 
-                if ($status === 'selected' && isset($item['tests'])) {
+                if ($status === 'selected') {
+                    // For 'selected' status, always show test details
                     $this->components->twoColumnDetail('No. of Tests', $item['tests']);
                     $this->components->twoColumnDetail('Duration', $item['duration']);
+
+                    if ($item['todos'] > 0) {
+                        $this->components->twoColumnDetail('  <fg=blue>Todos</>', '<fg=blue>'.$item['todos'].'</>');
+                    }
                 }
             });
         });
