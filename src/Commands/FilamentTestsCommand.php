@@ -21,18 +21,28 @@ class FilamentTestsCommand extends Command
 
     protected $description = 'Create a new test for a Filament component';
 
+    protected ?Collection $selectedResources;
+
+    protected ?Collection $skippedResources;
+
+    protected ?Collection $failedResources;
+
     public function __construct(protected Filesystem $files)
     {
         parent::__construct();
+
+        $this->selectedResources = collect();
+        $this->skippedResources = collect();
+        $this->failedResources = collect();
     }
 
     public function stubHandler(Resource $resource): StubHandler
     {
         return new StubHandler($resource);
     }
-
     public function handle(): int
     {
+        $this->numTests = 0;
         $availableResources = $this->getAvailableResources();
 
         if (! $this->argument('name')) {
@@ -63,6 +73,13 @@ class FilamentTestsCommand extends Command
         }
 
         foreach ($selectedResources as $selectedResource) {
+
+            if (! $this->getResourceClass($selectedResource)) {
+                $this->failedResources->push(['name' => $this->getNormalizedResourceName($selectedResource)]);
+
+                continue;
+            }
+
             $resource = $this->getResourceClass($selectedResource);
 
             $path = $this->getSourceFilePath($selectedResource);
@@ -73,14 +90,21 @@ class FilamentTestsCommand extends Command
 
             if ($this->files->exists($path) && ! $this->option('force')) {
                 if (! confirm("The test for {$selectedResource} already exists. Do you want to overwrite it?")) {
+                    $this->skippedResources->push(['name' => $this->getNormalizedResourceName($selectedResource)]);
                     continue;
                 }
             }
 
             $this->files->put($path, $contents);
-
-            $this->info("Test for {$selectedResource} created successfully.");
         }
+
+        $resources = collect([
+            'selected' => $this->selectedResources,
+            'skipped' => $this->skippedResources,
+            'failed' => $this->failedResources,
+        ]);
+
+        $this->tableOutput($resources);
 
         return self::SUCCESS;
     }
@@ -134,13 +158,31 @@ class FilamentTestsCommand extends Command
     {
         $contents = '';
 
+        $resourceName = str($this->getNormalizedResourceName($resource::class))->afterLast('\\')->toString();
+
+        $numTests = 0;
+        $start = 0;
+        $end = 0;
+
         foreach ($this->getStubs($resource) as $stub) {
             if (is_null($stub)) {
                 continue;
             }
 
+            $numTests++; // each stub is a test
+
+            $start = microtime(true);
+
             $contents .= $this->getStubContents($stub['path'], $this->getStubVariables($resource));
+
+            $end = microtime(true);
         }
+
+        $this->selectedResources->push([
+            'name' => $resourceName,
+            'tests' => $numTests,
+            'duration' => round($end - $start, 3) * 1000 . 'ms',
+        ]);
 
         return $contents;
     }
@@ -176,5 +218,41 @@ class FilamentTestsCommand extends Command
     protected function getNormalizedResourceName(string $name): string
     {
         return str($name)->ucfirst()->finish('Resource');
+    }
+
+    protected function tableOutput(Collection $resources): void
+    {
+        // Remove skipped and failed resources from selected if they exist
+        $resources['selected'] = $resources['selected']->reject(function ($item) use ($resources) {
+            return $resources['skipped']->contains('name', $item['name']) || $resources['failed']->contains('name', $item['name']);
+        })->filter();
+
+        $resources->each(function ($items, $status) {
+
+            $color = match ($status) {
+                'selected' => 'green',
+                'skipped' => 'yellow',
+                'failed' => 'red',
+                default => 'default',
+            };
+
+            $statusHeading = match ($status) {
+                'selected' => 'SUCCESS',
+                'skipped' => 'SKIPPED',
+                'failed' => 'FAILED',
+                default => 'UNKNOWN',
+            };
+
+            $items->each(function ($item) use ($status, $color, $statusHeading){
+                $this->newLine();
+
+                $this->components->twoColumnDetail('  <fg='.$color.';options=bold>'.$item['name'].'</>', '  <fg='.$color.';options=bold>'.$statusHeading.'</>');
+
+                if ($status === 'selected' && isset($item['tests'])) {
+                    $this->components->twoColumnDetail('No. of Tests', $item['tests']);
+                    $this->components->twoColumnDetail('Duration', $item['duration']);
+                }
+            });
+        });
     }
 }
