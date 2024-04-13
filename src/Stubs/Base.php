@@ -12,7 +12,7 @@ use Filament\Support\Concerns\EvaluatesClosures;
 use Filament\Tables\Table;
 use Illuminate\Support\Collection;
 
-abstract class Base
+class Base
 {
     use EvaluatesClosures;
 
@@ -25,6 +25,10 @@ abstract class Base
     public Closure|bool|null $shouldGenerate = true;
 
     public Closure|array|null $variables;
+
+    public Closure|bool $isTodo = false;
+
+    public Closure|bool $shouldGenerateWithTodos = true;
 
     public function __construct(public Resource $resource)
     {
@@ -125,9 +129,37 @@ abstract class Base
         return $this;
     }
 
+    public function todo(bool|Closure $condition): static
+    {
+        $this->isTodo = $condition;
+
+        return $this;
+    }
+
+    public function isTodo(): bool
+    {
+        return $this->evaluate($this->isTodo) ?? false;
+    }
+
+    public function shouldGenerateWithTodos(bool|Closure $condition): static
+    {
+        $this->shouldGenerateWithTodos = $condition;
+
+        return $this;
+    }
+
+    public function getShouldGenerateWithTodos(): bool
+    {
+        return $this->evaluate($this->shouldGenerateWithTodos);
+    }
+
     public function getShouldGenerate(): bool
     {
-        return $this->evaluate($this->shouldGenerate) ?? false;
+        if ($this->isTodo() && $this->getShouldGenerateWithTodos()) {
+            return true;
+        }
+
+        return $this->evaluate($this->shouldGenerate);
     }
 
     public function get(): ?array
@@ -142,6 +174,7 @@ abstract class Base
             'fileName' => $this->getName().'.stub',
             'path' => $this->getPath(),
             'variables' => $this->getVariables(),
+            'isTodo' => $this->isTodo(),
         ];
     }
 

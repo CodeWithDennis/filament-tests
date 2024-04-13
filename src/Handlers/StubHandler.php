@@ -68,8 +68,21 @@ class StubHandler
             \CodeWithDennis\FilamentTests\Stubs\Page\Edit\Render::make($resource)->get(),
 
             \CodeWithDennis\FilamentTests\Stubs\Page\View\Render::make($resource)->get(),
+
+            ...$this->getTodoStubs(),
         ];
 
         return collect($stubs);
+    }
+
+    protected function getTodoStubs()
+    {
+        return collect(scandir(__DIR__.'/../Stubs'))
+            ->filter(fn ($file) => str_ends_with($file, '.php'))
+            ->map(fn ($file) => str_replace('.php', '', $file))
+            ->map(fn ($file) => '\\CodeWithDennis\\FilamentTests\\Stubs\\'.$file)
+            ->map(fn ($file) => new $file($this->resource))
+            ->filter(fn ($file) => $file->isTodo())
+            ->map(fn ($file) => $file->get());
     }
 }

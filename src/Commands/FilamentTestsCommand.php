@@ -21,9 +21,22 @@ class FilamentTestsCommand extends Command
 
     protected $description = 'Create a new test for a Filament component';
 
+    protected ?Collection $selectedResources;
+
+    protected ?Collection $skippedResources;
+
+    protected ?Collection $failedResources;
+
+    protected ?Collection $todos;
+
     public function __construct(protected Filesystem $files)
     {
         parent::__construct();
+
+        $this->selectedResources = collect();
+        $this->skippedResources = collect();
+        $this->failedResources = collect();
+        $this->todos = collect();
     }
 
     public function stubHandler(Resource $resource): StubHandler
@@ -33,6 +46,7 @@ class FilamentTestsCommand extends Command
 
     public function handle(): int
     {
+        $this->numTests = 0;
         $availableResources = $this->getAvailableResources();
 
         if (! $this->argument('name')) {
@@ -63,6 +77,13 @@ class FilamentTestsCommand extends Command
         }
 
         foreach ($selectedResources as $selectedResource) {
+
+            if (! $this->getResourceClass($selectedResource)) {
+                $this->failedResources->push(['name' => $this->getNormalizedResourceName($selectedResource)]);
+
+                continue;
+            }
+
             $resource = $this->getResourceClass($selectedResource);
 
             $path = $this->getSourceFilePath($selectedResource);
@@ -73,14 +94,23 @@ class FilamentTestsCommand extends Command
 
             if ($this->files->exists($path) && ! $this->option('force')) {
                 if (! confirm("The test for {$selectedResource} already exists. Do you want to overwrite it?")) {
+                    $this->skippedResources->push(['name' => $this->getNormalizedResourceName($selectedResource)]);
+
                     continue;
                 }
             }
 
             $this->files->put($path, $contents);
-
-            $this->info("Test for {$selectedResource} created successfully.");
         }
+
+        $resources = collect([
+            'selected' => $this->selectedResources,
+            'skipped' => $this->skippedResources,
+            'failed' => $this->failedResources,
+            'todos' => $this->todos,
+        ]);
+
+        $this->tableOutput($resources);
 
         return self::SUCCESS;
     }
@@ -134,12 +164,47 @@ class FilamentTestsCommand extends Command
     {
         $contents = '';
 
+        $resourceName = str($this->getNormalizedResourceName($resource::class))->afterLast('\\')->toString();
+
+        $numTests = 0;
+        $todos = collect();
+        $countTodos = 0;
+        $start = 0;
+        $end = 0;
+
         foreach ($this->getStubs($resource) as $stub) {
+
             if (is_null($stub)) {
                 continue;
             }
 
+            if (! $stub['isTodo']) {
+                $numTests++;
+            }
+
+            if ($stub['isTodo']) {
+                $todos->push($stub);
+                $countTodos++;
+            }
+
+            $start = microtime(true);
+
             $contents .= $this->getStubContents($stub['path'], $this->getStubVariables($resource));
+
+            $end = microtime(true);
+        }
+
+        $this->selectedResources->push([
+            'name' => $resourceName,
+            'tests' => $numTests,
+            'duration' => round($end - $start, 3) * 1000,
+        ]);
+
+        if ($countTodos > 0) {
+            $this->todos->push([
+                'name' => $resourceName,
+                'count' => $countTodos,
+            ]);
         }
 
         return $contents;
@@ -176,5 +241,78 @@ class FilamentTestsCommand extends Command
     protected function getNormalizedResourceName(string $name): string
     {
         return str($name)->ucfirst()->finish('Resource');
+    }
+
+    protected function tableOutput(Collection $resources): void
+    {
+        // Remove skipped and failed resources from selected if they exist
+        $resources['selected'] = $resources['selected']->reject(function ($item) use ($resources) {
+            return $resources['skipped']->contains('name', $item['name']) || $resources['failed']->contains('name', $item['name']);
+        })->filter();
+
+        $resources['selected'] = $resources['selected']->map(function ($item) use ($resources) {
+
+            $todoEntry = $resources['todos']->firstWhere('name', $item['name']);
+
+            $item['todos'] = $todoEntry ? $todoEntry['count'] : 0;
+
+            return $item;
+        });
+
+        // we need to unset otherwise a new section will be created for "todos"
+        unset($resources['todos']);
+
+        $totals = [
+            'tests' => $resources['selected']->sum('tests'),
+            'todos' => $resources['selected']->sum('todos'),
+            'duration' => $resources['selected']->sum(function ($item) {
+                return (int) str_replace('ms', '', $item['duration']);
+            }),
+        ];
+
+        $resources->each(function ($items, $status) {
+
+            $color = match ($status) {
+                'selected' => 'green',
+                'skipped' => 'yellow',
+                'failed' => 'red',
+                default => 'default',
+            };
+
+            $statusHeading = match ($status) {
+                'selected' => 'SUCCESS',
+                'skipped' => 'SKIPPED',
+                'failed' => 'FAILED',
+                default => 'UNKNOWN',
+            };
+
+            $items->each(function ($item) use ($status, $color, $statusHeading) {
+                $this->newLine();
+
+                $this->components->twoColumnDetail('<fg='.$color.';options=bold>'.$item['name'].'</>', '<fg='.$color.';options=bold>'.$statusHeading.'</>');
+
+                if ($status === 'selected') {
+                    $this->components->twoColumnDetail('No. of Test(s)', $item['tests']);
+
+                    if ($item['todos'] > 0) {
+                        $this->components->twoColumnDetail('No. of Todo(s)', $item['todos']);
+                    }
+
+                    $this->components->twoColumnDetail('Duration', $item['duration'].'ms');
+                }
+            });
+
+        });
+
+        // summary
+        $this->newLine();
+
+        $totalDuration = $totals['duration'] > 1000 ? number_format($totals['duration'] / 1000, 2).'s' : $totals['duration'].'ms';
+
+        $this->components->twoColumnDetail('<options=bold>Total</>');
+        $this->components->twoColumnDetail('No. of Resource(s)', $resources['selected']->count());
+        $this->components->twoColumnDetail('No. of Test(s)', $totals['tests']);
+        $this->components->twoColumnDetail('No. of Todo(s)', $totals['todos']);
+        $this->components->twoColumnDetail('Duration', $totalDuration);
     }
 }
