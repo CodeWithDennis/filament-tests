@@ -62,6 +62,8 @@ class StubHandler
             \CodeWithDennis\FilamentTests\Stubs\Page\Index\Table\Columns\ExtraAttributes::make($resource)->get(),
 
             \CodeWithDennis\FilamentTests\Stubs\Page\Index\Table\Filters\Reset::make($resource)->get(),
+            \CodeWithDennis\FilamentTests\Stubs\Page\Index\Table\Filters\Add::make($resource)->get(),
+            \CodeWithDennis\FilamentTests\Stubs\Page\Index\Table\Filters\Remove::make($resource)->get(),
 
             \CodeWithDennis\FilamentTests\Stubs\Page\Create\Render::make($resource)->get(),
 

@@ -1,0 +1,3 @@
+it('can remove a table filter', function () {
+
+})->group('filters', 'table')->todo();
