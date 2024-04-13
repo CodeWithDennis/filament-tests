@@ -208,7 +208,6 @@ class FilamentTestsCommand extends Command
         return $contents;
     }
 
-
     protected function getStubContents(string $stub, array $stubVariables = []): array|bool|string
     {
         $contents = file_get_contents($stub);
