@@ -11,6 +11,7 @@ class Disabled extends Base
 
     public function getShouldGenerate(): bool
     {
-        return true;
+        return collect($this->getResourceCreateFields($this->resource))
+            ->filter(fn ($field) => $field->isDisabled())->count();
     }
 }

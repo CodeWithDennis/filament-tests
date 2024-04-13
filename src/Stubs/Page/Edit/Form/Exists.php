@@ -4,6 +4,7 @@ namespace CodeWithDennis\FilamentTests\Stubs\Page\Edit\Form;
 
 use Closure;
 use CodeWithDennis\FilamentTests\Stubs\Base;
+use Filament\Forms\Form;
 
 class Exists extends Base
 {
@@ -11,6 +12,6 @@ class Exists extends Base
 
     public function getShouldGenerate(): bool
     {
-        return true;
+        return $this->getResourceEditForm($this->resource)::class == Form::class;
     }
 }

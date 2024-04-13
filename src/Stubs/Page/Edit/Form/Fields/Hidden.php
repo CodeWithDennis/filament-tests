@@ -11,6 +11,7 @@ class Hidden extends Base
 
     public function getShouldGenerate(): bool
     {
-        return true;
+        return collect($this->getResourceEditFields($this->resource))
+            ->filter(fn ($field) => $field->isHidden())->count();
     }
 }

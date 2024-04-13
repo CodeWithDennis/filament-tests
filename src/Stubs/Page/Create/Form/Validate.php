@@ -11,6 +11,7 @@ class Validate extends Base
 
     public function getShouldGenerate(): bool
     {
+        // TODO: Check for fields with any validation rules
         return true;
     }
 }

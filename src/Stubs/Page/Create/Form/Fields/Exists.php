@@ -11,6 +11,6 @@ class Exists extends Base
 
     public function getShouldGenerate(): bool
     {
-        return true;
+        return collect($this->getResourceCreateFields($this->resource))->count();
     }
 }
