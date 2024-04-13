@@ -6,7 +6,7 @@ use Closure;
 use CodeWithDennis\FilamentTests\Stubs\Base;
 use ReflectionClass;
 
-class Range extends Base
+class DateRange extends Base
 {
     public Closure|bool $isTodo = true;
 
@@ -14,11 +14,11 @@ class Range extends Base
     {
         return $this->getResourceTableColumnsWithSummarizers($this->resource)
             ->filter(fn($column) => collect($column->getSummarizers())->filter(function ($summarizer) use ($column) {
-                $reflectionProperty = (new ReflectionClass(get_class($column)))
-                    ->getProperty('isDate');
+                    $reflectionProperty = (new ReflectionClass(get_class($column)))
+                        ->getProperty('isDate');
 
-                return $summarizer::class === \Filament\Tables\Columns\Summarizers\Range::class &&
-                    ! $reflectionProperty->getValue($column);
+                    return $summarizer::class === \Filament\Tables\Columns\Summarizers\Range::class &&
+                        $reflectionProperty->getValue($column);
             })->count())->isNotEmpty();
     }
 }
