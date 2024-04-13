@@ -169,11 +169,9 @@ class FilamentTestsCommand extends Command
         $numTests = 0;
         $todos = collect();
         $countTodos = 0;
-        $start = 0;
-        $end = 0;
+        $start = microtime(true);
 
         foreach ($this->getStubs($resource) as $stub) {
-
             if (is_null($stub)) {
                 continue;
             }
@@ -187,17 +185,17 @@ class FilamentTestsCommand extends Command
                 $countTodos++;
             }
 
-            $start = microtime(true);
-
             $contents .= $this->getStubContents($stub['path'], $stub['variables']);
-
-            $end = microtime(true);
         }
+
+        $end = microtime(true);
+
+        $duration = round($end - $start, 3) * 1000;
 
         $this->selectedResources->push([
             'name' => $resourceName,
             'tests' => $numTests,
-            'duration' => round($end - $start, 3) * 1000,
+            'duration' => $duration,
         ]);
 
         if ($countTodos > 0) {
@@ -210,6 +208,7 @@ class FilamentTestsCommand extends Command
         return $contents;
     }
 
+
     protected function getStubContents(string $stub, array $stubVariables = []): array|bool|string
     {
         $contents = file_get_contents($stub);
@@ -219,23 +218,6 @@ class FilamentTestsCommand extends Command
         }
 
         return $contents.PHP_EOL;
-    }
-
-    protected function getStubVariables(Resource $resource): array
-    {
-        $variables = [];
-
-        foreach ($this->getStubs($resource) as $stub) {
-            if (is_null($stub)) {
-                continue;
-            }
-
-            foreach ($stub['variables'] as $key => $value) {
-                $variables[$key] = $value;
-            }
-        }
-
-        return $variables;
     }
 
     protected function getNormalizedResourceName(string $name): string
