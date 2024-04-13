@@ -113,13 +113,29 @@ class Base
 
     public function getVariables(): array
     {
-        $defaults = [
+        return $this->evaluate($this->variables ?? []);
+    }
+
+    public function getDefaultVariables(): array
+    {
+        $resource = $this->resource;
+
+        $resourceModel = $resource->getModel();
+        $userModel = \App\Models\User::class;
+        $modelImport = $resourceModel === $userModel ? "use {$resourceModel};" : "use {$resourceModel};\nuse {$userModel};";
+
+        $toBeConverted = [
+            'MODEL_IMPORT' => $modelImport,
+            'MODEL_PLURAL_NAME' => str($resourceModel)->afterLast('\\')->plural(),
+            'MODEL_SINGULAR_NAME' => str($resourceModel)->afterLast('\\'),
+            'RESOURCE' => str($resource::class)->afterLast('\\'),
+            'LOAD_TABLE_METHOD_IF_DEFERRED' => $this->tableHasDeferredLoading($resource) ? $this->getDeferredLoadingMethod() : '',
             'RESOLVED_GROUP_METHOD' => $this->getGroupMethod(),
         ];
 
-        $variables = $this->variables ?? [];
-
-        return $this->evaluate(array_merge($defaults, $variables));
+        return array_map(function ($value) {
+            return $this->convertDoubleQuotedArrayString($value);
+        }, $toBeConverted);
     }
 
     public function shouldGenerate(bool|Closure|null $condition): static
@@ -173,7 +189,7 @@ class Base
             'group' => $this->getGroup(),
             'fileName' => $this->getName().'.stub',
             'path' => $this->getPath(),
-            'variables' => $this->getVariables(),
+            'variables' => array_merge($this->getDefaultVariables(), $this->getVariables()),
             'isTodo' => $this->isTodo(),
         ];
     }
@@ -584,8 +600,10 @@ class Base
     {
         $group = $this->getGroup();
 
-        $parts = array_filter(array_map(fn ($part) => "'".strtolower($part)."'", explode('/', $group)));
+        $parts = collect(explode('/', $group))
+            ->filter(fn ($part) => ! empty($part))
+            ->map(fn ($part) => "'".trim(str($part)->kebab())."'");
 
-        return $this->convertDoubleQuotedArrayString(implode(', ', $parts));
+        return $this->convertDoubleQuotedArrayString($parts->implode(','));
     }
 }

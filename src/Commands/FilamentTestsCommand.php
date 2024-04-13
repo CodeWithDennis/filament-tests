@@ -189,7 +189,7 @@ class FilamentTestsCommand extends Command
 
             $start = microtime(true);
 
-            $contents .= $this->getStubContents($stub['path'], $this->getStubVariables($resource));
+            $contents .= $this->getStubContents($stub['path'], $stub['variables']);
 
             $end = microtime(true);
         }
