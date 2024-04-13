@@ -5,7 +5,6 @@ namespace CodeWithDennis\FilamentTests\Stubs\Page\Index\Table\Summaries;
 use Closure;
 use CodeWithDennis\FilamentTests\Stubs\Base;
 use Filament\Tables\Columns\IconColumn;
-use ReflectionClass;
 
 class CountIcon extends Base
 {
@@ -14,7 +13,7 @@ class CountIcon extends Base
     public function getShouldGenerate(): bool
     {
         return $this->getResourceTableColumnsWithSummarizers($this->resource)
-            ->filter(fn($column) => collect($column->getSummarizers())->filter(function ($summarizer) use ($column) {
+            ->filter(fn ($column) => collect($column->getSummarizers())->filter(function ($summarizer) use ($column) {
                 return $summarizer::class === \Filament\Tables\Columns\Summarizers\Count::class &&
                     $column::class === IconColumn::class;
             })->count())->isNotEmpty();
