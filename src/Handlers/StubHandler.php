@@ -63,6 +63,7 @@ class StubHandler
 
             \CodeWithDennis\FilamentTests\Stubs\Page\Index\Table\Summaries\Average::make($resource)->get(),
             \CodeWithDennis\FilamentTests\Stubs\Page\Index\Table\Summaries\Count::make($resource)->get(),
+            \CodeWithDennis\FilamentTests\Stubs\Page\Index\Table\Summaries\CountIcon::make($resource)->get(),
             \CodeWithDennis\FilamentTests\Stubs\Page\Index\Table\Summaries\Range::make($resource)->get(),
             \CodeWithDennis\FilamentTests\Stubs\Page\Index\Table\Summaries\DateRange::make($resource)->get(),
             \CodeWithDennis\FilamentTests\Stubs\Page\Index\Table\Summaries\Sum::make($resource)->get(),

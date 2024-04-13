@@ -14,11 +14,14 @@ class Range extends Base
     {
         return $this->getResourceTableColumnsWithSummarizers($this->resource)
             ->filter(fn ($column) => collect($column->getSummarizers())->filter(function ($summarizer) use ($column) {
-                $reflectionProperty = (new ReflectionClass(get_class($column)))
-                    ->getProperty('isDate');
+                if($summarizer::class === \Filament\Tables\Columns\Summarizers\Range::class) {
+                    $reflectionProperty = (new ReflectionClass(get_class($column)))
+                        ->getProperty('isDate');
 
-                return $summarizer::class === \Filament\Tables\Columns\Summarizers\Range::class &&
-                    ! $reflectionProperty->getValue($column);
+                    return ! $reflectionProperty->getValue($column);
+                }
+
+                return false;
             })->count())->isNotEmpty();
     }
 }
