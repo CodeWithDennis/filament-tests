@@ -416,6 +416,11 @@ class Base
             ])->toArray();
     }
 
+    public function getResourceTableColumnsWithSummarizers(Resource $resource): Collection
+    {
+        return $this->getTableColumns($resource)->filter(fn($column) => $column->getSummarizers());
+    }
+
     public function hasSoftDeletes(Resource $resource): bool
     {
         return method_exists($resource->getModel(), 'bootSoftDeletes');

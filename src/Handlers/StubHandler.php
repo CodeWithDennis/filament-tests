@@ -61,6 +61,11 @@ class StubHandler
             \CodeWithDennis\FilamentTests\Stubs\Page\Index\Table\Columns\Select::make($resource)->get(),
             \CodeWithDennis\FilamentTests\Stubs\Page\Index\Table\Columns\ExtraAttributes::make($resource)->get(),
 
+            \CodeWithDennis\FilamentTests\Stubs\Page\Index\Table\Summaries\Average::make($resource)->get(),
+            \CodeWithDennis\FilamentTests\Stubs\Page\Index\Table\Summaries\Count::make($resource)->get(),
+            \CodeWithDennis\FilamentTests\Stubs\Page\Index\Table\Summaries\Range::make($resource)->get(),
+            \CodeWithDennis\FilamentTests\Stubs\Page\Index\Table\Summaries\Sum::make($resource)->get(),
+
             \CodeWithDennis\FilamentTests\Stubs\Page\Index\Table\Filters\Reset::make($resource)->get(),
             \CodeWithDennis\FilamentTests\Stubs\Page\Index\Table\Filters\Add::make($resource)->get(),
             \CodeWithDennis\FilamentTests\Stubs\Page\Index\Table\Filters\Remove::make($resource)->get(),
