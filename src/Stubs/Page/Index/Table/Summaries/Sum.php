@@ -12,8 +12,8 @@ class Sum extends Base
     public function getShouldGenerate(): bool
     {
         return $this->getResourceTableColumnsWithSummarizers($this->resource)
-            ->filter(fn($column) => collect($column->getSummarizers())
-                ->filter(fn($summarizer) => $summarizer::class === \Filament\Tables\Columns\Summarizers\Sum::class)
+            ->filter(fn ($column) => collect($column->getSummarizers())
+                ->filter(fn ($summarizer) => $summarizer::class === \Filament\Tables\Columns\Summarizers\Sum::class)
                 ->count())
             ->isNotEmpty();
     }

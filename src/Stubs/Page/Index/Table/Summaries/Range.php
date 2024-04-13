@@ -13,7 +13,7 @@ class Range extends Base
     public function getShouldGenerate(): bool
     {
         return $this->getResourceTableColumnsWithSummarizers($this->resource)
-            ->filter(fn($column) => collect($column->getSummarizers())->filter(function ($summarizer) use ($column) {
+            ->filter(fn ($column) => collect($column->getSummarizers())->filter(function ($summarizer) use ($column) {
                 $reflectionProperty = (new ReflectionClass(get_class($column)))
                     ->getProperty('isDate');
 
