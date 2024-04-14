@@ -15,7 +15,7 @@ use function Laravel\Prompts\multiselect;
 class FilamentTestsCommand extends Command
 {
     protected $signature = 'make:filament-test
-                            {name? : The name of the resource}
+                            {name? : The name(s) of the resource(s) you would like to create the tests for}
                             {--a|all : Create tests for all Filament resources}
                             {--d|directory= : The output directory for the test}
                             {--e|except= : Create tests for all Filament resources except the specified resources}
