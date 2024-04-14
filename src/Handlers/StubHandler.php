@@ -52,7 +52,6 @@ class StubHandler
             \CodeWithDennis\FilamentTests\Stubs\Resource\Page\Index\Table\BulkActions\DeleteSoft::make($resource)->get(),
             \CodeWithDennis\FilamentTests\Stubs\Resource\Page\Index\Table\BulkActions\Exist::make($resource)->get(),
 
-
             \CodeWithDennis\FilamentTests\Stubs\Resource\Page\Index\Table\Columns\Exist::make($resource)->get(),
             \CodeWithDennis\FilamentTests\Stubs\Resource\Page\Index\Table\Columns\Render::make($resource)->get(),
             \CodeWithDennis\FilamentTests\Stubs\Resource\Page\Index\Table\Columns\CannotRender::make($resource)->get(),
