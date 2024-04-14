@@ -78,6 +78,10 @@ class FilamentTestsCommand extends Command
 
         foreach ($selectedResources as $selectedResource) {
 
+            if ($selectedResource === 'AddressTypeResource') {
+                $this->failedResources->push(['name' => $this->getNormalizedResourceName($selectedResource)]);
+            }
+
             if (! $this->getResourceClass($selectedResource)) {
                 $this->failedResources->push(['name' => $this->getNormalizedResourceName($selectedResource)]);
 
@@ -293,7 +297,19 @@ class FilamentTestsCommand extends Command
         $this->components->twoColumnDetail('<options=bold>Total</>');
         $this->components->twoColumnDetail('No. of Resource(s)', $resources['selected']->count());
         $this->components->twoColumnDetail('No. of Test(s)', $totals['tests']);
-        $this->components->twoColumnDetail('No. of Todo(s)', '<fg=cyan>'.$totals['todos'].'</>');
+
+        if ($totals['todos'] > 0) {
+            $this->components->twoColumnDetail('No. of Todo(s)', '<fg=cyan>'.$totals['todos'].'</>');
+        }
+
+        if ($resources['skipped']->count() > 0) {
+            $this->components->twoColumnDetail('No. of Skipped Resources', '<fg=yellow>'.$resources['skipped']->count().'</>');
+        }
+
+        if ($resources['failed']->count() > 0) {
+            $this->components->twoColumnDetail('No. of Failed Resources', '<fg=red>'.$resources['failed']->count().'</>');
+        }
+
         $this->components->twoColumnDetail('Duration', $totalDuration);
     }
 }
