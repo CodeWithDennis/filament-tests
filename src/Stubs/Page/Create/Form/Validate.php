@@ -11,6 +11,7 @@ class Validate extends Base
 
     public function getShouldGenerate(): bool
     {
+        // TODO: Implement getShouldGenerate() logic
         return true;
     }
 }
