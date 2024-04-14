@@ -6,6 +6,11 @@ use CodeWithDennis\FilamentTests\Stubs\Base;
 
 class ListRecordsPaginated extends Base
 {
+    public function getDescription(): string
+    {
+        return 'can list records on the index page with pagination';
+    }
+
     public function getShouldGenerate(): bool
     {
         return $this->hasPage('index', $this->resource) && $this->tableHasPagination($this->resource);

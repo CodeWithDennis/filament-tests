@@ -6,6 +6,11 @@ use CodeWithDennis\FilamentTests\Stubs\Base;
 
 class Url extends Base
 {
+    public function getDescription(): string
+    {
+        return 'has the correct URL for table action';
+    }
+
     public function getShouldGenerate(): bool
     {
         return $this->hasTableActionWithUrl($this->resource);

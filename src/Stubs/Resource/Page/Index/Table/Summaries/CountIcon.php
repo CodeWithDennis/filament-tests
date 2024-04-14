@@ -10,6 +10,11 @@ class CountIcon extends Base
 {
     public Closure|bool $isTodo = true;
 
+    public function getDescription(): string
+    {
+        return 'can count the occurrence of icons in a column';
+    }
+
     public function getShouldGenerate(): bool
     {
         return $this->getResourceTableColumnsWithSummarizers($this->resource)

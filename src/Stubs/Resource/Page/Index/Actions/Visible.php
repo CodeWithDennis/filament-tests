@@ -6,6 +6,11 @@ use CodeWithDennis\FilamentTests\Stubs\Base;
 
 class Visible extends Base
 {
+    public function getDescription(): string
+    {
+        return 'can render header actions on the index page';
+    }
+
     public function getShouldGenerate(): bool
     {
         return $this->hasPage('index', $this->resource)

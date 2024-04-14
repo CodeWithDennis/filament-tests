@@ -1,4 +1,4 @@
-it('has extra attributes', function (string $column, array $extraAttributes) {
+it({{ DESCRIPTION }}, function (string $column, array $extraAttributes) {
     $record = {{ MODEL_SINGULAR_NAME }}::factory()->create();
 
     livewire(List{{ MODEL_PLURAL_NAME }}::class)

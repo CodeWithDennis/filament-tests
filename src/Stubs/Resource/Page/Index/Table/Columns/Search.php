@@ -6,6 +6,11 @@ use CodeWithDennis\FilamentTests\Stubs\Base;
 
 class Search extends Base
 {
+    public function getDescription(): string
+    {
+        return 'can search column';
+    }
+
     public function getShouldGenerate(): bool
     {
         return $this->getSearchableColumns($this->resource)->isNotEmpty();

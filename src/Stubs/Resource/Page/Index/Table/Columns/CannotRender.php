@@ -6,6 +6,11 @@ use CodeWithDennis\FilamentTests\Stubs\Base;
 
 class CannotRender extends Base
 {
+    public function getDescription(): string
+    {
+        return 'cannot render column';
+    }
+
     public function getShouldGenerate(): bool
     {
         return $this->getToggledHiddenByDefaultColumns($this->resource)->isNotEmpty();

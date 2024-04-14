@@ -1,4 +1,4 @@
-it('has the correct options', function (string $column, array $options) {
+it({{ DESCRIPTION }}, function (string $column, array $options) {
     $record = {{ MODEL_SINGULAR_NAME }}::factory()->create();
 
     livewire(List{{ MODEL_PLURAL_NAME }}::class)

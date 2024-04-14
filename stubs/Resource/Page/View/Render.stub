@@ -1,4 +1,4 @@
-it('can render the view page', function () {
+it({{ DESCRIPTION }}, function () {
     $record = {{ MODEL_SINGULAR_NAME }}::factory()->create();
 
     livewire(View{{ MODEL_SINGULAR_NAME }}::class, ['record' => $record->getRouteKey()])

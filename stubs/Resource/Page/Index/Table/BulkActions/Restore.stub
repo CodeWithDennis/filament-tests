@@ -1,4 +1,4 @@
-it('can bulk restore records', function () {
+it({{ DESCRIPTION }}, function () {
     $records = {{ MODEL_SINGULAR_NAME }}::factory(3)->create();
 
     foreach ($records as $record) {

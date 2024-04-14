@@ -7,6 +7,11 @@ use Filament\Forms\Form;
 
 class Exists extends Base
 {
+    public function getDescription(): string
+    {
+        return 'has create form';
+    }
+
     public function getShouldGenerate(): bool
     {
         return $this->getResourceCreateForm($this->resource)::class == Form::class;

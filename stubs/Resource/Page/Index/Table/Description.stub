@@ -1,4 +1,4 @@
-it('has the correct table description', function () {
+it({{ DESCRIPTION }}, function () {
     livewire(List{{ MODEL_PLURAL_NAME }}::class)
         ->assertSee({{ RESOURCE_TABLE_DESCRIPTION }}, escape: false);
 }){{ RESOLVED_GROUP_METHOD }};

@@ -6,6 +6,11 @@ use CodeWithDennis\FilamentTests\Stubs\Base;
 
 class Description extends Base
 {
+    public function getDescription(): string
+    {
+        return 'has the correct table description';
+    }
+
     public function getShouldGenerate(): bool
     {
         return $this->hasPage('index', $this->resource)

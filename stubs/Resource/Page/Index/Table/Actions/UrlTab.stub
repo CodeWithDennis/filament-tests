@@ -1,4 +1,4 @@
-it('has the correct URL and opens in a new tab for table action', function (string $action, string $url) {
+it({{ DESCRIPTION }}, function (string $action, string $url) {
     livewire(List{{ MODEL_PLURAL_NAME }}::class)
         ->assertTableActionHasUrl($action, $url)
         ->assertTableActionShouldOpenUrlInNewTab($action);

@@ -1,4 +1,4 @@
-it('can reset table filters', function () {
+it({{ DESCRIPTION }}, function () {
     $records = {{ MODEL_SINGULAR_NAME }}::factory(3)->create();
 
     livewire(List{{ MODEL_PLURAL_NAME }}::class)

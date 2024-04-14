@@ -1,4 +1,4 @@
-it('has the correct descriptions above', function (string $column, string $description) {
+it({{ DESCRIPTION }}, function (string $column, string $description) {
     $record = {{ MODEL_SINGULAR_NAME }}::factory()->create();
 
     livewire(List{{ MODEL_PLURAL_NAME }}::class)

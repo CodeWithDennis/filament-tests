@@ -1,4 +1,4 @@
-it('has edit form', function () {
+it({{ DESCRIPTION }}, function () {
     $record = {{ MODEL_SINGULAR_NAME }}::factory()->create();
 
     livewire(Edit{{ MODEL_SINGULAR_NAME }}::class, ['record' => $record->getRouteKey()])

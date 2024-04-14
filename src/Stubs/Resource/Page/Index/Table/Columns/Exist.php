@@ -6,6 +6,11 @@ use CodeWithDennis\FilamentTests\Stubs\Base;
 
 class Exist extends Base
 {
+    public function getDescription(): string
+    {
+        return 'has column';
+    }
+
     public function getShouldGenerate(): bool
     {
         return $this->getTableColumns($this->resource)->isNotEmpty();

@@ -6,6 +6,11 @@ use CodeWithDennis\FilamentTests\Stubs\Base;
 
 class Heading extends Base
 {
+    public function getDescription(): string
+    {
+        return 'has the correct table heading';
+    }
+
     public function getShouldGenerate(): bool
     {
         return $this->hasPage('index', $this->resource)

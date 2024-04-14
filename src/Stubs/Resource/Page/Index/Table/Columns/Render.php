@@ -6,6 +6,11 @@ use CodeWithDennis\FilamentTests\Stubs\Base;
 
 class Render extends Base
 {
+    public function getDescription(): string
+    {
+        return 'can render column';
+    }
+
     public function getShouldGenerate(): bool
     {
         return $this->getInitiallyVisibleColumns($this->resource)->isNotEmpty();

@@ -20,6 +20,8 @@ class Base
 
     public Closure|string|null $name = null;
 
+    public Closure|string $description = '';
+
     public Closure|string|null $path;
 
     public Closure|bool|null $shouldGenerate = true;
@@ -94,6 +96,18 @@ class Base
         return $this->evaluate($this->name ?? $this->resolveNameByClass());
     }
 
+    public function description(string|Closure $description): static
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    public function getDescription(): string
+    {
+        return $this->evaluate($this->description ?? '');
+    }
+
     public function getPath(): string
     {
         $path = __DIR__.'/../../stubs/'.$this->getGroup().'/'.$this->getName().'.stub';
@@ -125,6 +139,7 @@ class Base
         $modelImport = $resourceModel === $userModel ? "use {$resourceModel};" : "use {$resourceModel};\nuse {$userModel};";
 
         $toBeConverted = [
+            'DESCRIPTION' => str($this->getDescription())->wrap('\''),
             'MODEL_IMPORT' => $modelImport,
             'MODEL_PLURAL_NAME' => str($resourceModel)->afterLast('\\')->plural(),
             'MODEL_SINGULAR_NAME' => str($resourceModel)->afterLast('\\'),

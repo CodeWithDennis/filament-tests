@@ -1,4 +1,4 @@
-it('has create form', function () {
+it({{ DESCRIPTION }}, function () {
     livewire(Create{{ MODEL_SINGULAR_NAME }}::class)
         ->assertFormExists();
 }){{ RESOLVED_GROUP_METHOD }};

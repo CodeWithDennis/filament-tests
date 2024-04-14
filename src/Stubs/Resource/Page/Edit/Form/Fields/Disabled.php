@@ -9,6 +9,11 @@ class Disabled extends Base
 {
     public Closure|bool $isTodo = true;
 
+    public function getDescription(): string
+    {
+        return 'has a disabled X field on edit form';
+    }
+
     public function getShouldGenerate(): bool
     {
         return collect($this->getResourceEditFields($this->resource))

@@ -6,6 +6,11 @@ use CodeWithDennis\FilamentTests\Stubs\Base;
 
 class DescriptionBelow extends Base
 {
+    public function getDescription(): string
+    {
+        return 'has the correct descriptions below';
+    }
+
     public function getShouldGenerate(): bool
     {
         return $this->getDescriptionBelowColumns($this->resource)->isNotEmpty();

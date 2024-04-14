@@ -1,4 +1,4 @@
-it('cannot render header actions on the index page', function (string $action) {
+it({{ DESCRIPTION }}, function (string $action) {
     livewire(List{{ MODEL_PLURAL_NAME }}::class)
         ->assertActionHidden($action);
 })->with({{ INDEX_PAGE_HIDDEN_HEADER_ACTIONS }}){{ RESOLVED_GROUP_METHOD }};

@@ -6,6 +6,11 @@ use CodeWithDennis\FilamentTests\Stubs\Base;
 
 class Hidden extends Base
 {
+    public function getDescription(): string
+    {
+        return 'cannot render header actions on the index page';
+    }
+
     public function getShouldGenerate(): bool
     {
         return $this->hasPage('index', $this->resource)

@@ -1,4 +1,4 @@
-it('cannot render column', function (string $column) {
+it({{ DESCRIPTION }}, function (string $column) {
     livewire(List{{ MODEL_PLURAL_NAME }}::class)
         ->assertCanNotRenderTableColumn($column);
 })->with({{ RESOURCE_TABLE_TOGGLED_HIDDEN_BY_DEFAULT_COLUMNS }}){{ RESOLVED_GROUP_METHOD }};

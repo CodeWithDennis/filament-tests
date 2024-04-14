@@ -1,3 +1,3 @@
-it('can validate create form input', function () {
+it({{ DESCRIPTION }}, function () {
     //
 }){{ RESOLVED_GROUP_METHOD }}->todo();

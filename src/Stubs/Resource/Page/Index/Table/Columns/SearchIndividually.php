@@ -6,6 +6,11 @@ use CodeWithDennis\FilamentTests\Stubs\Base;
 
 class SearchIndividually extends Base
 {
+    public function getDescription(): string
+    {
+        return 'can individually search by column';
+    }
+
     public function getShouldGenerate(): bool
     {
         return $this->getIndividuallySearchableColumns($this->resource)->isNotEmpty();

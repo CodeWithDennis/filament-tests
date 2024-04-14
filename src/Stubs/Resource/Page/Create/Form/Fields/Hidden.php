@@ -9,6 +9,11 @@ class Hidden extends Base
 {
     public Closure|bool $isTodo = true;
 
+    public function getDescription(): string
+    {
+        return 'has a hidden X field on create form';
+    }
+
     public function getShouldGenerate(): bool
     {
         return collect($this->getResourceCreateFields($this->resource))
