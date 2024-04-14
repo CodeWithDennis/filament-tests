@@ -88,23 +88,23 @@ won't be generated.
     - Create
         - Form
             - Fields
-                - [ ] has a disabled X field on create form
-                - [ ] it has a X field on create form
-                - [ ] it has a hidden X field on create form
-                - [ ] it can validate input on create form
-            - [x] it has create form
+                - [ ] [has a disabled X field on create form](https://filamentphp.com/docs/3.x/forms/testing#disabled-fields)
+                - [ ] [it has a X field on create form](https://filamentphp.com/docs/3.x/forms/testing#fields)
+                - [ ] [it has a hidden X field on create form](https://filamentphp.com/docs/3.x/forms/testing#hidden-fields)
+                - [ ] [it can validate input on create form](https://filamentphp.com/docs/3.x/forms/testing#validation)
+            - [x] [it has create form](https://filamentphp.com/docs/3.x/forms/testing#form-existence)
             - [ ] it can validate create form input
-        - [x] it can render the create page
+        - [x] [it can render the create page](https://filamentphp.com/docs/3.x/panels/testing#routing--render)
     - Edit
         - Form
             - Fields
-                - [ ] has a disabled X field on edit form
-                - [ ] it has a X field on edit form
-                - [ ] it has a hidden X field on edit form
-                - [ ] it can validate input on edit form
-            - [x] it has edit form
+                - [ ] [has a disabled X field on edit form](https://filamentphp.com/docs/3.x/forms/testing#disabled-fields)
+                - [ ] [it has a X field on edit form](https://filamentphp.com/docs/3.x/forms/testing#fields)
+                - [ ] [it has a hidden X field on edit form](https://filamentphp.com/docs/3.x/forms/testing#hidden-fields)
+                - [ ] [it can validate input on edit form](https://filamentphp.com/docs/3.x/forms/testing#validation)
+            - [x] [it has edit form](https://filamentphp.com/docs/3.x/forms/testing#form-existence)
             - [ ] it can validate edit form input
-        - [x] it can render the edit page
+        - [x] [it can render the edit page](https://filamentphp.com/docs/3.x/panels/testing#routing--render)
     - Index
         - [x] Actions
             - [x] it has header actions on the index page
@@ -112,14 +112,14 @@ won't be generated.
             - [x] it can render header actions on the index page
         - Table
             - Actions
-                - [x] it can delete records
-                - [x] it can force delete records
-                - [x] it can soft delete records
-                - [x] it has table action
-                - [x] it can replicate records
-                - [x] it can restore records
-                - [x] it has the correct URL for table action
-                - [x] it has the correct URL and opens in a new tab for table action
+                - [x] [it can delete records](https://filamentphp.com/docs/3.x/tables/testing#calling-actions)
+                - [x] [it can force delete records](https://filamentphp.com/docs/3.x/tables/testing#calling-actions)
+                - [x] [it can soft delete records](https://filamentphp.com/docs/3.x/tables/testing#calling-actions)
+                - [x] [it has table action](https://filamentphp.com/docs/3.x/tables/testing#calling-actions)
+                - [x] [it can replicate records](https://filamentphp.com/docs/3.x/tables/testing#calling-actions)
+                - [x] [it can restore records](https://filamentphp.com/docs/3.x/tables/testing#calling-actions)
+                - [x] [it has the correct URL for table action](https://filamentphp.com/docs/3.x/infolists/testing#url)
+                - [x] [it has the correct URL and opens in a new tab for table action](https://filamentphp.com/docs/3.x/infolists/testing#url)
             - BulkActions
                 - [x] it can bulk delete records
                 - [x] it can bulk force delete records
@@ -128,27 +128,27 @@ won't be generated.
                 - [x] it can bulk restore records
                 - [x] it can bulk soft delete records
             - Columns
-                - [x] it cannot render column
-                - [x] it has the correct descriptions above
-                - [x] it has the correct descriptions below
-                - [x] it has column
-                - [x] it has extra attributes
-                - [x] it can render column
-                - [x] it can search column
-                - [x] it can individually search by column
-                - [x] it has the correct options
-                - [x] it can sort column
+                - [x] [it cannot render column](https://filamentphp.com/docs/3.x/tables/testing#columns)
+                - [x] [it has the correct descriptions above](https://filamentphp.com/docs/3.x/tables/testing#descriptions)
+                - [x] [it has the correct descriptions below](https://filamentphp.com/docs/3.x/tables/testing#descriptions)
+                - [x] [it has column](https://filamentphp.com/docs/3.x/tables/testing#existence)
+                - [x] [it has extra attributes](https://filamentphp.com/docs/3.x/tables/testing#extra-attributes)
+                - [x] [it can render column](https://filamentphp.com/docs/3.x/tables/testing#columns)
+                - [x] [it can search column](https://filamentphp.com/docs/3.x/tables/testing#searching)
+                - [x] [it can individually search by column](https://filamentphp.com/docs/3.x/tables/testing#searching)
+                - [x] [it has the correct options](https://filamentphp.com/docs/3.x/tables/testing#select-columns)
+                - [x] [it can sort column](https://filamentphp.com/docs/3.x/tables/testing#sorting)
             - Filters
-                - [ ] it can add a table filter
-                - [ ] it can remove a table filter
-                - [x] it can reset table filters
+                - [ ] [it can add a table filter](https://filamentphp.com/docs/3.x/tables/testing#removing-filters)
+                - [ ] [it can remove a table filter](https://filamentphp.com/docs/3.x/tables/testing#removing-filters)
+                - [x] [it can reset table filters](https://filamentphp.com/docs/3.x/tables/testing#resetting-filters)
             - Summaries
-                - [ ] it can average values in a column
-                - [ ] it can count values in a column
-                - [ ] it can count the occurrence of icons in a column
-                - [ ] it can range date values in a column
-                - [ ] it can range values in a column
-                - [ ] it can sum values in a column
+                - [ ] [it can average values in a column](https://filamentphp.com/docs/3.x/tables/testing#summaries)
+                - [ ] [it can count values in a column](https://filamentphp.com/docs/3.x/tables/testing#summaries)
+                - [ ] [it can count the occurrence of icons in a column](https://filamentphp.com/docs/3.x/tables/testing#summaries)
+                - [ ] [it can range date values in a column](https://filamentphp.com/docs/3.x/tables/testing#summaries)
+                - [ ] [it can range values in a column](https://filamentphp.com/docs/3.x/tables/testing#summaries)
+                - [ ] [it can sum values in a column](https://filamentphp.com/docs/3.x/tables/testing#summaries)
             - [x] it has the correct table description
             - [x] it has the correct table heading
         - [x] it can list records on the index page
