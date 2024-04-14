@@ -88,75 +88,75 @@ won't be generated.
     - Create
         - Form
             - Fields
-                - [ ] Disabled
-                - [ ] Exists
-                - [ ] Hidden
-                - [ ] Validate
-            - [x] Exists
-            - [ ] Validate
-        - [x] Render
+                - [ ] has a disabled X field on create form
+                - [ ] it has a X field on create form
+                - [ ] it has a hidden X field on create form
+                - [ ] it can validate input on create form
+            - [x] it has create form
+            - [ ] it can validate create form input
+        - [x] it can render the create page
     - Edit
         - Form
             - Fields
-                - [ ] Disabled
-                - [ ] Exists
-                - [ ] Hidden
-                - [ ] Validate
-            - [x] Exists
-            - [ ] Validate
-        - [x] Render
+                - [ ] has a disabled X field on edit form
+                - [ ] it has a X field on edit form
+                - [ ] it has a hidden X field on edit form
+                - [ ] it can validate input on edit form
+            - [x] it has edit form
+            - [ ] it can validate edit form input
+        - [x] it can render the edit page
     - Index
         - [x] Actions
-            - [x] Exist
-            - [x] Hidden
-            - [x] Visible
+            - [x] it has header actions on the index page
+            - [x] it cannot render header actions on the index page
+            - [x] it can render header actions on the index page
         - Table
             - Actions
-                - [x] Delete
-                - [x] DeleteForce
-                - [x] DeleteSoft
-                - [x] Exist
-                - [x] Replicate
-                - [x] Restore
-                - [x] Url
-                - [x] UrlTab
+                - [x] it can delete records
+                - [x] it can force delete records
+                - [x] it can soft delete records
+                - [x] it has table action
+                - [x] it can replicate records
+                - [x] it can restore records
+                - [x] it has the correct URL for table action
+                - [x] it has the correct URL and opens in a new tab for table action
             - BulkActions
-                - [x] Delete
-                - [x] DeleteForce
-                - [x] DeleteSoft
-                - [x] Exist
-                - [x] Restore
-                - [x] SoftDelete
+                - [x] it can bulk delete records
+                - [x] it can bulk force delete records
+                - [x] it can bulk delete records
+                - [x] it has table bulk action
+                - [x] it can bulk restore records
+                - [x] it can bulk soft delete records
             - Columns
-                - [x] CannotRender
-                - [x] DescriptionAbove
-                - [x] DescriptionBelow
-                - [x] Exist
-                - [x] ExtraAttributes
-                - [x] Render
-                - [x] Search
-                - [x] SearchIndividually
-                - [x] Select
-                - [x] Sort
+                - [x] it cannot render column
+                - [x] it has the correct descriptions above
+                - [x] it has the correct descriptions below
+                - [x] it has column
+                - [x] it has extra attributes
+                - [x] it can render column
+                - [x] it can search column
+                - [x] it can individually search by column
+                - [x] it has the correct options
+                - [x] it can sort column
             - Filters
-                - [ ] Add
-                - [ ] Remove
-                - [x] Reset
+                - [ ] it can add a table filter
+                - [ ] it can remove a table filter
+                - [x] it can reset table filters
             - Summaries
-                - [ ] Average
-                - [ ] Count
-                - [ ] CountIcon
-                - [ ] DateRange
-                - [ ] Range
-                - [ ] Sum
-            - [x] Description
-            - [x] Heading
-        - [x] ListRecords
-        - [x] ListRecordsPaginated
-        - [x] Render
-        - [x] Trashed
+                - [ ] it can average values in a column
+                - [ ] it can count values in a column
+                - [ ] it can count the occurrence of icons in a column
+                - [ ] it can range date values in a column
+                - [ ] it can range values in a column
+                - [ ] it can sum values in a column
+            - [x] it has the correct table description
+            - [x] it has the correct table heading
+        - [x] it can list records on the index page
+        - [x] it can list records on the index page with pagination
+        - [x] it can render the index page
+        - [x] it cannot display trashed records by default
     - View
-        - [x] Render
+        - [x] it can render the view page
 
 
 ## Running the package tests
