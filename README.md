@@ -88,75 +88,75 @@ won't be generated.
     - Create
         - Form
             - Fields
-                - [ ] Disabled.stub
-                - [ ] Exists.stub
-                - [ ] Hidden.stub
-                - [ ] Validate.stub
-            - [x] Exists.stub
-            - [ ] Validate.stub
-        - [x] Render.stub
+                - [ ] Disabled
+                - [ ] Exists
+                - [ ] Hidden
+                - [ ] Validate
+            - [x] Exists
+            - [ ] Validate
+        - [x] Render
     - Edit
         - Form
             - Fields
-                - [ ] Disabled.stub
-                - [ ] Exists.stub
-                - [ ] Hidden.stub
-                - [ ] Validate.stub
-            - [x] Exists.stub
-            - [ ] Validate.stub
-        - [x] Render.stub
+                - [ ] Disabled
+                - [ ] Exists
+                - [ ] Hidden
+                - [ ] Validate
+            - [x] Exists
+            - [ ] Validate
+        - [x] Render
     - Index
         - [x] Actions
-            - [x] Exist.stub
-            - [x] Hidden.stub
-            - [x] Visible.stub
+            - [x] Exist
+            - [x] Hidden
+            - [x] Visible
         - Table
             - Actions
-                - [x] Delete.stub
-                - [x] DeleteForce.stub
-                - [x] DeleteSoft.stub
-                - [x] Exist.stub
-                - [x] Replicate.stub
-                - [x] Restore.stub
-                - [x] Url.stub
-                - [x] UrlTab.stub
+                - [x] Delete
+                - [x] DeleteForce
+                - [x] DeleteSoft
+                - [x] Exist
+                - [x] Replicate
+                - [x] Restore
+                - [x] Url
+                - [x] UrlTab
             - BulkActions
-                - [x] Delete.stub
-                - [x] DeleteForce.stub
-                - [x] DeleteSoft.stub
-                - [x] Exist.stub
-                - [x] Restore.stub
-                - [x] SoftDelete.stub
+                - [x] Delete
+                - [x] DeleteForce
+                - [x] DeleteSoft
+                - [x] Exist
+                - [x] Restore
+                - [x] SoftDelete
             - Columns
-                - [x] CannotRender.stub
-                - [x] DescriptionAbove.stub
-                - [x] DescriptionBelow.stub
-                - [x] Exist.stub
-                - [x] ExtraAttributes.stub
-                - [x] Render.stub
-                - [x] Search.stub
-                - [x] SearchIndividually.stub
-                - [x] Select.stub
-                - [x] Sort.stub
+                - [x] CannotRender
+                - [x] DescriptionAbove
+                - [x] DescriptionBelow
+                - [x] Exist
+                - [x] ExtraAttributes
+                - [x] Render
+                - [x] Search
+                - [x] SearchIndividually
+                - [x] Select
+                - [x] Sort
             - Filters
-                - [ ] Add.stub
-                - [ ] Remove.stub
-                - [x] Reset.stub
+                - [ ] Add
+                - [ ] Remove
+                - [x] Reset
             - Summaries
-                - [ ] Average.stub
-                - [ ] Count.stub
-                - [ ] CountIcon.stub
-                - [ ] DateRange.stub
-                - [ ] Range.stub
-                - [ ] Sum.stub
-            - [x] Description.stub
-            - [x] Heading.stub
-        - [x] ListRecords.stub
-        - [x] ListRecordsPaginated.stub
-        - [x] Render.stub
-        - [x] Trashed.stub
+                - [ ] Average
+                - [ ] Count
+                - [ ] CountIcon
+                - [ ] DateRange
+                - [ ] Range
+                - [ ] Sum
+            - [x] Description
+            - [x] Heading
+        - [x] ListRecords
+        - [x] ListRecordsPaginated
+        - [x] Render
+        - [x] Trashed
     - View
-        - [x] Render.stub
+        - [x] Render
 
 
 ## Running the package tests
