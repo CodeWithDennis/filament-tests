@@ -276,7 +276,7 @@ class FilamentTestsCommand extends Command
                     $this->components->twoColumnDetail('No. of Test(s)', $item['tests']);
 
                     if ($item['todos'] > 0) {
-                        $this->components->twoColumnDetail('No. of Todo(s)', $item['todos']);
+                        $this->components->twoColumnDetail('No. of Todo(s)', '<fg=cyan>'.$item['todos'].'</>');
                     }
 
                     $this->components->twoColumnDetail('Duration', $item['duration'].'ms');
@@ -293,7 +293,19 @@ class FilamentTestsCommand extends Command
         $this->components->twoColumnDetail('<options=bold>Total</>');
         $this->components->twoColumnDetail('No. of Resource(s)', $resources['selected']->count());
         $this->components->twoColumnDetail('No. of Test(s)', $totals['tests']);
-        $this->components->twoColumnDetail('No. of Todo(s)', $totals['todos']);
+
+        if ($totals['todos'] > 0) {
+            $this->components->twoColumnDetail('No. of Todo(s)', '<fg=cyan>'.$totals['todos'].'</>');
+        }
+
+        if ($resources['skipped']->count() > 0) {
+            $this->components->twoColumnDetail('No. of Skipped Resources', '<fg=yellow>'.$resources['skipped']->count().'</>');
+        }
+
+        if ($resources['failed']->count() > 0) {
+            $this->components->twoColumnDetail('No. of Failed Resources', '<fg=red>'.$resources['failed']->count().'</>');
+        }
+
         $this->components->twoColumnDetail('Duration', $totalDuration);
     }
 }
