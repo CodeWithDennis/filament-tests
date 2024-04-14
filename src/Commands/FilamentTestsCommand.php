@@ -46,7 +46,6 @@ class FilamentTestsCommand extends Command
 
     public function handle(): int
     {
-        $this->numTests = 0;
         $availableResources = $this->getAvailableResources();
 
         if (! $this->argument('name')) {
@@ -166,9 +165,12 @@ class FilamentTestsCommand extends Command
 
         $resourceName = str($this->getNormalizedResourceName($resource::class))->afterLast('\\')->toString();
 
-        $numTests = 0;
+        $countTests = 0;
+
         $todos = collect();
+
         $countTodos = 0;
+
         $start = microtime(true);
 
         foreach ($this->getStubs($resource) as $stub) {
@@ -177,7 +179,7 @@ class FilamentTestsCommand extends Command
             }
 
             if (! $stub['isTodo']) {
-                $numTests++;
+                $countTests++;
             }
 
             if ($stub['isTodo']) {
@@ -194,7 +196,7 @@ class FilamentTestsCommand extends Command
 
         $this->selectedResources->push([
             'name' => $resourceName,
-            'tests' => $numTests,
+            'tests' => $countTests,
             'duration' => $duration,
         ]);
 
