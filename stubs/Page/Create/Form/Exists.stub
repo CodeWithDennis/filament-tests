@@ -1,3 +1,4 @@
-it('has a create form', function () {
-    //
-}){{ RESOLVED_GROUP_METHOD }}->todo();
+it('has create form', function () {
+    livewire(Create{{ MODEL_SINGULAR_NAME }}::class)
+        ->assertFormExists();
+}){{ RESOLVED_GROUP_METHOD }};
