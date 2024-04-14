@@ -84,39 +84,80 @@ php artisan make:filament-test
 Tests are generated on demand and are tailored to the component that you're generating tests for. For example, if the resource component doesn't have any sortable columns, then the tests for sorting 
 won't be generated.
 
-**Resources**
-  - [x] [It can render page](https://filamentphp.com/docs/3.x/tables/testing#render)
-  - [x] [It can render create page](https://filamentphp.com/docs/3.x/panels/testing#create)
-  - [x] [It can render edit page](https://filamentphp.com/docs/3.x/panels/testing#edit)
-  - [x] [It can not render page](https://filamentphp.com/docs/3.x/tables/testing#render)
-  - [x] [It can sort column](https://filamentphp.com/docs/3.x/tables/testing#sorting)
-  - [x] [It can render column](https://filamentphp.com/docs/3.x/tables/testing#columns)
-  - [x] [It can search column](https://filamentphp.com/docs/3.x/tables/testing#searching)
-  - [x] [It has column](https://filamentphp.com/docs/3.x/tables/testing#existence)
-  - [x] [It has the correct descriptions](https://filamentphp.com/docs/3.x/tables/testing#descriptions)
-  - [x] [It has extra attributes](https://filamentphp.com/docs/3.x/tables/testing#extra-attributes)
-  - [x] It has the correct options (SelectColumn)
-  - [x] It can delete records
-  - [x] It can soft delete records
-  - [x] It can bulk delete records
-  - [x] It can bulk soft delete records
-  - [x] It can restore records
-  - [x] It can bulk restore records
-  - [x] It can replicate records
-  - [x] It can force delete records
-  - [x] It can bulk force delete records
-  - [x] It can reset table filters
-  - [x] It has table actions
-  - [x] It has the correct URL for table action
-  - [x] It has the correct URL and opens in a new tab for table action
-  - [x] It has table bulk actions
-  - [X] It has header actions on the index page
-  - [X] It cannot render header actions on the index page
-  - [X] It can render header actions on the index page
-  - [x] It has the correct table heading
-  - [x] It has the correct table description
-  - [ ] It can filter table records
-  - [ ] It can remove table filters
+- Page
+    - Create
+        - Form
+            - Fields
+                - [ ] Disabled.stub
+                - [ ] Exists.stub
+                - [ ] Hidden.stub
+                - [ ] Validate.stub
+            - [x] Exists.stub
+            - [ ] Validate.stub
+        - [x] Render.stub
+    - Edit
+        - Form
+            - Fields
+                - [ ] Disabled.stub
+                - [ ] Exists.stub
+                - [ ] Hidden.stub
+                - [ ] Validate.stub
+            - [x] Exists.stub
+            - [ ] Validate.stub
+        - [x] Render.stub
+    - Index
+        - [x] Actions
+            - [x] Exist.stub
+            - [x] Hidden.stub
+            - [x] Visible.stub
+        - Table
+            - Actions
+                - [x] Delete.stub
+                - [x] DeleteForce.stub
+                - [x] DeleteSoft.stub
+                - [x] Exist.stub
+                - [x] Replicate.stub
+                - [x] Restore.stub
+                - [x] Url.stub
+                - [x] UrlTab.stub
+            - BulkActions
+                - [x] Delete.stub
+                - [x] DeleteForce.stub
+                - [x] DeleteSoft.stub
+                - [x] Exist.stub
+                - [x] Restore.stub
+                - [x] SoftDelete.stub
+            - Columns
+                - [x] CannotRender.stub
+                - [x] DescriptionAbove.stub
+                - [x] DescriptionBelow.stub
+                - [x] Exist.stub
+                - [x] ExtraAttributes.stub
+                - [x] Render.stub
+                - [x] Search.stub
+                - [x] SearchIndividually.stub
+                - [x] Select.stub
+                - [x] Sort.stub
+            - Filters
+                - [ ] Add.stub
+                - [ ] Remove.stub
+                - [x] Reset.stub
+            - Summaries
+                - [ ] Average.stub
+                - [ ] Count.stub
+                - [ ] CountIcon.stub
+                - [ ] DateRange.stub
+                - [ ] Range.stub
+                - [ ] Sum.stub
+            - [x] Description.stub
+            - [x] Heading.stub
+        - [x] ListRecords.stub
+        - [x] ListRecordsPaginated.stub
+        - [x] Render.stub
+        - [x] Trashed.stub
+    - View
+        - [x] Render.stub
+
 
 ## Running the package tests
 
