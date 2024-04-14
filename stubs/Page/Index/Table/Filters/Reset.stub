@@ -4,4 +4,4 @@ it('can reset table filters', function () {
     livewire(List{{ MODEL_PLURAL_NAME }}::class)
         ->resetTableFilters(){{ LOAD_TABLE_METHOD_IF_DEFERRED }}
         ->assertCanSeeTableRecords($records);
-})->group('filters', 'table');
+}){{ RESOLVED_GROUP_METHOD }};

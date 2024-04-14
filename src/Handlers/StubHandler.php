@@ -61,11 +61,32 @@ class StubHandler
             \CodeWithDennis\FilamentTests\Stubs\Page\Index\Table\Columns\Select::make($resource)->get(),
             \CodeWithDennis\FilamentTests\Stubs\Page\Index\Table\Columns\ExtraAttributes::make($resource)->get(),
 
+            \CodeWithDennis\FilamentTests\Stubs\Page\Index\Table\Summaries\Average::make($resource)->get(),
+            \CodeWithDennis\FilamentTests\Stubs\Page\Index\Table\Summaries\Count::make($resource)->get(),
+            \CodeWithDennis\FilamentTests\Stubs\Page\Index\Table\Summaries\CountIcon::make($resource)->get(),
+            \CodeWithDennis\FilamentTests\Stubs\Page\Index\Table\Summaries\Range::make($resource)->get(),
+            \CodeWithDennis\FilamentTests\Stubs\Page\Index\Table\Summaries\DateRange::make($resource)->get(),
+            \CodeWithDennis\FilamentTests\Stubs\Page\Index\Table\Summaries\Sum::make($resource)->get(),
+
             \CodeWithDennis\FilamentTests\Stubs\Page\Index\Table\Filters\Reset::make($resource)->get(),
+            \CodeWithDennis\FilamentTests\Stubs\Page\Index\Table\Filters\Add::make($resource)->get(),
+            \CodeWithDennis\FilamentTests\Stubs\Page\Index\Table\Filters\Remove::make($resource)->get(),
 
             \CodeWithDennis\FilamentTests\Stubs\Page\Create\Render::make($resource)->get(),
+            \CodeWithDennis\FilamentTests\Stubs\Page\Create\Form\Fields\Disabled::make($resource)->get(),
+            \CodeWithDennis\FilamentTests\Stubs\Page\Create\Form\Fields\Exists::make($resource)->get(),
+            \CodeWithDennis\FilamentTests\Stubs\Page\Create\Form\Fields\Hidden::make($resource)->get(),
+            \CodeWithDennis\FilamentTests\Stubs\Page\Create\Form\Fields\Validate::make($resource)->get(),
+            \CodeWithDennis\FilamentTests\Stubs\Page\Create\Form\Exists::make($resource)->get(),
+            \CodeWithDennis\FilamentTests\Stubs\Page\Create\Form\Validate::make($resource)->get(),
 
             \CodeWithDennis\FilamentTests\Stubs\Page\Edit\Render::make($resource)->get(),
+            \CodeWithDennis\FilamentTests\Stubs\Page\Edit\Form\Fields\Disabled::make($resource)->get(),
+            \CodeWithDennis\FilamentTests\Stubs\Page\Edit\Form\Fields\Exists::make($resource)->get(),
+            \CodeWithDennis\FilamentTests\Stubs\Page\Edit\Form\Fields\Hidden::make($resource)->get(),
+            \CodeWithDennis\FilamentTests\Stubs\Page\Edit\Form\Fields\Validate::make($resource)->get(),
+            \CodeWithDennis\FilamentTests\Stubs\Page\Edit\Form\Exists::make($resource)->get(),
+            \CodeWithDennis\FilamentTests\Stubs\Page\Edit\Form\Validate::make($resource)->get(),
 
             \CodeWithDennis\FilamentTests\Stubs\Page\View\Render::make($resource)->get(),
         ];
