@@ -53,24 +53,23 @@ class FilamentTestsCommand extends Command
 
         $selectedResources = match (true) {
             $this->option('except') !== null => collect(explode(',', $this->option('except')))
-                ->map(fn($name) => $this->getNormalizedResourceName(trim($name)))
-                ->pipe(fn($exceptedResources) => $availableResources->reject(fn($resource) => $exceptedResources->contains($resource))),
+                ->map(fn ($name) => $this->getNormalizedResourceName(trim($name)))
+                ->pipe(fn ($exceptedResources) => $availableResources->reject(fn ($resource) => $exceptedResources->contains($resource))),
 
             $this->option('only') !== null => collect(explode(',', $this->option('only')))
-                ->map(fn($name) => $this->getNormalizedResourceName(trim($name))),
+                ->map(fn ($name) => $this->getNormalizedResourceName(trim($name))),
 
             $this->argument('name') !== null => collect(explode(',', $this->argument('name')))
-                ->map(fn($name) => $this->getNormalizedResourceName(trim($name))),
+                ->map(fn ($name) => $this->getNormalizedResourceName(trim($name))),
 
-            default => !$this->option('all') ? multiselect(
+            default => ! $this->option('all') ? multiselect(
                 label: 'What is the resource you would like to create this test for?',
                 options: $availableResources->flatten(),
                 required: true
             ) : $availableResources->flatten()
-                ->when(isset($selectedResources[0]) && is_numeric($selectedResources[0]), fn($resources) =>
-                    $resources->mapWithKeys(fn($index) => [
-                        $availableResources->keys()->get($index) => $availableResources->get($availableResources->keys()->get($index))
-                    ])
+                ->when(isset($selectedResources[0]) && is_numeric($selectedResources[0]), fn ($resources) => $resources->mapWithKeys(fn ($index) => [
+                    $availableResources->keys()->get($index) => $availableResources->get($availableResources->keys()->get($index)),
+                ])
                 )
         };
 
