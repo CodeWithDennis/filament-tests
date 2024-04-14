@@ -151,12 +151,12 @@ won't be generated.
                 - [ ] [it can sum values in a column](https://filamentphp.com/docs/3.x/tables/testing#summaries)
             - [x] it has the correct table description
             - [x] it has the correct table heading
-        - [x] it can list records on the index page
-        - [x] it can list records on the index page with pagination
-        - [x] it can render the index page
-        - [x] it cannot display trashed records by default
+        - [x] [it can list records on the index page](https://filamentphp.com/docs/3.x/tables/testing#render)
+        - [x] [it can list records on the index page with pagination](https://filamentphp.com/docs/3.x/tables/testing#render)
+        - [x] [it can render the index page](https://filamentphp.com/docs/3.x/tables/testing#render)
+        - [x] [it cannot display trashed records by default](https://filamentphp.com/docs/3.x/tables/testing#render)
     - View
-        - [x] it can render the view page
+        - [x] [it can render the view page](https://filamentphp.com/docs/3.x/tables/testing#render)
 
 
 ## Running the package tests
