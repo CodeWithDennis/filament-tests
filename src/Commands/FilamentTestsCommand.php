@@ -67,6 +67,7 @@ class FilamentTestsCommand extends Command
                 options: $availableResources->flatten(),
                 required: true
             ) : $availableResources->flatten()
+                // Check if the first selected item is numeric (on windows without WSL multiselect returns an array of numeric strings)
                 ->when(isset($selectedResources[0]) && is_numeric($selectedResources[0]), fn ($resources) => $resources->mapWithKeys(fn ($index) => [
                     $availableResources->keys()->get($index) => $availableResources->get($availableResources->keys()->get($index)),
                 ])
