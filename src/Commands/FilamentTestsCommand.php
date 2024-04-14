@@ -77,7 +77,7 @@ class FilamentTestsCommand extends Command
         }
 
         foreach ($selectedResources as $selectedResource) {
-            
+
             if (! $this->getResourceClass($selectedResource)) {
                 $this->failedResources->push(['name' => $this->getNormalizedResourceName($selectedResource)]);
 
