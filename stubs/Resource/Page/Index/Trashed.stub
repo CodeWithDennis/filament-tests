@@ -5,7 +5,7 @@ it({{ DESCRIPTION }}, function () {
         ->trashed()
         ->create();
 
-    livewire(List{{ MODEL_PLURAL_NAME }}::class){{ LOAD_TABLE_METHOD_IF_DEFERRED }}
+    livewire({{ RESOURCE_LIST_CLASS }}){{ LOAD_TABLE_METHOD_IF_DEFERRED }}
         ->assertCanSeeTableRecords($records)
         ->assertCanNotSeeTableRecords($trashedRecords)
         ->assertCountTableRecords(3);

@@ -144,6 +144,10 @@ class Base
             'MODEL_PLURAL_NAME' => str($resourceModel)->afterLast('\\')->plural(),
             'MODEL_SINGULAR_NAME' => str($resourceModel)->afterLast('\\'),
             'RESOURCE' => str($resource::class)->afterLast('\\'),
+            'RESOURCE_LIST_CLASS' => $this->hasPage('index', $resource) ? 'List'.str($resourceModel)->afterLast('\\')->plural()->append('::class') : '',
+            'RESOURCE_CREATE_CLASS' => $this->hasPage('create', $resource) ? 'Create'.str($resourceModel)->afterLast('\\')->append('::class') : '',
+            'RESOURCE_EDIT_CLASS' => $this->hasPage('edit', $resource) ? 'Edit'.str($resourceModel)->afterLast('\\')->append('::class') : '',
+            'RESOURCE_VIEW_CLASS' => $this->hasPage('view', $resource) ? 'View'.str($resourceModel)->afterLast('\\')->append('::class') : '',
             'LOAD_TABLE_METHOD_IF_DEFERRED' => $this->tableHasDeferredLoading($resource) ? $this->getDeferredLoadingMethod() : '',
             'RESOLVED_GROUP_METHOD' => $this->getGroupMethod(),
         ];

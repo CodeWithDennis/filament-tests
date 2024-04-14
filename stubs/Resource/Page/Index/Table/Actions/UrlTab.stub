@@ -1,5 +1,5 @@
 it({{ DESCRIPTION }}, function (string $action, string $url) {
-    livewire(List{{ MODEL_PLURAL_NAME }}::class)
+    livewire({{ RESOURCE_LIST_CLASS }})
         ->assertTableActionHasUrl($action, $url)
         ->assertTableActionShouldOpenUrlInNewTab($action);
 })->with({{ RESOURCE_TABLE_ACTIONS_WITH_URL_THAT_SHOULD_OPEN_IN_NEW_TAB }}){{ RESOLVED_GROUP_METHOD }};

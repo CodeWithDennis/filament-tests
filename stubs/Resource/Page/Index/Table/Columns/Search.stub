@@ -3,7 +3,7 @@ it({{ DESCRIPTION }}, function (string $column) {
 
     $search = $records->first()->{$column};
 
-    livewire(List{{ MODEL_PLURAL_NAME }}::class)
+    livewire({{ RESOURCE_LIST_CLASS }})
         ->searchTable($search){{ LOAD_TABLE_METHOD_IF_DEFERRED }}
         ->assertCanSeeTableRecords($records->where($column, $search))
         ->assertCanNotSeeTableRecords($records->where($column, '!=', $search));

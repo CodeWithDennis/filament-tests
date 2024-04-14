@@ -1,4 +1,4 @@
 it({{ DESCRIPTION }}, function () {
-    livewire(Create{{ MODEL_SINGULAR_NAME }}::class)
+    livewire({{ RESOURCE_CREATE_CLASS }})
         ->assertSuccessful();
 }){{ RESOLVED_GROUP_METHOD }};

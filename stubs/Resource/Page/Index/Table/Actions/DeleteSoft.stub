@@ -1,7 +1,7 @@
 it({{ DESCRIPTION }}, function () {
     $record = {{ MODEL_SINGULAR_NAME }}::factory()->create();
 
-    livewire(List{{ MODEL_PLURAL_NAME }}::class)
+    livewire({{ RESOURCE_LIST_CLASS }})
         ->callTableAction(DeleteAction::class, $record);
 
     $this->assertSoftDeleted($record);
