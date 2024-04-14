@@ -17,7 +17,9 @@ class FilamentTestsCommand extends Command
     protected $signature = 'make:filament-test
                             {name? : The name of the resource}
                             {--a|all : Create tests for all Filament resources}
-                            {--f|force : Force overwrite the existing test}';
+                            {--e|except= : Create tests for all Filament resources except the specified resources}
+                            {--f|force : Force overwrite the existing test}
+                            {--o|output= : The output directory for the test}';
 
     protected $description = 'Create a new test for a Filament component';
 
@@ -64,15 +66,8 @@ class FilamentTestsCommand extends Command
                     ]);
             }
         } else {
-            $suppliedResourceName = $this->getNormalizedResourceName($this->argument('name'));
-
-            if (! $availableResources->contains($suppliedResourceName)) {
-                $this->error("The resource {$suppliedResourceName} does not exist.");
-
-                return self::FAILURE;
-            }
-
-            $selectedResources = [$availableResources->search($suppliedResourceName) => $suppliedResourceName];
+            $selectedResources = collect(explode(',', $this->argument('name')))
+                ->map(fn ($name) => $this->getNormalizedResourceName(trim($name)));
         }
 
         foreach ($selectedResources as $selectedResource) {
