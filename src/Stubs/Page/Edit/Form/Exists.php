@@ -2,7 +2,6 @@
 
 namespace CodeWithDennis\FilamentTests\Stubs\Page\Edit\Form;
 
-use Closure;
 use CodeWithDennis\FilamentTests\Stubs\Base;
 use Filament\Forms\Form;
 
