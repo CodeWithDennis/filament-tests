@@ -187,7 +187,7 @@ class FilamentTestsCommand extends Command
                 $countTodos++;
             }
 
-            $userStub = base_path('stubs' . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'filament-tests' . DIRECTORY_SEPARATOR . $stub['group'] . DIRECTORY_SEPARATOR . $stub['fileName']);
+            $userStub = base_path('stubs'.DIRECTORY_SEPARATOR.'vendor'.DIRECTORY_SEPARATOR.'filament-tests'.DIRECTORY_SEPARATOR.$stub['group'].DIRECTORY_SEPARATOR.$stub['fileName']);
 
             $path = $this->files->exists($userStub) ? $userStub : $stub['path'];
 
