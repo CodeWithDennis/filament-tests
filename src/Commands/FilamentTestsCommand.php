@@ -17,9 +17,10 @@ class FilamentTestsCommand extends Command
     protected $signature = 'make:filament-test
                             {name? : The name of the resource}
                             {--a|all : Create tests for all Filament resources}
+                            {--d|directory= : The output directory for the test}
                             {--e|except= : Create tests for all Filament resources except the specified resources}
                             {--f|force : Force overwrite the existing test}
-                            {--o|output= : The output directory for the test}';
+                            {--o|only= : Create tests for the specified resources}';
 
     protected $description = 'Create a new test for a Filament component';
 
@@ -50,25 +51,42 @@ class FilamentTestsCommand extends Command
     {
         $availableResources = $this->getAvailableResources();
 
-        if (! $this->argument('name')) {
-            $selectedResources = ! $this->option('all') ? multiselect(
-                label: 'What is the resource you would like to create this test for?',
-                options: $availableResources->flatten(),
-                required: true,
-            ) : $availableResources->flatten();
+         if ($this->option('except')) {
 
-            // Check if the first selected item is numeric (on windows without WSL multiselect returns an array of numeric strings)
-            if (is_numeric($selectedResources[0] ?? null)) {
-                // Convert the indexed selection back to the original resource path => resource name
-                $selectedResources = collect($selectedResources)
-                    ->mapWithKeys(fn ($index) => [
-                        $availableResources->keys()->get($index) => $availableResources->get($availableResources->keys()->get($index)),
-                    ]);
-            }
-        } else {
-            $selectedResources = collect(explode(',', $this->argument('name')))
+            $exceptedResources = collect(explode(',', $this->option('except')))
+                ->map(fn ($name) => $this->getNormalizedResourceName(trim($name)));
+
+            $selectedResources = $availableResources->reject(fn ($resource) => $exceptedResources->contains($resource));
+
+        }
+         elseif ($this->option('only')) {
+
+            $selectedResources = collect(explode(',', $this->option('only')))
                 ->map(fn ($name) => $this->getNormalizedResourceName(trim($name)));
         }
+         elseif ($this->argument('name')) {
+
+             $selectedResources = collect(explode(',', $this->argument('name')))
+                 ->map(fn ($name) => $this->getNormalizedResourceName(trim($name)));
+         }
+         else {
+
+             $selectedResources = ! $this->option('all') ? multiselect(
+                 label: 'What is the resource you would like to create this test for?',
+                 options: $availableResources->flatten(),
+                 required: true,
+             ) : $availableResources->flatten();
+
+             // Check if the first selected item is numeric (on windows without WSL multiselect returns an array of numeric strings)
+             if (is_numeric($selectedResources[0] ?? null)) {
+                 // Convert the indexed selection back to the original resource path => resource name
+                 $selectedResources = collect($selectedResources)
+                     ->mapWithKeys(fn ($index) => [
+                         $availableResources->keys()->get($index) => $availableResources->get($availableResources->keys()->get($index)),
+                     ]);
+             }
+        }
+
 
         foreach ($selectedResources as $selectedResource) {
 
