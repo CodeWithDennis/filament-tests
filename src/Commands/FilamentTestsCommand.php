@@ -187,7 +187,11 @@ class FilamentTestsCommand extends Command
                 $countTodos++;
             }
 
-            $contents .= $this->getStubContents($stub['path'], $stub['variables']);
+            $userStub = base_path('stubs' . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'filament-tests' . DIRECTORY_SEPARATOR . $stub['group'] . DIRECTORY_SEPARATOR . $stub['fileName']);
+
+            $path = $this->files->exists($userStub) ? $userStub : $stub['path'];
+
+            $contents .= $this->getStubContents($path, $stub['variables']);
         }
 
         $end = microtime(true);

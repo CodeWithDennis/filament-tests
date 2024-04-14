@@ -15,4 +15,13 @@ class FilamentTestsServiceProvider extends PackageServiceProvider
             ->hasConfigFile()
             ->hasCommand(FilamentTestsCommand::class);
     }
+
+    public function boot(): void
+    {
+        parent::boot();
+
+        $this->publishes([
+            __DIR__.'/../stubs' => base_path('stubs/vendor/filament-tests'),
+        ], 'filament-tests-stubs');
+    }
 }

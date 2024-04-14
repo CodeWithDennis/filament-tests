@@ -84,6 +84,14 @@ php artisan make:filament-test
 Tests are generated on demand and are tailored to the component that you're generating tests for. For example, if the resource component doesn't have any sortable columns, then the tests for sorting 
 won't be generated.
 
+### Publishing Stubs
+You can customize the stubs by publishing them to your project:
+
+```bash
+php artisan vendor:publish --tag="filament-tests-stubs"
+```
+### Available Tests
+
 - Resource
   - Page
       - Create
