@@ -68,6 +68,12 @@ You can create a new test for a resource by running the following command:
 php artisan make:filament-test BlogResource
 ```
 
+You can also pass a comma-separated list of resource names to create tests for multiple resources at once:
+
+```bash
+php artisan make:filament-test "BlogResource, PostResource"
+```
+
 If you don't specify a resource name, you will be prompted to choose one or more resources to create tests for interactively.
 
 ```bash
@@ -75,10 +81,13 @@ php artisan make:filament-test
 ````
 ## Options
 
-| Option         | Description                             |
-|----------------|-----------------------------------------|
-| `--all` `-a`   | Create tests for all Filament resources |
-| `--force` `-f` | Overwrite existing tests                |
+| Option             | Description                                                            |
+|--------------------|------------------------------------------------------------------------|
+| `--all` `-a`       | Create tests for all Filament resources                                |
+| `--directory` `-d` | The output directory for the test                                      |
+| `--except` `-e`    | Create tests for all Filament resources except the specified resources |
+| `--force` `-f`     | Overwrite existing tests                                               |
+| `--only` `-o`      | Create tests for the specified resources                               |
 
 ## Tests
 Tests are generated on demand and are tailored to the component that you're generating tests for. For example, if the resource component doesn't have any sortable columns, then the tests for sorting 

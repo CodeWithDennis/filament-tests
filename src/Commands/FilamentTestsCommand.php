@@ -15,9 +15,12 @@ use function Laravel\Prompts\multiselect;
 class FilamentTestsCommand extends Command
 {
     protected $signature = 'make:filament-test
-                            {name? : The name of the resource}
+                            {name? : The name(s) of the resource(s) you would like to create the tests for}
                             {--a|all : Create tests for all Filament resources}
-                            {--f|force : Force overwrite the existing test}';
+                            {--d|directory= : The output directory for the test}
+                            {--e|except= : Create tests for all Filament resources except the specified resources}
+                            {--f|force : Force overwrite the existing test}
+                            {--o|only= : Create tests for the specified resources}';
 
     protected $description = 'Create a new test for a Filament component';
 
@@ -48,32 +51,28 @@ class FilamentTestsCommand extends Command
     {
         $availableResources = $this->getAvailableResources();
 
-        if (! $this->argument('name')) {
-            $selectedResources = ! $this->option('all') ? multiselect(
+        $selectedResources = match (true) {
+            $this->option('except') !== null => collect(explode(',', $this->option('except')))
+                ->map(fn ($name) => $this->getNormalizedResourceName(trim($name)))
+                ->pipe(fn ($exceptedResources) => $availableResources->reject(fn ($resource) => $exceptedResources->contains($resource))),
+
+            $this->option('only') !== null => collect(explode(',', $this->option('only')))
+                ->map(fn ($name) => $this->getNormalizedResourceName(trim($name))),
+
+            $this->argument('name') !== null => collect(explode(',', $this->argument('name')))
+                ->map(fn ($name) => $this->getNormalizedResourceName(trim($name))),
+
+            default => ! $this->option('all') ? multiselect(
                 label: 'What is the resource you would like to create this test for?',
                 options: $availableResources->flatten(),
-                required: true,
-            ) : $availableResources->flatten();
-
-            // Check if the first selected item is numeric (on windows without WSL multiselect returns an array of numeric strings)
-            if (is_numeric($selectedResources[0] ?? null)) {
-                // Convert the indexed selection back to the original resource path => resource name
-                $selectedResources = collect($selectedResources)
-                    ->mapWithKeys(fn ($index) => [
-                        $availableResources->keys()->get($index) => $availableResources->get($availableResources->keys()->get($index)),
-                    ]);
-            }
-        } else {
-            $suppliedResourceName = $this->getNormalizedResourceName($this->argument('name'));
-
-            if (! $availableResources->contains($suppliedResourceName)) {
-                $this->error("The resource {$suppliedResourceName} does not exist.");
-
-                return self::FAILURE;
-            }
-
-            $selectedResources = [$availableResources->search($suppliedResourceName) => $suppliedResourceName];
-        }
+                required: true
+            ) : $availableResources->flatten()
+                // Check if the first selected item is numeric (on windows without WSL multiselect returns an array of numeric strings)
+                ->when(isset($selectedResources[0]) && is_numeric($selectedResources[0]), fn ($resources) => $resources->mapWithKeys(fn ($index) => [
+                    $availableResources->keys()->get($index) => $availableResources->get($availableResources->keys()->get($index)),
+                ])
+                )
+        };
 
         foreach ($selectedResources as $selectedResource) {
 
