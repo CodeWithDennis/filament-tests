@@ -1,6 +1,6 @@
-it('can list records on the index page', function () {
+it({{ DESCRIPTION }}, function () {
     $records = {{ MODEL_SINGULAR_NAME }}::factory(3)->create();
 
-    livewire(List{{ MODEL_PLURAL_NAME }}::class){{ LOAD_TABLE_METHOD_IF_DEFERRED }}
+    livewire({{ RESOURCE_LIST_CLASS }}){{ LOAD_TABLE_METHOD_IF_DEFERRED }}
         ->assertCanSeeTableRecords($records);
 }){{ RESOLVED_GROUP_METHOD }};

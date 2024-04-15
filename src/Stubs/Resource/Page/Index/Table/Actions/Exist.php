@@ -6,6 +6,11 @@ use CodeWithDennis\FilamentTests\Stubs\Base;
 
 class Exist extends Base
 {
+    public function getDescription(): string
+    {
+        return 'has table action';
+    }
+
     public function getShouldGenerate(): bool
     {
         return $this->hasAnyTableAction($this->resource, $this->getTableActionNames($this->resource)->toArray());

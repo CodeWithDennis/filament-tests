@@ -6,6 +6,11 @@ use CodeWithDennis\FilamentTests\Stubs\Base;
 
 class ExtraAttributes extends Base
 {
+    public function getDescription(): string
+    {
+        return 'has extra attributes';
+    }
+
     public function getShouldGenerate(): bool
     {
         return $this->getExtraAttributesColumns($this->resource)->isNotEmpty();

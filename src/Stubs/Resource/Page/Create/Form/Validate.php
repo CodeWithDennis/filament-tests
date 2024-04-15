@@ -9,6 +9,11 @@ class Validate extends Base
 {
     public Closure|bool $isTodo = true;
 
+    public function getDescription(): string
+    {
+        return 'can validate create form input';
+    }
+
     public function getShouldGenerate(): bool
     {
         // TODO: Implement getShouldGenerate() logic

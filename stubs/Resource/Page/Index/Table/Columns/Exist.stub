@@ -1,4 +1,4 @@
-it('has column', function (string $column) {
-    livewire(List{{ MODEL_PLURAL_NAME }}::class)
+it({{ DESCRIPTION }}, function (string $column) {
+    livewire({{ RESOURCE_LIST_CLASS }})
         ->assertTableColumnExists($column);
 })->with({{ RESOURCE_TABLE_COLUMNS }}){{ RESOLVED_GROUP_METHOD }};

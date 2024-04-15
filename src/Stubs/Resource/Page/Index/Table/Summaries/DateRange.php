@@ -10,6 +10,11 @@ class DateRange extends Base
 {
     public Closure|bool $isTodo = true;
 
+    public function getDescription(): string
+    {
+        return 'can range date values in a column';
+    }
+
     public function getShouldGenerate(): bool
     {
         return $this->getResourceTableColumnsWithSummarizers($this->resource)

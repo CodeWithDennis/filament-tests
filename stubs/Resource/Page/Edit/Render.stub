@@ -1,6 +1,6 @@
-it('can render the edit page', function () {
+it({{ DESCRIPTION }}, function () {
     $record = {{ MODEL_SINGULAR_NAME }}::factory()->create();
 
-    livewire(Edit{{ MODEL_SINGULAR_NAME }}::class, ['record' => $record->getRouteKey()])
+    livewire({{ RESOURCE_EDIT_CLASS }}, ['record' => $record->getRouteKey()])
         ->assertSuccessful();
 }){{ RESOLVED_GROUP_METHOD }};

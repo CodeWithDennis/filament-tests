@@ -1,4 +1,4 @@
-it('can render the index page', function () {
-    livewire(List{{ MODEL_PLURAL_NAME }}::class)
+it({{ DESCRIPTION }}, function () {
+    livewire({{ RESOURCE_LIST_CLASS }})
         ->assertSuccessful();
 }){{ RESOLVED_GROUP_METHOD }};

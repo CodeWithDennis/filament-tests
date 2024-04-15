@@ -1,4 +1,4 @@
-it('has table action', function (string $action) {
-    livewire(List{{ MODEL_PLURAL_NAME }}::class)
+it({{ DESCRIPTION }}, function (string $action) {
+    livewire({{ RESOURCE_LIST_CLASS }})
         ->assertTableActionExists($action);
 })->with({{ RESOURCE_TABLE_ACTIONS }}){{ RESOLVED_GROUP_METHOD }};

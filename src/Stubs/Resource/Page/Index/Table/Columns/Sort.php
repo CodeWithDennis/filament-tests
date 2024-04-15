@@ -6,6 +6,11 @@ use CodeWithDennis\FilamentTests\Stubs\Base;
 
 class Sort extends Base
 {
+    public function getDescription(): string
+    {
+        return 'can sort column';
+    }
+
     public function getShouldGenerate(): bool
     {
         return $this->getSortableColumns($this->resource)->isNotEmpty();

@@ -6,6 +6,11 @@ use CodeWithDennis\FilamentTests\Stubs\Base;
 
 class Select extends Base
 {
+    public function getDescription(): string
+    {
+        return 'has the correct options';
+    }
+
     public function getShouldGenerate(): bool
     {
         return $this->getTableSelectColumns($this->resource)->isNotEmpty();

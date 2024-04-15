@@ -1,4 +1,4 @@
-it('can render the create page', function () {
-    livewire(Create{{ MODEL_SINGULAR_NAME }}::class)
+it({{ DESCRIPTION }}, function () {
+    livewire({{ RESOURCE_CREATE_CLASS }})
         ->assertSuccessful();
 }){{ RESOLVED_GROUP_METHOD }};

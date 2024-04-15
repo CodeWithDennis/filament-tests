@@ -1,9 +1,9 @@
-it('can individually search by column', function (string $column) {
+it({{ DESCRIPTION }}, function (string $column) {
     $records = {{ MODEL_SINGULAR_NAME }}::factory(3)->create();
 
     $search = $records->first()->{$column};
 
-    livewire(List{{ MODEL_PLURAL_NAME }}::class)
+    livewire({{ RESOURCE_LIST_CLASS }})
         ->searchTableColumns([$column => $search]){{ LOAD_TABLE_METHOD_IF_DEFERRED }}
         ->assertCanSeeTableRecords($records->where($column, $search))
         ->assertCanNotSeeTableRecords($records->where($column, '!=', $search));

@@ -1,4 +1,4 @@
-it('can render column', function (string $column) {
-    livewire(List{{ MODEL_PLURAL_NAME }}::class)
+it({{ DESCRIPTION }}, function (string $column) {
+    livewire({{ RESOURCE_LIST_CLASS }})
         ->assertCanRenderTableColumn($column);
 })->with({{ RESOURCE_TABLE_INITIALLY_VISIBLE_COLUMNS }}){{ RESOLVED_GROUP_METHOD }};

@@ -1,4 +1,4 @@
-it('has header actions on the index page', function (string $action) {
-    livewire(List{{ MODEL_PLURAL_NAME }}::class)
+it({{ DESCRIPTION }}, function (string $action) {
+    livewire({{ RESOURCE_LIST_CLASS }})
         ->assertActionExists($action);
 })->with({{ INDEX_PAGE_HEADER_ACTIONS }}){{ RESOLVED_GROUP_METHOD }};

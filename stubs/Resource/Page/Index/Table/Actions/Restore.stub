@@ -1,11 +1,11 @@
-it('can restore records', function () {
+it({{ DESCRIPTION }}, function () {
     $record = {{ MODEL_SINGULAR_NAME }}::factory()->create();
 
     $record->delete();
 
     assert($record->trashed());
 
-    livewire(List{{ MODEL_PLURAL_NAME }}::class)
+    livewire({{ RESOURCE_LIST_CLASS }})
         ->filterTable('trashed', true){{ LOAD_TABLE_METHOD_IF_DEFERRED }}
         ->assertCanSeeTableRecords([$record])
         ->callTableAction(RestoreAction::class, $record);

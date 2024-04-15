@@ -1,4 +1,4 @@
-it('can bulk restore records', function () {
+it({{ DESCRIPTION }}, function () {
     $records = {{ MODEL_SINGULAR_NAME }}::factory(3)->create();
 
     foreach ($records as $record) {
@@ -7,7 +7,7 @@ it('can bulk restore records', function () {
         $this->assertSoftDeleted($record);
     }
 
-    livewire(List{{ MODEL_PLURAL_NAME }}::class)
+    livewire({{ RESOURCE_LIST_CLASS }})
         ->filterTable('trashed', true){{ LOAD_TABLE_METHOD_IF_DEFERRED }}
         ->assertCanSeeTableRecords($records)
         ->callTableBulkAction(RestoreBulkAction::class, $records);

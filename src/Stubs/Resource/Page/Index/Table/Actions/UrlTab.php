@@ -6,6 +6,11 @@ use CodeWithDennis\FilamentTests\Stubs\Base;
 
 class UrlTab extends Base
 {
+    public function getDescription(): string
+    {
+        return 'has the correct URL and opens in a new tab for table action';
+    }
+
     public function getShouldGenerate(): bool
     {
         return $this->hasTableActionWithUrlThatShouldOpenInNewTab($this->resource);

@@ -9,6 +9,11 @@ class Sum extends Base
 {
     public Closure|bool $isTodo = true;
 
+    public function getDescription(): string
+    {
+        return 'can sum values in a column';
+    }
+
     public function getShouldGenerate(): bool
     {
         return $this->getResourceTableColumnsWithSummarizers($this->resource)
