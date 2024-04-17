@@ -1,3 +1,6 @@
-it({{ DESCRIPTION }}, function () {
-    //
-}){{ RESOLVED_GROUP_METHOD }}->todo();
+it({{ DESCRIPTION }}, function (string $field) {
+    $record = {{ MODEL_SINGULAR_NAME }}::factory()->create();
+
+    livewire({{ RESOURCE_EDIT_CLASS}}, ['record' => $record->getRouteKey()])
+        ->assertFormFieldExists($field);
+})->with({{ EDIT_PAGE_FIELDS }}){{ RESOLVED_GROUP_METHOD }};

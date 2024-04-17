@@ -11,11 +11,18 @@ class Exists extends Base
 
     public function getDescription(): string
     {
-        return 'has a X field on create form';
+        return 'has a field on create form';
     }
 
     public function getShouldGenerate(): bool
     {
         return collect($this->getResourceCreateFields($this->resource))->count();
+    }
+
+    public function getVariables(): array
+    {
+        return [
+            'CREATE_PAGE_FIELDS' => $this->convertDoubleQuotedArrayString(collect($this->getResourceCreateFields($this->resource))->keys()),
+        ];
     }
 }
