@@ -106,7 +106,7 @@ php artisan vendor:publish --tag="filament-tests-stubs"
       - Create
           - Form
               - Fields
-                  - [ ] [has a disabled X field on create form](https://filamentphp.com/docs/3.x/forms/testing#disabled-fields)
+                  - [X] [has a disabled field on create form](https://filamentphp.com/docs/3.x/forms/testing#disabled-fields)
                   - [ ] [it has a X field on create form](https://filamentphp.com/docs/3.x/forms/testing#fields)
                   - [ ] [it has a hidden X field on create form](https://filamentphp.com/docs/3.x/forms/testing#hidden-fields)
                   - [ ] [it can validate input on create form](https://filamentphp.com/docs/3.x/forms/testing#validation)
@@ -116,7 +116,7 @@ php artisan vendor:publish --tag="filament-tests-stubs"
       - Edit
           - Form
               - Fields
-                  - [ ] [has a disabled X field on edit form](https://filamentphp.com/docs/3.x/forms/testing#disabled-fields)
+                  - [X] [has a disabled field on edit form](https://filamentphp.com/docs/3.x/forms/testing#disabled-fields)
                   - [ ] [it has a X field on edit form](https://filamentphp.com/docs/3.x/forms/testing#fields)
                   - [ ] [it has a hidden X field on edit form](https://filamentphp.com/docs/3.x/forms/testing#hidden-fields)
                   - [ ] [it can validate input on edit form](https://filamentphp.com/docs/3.x/forms/testing#validation)
