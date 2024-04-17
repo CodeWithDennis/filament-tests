@@ -11,12 +11,19 @@ class Disabled extends Base
 
     public function getDescription(): string
     {
-        return 'has a disabled X field on edit form';
+        return 'has a disabled field on edit form';
     }
 
     public function getShouldGenerate(): bool
     {
         return collect($this->getResourceEditFields($this->resource))
             ->filter(fn ($field) => $field->isDisabled())->count();
+    }
+
+    public function getVariables(): array
+    {
+        return [
+            'EDIT_PAGE_DISABLED_FIELDS' => $this->convertDoubleQuotedArrayString(collect($this->getResourceEditFields($this->resource))->filter(fn ($field) => $field->isDisabled())->keys()),
+        ];
     }
 }
