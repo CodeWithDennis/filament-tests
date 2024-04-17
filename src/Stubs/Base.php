@@ -261,12 +261,12 @@ class Base
 
     public function getResourceCreateFields(Resource $resource): array
     {
-        return $this->getResourceCreateForm($resource)->getFlatFields();
+        return $this->getResourceCreateForm($resource)->getFlatFields(withHidden: true);
     }
 
     public function getResourceEditFields(Resource $resource): array
     {
-        return $this->getResourceEditForm($resource)->getFlatFields();
+        return $this->getResourceEditForm($resource)->getFlatFields(withHidden: true);
     }
 
     public function getResourceEditForm(Resource $resource): Form

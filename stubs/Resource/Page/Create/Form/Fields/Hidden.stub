@@ -1,3 +1,4 @@
-it({{ DESCRIPTION }}, function () {
-    //
-}){{ RESOLVED_GROUP_METHOD }}->todo();
+it({{ DESCRIPTION }}, function (string $field) {
+    livewire({{ RESOURCE_CREATE_CLASS}})
+        ->assertFormFieldIsHidden($field);
+})->with({{ CREATE_PAGE_HIDDEN_FIELDS }}){{ RESOLVED_GROUP_METHOD }};

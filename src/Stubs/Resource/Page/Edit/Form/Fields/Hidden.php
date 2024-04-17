@@ -11,12 +11,19 @@ class Hidden extends Base
 
     public function getDescription(): string
     {
-        return 'has a hidden X field on edit form';
+        return 'has a hidden field on edit form';
     }
 
     public function getShouldGenerate(): bool
     {
         return collect($this->getResourceEditFields($this->resource))
             ->filter(fn ($field) => $field->isHidden())->count();
+    }
+
+    public function getVariables(): array
+    {
+        return [
+            'EDIT_PAGE_HIDDEN_FIELDS' => $this->convertDoubleQuotedArrayString(collect($this->getResourceEditFields($this->resource))->filter(fn ($field) => $field->isHidden())->keys()),
+        ];
     }
 }
