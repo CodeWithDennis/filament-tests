@@ -3,8 +3,8 @@
 namespace CodeWithDennis\FilamentTests\Stubs;
 
 use Closure;
-use Filament\Forms\Form;
 use Filament\Facades\Filament;
+use Filament\Forms\Form;
 use Filament\Resources\Pages\CreateRecord;
 use Filament\Resources\Pages\EditRecord;
 use Filament\Resources\Pages\ListRecords;
@@ -232,7 +232,6 @@ class Base
             // TODO: potentially find a better way to handle this...what if the description has multiple spaces on purpose?
             ->replaceMatches('/\s*,\s*/', ', ');
     }
-
 
     protected function transformToPestDataset(array $source, array $keys): string
     {
@@ -651,7 +650,7 @@ class Base
 
     public function getFactoryForTenantMethod(): string
     {
-        return "->for(\$this->{{ TENANT_MODEL_SINGULAR_NAME_LOWER }})";
+        return '->for($this->{{ TENANT_MODEL_SINGULAR_NAME_LOWER }})';
     }
 
     public function toGroupMethod(): ?string
@@ -659,7 +658,7 @@ class Base
         $group = $this->getGroup();
 
         $parts = collect(explode('/', $group))
-            ->filter(fn ($part) => !empty($part))
+            ->filter(fn ($part) => ! empty($part))
             ->map(fn ($part) => "'".trim(str($part)->kebab())."'");
 
         $sortedParts = $parts->sort()->values();

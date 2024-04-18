@@ -10,7 +10,7 @@ class TenancySetupStub extends Base
 
     public function getShouldGenerate(): bool
     {
-        if ( $this->hasTenancy()) {
+        if ($this->hasTenancy()) {
             return true;
         }
 
