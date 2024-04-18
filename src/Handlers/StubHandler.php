@@ -2,6 +2,7 @@
 
 namespace CodeWithDennis\FilamentTests\Handlers;
 
+use CodeWithDennis\FilamentTests\Stubs\Resource\Page\Index\TenancyListRecords;
 use Filament\Resources\Resource;
 use Illuminate\Support\Collection;
 
@@ -24,10 +25,13 @@ class StubHandler
 
         $stubs = [
             \CodeWithDennis\FilamentTests\Stubs\SetupStub::make($resource)->get(),
+            \CodeWithDennis\FilamentTests\Stubs\TenancySetupStub::make($resource)->get(),
 
             \CodeWithDennis\FilamentTests\Stubs\Resource\Page\Index\Render::make($resource)->get(),
             \CodeWithDennis\FilamentTests\Stubs\Resource\Page\Index\ListRecords::make($resource)->get(),
+            \CodeWithDennis\FilamentTests\Stubs\Resource\Page\Index\TenancyListRecords::make($resource)->get(),
             \CodeWithDennis\FilamentTests\Stubs\Resource\Page\Index\ListRecordsPaginated::make($resource)->get(),
+            \CodeWithDennis\FilamentTests\Stubs\Resource\Page\Index\TenancyListRecordsPaginated::make($resource)->get(),
             \CodeWithDennis\FilamentTests\Stubs\Resource\Page\Index\Trashed::make($resource)->get(),
 
             \CodeWithDennis\FilamentTests\Stubs\Resource\Page\Index\Actions\Exist::make($resource)->get(),
