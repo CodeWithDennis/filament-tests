@@ -23,19 +23,15 @@ use function Pest\Livewire\livewire;
 uses()->group('filament-tests');
 
 beforeEach(function () {
-    (new \Database\Seeders\CourtSeeder())->run();
-    $this->{{ TENANT_MODEL_SINGULAR_NAME_LOWER }} = {{ TENANT_MODEL }}::factory()->create([
-        'court_id' => \App\Models\Court::inRandomOrder()->first()->id,
-    ]);
+    $this->{{ TENANT_MODEL_SINGULAR_NAME_LOWER }} = {{ TENANT_MODEL }}::factory()->create();
 
-    $this->otherTenant = {{ TENANT_MODEL }}::factory()->create([
-        'court_id' => \App\Models\Court::inRandomOrder()->first()->id,
-    ]);
+    $this->otherTenant = {{ TENANT_MODEL }}::factory()->create();
 
     $this->user = User::factory()->create();
 
     $this->user->{{ TENANT_MODEL_PLURAL_NAME_LOWER }}()->attach($this->{{ TENANT_MODEL_SINGULAR_NAME_LOWER }});
 
     actingAs($this->user);
+
     Filament::setTenant($this->{{ TENANT_MODEL_SINGULAR_NAME_LOWER }});
 });
