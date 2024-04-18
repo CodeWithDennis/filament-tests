@@ -2,7 +2,6 @@
 
 namespace CodeWithDennis\FilamentTests\Handlers;
 
-use CodeWithDennis\FilamentTests\Stubs\Resource\Page\Index\TenancyListRecords;
 use Filament\Resources\Resource;
 use Illuminate\Support\Collection;
 
