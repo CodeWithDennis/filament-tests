@@ -122,7 +122,7 @@ class FilamentTestsCommand extends Command
             : $basePath.DIRECTORY_SEPARATOR.$for.'.stub';
     }
 
-    protected function getStubs(Resource $resource): Collection
+    protected function getStubs(?Resource $resource = null): Collection
     {
         $handler = $this->stubHandler($resource);
 
@@ -144,7 +144,7 @@ class FilamentTestsCommand extends Command
 
     protected function getAvailableResources(): Collection
     {
-        return $this->getResources()->map(fn ($resource): string => str($resource)->afterLast('Resources\\'));
+        return $this->getResources()->map(fn ($resource): string => str($resource ?? $this->resource)->afterLast('Resources\\'));
     }
 
     protected function getSourceFilePath(string $name): string
@@ -158,7 +158,7 @@ class FilamentTestsCommand extends Command
         return $directory.DIRECTORY_SEPARATOR.$name.'Test.php';
     }
 
-    protected function getSourceFile(Resource $resource): array|bool|string
+    protected function getSourceFile(?Resource $resource = null): array|bool|string
     {
         $contents = '';
 

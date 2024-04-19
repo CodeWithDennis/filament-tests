@@ -13,7 +13,7 @@ class DescriptionBelow extends Base
 
     public function getShouldGenerate(): bool
     {
-        return $this->getDescriptionBelowColumns($this->resource)->isNotEmpty();
+        return $this->getDescriptionBelowColumns()->isNotEmpty();
     }
 
     public function getVariables(): array

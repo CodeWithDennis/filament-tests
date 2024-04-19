@@ -13,7 +13,7 @@ class ExtraAttributes extends Base
 
     public function getShouldGenerate(): bool
     {
-        return $this->getExtraAttributesColumns($this->resource)->isNotEmpty();
+        return $this->getExtraAttributesColumns()->isNotEmpty();
     }
 
     public function getVariables(): array
