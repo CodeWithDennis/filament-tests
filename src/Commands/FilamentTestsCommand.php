@@ -164,7 +164,7 @@ class FilamentTestsCommand extends Command
 
         $resourceName = str($this->getNormalizedResourceName($resource::class))->afterLast('\\')->toString();
 
-        $countTests = 0;
+        $countTests = -1; // the first test is the beforeEach
 
         $todos = collect();
 
@@ -209,7 +209,7 @@ class FilamentTestsCommand extends Command
                 'count' => $countTodos,
             ]);
         }
-
+        
         return $contents;
     }
 
