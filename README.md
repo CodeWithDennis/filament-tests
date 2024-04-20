@@ -173,6 +173,7 @@ php artisan vendor:publish --tag="filament-tests-stubs"
           - [x] [it can list records on the index page with pagination](https://filamentphp.com/docs/3.x/tables/testing#render)
           - [x] [it can render the index page](https://filamentphp.com/docs/3.x/tables/testing#render)
           - [x] [it cannot display trashed records by default](https://filamentphp.com/docs/3.x/tables/testing#render)
+          - [x] it has tabs in order
       - View
           - [x] [it can render the view page](https://filamentphp.com/docs/3.x/tables/testing#render)
 
