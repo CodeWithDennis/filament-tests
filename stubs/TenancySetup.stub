@@ -25,7 +25,6 @@ uses()->group('filament-tests');
 beforeEach(function () {
     $this->{{ TENANT_MODEL_SINGULAR_NAME_LOWER }} = {{ TENANT_MODEL }}::factory()->create();
 
-    // TODO: potentially name it TENANT_MODEL_SINGULAR_NAME_LOWER . Other
     $this->otherTenant = {{ TENANT_MODEL }}::factory()->create();
 
     $this->user = User::factory()->create();
