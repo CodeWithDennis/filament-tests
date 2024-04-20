@@ -209,7 +209,7 @@ class FilamentTestsCommand extends Command
                 'count' => $countTodos,
             ]);
         }
-        
+
         return $contents;
     }
 
