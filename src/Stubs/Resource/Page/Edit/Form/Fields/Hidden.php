@@ -2,7 +2,6 @@
 
 namespace CodeWithDennis\FilamentTests\Stubs\Resource\Page\Edit\Form\Fields;
 
-use Closure;
 use CodeWithDennis\FilamentTests\Stubs\Base;
 
 class Hidden extends Base

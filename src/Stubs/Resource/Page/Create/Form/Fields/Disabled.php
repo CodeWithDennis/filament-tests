@@ -2,7 +2,6 @@
 
 namespace CodeWithDennis\FilamentTests\Stubs\Resource\Page\Create\Form\Fields;
 
-use Closure;
 use CodeWithDennis\FilamentTests\Stubs\Base;
 
 class Disabled extends Base
