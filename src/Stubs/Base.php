@@ -534,12 +534,12 @@ class Base
 
             $tabs = $getTabsMethod->invoke($page);
 
-        return collect($tabs)->mapWithKeys(function ($tab, $key) {
-            return [$key => [
-                'name' => $key,
-                'label' => $tab->getLabel(),
-            ]];
-        });
+            return collect($tabs)->mapWithKeys(function ($tab, $key) {
+                return [$key => [
+                    'name' => $key,
+                    'label' => $tab->getLabel(),
+                ]];
+            });
 
         } catch (\Throwable) {
             return collect();
@@ -551,14 +551,12 @@ class Base
         $flatArray = $this->getIndexTabs($resource)->flatMap(function ($tab, $key) {
             return [
                 $tab['name'],
-                $tab['label']
+                $tab['label'],
             ];
         })->all();
 
-        return "['" . implode("', '", $flatArray) . "']";
+        return "['".implode("', '", $flatArray)."']";
     }
-
-
 
     public function getTableActionNames(Resource $resource): Collection
     {
