@@ -548,6 +548,10 @@ class Base
 
     public function getIndexTabsAsCommaSeparatedString(Resource $resource): string
     {
+        if ($this->getIndexTabs($resource)->isEmpty()) {
+            return '';
+        }
+
         $flatArray = $this->getIndexTabs($resource)->flatMap(function ($tab, $key) {
             return [
                 $tab['name'],
