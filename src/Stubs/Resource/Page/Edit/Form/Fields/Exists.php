@@ -7,8 +7,6 @@ use CodeWithDennis\FilamentTests\Stubs\Base;
 
 class Exists extends Base
 {
-    public Closure|bool $isTodo = true;
-
     public function getDescription(): string
     {
         return 'has a field on edit form';
