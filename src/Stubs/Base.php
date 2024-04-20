@@ -530,9 +530,9 @@ class Base
 
             $reflection = new \ReflectionClass($page);
 
-            $getTabsProperty = $reflection->getMethod('getTabs');
+            $getTabsMethod = $reflection->getMethod('getTabs');
 
-            $tabs = $getTabsProperty->invoke($page);
+            $tabs = $getTabsMethod->invoke($page);
 
         return collect($tabs)->mapWithKeys(function ($tab, $key) {
             return [$key => [
@@ -540,7 +540,6 @@ class Base
                 'label' => $tab->getLabel(),
             ]];
         });
-
 
         } catch (\Throwable) {
             return collect();
