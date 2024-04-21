@@ -611,6 +611,16 @@ class Base
         return $this->getResourceTableFilters($table)->map(fn ($filter) => $filter->getName())->contains($filter);
     }
 
+    public function getRegistrationRouteAction(): ?string
+    {
+        return Filament::getDefaultPanel()?->getRegistrationRouteAction();
+    }
+
+    public function hasRegistration(): bool
+    {
+        return Filament::hasRegistration();
+    }
+
     public function getRequestPasswordResetRouteAction(): ?string
     {
         return Filament::getDefaultPanel()?->getRequestPasswordResetRouteAction();
