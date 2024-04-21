@@ -611,6 +611,16 @@ class Base
         return $this->getResourceTableFilters($table)->map(fn ($filter) => $filter->getName())->contains($filter);
     }
 
+    public function getRequestPasswordResetRouteAction(): ?string
+    {
+        return Filament::getDefaultPanel()?->getRequestPasswordResetRouteAction();
+    }
+
+    public function hasPasswordReset(): bool
+    {
+        return Filament::hasPasswordReset();
+    }
+
     public function getLoginRouteAction(): ?string
     {
         return Filament::getDefaultPanel()?->getLoginRouteAction();
