@@ -100,7 +100,10 @@ You can customize the stubs by publishing them to your project:
 php artisan vendor:publish --tag="filament-tests-stubs"
 ```
 ### Available Tests
-
+- Pages
+  - Auth
+    - Login
+        - [x] it can render the login page
 - Resource
   - Page
       - Create
