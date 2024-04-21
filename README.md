@@ -105,6 +105,8 @@ php artisan vendor:publish --tag="filament-tests-stubs"
   - Auth
     - PasswordReset
         - [x] it can render the password reset page
+    - Login
+        - [x] it can render the login page
 - Resource
   - Page
       - Create
