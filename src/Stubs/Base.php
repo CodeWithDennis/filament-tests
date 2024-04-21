@@ -620,6 +620,21 @@ class Base
     {
         return Filament::hasRegistration();
     }
+  
+    public function getLoginRouteAction(): ?string
+    {
+        return Filament::getDefaultPanel()?->getLoginRouteAction();
+    }
+
+    public function getPanelPath(): ?string
+    {
+        return Filament::getDefaultPanel()?->getPath();
+    }
+
+    public function hasLogin(): bool
+    {
+        return Filament::hasLogin();
+    }
 
     public function getDeferredLoadingMethod(): string
     {
