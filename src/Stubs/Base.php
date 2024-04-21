@@ -620,7 +620,7 @@ class Base
     {
         return Filament::hasRegistration();
     }
-  
+
     public function getRequestPasswordResetRouteAction(): ?string
     {
         return Filament::getDefaultPanel()?->getRequestPasswordResetRouteAction();
