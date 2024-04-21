@@ -3,6 +3,7 @@
 namespace CodeWithDennis\FilamentTests\Stubs;
 
 use Closure;
+use Filament\Facades\Filament;
 use Filament\Forms\Form;
 use Filament\Resources\Pages\CreateRecord;
 use Filament\Resources\Pages\EditRecord;
@@ -608,6 +609,16 @@ class Base
     public function hasTableFilter(string $filter, Table $table): bool
     {
         return $this->getResourceTableFilters($table)->map(fn ($filter) => $filter->getName())->contains($filter);
+    }
+
+    public function getRequestPasswordResetRouteAction(): ?string
+    {
+        return Filament::getDefaultPanel()?->getRequestPasswordResetRouteAction();
+    }
+
+    public function hasPasswordReset(): bool
+    {
+        return Filament::hasPasswordReset();
     }
 
     public function getDeferredLoadingMethod(): string

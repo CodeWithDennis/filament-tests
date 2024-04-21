@@ -101,6 +101,10 @@ php artisan vendor:publish --tag="filament-tests-stubs"
 ```
 ### Available Tests
 
+- Pages
+  - Auth
+    - PasswordReset
+        - [x] it can render the password reset page
 - Resource
   - Page
       - Create
