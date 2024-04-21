@@ -620,7 +620,7 @@ class Base
     {
         return Filament::hasRegistration();
     }
-  
+
     public function getLoginRouteAction(): ?string
     {
         return Filament::getDefaultPanel()?->getLoginRouteAction();
