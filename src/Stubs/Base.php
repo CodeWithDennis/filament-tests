@@ -271,6 +271,8 @@ class Base
 
     public function getResourceEditForm(?Resource $resource = null): Form
     {
+        $resource = $resource ?? $this->resource;
+
         $livewire = app('livewire')->new(EditRecord::class);
 
         return $resource::form(new Form($livewire));
@@ -278,6 +280,8 @@ class Base
 
     public function getResourceCreateForm(?Resource $resource = null): Form
     {
+        $resource = $resource ?? $this->resource;
+
         $livewire = app('livewire')->new(CreateRecord::class);
 
         return $resource::form(new Form($livewire));
@@ -285,6 +289,8 @@ class Base
 
     public function getResourceTable(?Resource $resource = null): Table
     {
+        $resource = $resource ?? $this->resource;
+
         $livewire = app('livewire')->new(ListRecords::class);
 
         return $resource::table(new Table($livewire));
@@ -292,10 +298,12 @@ class Base
 
     public function getResourcePages(?Resource $resource = null): Collection
     {
+        $resource = $resource ?? $this->resource;
+
         return collect($resource::getPages())->keys();
     }
 
-    public function hasPage(string $name, Resource $resource): bool
+    public function hasPage(string $name, ?Resource $resource = null): bool
     {
         return $this->getResourcePages($resource ?? $this->resource)->contains($name);
     }
@@ -442,6 +450,8 @@ class Base
 
     public function hasSoftDeletes(?Resource $resource = null): bool
     {
+        $resource = $resource ?? $this->resource;
+
         return method_exists($resource->getModel(), 'bootSoftDeletes');
     }
 
@@ -467,6 +477,8 @@ class Base
 
     public function getIndexHeaderActions(?Resource $resource = null): Collection
     {
+        $resource = $resource ?? $this->resource;
+
         $defaults = [
             'all' => collect(),
             'visible' => collect(),
@@ -565,37 +577,37 @@ class Base
         ])->toArray();
     }
 
-    public function hasTableAction(string $action, Resource $resource): bool
+    public function hasTableAction(string $action, ?Resource $resource = null): bool
     {
         return $this->getResourceTableActions($resource ?? $this->resource)->map(fn ($action) => $action->getName())->contains($action);
     }
 
-    public function hasAnyTableAction(Resource $resource, array $actions): bool
+    public function hasAnyTableAction(array $actions, ?Resource $resource = null): bool
     {
         return $this->getResourceTableActions($resource ?? $this->resource)->map(fn ($action) => $action->getName())->intersect($actions)->isNotEmpty();
     }
 
-    public function hasAnyTableBulkAction(Resource $resource, array $actions): bool
+    public function hasAnyTableBulkAction(array $actions, ?Resource $resource = null): bool
     {
         return $this->getResourceTableBulkActions($resource ?? $this->resource)->map(fn ($action) => $action->getName())->intersect($actions)->isNotEmpty();
     }
 
-    public function hasAnyIndexHeaderAction(Resource $resource, array $actions): bool
+    public function hasAnyIndexHeaderAction(array $actions, ?Resource $resource = null): bool
     {
         return $this->getIndexHeaderActions($resource)['all']->intersect($actions)->isNotEmpty();
     }
 
-    public function hasAnyHiddenIndexHeaderAction(Resource $resource, array $actions): bool
+    public function hasAnyHiddenIndexHeaderAction(array $actions, ?Resource $resource = null): bool
     {
         return $this->getIndexHeaderActions($resource)['hidden']->intersect($actions)->isNotEmpty();
     }
 
-    public function hasAnyVisibleIndexHeaderAction(Resource $resource, array $actions): bool
+    public function hasAnyVisibleIndexHeaderAction(array $actions, ?Resource $resource = null): bool
     {
         return $this->getIndexHeaderActions($resource)['visible']->intersect($actions)->isNotEmpty();
     }
 
-    public function hasTableBulkAction(string $action, Resource $resource): bool
+    public function hasTableBulkAction(string $action, ?Resource $resource = null): bool
     {
         return $this->getResourceTableBulkActions($resource ?? $this->resource)->map(fn ($action) => $action->getName())->contains($action);
     }

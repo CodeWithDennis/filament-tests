@@ -19,7 +19,7 @@ class ExtraAttributes extends Base
     public function getVariables(): array
     {
         return [
-            'RESOURCE_TABLE_EXTRA_ATTRIBUTES_COLUMNS' => $this->transformToPestDataset($this->getExtraAttributesColumnValues($this->resource), ['column', 'attributes']),
+            'RESOURCE_TABLE_EXTRA_ATTRIBUTES_COLUMNS' => $this->transformToPestDataset($this->getExtraAttributesColumnValues(), ['column', 'attributes']),
         ];
     }
 }
