@@ -618,9 +618,9 @@ class Base
 
     public function hasPasswordReset(): bool
     {
-        return Filament::hasPasswordReset(); 
+        return Filament::hasPasswordReset();
     }
-    
+
     public function getLoginRouteAction(): ?string
     {
         return Filament::getDefaultPanel()?->getLoginRouteAction();
