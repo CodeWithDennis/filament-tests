@@ -101,6 +101,10 @@ php artisan vendor:publish --tag="filament-tests-stubs"
 ```
 ### Available Tests
 
+- Pages
+  - Auth
+    - Registration
+        - [x] it can render the registration page
 - Resource
   - Page
       - Create
