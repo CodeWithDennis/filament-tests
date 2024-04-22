@@ -2,13 +2,10 @@
 
 namespace CodeWithDennis\FilamentTests\Stubs\Resource\Page\Create\Form\Fields;
 
-use Closure;
 use CodeWithDennis\FilamentTests\Stubs\Base;
 
 class Hidden extends Base
 {
-    public Closure|bool $isTodo = true;
-
     public function getDescription(): string
     {
         return 'has a hidden field on create form';
