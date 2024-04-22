@@ -637,7 +637,7 @@ class Base
     {
         return $this->getTenantModel() ? str($this->getTenantModel())->finish('::class') : null;
     }
-  
+
     public function getRegistrationRouteAction(): ?string
     {
         return Filament::getDefaultPanel()?->getRegistrationRouteAction();
