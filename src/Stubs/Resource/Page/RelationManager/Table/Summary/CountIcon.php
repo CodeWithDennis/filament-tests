@@ -4,7 +4,6 @@ namespace CodeWithDennis\FilamentTests\Stubs\Resource\Page\RelationManager\Table
 
 use Closure;
 use CodeWithDennis\FilamentTests\Stubs\Base;
-use Filament\Tables\Columns\IconColumn;
 
 class CountIcon extends Base
 {
