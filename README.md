@@ -117,6 +117,10 @@ php artisan vendor:publish --tag="filament-tests-stubs"
 - Resource
   - Page
       - Create
+          - Action
+            - [ ] it can render actions on the create page
+          - Widget
+            - [ ] it can render widgets on the create page
           - Form
               - Field
                   - [X] [has a disabled field on create form](https://filamentphp.com/docs/3.x/forms/testing#disabled-fields)
@@ -125,7 +129,7 @@ php artisan vendor:publish --tag="filament-tests-stubs"
                   - [ ] [it can validate input on create form](https://filamentphp.com/docs/3.x/forms/testing#validation)
               - [x] [it has create form](https://filamentphp.com/docs/3.x/forms/testing#form-existence)
               - [ ] it can validate create form input
-              - [ ] it can render form on the create page
+          - [ ] it can render form on the create page
           - [x] [it can render the create page](https://filamentphp.com/docs/3.x/panels/testing#routing--render)
       - Custom
         - [ ] it can render the custom page
@@ -142,6 +146,12 @@ php artisan vendor:publish --tag="filament-tests-stubs"
         - Widget
           - [ ] it can render the widget on the custom page
       - Edit
+          - Action
+            - [ ] it can render actions on the edit page
+          - RelationManager
+            - [ ] it can render the relation manager on the edit page
+          - Widget
+            - [ ] it can render widgets on the edit page
           - Form
               - Field
                   - [X] [has a disabled field on edit form](https://filamentphp.com/docs/3.x/forms/testing#disabled-fields)
@@ -151,6 +161,7 @@ php artisan vendor:publish --tag="filament-tests-stubs"
               - [x] [it has edit form](https://filamentphp.com/docs/3.x/forms/testing#form-existence)
               - [ ] [it can fill the form on the edit page](https://filamentphp.com/docs/3.x/forms/testing#filling-a-form)
               - [ ] it can validate edit form input
+          - [ ] it can render form on the edit page
           - [x] [it can render the edit page](https://filamentphp.com/docs/3.x/panels/testing#routing--render)
       - Index
           - Action
@@ -203,7 +214,13 @@ php artisan vendor:publish --tag="filament-tests-stubs"
           - [x] [it can render the index page](https://filamentphp.com/docs/3.x/tables/testing#render)
           - [x] [it cannot display trashed records by default](https://filamentphp.com/docs/3.x/tables/testing#render)
       - View
-          - [x] [it can render the view page](https://filamentphp.com/docs/3.x/tables/testing#render)
+        - Action
+          - [ ] it can render actions on the view page
+        - Widget
+          - [ ] it can render widgets on the view page
+        - RelationManager
+          - [ ] it can render the relation manager on the view page
+      - [x] [it can render the view page](https://filamentphp.com/docs/3.x/tables/testing#render)
       - RelationManager
           - Action
             - [ ] it has header actions on the index page
