@@ -13,4 +13,9 @@ class Sum extends Base
     {
         return 'can sum values in a column on relation manager';
     }
+
+    public function getShouldGenerate(): bool
+    {
+        return $this->hasRelationManagers();
+    }
 }

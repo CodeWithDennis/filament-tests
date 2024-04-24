@@ -13,4 +13,9 @@ class Select extends Base
     {
         return 'has the correct options on relation manager';
     }
+
+    public function getShouldGenerate(): bool
+    {
+        return $this->hasRelationManagers();
+    }
 }

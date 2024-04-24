@@ -13,4 +13,9 @@ class ExtraAttributes extends Base
     {
         return 'has extra attributes on relation manager';
     }
+
+    public function getShouldGenerate(): bool
+    {
+        return $this->hasRelationManagers();
+    }
 }

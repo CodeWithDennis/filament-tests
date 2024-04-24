@@ -13,4 +13,9 @@ class DeleteForce extends Base
     {
         return 'can bulk force delete records on relation manager';
     }
+
+    public function getShouldGenerate(): bool
+    {
+        return $this->hasRelationManagers();
+    }
 }

@@ -10,4 +10,9 @@ class Reset extends Base
     {
         return 'can reset table filters on relation manager';
     }
+
+    public function getShouldGenerate(): bool
+    {
+        return $this->hasRelationManagers();
+    }
 }

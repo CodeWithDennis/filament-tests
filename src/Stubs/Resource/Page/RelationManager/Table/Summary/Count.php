@@ -13,4 +13,9 @@ class Count extends Base
     {
         return 'can count values in a column on relation manager';
     }
+
+    public function getShouldGenerate(): bool
+    {
+        return $this->hasRelationManagers();
+    }
 }

@@ -13,4 +13,9 @@ class Sort extends Base
     {
         return 'can sort column on relation manager';
     }
+
+    public function getShouldGenerate(): bool
+    {
+        return $this->hasRelationManagers();
+    }
 }

@@ -13,4 +13,9 @@ class Delete extends Base
     {
         return 'can delete records on relation manager';
     }
+
+    public function getShouldGenerate(): bool
+    {
+        return $this->hasRelationManagers();
+    }
 }

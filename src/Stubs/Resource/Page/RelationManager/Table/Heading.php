@@ -13,4 +13,9 @@ class Heading extends Base
     {
         return 'has the correct table heading on relation manager';
     }
+
+    public function getShouldGenerate(): bool
+    {
+        return $this->hasRelationManagers();
+    }
 }

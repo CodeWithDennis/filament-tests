@@ -13,4 +13,9 @@ class Range extends Base
     {
         return 'can range values in a column on relation manager';
     }
+
+    public function getShouldGenerate(): bool
+    {
+        return $this->hasRelationManagers();
+    }
 }

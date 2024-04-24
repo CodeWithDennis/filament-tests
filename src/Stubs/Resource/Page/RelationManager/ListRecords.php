@@ -13,4 +13,9 @@ class ListRecords extends Base
     {
         return 'can list records on the index page on relation manager';
     }
+
+    public function getShouldGenerate(): bool
+    {
+        return $this->hasRelationManagers();
+    }
 }

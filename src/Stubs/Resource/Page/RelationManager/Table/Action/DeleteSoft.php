@@ -13,4 +13,9 @@ class DeleteSoft extends Base
     {
         return 'can soft delete records on relation manager';
     }
+
+    public function getShouldGenerate(): bool
+    {
+        return $this->hasRelationManagers();
+    }
 }

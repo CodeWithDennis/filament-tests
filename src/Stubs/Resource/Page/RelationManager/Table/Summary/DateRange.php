@@ -13,4 +13,9 @@ class DateRange extends Base
     {
         return 'can range date values in a column on relation manager';
     }
+
+    public function getShouldGenerate(): bool
+    {
+        return $this->hasRelationManagers();
+    }
 }

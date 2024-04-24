@@ -13,4 +13,9 @@ class UrlTab extends Base
     {
         return 'has the correct URL and opens in a new tab for table action on relation manager';
     }
+
+    public function getShouldGenerate(): bool
+    {
+        return $this->hasRelationManagers();
+    }
 }

@@ -13,4 +13,9 @@ class Search extends Base
     {
         return 'can search column on relation manager';
     }
+
+    public function getShouldGenerate(): bool
+    {
+        return $this->hasRelationManagers();
+    }
 }

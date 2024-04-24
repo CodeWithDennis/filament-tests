@@ -13,4 +13,9 @@ class Remove extends Base
     {
         return 'can remove a table filter on relation manager';
     }
+
+    public function getShouldGenerate(): bool
+    {
+        return $this->hasRelationManagers();
+    }
 }

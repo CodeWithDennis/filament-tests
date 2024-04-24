@@ -646,6 +646,12 @@ class Base
         return Filament::hasLogin();
     }
 
+    // TODO: implement
+    public function hasRelationManagers(): bool
+    {
+        return false;
+    }
+
     public function getDeferredLoadingMethod(): string
     {
         return "\n\t\t->loadTable()";
