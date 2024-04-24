@@ -13,4 +13,9 @@ class Exist extends Base
     {
         return 'has table action on relation manager';
     }
+
+    public function getShouldGenerate(): bool
+    {
+        return $this->hasRelationManagers();
+    }
 }

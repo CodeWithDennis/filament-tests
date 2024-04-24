@@ -13,4 +13,9 @@ class Description extends Base
     {
         return 'has the correct table description on relation manager';
     }
+
+    public function getShouldGenerate(): bool
+    {
+        return $this->hasRelationManagers();
+    }
 }

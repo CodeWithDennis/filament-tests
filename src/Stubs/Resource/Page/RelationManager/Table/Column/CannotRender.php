@@ -13,4 +13,9 @@ class CannotRender extends Base
     {
         return 'cannot render column on relation manager';
     }
+
+    public function getShouldGenerate(): bool
+    {
+        return $this->hasRelationManagers();
+    }
 }

@@ -13,4 +13,9 @@ class Restore extends Base
     {
         return 'can bulk restore records on relation manager';
     }
+
+    public function getShouldGenerate(): bool
+    {
+        return $this->hasRelationManagers();
+    }
 }

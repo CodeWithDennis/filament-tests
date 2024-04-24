@@ -13,4 +13,9 @@ class Exist extends Base
     {
         return 'has header actions on the index page on relation manager';
     }
+
+    public function getShouldGenerate(): bool
+    {
+        return $this->hasRelationManagers();
+    }
 }

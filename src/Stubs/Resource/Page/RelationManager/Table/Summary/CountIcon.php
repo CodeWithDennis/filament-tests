@@ -13,4 +13,9 @@ class CountIcon extends Base
     {
         return 'can count the occurrence of icons in a column on relation manager';
     }
+
+    public function getShouldGenerate(): bool
+    {
+        return $this->hasRelationManagers();
+    }
 }

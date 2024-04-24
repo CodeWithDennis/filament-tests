@@ -13,4 +13,9 @@ class Average extends Base
     {
         return 'can average values in a column on relation manager';
     }
+
+    public function getShouldGenerate(): bool
+    {
+        return $this->hasRelationManagers();
+    }
 }

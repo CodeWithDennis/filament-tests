@@ -13,4 +13,9 @@ class ListRecordsPaginated extends Base
     {
         return 'can list records on the index page with pagination on relation manager';
     }
+
+    public function getShouldGenerate(): bool
+    {
+        return $this->hasRelationManagers();
+    }
 }

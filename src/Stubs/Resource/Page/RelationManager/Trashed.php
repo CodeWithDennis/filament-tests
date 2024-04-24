@@ -13,4 +13,9 @@ class Trashed extends Base
     {
         return 'cannot display trashed records by default on relation manager';
     }
+
+    public function getShouldGenerate(): bool
+    {
+        return $this->hasRelationManagers();
+    }
 }

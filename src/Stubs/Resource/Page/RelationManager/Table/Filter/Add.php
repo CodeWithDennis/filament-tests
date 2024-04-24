@@ -13,4 +13,9 @@ class Add extends Base
     {
         return 'can add a table filter on relation manager';
     }
+
+    public function getShouldGenerate(): bool
+    {
+        return $this->hasRelationManagers();
+    }
 }
