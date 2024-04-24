@@ -3,7 +3,6 @@
 namespace CodeWithDennis\FilamentTests\Handlers;
 
 use Filament\Resources\Resource;
-use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 
 class StubHandler
