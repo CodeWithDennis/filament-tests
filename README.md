@@ -105,10 +105,15 @@ php artisan vendor:publish --tag="filament-tests-stubs"
   - Auth
     - Registration
         - [x] it can render the registration page
+        - [ ] it can register
     - PasswordReset
         - [x] it can render the password reset page
+        - [ ] it can reset the password
     - Login
         - [x] it can render the login page
+        - [ ] it can log in
+    - Logout
+      - [ ] it can log out
 - Resource
   - Page
       - Create
