@@ -133,23 +133,41 @@ class StubHandler
             \CodeWithDennis\FilamentTests\Stubs\Resource\Page\RelationManager\Table\Filter\Remove::make($resource)->get(),
 
             \CodeWithDennis\FilamentTests\Stubs\Resource\Page\Create\Render::make($resource)->get(),
+
+            \CodeWithDennis\FilamentTests\Stubs\Resource\Page\Create\Action\Render::make($resource)->get(),
+
+            \CodeWithDennis\FilamentTests\Stubs\Resource\Page\Create\Widget\Render::make($resource)->get(),
+
             \CodeWithDennis\FilamentTests\Stubs\Resource\Page\Create\Form\Field\Disabled::make($resource)->get(),
             \CodeWithDennis\FilamentTests\Stubs\Resource\Page\Create\Form\Field\Exists::make($resource)->get(),
             \CodeWithDennis\FilamentTests\Stubs\Resource\Page\Create\Form\Field\Hidden::make($resource)->get(),
             \CodeWithDennis\FilamentTests\Stubs\Resource\Page\Create\Form\Field\Validate::make($resource)->get(),
+
             \CodeWithDennis\FilamentTests\Stubs\Resource\Page\Create\Form\Exists::make($resource)->get(),
+            \CodeWithDennis\FilamentTests\Stubs\Resource\Page\Create\Form\Render::make($resource)->get(),
             \CodeWithDennis\FilamentTests\Stubs\Resource\Page\Create\Form\Validate::make($resource)->get(),
 
             \CodeWithDennis\FilamentTests\Stubs\Resource\Page\Edit\Render::make($resource)->get(),
+            \CodeWithDennis\FilamentTests\Stubs\Resource\Page\Edit\Action\Render::make($resource)->get(),
+            \CodeWithDennis\FilamentTests\Stubs\Resource\Page\Edit\Form\Render::make($resource)->get(),
+            \CodeWithDennis\FilamentTests\Stubs\Resource\Page\Edit\RelationManager\Render::make($resource)->get(),
+            \CodeWithDennis\FilamentTests\Stubs\Resource\Page\Edit\Widget\Render::make($resource)->get(),
+
             \CodeWithDennis\FilamentTests\Stubs\Resource\Page\Edit\Form\Field\Disabled::make($resource)->get(),
             \CodeWithDennis\FilamentTests\Stubs\Resource\Page\Edit\Form\Field\Exists::make($resource)->get(),
             \CodeWithDennis\FilamentTests\Stubs\Resource\Page\Edit\Form\Field\Hidden::make($resource)->get(),
             \CodeWithDennis\FilamentTests\Stubs\Resource\Page\Edit\Form\Field\Validate::make($resource)->get(),
+
             \CodeWithDennis\FilamentTests\Stubs\Resource\Page\Edit\Form\Exists::make($resource)->get(),
             \CodeWithDennis\FilamentTests\Stubs\Resource\Page\Edit\Form\Validate::make($resource)->get(),
             \CodeWithDennis\FilamentTests\Stubs\Resource\Page\Edit\Form\Fill::make($resource)->get(),
 
             \CodeWithDennis\FilamentTests\Stubs\Resource\Page\View\Render::make($resource)->get(),
+
+            \CodeWithDennis\FilamentTests\Stubs\Resource\Page\View\Action\Render::make($resource)->get(),
+            \CodeWithDennis\FilamentTests\Stubs\Resource\Page\View\Form\Render::make($resource)->get(),
+            \CodeWithDennis\FilamentTests\Stubs\Resource\Page\View\RelationManager\Render::make($resource)->get(),
+            \CodeWithDennis\FilamentTests\Stubs\Resource\Page\View\Widget\Render::make($resource)->get(),
 
             \CodeWithDennis\FilamentTests\Stubs\Resource\Page\Custom\Render::make($resource)->get(),
             \CodeWithDennis\FilamentTests\Stubs\Resource\Page\Custom\Action\Render::make($resource)->get(),

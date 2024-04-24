@@ -99,6 +99,7 @@ You can customize the stubs by publishing them to your project:
 ```bash
 php artisan vendor:publish --tag="filament-tests-stubs"
 ```
+
 ## Running the package tests
 
 You can run your tests normally by running the following command:
