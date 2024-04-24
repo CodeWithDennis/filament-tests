@@ -121,6 +121,20 @@ php artisan vendor:publish --tag="filament-tests-stubs"
               - [x] [it has create form](https://filamentphp.com/docs/3.x/forms/testing#form-existence)
               - [ ] it can validate create form input
           - [x] [it can render the create page](https://filamentphp.com/docs/3.x/panels/testing#routing--render)
+      - Custom
+        - [ ] it can render the custom page
+        - Action
+          - [ ] it can render actions on the custom page
+        - Form
+          - [ ] it can render the form on the custom page
+        - Infolist
+          - [ ] it can render the infolist on the custom page
+        - RelationManager
+          - [ ] it can render the relation manager on the custom page
+        - Table
+          - [ ] it can render the table on the custom page
+        - Widget
+          - [ ] it can render the widget on the custom page
       - Edit
           - Form
               - Field

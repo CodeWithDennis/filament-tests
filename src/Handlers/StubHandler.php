@@ -145,6 +145,14 @@ class StubHandler
             \CodeWithDennis\FilamentTests\Stubs\Resource\Page\Edit\Form\Fill::make($resource)->get(),
 
             \CodeWithDennis\FilamentTests\Stubs\Resource\Page\View\Render::make($resource)->get(),
+
+            \CodeWithDennis\FilamentTests\Stubs\Resource\Page\Custom\Render::make($resource)->get(),
+            \CodeWithDennis\FilamentTests\Stubs\Resource\Page\Custom\Action\Render::make($resource)->get(),
+            \CodeWithDennis\FilamentTests\Stubs\Resource\Page\Custom\Form\Render::make($resource)->get(),
+            \CodeWithDennis\FilamentTests\Stubs\Resource\Page\Custom\Infolist\Render::make($resource)->get(),
+            \CodeWithDennis\FilamentTests\Stubs\Resource\Page\Custom\RelationManager\Render::make($resource)->get(),
+            \CodeWithDennis\FilamentTests\Stubs\Resource\Page\Custom\Table\Render::make($resource)->get(),
+            \CodeWithDennis\FilamentTests\Stubs\Resource\Page\Custom\Widget\Render::make($resource)->get(),
         ];
 
         return collect($stubs);

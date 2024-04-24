@@ -652,6 +652,12 @@ class Base
         return false;
     }
 
+    // TODO: implement
+    public function hasCustomPages(): bool
+    {
+        return false;
+    }
+
     public function getDeferredLoadingMethod(): string
     {
         return "\n\t\t->loadTable()";
