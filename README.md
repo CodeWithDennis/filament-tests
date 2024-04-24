@@ -125,6 +125,7 @@ php artisan vendor:publish --tag="filament-tests-stubs"
                   - [ ] [it can validate input on create form](https://filamentphp.com/docs/3.x/forms/testing#validation)
               - [x] [it has create form](https://filamentphp.com/docs/3.x/forms/testing#form-existence)
               - [ ] it can validate create form input
+              - [ ] it can render form on the create page
           - [x] [it can render the create page](https://filamentphp.com/docs/3.x/panels/testing#routing--render)
       - Custom
         - [ ] it can render the custom page

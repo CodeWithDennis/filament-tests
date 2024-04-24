@@ -3,6 +3,7 @@
 namespace CodeWithDennis\FilamentTests\Handlers;
 
 use Filament\Resources\Resource;
+use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 
 class StubHandler
@@ -138,6 +139,7 @@ class StubHandler
             \CodeWithDennis\FilamentTests\Stubs\Resource\Page\Create\Form\Field\Hidden::make($resource)->get(),
             \CodeWithDennis\FilamentTests\Stubs\Resource\Page\Create\Form\Field\Validate::make($resource)->get(),
             \CodeWithDennis\FilamentTests\Stubs\Resource\Page\Create\Form\Exists::make($resource)->get(),
+            \CodeWithDennis\FilamentTests\Stubs\Resource\Page\Create\Form\Render::make($resource)->get(),
             \CodeWithDennis\FilamentTests\Stubs\Resource\Page\Create\Form\Validate::make($resource)->get(),
 
             \CodeWithDennis\FilamentTests\Stubs\Resource\Page\Edit\Render::make($resource)->get(),
