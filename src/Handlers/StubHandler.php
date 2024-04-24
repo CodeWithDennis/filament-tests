@@ -93,6 +93,7 @@ class StubHandler
             \CodeWithDennis\FilamentTests\Stubs\Resource\Page\Edit\Form\Fields\Validate::make($resource)->get(),
             \CodeWithDennis\FilamentTests\Stubs\Resource\Page\Edit\Form\Exists::make($resource)->get(),
             \CodeWithDennis\FilamentTests\Stubs\Resource\Page\Edit\Form\Validate::make($resource)->get(),
+            \CodeWithDennis\FilamentTests\Stubs\Resource\Page\Edit\Form\Fill::make($resource)->get(),
 
             \CodeWithDennis\FilamentTests\Stubs\Resource\Page\View\Render::make($resource)->get(),
         ];

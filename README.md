@@ -129,6 +129,7 @@ php artisan vendor:publish --tag="filament-tests-stubs"
                   - [x] [it has a hidden field on edit form](https://filamentphp.com/docs/3.x/forms/testing#hidden-fields)
                   - [ ] [it can validate input on edit form](https://filamentphp.com/docs/3.x/forms/testing#validation)
               - [x] [it has edit form](https://filamentphp.com/docs/3.x/forms/testing#form-existence)
+              - [ ] [it can fill the form on the edit page](https://filamentphp.com/docs/3.x/forms/testing#filling-a-form)
               - [ ] it can validate edit form input
           - [x] [it can render the edit page](https://filamentphp.com/docs/3.x/panels/testing#routing--render)
       - Index
