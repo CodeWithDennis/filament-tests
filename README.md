@@ -213,6 +213,7 @@ php artisan vendor:publish --tag="filament-tests-stubs"
                   - [ ] it can bulk soft delete records
               - Column
                   - [ ] [it cannot render column](https://filamentphp.com/docs/3.x/tables/testing#columns)
+                  - [ ] [it has state](https://filamentphp.com/docs/3.x/tables/testing#state)
                   - [ ] [it has the correct descriptions above](https://filamentphp.com/docs/3.x/tables/testing#descriptions)
                   - [ ] [it has the correct descriptions below](https://filamentphp.com/docs/3.x/tables/testing#descriptions)
                   - [ ] [it has column](https://filamentphp.com/docs/3.x/tables/testing#existence)

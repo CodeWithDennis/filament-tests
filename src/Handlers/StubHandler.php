@@ -112,6 +112,7 @@ class StubHandler
             \CodeWithDennis\FilamentTests\Stubs\Resource\Page\RelationManager\Table\Column\Exist::make($resource)->get(),
             \CodeWithDennis\FilamentTests\Stubs\Resource\Page\RelationManager\Table\Column\Render::make($resource)->get(),
             \CodeWithDennis\FilamentTests\Stubs\Resource\Page\RelationManager\Table\Column\CannotRender::make($resource)->get(),
+            \CodeWithDennis\FilamentTests\Stubs\Resource\Page\RelationManager\Table\Column\State::make($resource)->get(),
             \CodeWithDennis\FilamentTests\Stubs\Resource\Page\RelationManager\Table\Column\Sort::make($resource)->get(),
             \CodeWithDennis\FilamentTests\Stubs\Resource\Page\RelationManager\Table\Column\Search::make($resource)->get(),
             \CodeWithDennis\FilamentTests\Stubs\Resource\Page\RelationManager\Table\Column\SearchIndividually::make($resource)->get(),
