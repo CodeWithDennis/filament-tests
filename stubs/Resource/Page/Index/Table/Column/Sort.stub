@@ -1,9 +1,9 @@
 it({{ DESCRIPTION }}, function (string $column) {
-    $records = {{ MODEL_SINGULAR_NAME }}::factory(3)->create();
+    {{ MODEL_SINGULAR_NAME }}::factory(3)->create();
 
     livewire({{ RESOURCE_LIST_CLASS }})
         ->sortTable($column){{ LOAD_TABLE_METHOD_IF_DEFERRED }}
-        ->assertCanSeeTableRecords({{ MODEL_SINGULAR_NAME }}::orderBy($column, 'asc')->get(), inOrder: true)
+        ->assertCanSeeTableRecords({{ MODEL_SINGULAR_NAME }}::orderBy($column)->get(), inOrder: true)
         ->sortTable($column, 'desc'){{ LOAD_TABLE_METHOD_IF_DEFERRED }}
         ->assertCanSeeTableRecords({{ MODEL_SINGULAR_NAME }}::orderBy($column, 'desc')->get(), inOrder: true);
 })->with({{ RESOURCE_TABLE_SORTABLE_COLUMNS }}){{ RESOLVED_GROUP_METHOD }};
