@@ -3,7 +3,7 @@ it({{ DESCRIPTION }}, function (string $column) {
 
     livewire({{ RESOURCE_LIST_CLASS }})
         ->sortTable($column){{ LOAD_TABLE_METHOD_IF_DEFERRED }}
-        ->assertCanSeeTableRecords($records->sortBy($column), inOrder: true)
+        ->assertCanSeeTableRecords({{ MODEL_SINGULAR_NAME }}::orderBy($column, 'asc')->get(), inOrder: true)
         ->sortTable($column, 'desc'){{ LOAD_TABLE_METHOD_IF_DEFERRED }}
-        ->assertCanSeeTableRecords($records->sortByDesc($column), inOrder: true);
+        ->assertCanSeeTableRecords({{ MODEL_SINGULAR_NAME }}::orderBy($column, 'desc')->get(), inOrder: true);
 })->with({{ RESOURCE_TABLE_SORTABLE_COLUMNS }}){{ RESOLVED_GROUP_METHOD }};
