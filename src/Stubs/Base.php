@@ -12,7 +12,7 @@ use Filament\Resources\Resource;
 use Filament\Support\Concerns\EvaluatesClosures;
 use Filament\Tables\Table;
 use Illuminate\Support\Collection;
-use Filament\Resources\RelationManagers;
+
 class Base
 {
     use EvaluatesClosures;

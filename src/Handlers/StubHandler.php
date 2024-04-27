@@ -88,10 +88,7 @@ class StubHandler
             \CodeWithDennis\FilamentTests\Stubs\Resource\Page\Index\Table\Filter\Add::make($resource)->get(),
             \CodeWithDennis\FilamentTests\Stubs\Resource\Page\Index\Table\Filter\Remove::make($resource)->get(),
 
-
-
-
-//            \CodeWithDennis\FilamentTests\Stubs\Resource\Page\RelationManager\Render::make($resource)->get(),
+            //            \CodeWithDennis\FilamentTests\Stubs\Resource\Page\RelationManager\Render::make($resource)->get(),
             \CodeWithDennis\FilamentTests\Stubs\Resource\Page\RelationManager\ListRecords::make($resource)->get(),
             \CodeWithDennis\FilamentTests\Stubs\Resource\Page\RelationManager\ListRecordsPaginated::make($resource)->get(),
             \CodeWithDennis\FilamentTests\Stubs\Resource\Page\RelationManager\Trashed::make($resource)->get(),

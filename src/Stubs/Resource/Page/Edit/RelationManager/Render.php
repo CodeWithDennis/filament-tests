@@ -2,15 +2,13 @@
 
 namespace CodeWithDennis\FilamentTests\Stubs\Resource\Page\Edit\RelationManager;
 
-use Closure;
 use CodeWithDennis\FilamentTests\Stubs\Base;
-use Filament\Resources\Resource;
 
 class Render extends Base
 {
     public function getDescription(): string
     {
-        return 'can render ' . str($this->relationManager)->basename() . ' on the edit page.';
+        return 'can render '.str($this->relationManager)->basename().' on the edit page.';
     }
 
     public function getShouldGenerate(): bool
@@ -25,7 +23,7 @@ class Render extends Base
 
         return [
             'RELATION_MANAGER_NAME' => $relationManagerName,
-            'RELATION_MANAGER_CLASS' => $relationManagerNamespace . '\\' . $relationManagerName->append('::class'),
+            'RELATION_MANAGER_CLASS' => $relationManagerNamespace.'\\'.$relationManagerName->append('::class'),
             'RELATION_MANAGER_RELATIONSHIP_MODEL' => $this->getRelationManagerRelationshipNameToModelClass($this->relationManager),
             'RELATION_MANAGER_RELATIONSHIP_NAME' => str($this->getRelationManager($this->relationManager)->getRelationshipName())->ucfirst(),
         ];
