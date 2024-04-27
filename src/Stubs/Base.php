@@ -8,6 +8,7 @@ use Filament\Forms\Form;
 use Filament\Resources\Pages\CreateRecord;
 use Filament\Resources\Pages\EditRecord;
 use Filament\Resources\Pages\ListRecords;
+use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Resources\Resource;
 use Filament\Support\Concerns\EvaluatesClosures;
 use Filament\Tables\Table;
@@ -316,16 +317,16 @@ class Base
 
     public function getRelationManagerTable(string $for): Table
     {
-        $livewire = app('livewire')->new(\Filament\Resources\RelationManagers\RelationManager::class);
+        $livewire = app('livewire')->new(RelationManager::class);
 
         $relationClass = app()->make($this->getResourceRelationManagerByName($for, $this->resource));
 
-        return $relationClass->table(new \Filament\Tables\Table($livewire));
+        return $relationClass->table(new Table($livewire));
     }
 
-    public function getRelationManager($for): \Filament\Resources\RelationManagers\RelationManager
+    public function getRelationManager($for): RelationManager
     {
-        $livewire = app('livewire')->new(\Filament\Resources\RelationManagers\RelationManager::class);
+        $livewire = app('livewire')->new(RelationManager::class);
 
         return app()->make($this->getResourceRelationManagerByName($for, $this->resource));
     }
