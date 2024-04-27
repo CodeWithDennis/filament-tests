@@ -108,7 +108,7 @@ won't be generated.
 - [it has a field on create form](https://filamentphp.com/docs/3.x/forms/testing#fields)
 - [it has a hidden field on create form](https://filamentphp.com/docs/3.x/forms/testing#hidden-fields)
 - [it can render the edit page](https://filamentphp.com/docs/3.x/panels/testing#routing--render)
-- [it can render the relation manager on the edit page](https://filamentphp.com/docs/3.x/tables/testing#render)
+- [it can render the relation manager on the edit page](https://filamentphp.com/docs/3.x/panels/testing#render)
 - [it has a field on edit form](https://filamentphp.com/docs/3.x/forms/testing#fields)
 - [it has a hidden field on edit form](https://filamentphp.com/docs/3.x/forms/testing#hidden-fields)
 - [it has edit form](https://filamentphp.com/docs/3.x/forms/testing#form-existence)
