@@ -2,20 +2,27 @@
 
 namespace CodeWithDennis\FilamentTests\Stubs\Resource\Page\Edit\RelationManager;
 
-use Closure;
 use CodeWithDennis\FilamentTests\Stubs\Base;
 
 class Render extends Base
 {
-    public Closure|bool $isTodo = true;
-
     public function getDescription(): string
     {
-        return 'can render relation manager on the edit page';
+        return 'can render the '.str($this->relationManager)->basename()->snake()->replace('_', ' ').' on the edit page';
     }
 
     public function getShouldGenerate(): bool
     {
-        return $this->hasRelationManagers(); // TODO: implement
+        return $this->getRelationManagerTableColumns($this->relationManager)->isNotEmpty();
+    }
+
+    public function getVariables(): array
+    {
+        return [
+            'RELATION_MANAGER_NAME' => str($this->relationManager)->basename(),
+            'RELATION_MANAGER_CLASS' => $this->relationManager.'::class',
+            'RELATION_MANAGER_RELATIONSHIP_MODEL' => $this->getRelationManagerRelationshipNameToModelClass($this->relationManager),
+            'RELATION_MANAGER_RELATIONSHIP_NAME' => str($this->getRelationManager($this->relationManager)->getRelationshipName())->ucfirst(),
+        ];
     }
 }

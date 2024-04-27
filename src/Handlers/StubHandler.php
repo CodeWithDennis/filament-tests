@@ -22,6 +22,12 @@ class StubHandler
     {
         $resource = $this->resource;
 
+        $resourceRelationManagers = collect($resource->getRelations());
+
+        $rmRenderArray = $resourceRelationManagers->map(function ($relation) use ($resource) {
+            return \CodeWithDennis\FilamentTests\Stubs\Resource\Page\Edit\RelationManager\Render::make($resource, $relation)->get();
+        });
+
         $stubs = [
             \CodeWithDennis\FilamentTests\Stubs\SetupStub::make($resource)->get(),
 
@@ -82,7 +88,7 @@ class StubHandler
             \CodeWithDennis\FilamentTests\Stubs\Resource\Page\Index\Table\Filter\Add::make($resource)->get(),
             \CodeWithDennis\FilamentTests\Stubs\Resource\Page\Index\Table\Filter\Remove::make($resource)->get(),
 
-            \CodeWithDennis\FilamentTests\Stubs\Resource\Page\RelationManager\Render::make($resource)->get(),
+            //            \CodeWithDennis\FilamentTests\Stubs\Resource\Page\RelationManager\Render::make($resource)->get(),
             \CodeWithDennis\FilamentTests\Stubs\Resource\Page\RelationManager\ListRecords::make($resource)->get(),
             \CodeWithDennis\FilamentTests\Stubs\Resource\Page\RelationManager\ListRecordsPaginated::make($resource)->get(),
             \CodeWithDennis\FilamentTests\Stubs\Resource\Page\RelationManager\Trashed::make($resource)->get(),
@@ -177,6 +183,8 @@ class StubHandler
             \CodeWithDennis\FilamentTests\Stubs\Resource\Page\Custom\Table\Render::make($resource)->get(),
             \CodeWithDennis\FilamentTests\Stubs\Resource\Page\Custom\Widget\Render::make($resource)->get(),
         ];
+
+        array_push($stubs, ...$rmRenderArray->toArray());
 
         return collect($stubs);
     }
