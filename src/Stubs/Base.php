@@ -12,7 +12,7 @@ use Filament\Resources\Resource;
 use Filament\Support\Concerns\EvaluatesClosures;
 use Filament\Tables\Table;
 use Illuminate\Support\Collection;
-
+use Filament\Resources\RelationManagers;
 class Base
 {
     use EvaluatesClosures;
@@ -33,13 +33,13 @@ class Base
 
     public Closure|bool $shouldGenerateWithTodos = true;
 
-    public function __construct(public Resource $resource)
+    public function __construct(public Resource $resource, public ?string $relationManager = null)
     {
     }
 
-    public static function make(Resource $resource): self
+    public static function make(Resource $resource, ?string $relationManager = null): static
     {
-        return new static($resource);
+        return new static($resource, $relationManager);
     }
 
     public function group(string|Closure|null $group): static
@@ -289,6 +289,52 @@ class Base
         $livewire = app('livewire')->new(ListRecords::class);
 
         return $resource::table(new Table($livewire));
+    }
+
+    public function getResourceRelations(Resource $resource): Collection
+    {
+        return collect($resource::getRelations());
+    }
+
+    public function getResourceRelationManagerByName(string $name, Resource $resource): ?string
+    {
+        return $this->getResourceRelations($resource)
+            ->filter(fn ($relation) => str($relation)->contains($name))
+            ->first();
+    }
+
+    public function getRelationManagerTableColumns(?string $for = null): Collection
+    {
+        if (! $for) {
+            return collect();
+        }
+
+        $table = $this->getRelationManagerTable($for);
+
+        return collect($table->getColumns());
+    }
+
+    public function getRelationManagerTable(string $for): Table
+    {
+        $livewire = app('livewire')->new(\Filament\Resources\RelationManagers\RelationManager::class);
+
+        $relationClass = app()->make($this->getResourceRelationManagerByName($for, $this->resource));
+
+        return $relationClass->table(new \Filament\Tables\Table($livewire));
+    }
+
+    public function getRelationManager($for): \Filament\Resources\RelationManagers\RelationManager
+    {
+        $livewire = app('livewire')->new(\Filament\Resources\RelationManagers\RelationManager::class);
+
+        return app()->make($this->getResourceRelationManagerByName($for, $this->resource));
+    }
+
+    public function getRelationManagerRelationshipNameToModelClass($for): string
+    {
+        $relationshipName = $this->getRelationManager($for)->getRelationshipName();
+
+        return str($relationshipName)->singular()->ucfirst()->prepend('\App\\Models\\');
     }
 
     public function getResourcePages(Resource $resource): Collection

@@ -4,18 +4,30 @@ namespace CodeWithDennis\FilamentTests\Stubs\Resource\Page\Edit\RelationManager;
 
 use Closure;
 use CodeWithDennis\FilamentTests\Stubs\Base;
+use Filament\Resources\Resource;
 
 class Render extends Base
 {
-    public Closure|bool $isTodo = true;
-
     public function getDescription(): string
     {
-        return 'can render relation manager on the edit page';
+        return 'can render ' . str($this->relationManager)->basename() . ' on the edit page.';
     }
 
     public function getShouldGenerate(): bool
     {
-        return $this->hasRelationManagers(); // TODO: implement
+        return $this->getRelationManagerTableColumns($this->relationManager)->isNotEmpty();
+    }
+
+    public function getVariables(): array
+    {
+        $relationManagerNamespace = str($this->relationManager)->beforeLast('\\')->prepend('\\');
+        $relationManagerName = str($this->relationManager)->basename();
+
+        return [
+            'RELATION_MANAGER_NAME' => $relationManagerName,
+            'RELATION_MANAGER_CLASS' => $relationManagerNamespace . '\\' . $relationManagerName->append('::class'),
+            'RELATION_MANAGER_RELATIONSHIP_MODEL' => $this->getRelationManagerRelationshipNameToModelClass($this->relationManager),
+            'RELATION_MANAGER_RELATIONSHIP_NAME' => str($this->getRelationManager($this->relationManager)->getRelationshipName())->ucfirst(),
+        ];
     }
 }

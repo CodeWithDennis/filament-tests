@@ -4,6 +4,7 @@ namespace CodeWithDennis\FilamentTests\Commands;
 
 use CodeWithDennis\FilamentTests\Handlers\StubHandler;
 use Filament\Facades\Filament;
+use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Resources\Resource;
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
@@ -76,7 +77,7 @@ class FilamentTestsCommand extends Command
 
         foreach ($selectedResources as $selectedResource) {
 
-            if (! $this->getResourceClass($selectedResource)) {
+            if (!$this->getResourceClass($selectedResource)) {
                 $this->failedResources->push(['name' => $this->getNormalizedResourceName($selectedResource)]);
 
                 continue;
