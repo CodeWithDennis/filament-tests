@@ -18,12 +18,9 @@ class Render extends Base
 
     public function getVariables(): array
     {
-        $relationManagerNamespace = str($this->relationManager)->beforeLast('\\')->prepend('\\');
-        $relationManagerName = str($this->relationManager)->basename();
-
         return [
-            'RELATION_MANAGER_NAME' => $relationManagerName,
-            'RELATION_MANAGER_CLASS' => $relationManagerNamespace.'\\'.$relationManagerName->append('::class'),
+            'RELATION_MANAGER_NAME' => str($this->relationManager)->basename(),
+            'RELATION_MANAGER_CLASS' => $this->relationManager.'::class',
             'RELATION_MANAGER_RELATIONSHIP_MODEL' => $this->getRelationManagerRelationshipNameToModelClass($this->relationManager),
             'RELATION_MANAGER_RELATIONSHIP_NAME' => str($this->getRelationManager($this->relationManager)->getRelationshipName())->ucfirst(),
         ];
