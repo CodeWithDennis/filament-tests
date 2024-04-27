@@ -8,7 +8,7 @@ class Render extends Base
 {
     public function getDescription(): string
     {
-        return 'can render '.str($this->relationManager)->basename().' on the edit page.';
+        return 'can render the '.str($this->relationManager)->basename()->snake()->replace('_', ' ').' on the edit page';
     }
 
     public function getShouldGenerate(): bool
