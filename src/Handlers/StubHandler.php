@@ -193,6 +193,7 @@ class StubHandler
                 \CodeWithDennis\FilamentTests\Stubs\Resource\Page\Edit\RelationManager\Column\ExtraAttributes::make($resource, $relation)->get(),
                 \CodeWithDennis\FilamentTests\Stubs\Resource\Page\Edit\RelationManager\Column\Search::make($resource, $relation)->get(),
                 \CodeWithDennis\FilamentTests\Stubs\Resource\Page\Edit\RelationManager\Column\SearchIndividually::make($resource, $relation)->get(),
+                \CodeWithDennis\FilamentTests\Stubs\Resource\Page\Edit\RelationManager\Column\Select::make($resource, $relation)->get(),
             ];
         })->toArray();
 

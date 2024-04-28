@@ -547,9 +547,24 @@ class Base
             ->filter(fn ($column) => $column instanceof \Filament\Tables\Columns\SelectColumn);
     }
 
+    public function getRelationManagerTableSelectColumns(string $for): Collection
+    {
+        return $this->getRelationManagerTableColumns($for)
+            ->filter(fn ($column) => $column instanceof \Filament\Tables\Columns\SelectColumn);
+    }
+
     public function getTableSelectColumnsWithOptions(Resource $resource): array
     {
         return $this->getTableSelectColumns($resource)
+            ->map(fn ($column) => [
+                'column' => $column->getName(),
+                'options' => $column->getOptions(),
+            ])->toArray();
+    }
+
+    public function getRelationManagerTableSelectColumnsWithOptions(string $for): array
+    {
+        return $this->getRelationManagerTableSelectColumns($for)
             ->map(fn ($column) => [
                 'column' => $column->getName(),
                 'options' => $column->getOptions(),

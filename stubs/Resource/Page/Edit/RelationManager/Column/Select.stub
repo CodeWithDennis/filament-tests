@@ -1,0 +1,11 @@
+it({{ DESCRIPTION }}, function (string $column, array $options) {
+    $ownerRecord = {{ MODEL_SINGULAR_NAME }}::factory()
+        ->has{{ RELATION_MANAGER_RELATIONSHIP_NAME_UCFIRST }}(3)
+        ->create();
+
+    livewire({{ RELATION_MANAGER_CLASS }}, [
+        'ownerRecord' => $ownerRecord,
+        'pageClass' => {{ RESOURCE_EDIT_CLASS }}
+    ])
+    ->assertTableSelectColumnHasOptions($column, $options, $ownerRecord);
+})->with({{ RELATION_MANAGER_TABLE_SELECT_COLUMNS }}){{ RESOLVED_GROUP_METHOD }};
