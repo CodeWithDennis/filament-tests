@@ -582,6 +582,11 @@ class Base
         return $this->getTableColumns($resource)->filter(fn ($column) => $column->getSummarizers());
     }
 
+    public function getRelationManagerTableColumnsWithSummarizers(string $for): Collection
+    {
+        return $this->getRelationManagerTableColumns($for)->filter(fn ($column) => $column->getSummarizers());
+    }
+
     public function hasSoftDeletes(Resource $resource): bool
     {
         return method_exists($resource->getModel(), 'bootSoftDeletes');

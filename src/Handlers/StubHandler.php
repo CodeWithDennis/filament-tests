@@ -199,6 +199,8 @@ class StubHandler
                 \CodeWithDennis\FilamentTests\Stubs\Resource\Page\Edit\RelationManager\Filter\Add::make($resource, $relation)->get(),
                 \CodeWithDennis\FilamentTests\Stubs\Resource\Page\Edit\RelationManager\Filter\Remove::make($resource, $relation)->get(),
                 \CodeWithDennis\FilamentTests\Stubs\Resource\Page\Edit\RelationManager\Filter\Reset::make($resource, $relation)->get(),
+
+                \CodeWithDennis\FilamentTests\Stubs\Resource\Page\Edit\RelationManager\Summary\Average::make($resource, $relation)->get(),
             ];
         })->toArray();
 
