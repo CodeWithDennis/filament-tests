@@ -8,7 +8,7 @@ class Select extends Base
 {
     public function getDescription(): string
     {
-        return 'has the correct options';
+        return 'has select column with correct options';
     }
 
     public function getShouldGenerate(): bool
