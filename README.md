@@ -117,8 +117,8 @@ won't be generated.
 - [it has the correct descriptions below on the relation manager on the edit page](https://filamentphp.com/docs/3.x/tables/testing#descriptions)
 - [it has a field on edit form](https://filamentphp.com/docs/3.x/forms/testing#fields)
 - [it has a hidden field on edit form](https://filamentphp.com/docs/3.x/forms/testing#hidden-fields)
-- it has column on the relation manager on the edit page 
-- it has extra attributes on the relation manager on the edit page 
+- [it has column on the relation manager on the edit page](https://filamentphp.com/docs/3.x/tables/testing#existence) 
+- [it has extra attributes on the relation manager on the edit page](https://filamentphp.com/docs/3.x/tables/testing#extra-attributes) 
 - [it has edit form](https://filamentphp.com/docs/3.x/forms/testing#form-existence)
 - it has header actions on the index page
 - it cannot render header actions on the index page
