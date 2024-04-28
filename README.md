@@ -112,6 +112,7 @@ won't be generated.
 - it has the correct table heading on the relation manager on the edit page
 - it has the correct table description on the relation manager on the edit page
 - it can render column on the relation manager on the edit page
+- it cannot render column on the relation manager on the edit page
 - [it has a field on edit form](https://filamentphp.com/docs/3.x/forms/testing#fields)
 - [it has a hidden field on edit form](https://filamentphp.com/docs/3.x/forms/testing#hidden-fields)
 - [it has edit form](https://filamentphp.com/docs/3.x/forms/testing#form-existence)
