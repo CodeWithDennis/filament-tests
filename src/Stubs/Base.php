@@ -447,6 +447,14 @@ class Base
             );
     }
 
+    public function getRelationManagerDescriptionBelowColumns(string $for): Collection
+    {
+        return $this->getRelationManagerTableColumns($for)
+            ->filter(fn ($column) => method_exists($column, 'description') &&
+                $column->getDescriptionBelow()
+            );
+    }
+
     public function getDescriptionBelowColumns(Resource $resource): Collection
     {
         return $this->getTableColumns($resource)
@@ -470,6 +478,15 @@ class Base
             ->map(fn ($column) => [
                 'column' => $column->getName(),
                 'description' => $column->getDescriptionAbove(),
+            ])->toArray();
+    }
+
+    public function getRelationManagerTableColumnDescriptionBelow(string $for): array
+    {
+        return $this->getRelationManagerDescriptionBelowColumns($for)
+            ->map(fn ($column) => [
+                'column' => $column->getName(),
+                'description' => $column->getDescriptionBelow(),
             ])->toArray();
     }
 
