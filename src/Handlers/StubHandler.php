@@ -184,6 +184,7 @@ class StubHandler
             return [
                 \CodeWithDennis\FilamentTests\Stubs\Resource\Page\Edit\RelationManager\Render::make($resource, $relation)->get(),
                 \CodeWithDennis\FilamentTests\Stubs\Resource\Page\Edit\RelationManager\ListRecords::make($resource, $relation)->get(),
+                \CodeWithDennis\FilamentTests\Stubs\Resource\Page\Edit\RelationManager\ListRecordsPaginated::make($resource, $relation)->get(),
                 \CodeWithDennis\FilamentTests\Stubs\Resource\Page\Edit\RelationManager\Table\Heading::make($resource, $relation)->get(),
                 \CodeWithDennis\FilamentTests\Stubs\Resource\Page\Edit\RelationManager\Table\Description::make($resource, $relation)->get(),
                 \CodeWithDennis\FilamentTests\Stubs\Resource\Page\Edit\RelationManager\Table\Column\Render::make($resource, $relation)->get(),
