@@ -2,7 +2,6 @@
 
 namespace CodeWithDennis\FilamentTests\Stubs\Resource\Page\Edit\RelationManager;
 
-use Closure;
 use CodeWithDennis\FilamentTests\Stubs\Base;
 
 class Description extends Base
