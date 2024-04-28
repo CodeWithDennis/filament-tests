@@ -205,6 +205,7 @@ class StubHandler
                 \CodeWithDennis\FilamentTests\Stubs\Resource\Page\Edit\RelationManager\Summary\CountIcon::make($resource, $relation)->get(),
                 \CodeWithDennis\FilamentTests\Stubs\Resource\Page\Edit\RelationManager\Summary\DateRange::make($resource, $relation)->get(),
                 \CodeWithDennis\FilamentTests\Stubs\Resource\Page\Edit\RelationManager\Summary\Range::make($resource, $relation)->get(),
+                \CodeWithDennis\FilamentTests\Stubs\Resource\Page\Edit\RelationManager\Summary\Sum::make($resource, $relation)->get(),
             ];
         })->toArray();
 
