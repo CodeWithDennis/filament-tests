@@ -202,6 +202,7 @@ class StubHandler
 
                 \CodeWithDennis\FilamentTests\Stubs\Resource\Page\Edit\RelationManager\Summary\Average::make($resource, $relation)->get(),
                 \CodeWithDennis\FilamentTests\Stubs\Resource\Page\Edit\RelationManager\Summary\Count::make($resource, $relation)->get(),
+                \CodeWithDennis\FilamentTests\Stubs\Resource\Page\Edit\RelationManager\Summary\CountIcon::make($resource, $relation)->get(),
             ];
         })->toArray();
 
