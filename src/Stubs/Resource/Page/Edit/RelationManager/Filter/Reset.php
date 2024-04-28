@@ -13,4 +13,9 @@ class Reset extends Base
     {
         return 'can reset a table filter on the '.str($this->relationManager)->basename()->snake()->replace('_', ' ').' on the edit page';
     }
+
+    public function getShouldGenerate(): bool
+    {
+        return $this->getRelationManagerTableFilters($this->relationManager)->isNotEmpty();
+    }
 }

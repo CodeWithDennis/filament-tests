@@ -607,6 +607,11 @@ class Base
         return collect($table->getFilters());
     }
 
+    public function getRelationManagerTableFilters(string $for): Collection
+    {
+        return collect($this->getRelationManagerTable($for)->getFilters());
+    }
+
     public function tableHasDeferredLoading(Resource $resource): bool
     {
         return $this->getResourceTable($resource)->isLoadingDeferred();
