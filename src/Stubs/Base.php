@@ -699,6 +699,21 @@ class Base
         return false;
     }
 
+    public function hasRelationManager(string $name): bool
+    {
+        return $this->getResourceRelations($this->resource)->contains($name);
+    }
+
+    public function relationManagerHasTableHeading(string $for): bool
+    {
+        return $this->getRelationManagerTable($for)->getHeading() !== null;
+    }
+
+    public function getRelationManagerTableHeading(string $for): ?string
+    {
+        return $this->getRelationManagerTable($for)->getHeading();
+    }
+
     // TODO: implement
     public function hasCustomPages(): bool
     {

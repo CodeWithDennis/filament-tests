@@ -24,10 +24,6 @@ class StubHandler
 
         $resourceRelationManagers = collect($resource->getRelations());
 
-        $rmRenderArray = $resourceRelationManagers->map(function ($relation) use ($resource) {
-            return \CodeWithDennis\FilamentTests\Stubs\Resource\Page\Edit\RelationManager\Render::make($resource, $relation)->get();
-        });
-
         $stubs = [
             \CodeWithDennis\FilamentTests\Stubs\SetupStub::make($resource)->get(),
 
@@ -184,7 +180,14 @@ class StubHandler
             \CodeWithDennis\FilamentTests\Stubs\Resource\Page\Custom\Widget\Render::make($resource)->get(),
         ];
 
-        array_push($stubs, ...$rmRenderArray->toArray());
+        $relationManagerStubs = $resourceRelationManagers->map(function ($relation) use ($resource) {
+            return [
+                \CodeWithDennis\FilamentTests\Stubs\Resource\Page\Edit\RelationManager\Render::make($resource, $relation)->get(),
+                \CodeWithDennis\FilamentTests\Stubs\Resource\Page\Edit\RelationManager\Heading::make($resource, $relation)->get(),
+            ];
+        })->toArray();
+
+        $stubs = array_merge($stubs, ...$relationManagerStubs);
 
         return collect($stubs);
     }
