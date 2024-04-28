@@ -792,7 +792,8 @@ class Base
 
         $parts = collect(explode('/', $group))
             ->filter(fn ($part) => ! empty($part))
-            ->map(fn ($part) => "'".trim(str($part)->kebab())."'");
+            ->map(fn ($part) => "'".trim(str($part)->kebab())."'")
+            ->sort();
 
         return $this->convertDoubleQuotedArrayString($parts->implode(','));
     }
