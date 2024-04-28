@@ -2,7 +2,6 @@
 
 namespace CodeWithDennis\FilamentTests\Handlers;
 
-use CodeWithDennis\FilamentTests\Stubs\Resource\Page\Edit\RelationManager\ListRecords;
 use Filament\Resources\Resource;
 use Illuminate\Support\Collection;
 
