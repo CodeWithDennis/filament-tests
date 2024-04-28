@@ -4,7 +4,6 @@ namespace CodeWithDennis\FilamentTests\Stubs\Resource\Page\Edit\RelationManager\
 
 use Closure;
 use CodeWithDennis\FilamentTests\Stubs\Base;
-use Filament\Tables\Columns\IconColumn;
 use ReflectionClass;
 
 class DateRange extends Base
