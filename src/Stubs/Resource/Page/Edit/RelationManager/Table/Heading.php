@@ -1,6 +1,6 @@
 <?php
 
-namespace CodeWithDennis\FilamentTests\Stubs\Resource\Page\Edit\RelationManager;
+namespace CodeWithDennis\FilamentTests\Stubs\Resource\Page\Edit\RelationManager\Table;
 
 use CodeWithDennis\FilamentTests\Stubs\Base;
 

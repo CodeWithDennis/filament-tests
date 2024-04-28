@@ -1,6 +1,6 @@
 <?php
 
-namespace CodeWithDennis\FilamentTests\Stubs\Resource\Page\Edit\RelationManager\Summary;
+namespace CodeWithDennis\FilamentTests\Stubs\Resource\Page\Edit\RelationManager\Table\Summary;
 
 use Closure;
 use CodeWithDennis\FilamentTests\Stubs\Base;

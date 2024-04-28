@@ -1,20 +1,20 @@
 <?php
 
-namespace CodeWithDennis\FilamentTests\Stubs\Resource\Page\Edit\RelationManager\Column;
+namespace CodeWithDennis\FilamentTests\Stubs\Resource\Page\Edit\RelationManager\Table\Column;
 
 use CodeWithDennis\FilamentTests\Stubs\Base;
 
-class DescriptionBelow extends Base
+class Render extends Base
 {
     public function getDescription(): string
     {
-        return 'has the correct descriptions (below) on the '.str($this->relationManager)->basename()->snake()->replace('_', ' ').' on the edit page';
+        return 'can render column on the '.str($this->relationManager)->basename()->snake()->replace('_', ' ').' on the edit page';
     }
 
     public function getShouldGenerate(): bool
     {
         return $this->getRelationManagerTableColumns($this->relationManager)->isNotEmpty()
-            && $this->getRelationManagerDescriptionBelowColumns($this->relationManager)->isNotEmpty();
+            && $this->getRelationManagerToggledHiddenByDefaultColumns($this->relationManager)->isNotEmpty();
     }
 
     public function getVariables(): array
@@ -24,7 +24,7 @@ class DescriptionBelow extends Base
             'RELATION_MANAGER_CLASS' => $this->relationManager.'::class',
             'RELATION_MANAGER_RELATIONSHIP_MODEL' => $this->getRelationManagerRelationshipNameToModelClass($this->relationManager),
             'RELATION_MANAGER_RELATIONSHIP_NAME' => str($this->getRelationManager($this->relationManager)->getRelationshipName())->ucfirst(),
-            'RELATION_MANAGER_TABLE_DESCRIPTIONS_BELOW_COLUMNS' => $this->transformToPestDataset($this->getRelationManagerTableColumnDescriptionBelow($this->relationManager), ['column', 'description']),
+            'RELATION_MANAGER_TABLE_INITIALLY_VISIBLE_COLUMNS' => $this->convertDoubleQuotedArrayString($this->getRelationManagerInitiallyVisibleColumns($this->relationManager)->keys()),
         ];
     }
 }

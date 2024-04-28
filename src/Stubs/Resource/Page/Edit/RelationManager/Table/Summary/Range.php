@@ -1,18 +1,18 @@
 <?php
 
-namespace CodeWithDennis\FilamentTests\Stubs\Resource\Page\Edit\RelationManager\Summary;
+namespace CodeWithDennis\FilamentTests\Stubs\Resource\Page\Edit\RelationManager\Table\Summary;
 
 use Closure;
 use CodeWithDennis\FilamentTests\Stubs\Base;
 use ReflectionClass;
 
-class DateRange extends Base
+class Range extends Base
 {
     public Closure|bool $isTodo = true;
 
     public function getDescription(): string
     {
-        return 'can range date values in a column on the '.str($this->relationManager)->basename()->snake()->replace('_', ' ').' on the edit page';
+        return 'can range values in a column on the '.str($this->relationManager)->basename()->snake()->replace('_', ' ').' on the edit page';
     }
 
     public function getShouldGenerate(): bool
@@ -23,7 +23,7 @@ class DateRange extends Base
                     $reflectionProperty = (new ReflectionClass(get_class($column)))
                         ->getProperty('isDate');
 
-                    return $reflectionProperty->getValue($column);
+                    return ! $reflectionProperty->getValue($column);
                 }
 
                 return false;

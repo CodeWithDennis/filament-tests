@@ -1,6 +1,6 @@
 <?php
 
-namespace CodeWithDennis\FilamentTests\Stubs\Resource\Page\Edit\RelationManager\Filter;
+namespace CodeWithDennis\FilamentTests\Stubs\Resource\Page\Edit\RelationManager\Table\Filter;
 
 use Closure;
 use CodeWithDennis\FilamentTests\Stubs\Base;
