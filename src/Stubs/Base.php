@@ -401,6 +401,12 @@ class Base
             ->filter(fn ($column) => $column->isSearchable());
     }
 
+    public function getRelationManagerSearchableColumns(string $for): Collection
+    {
+        return $this->getRelationManagerTableColumns($for)
+            ->filter(fn ($column) => $column->isSearchable());
+    }
+
     public function getSortableColumns(Resource $resource): Collection
     {
         return $this->getTableColumns($resource)
