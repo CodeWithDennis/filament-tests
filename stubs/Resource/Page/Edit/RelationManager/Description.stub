@@ -1,0 +1,10 @@
+it({{ DESCRIPTION }}, function () {
+    $ownerRecord = {{ MODEL_SINGULAR_NAME }}::factory()
+            ->create();
+
+    livewire({{ RELATION_MANAGER_CLASS }}, [
+        'ownerRecord' => $ownerRecord,
+        'pageClass' => {{ RESOURCE_EDIT_CLASS }}
+    ])
+        ->assertSee({{ RELATION_MANAGER_TABLE_DESCRIPTION }}, escape: false);
+}){{ RESOLVED_GROUP_METHOD }};

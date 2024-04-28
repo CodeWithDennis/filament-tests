@@ -709,9 +709,19 @@ class Base
         return $this->getRelationManagerTable($for)->getHeading() !== null;
     }
 
+    public function relationManagerHasTableDescription(string $for): bool
+    {
+        return $this->getRelationManagerTable($for)->getDescription() !== null;
+    }
+
     public function getRelationManagerTableHeading(string $for): ?string
     {
         return $this->getRelationManagerTable($for)->getHeading();
+    }
+
+    public function getRelationManagerTableDescription(string $for): ?string
+    {
+        return $this->getRelationManagerTable($for)->getDescription();
     }
 
     // TODO: implement
