@@ -3,10 +3,12 @@
 namespace CodeWithDennis\FilamentTests\Stubs;
 
 use Closure;
+use Filament\Facades\Filament;
 use Filament\Forms\Form;
 use Filament\Resources\Pages\CreateRecord;
 use Filament\Resources\Pages\EditRecord;
 use Filament\Resources\Pages\ListRecords;
+use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Resources\Resource;
 use Filament\Support\Concerns\EvaluatesClosures;
 use Filament\Tables\Table;
@@ -32,13 +34,13 @@ class Base
 
     public Closure|bool $shouldGenerateWithTodos = true;
 
-    public function __construct(public Resource $resource)
+    public function __construct(public Resource $resource, public ?string $relationManager = null)
     {
     }
 
-    public static function make(Resource $resource): self
+    public static function make(Resource $resource, ?string $relationManager = null): static
     {
-        return new static($resource);
+        return new static($resource, $relationManager);
     }
 
     public function group(string|Closure|null $group): static
@@ -288,6 +290,52 @@ class Base
         $livewire = app('livewire')->new(ListRecords::class);
 
         return $resource::table(new Table($livewire));
+    }
+
+    public function getResourceRelations(Resource $resource): Collection
+    {
+        return collect($resource::getRelations());
+    }
+
+    public function getResourceRelationManagerByName(string $name, Resource $resource): ?string
+    {
+        return $this->getResourceRelations($resource)
+            ->filter(fn ($relation) => str($relation)->contains($name))
+            ->first();
+    }
+
+    public function getRelationManagerTableColumns(?string $for = null): Collection
+    {
+        if (! $for) {
+            return collect();
+        }
+
+        $table = $this->getRelationManagerTable($for);
+
+        return collect($table->getColumns());
+    }
+
+    public function getRelationManagerTable(string $for): Table
+    {
+        $livewire = app('livewire')->new(RelationManager::class);
+
+        $relationClass = app()->make($this->getResourceRelationManagerByName($for, $this->resource));
+
+        return $relationClass->table(new Table($livewire));
+    }
+
+    public function getRelationManager($for): RelationManager
+    {
+        $livewire = app('livewire')->new(RelationManager::class);
+
+        return app()->make($this->getResourceRelationManagerByName($for, $this->resource));
+    }
+
+    public function getRelationManagerRelationshipNameToModelClass($for): string
+    {
+        $relationshipName = $this->getRelationManager($for)->getRelationshipName();
+
+        return str($relationshipName)->singular()->ucfirst()->prepend('\App\\Models\\');
     }
 
     public function getResourcePages(Resource $resource): Collection
@@ -659,6 +707,53 @@ class Base
     public function hasTableFilter(string $filter, Table $table): bool
     {
         return $this->getResourceTableFilters($table)->map(fn ($filter) => $filter->getName())->contains($filter);
+    }
+
+    public function getRegistrationRouteAction(): ?string
+    {
+        return Filament::getDefaultPanel()?->getRegistrationRouteAction();
+    }
+
+    public function hasRegistration(): bool
+    {
+        return Filament::hasRegistration();
+    }
+
+    public function getRequestPasswordResetRouteAction(): ?string
+    {
+        return Filament::getDefaultPanel()?->getRequestPasswordResetRouteAction();
+    }
+
+    public function hasPasswordReset(): bool
+    {
+        return Filament::hasPasswordReset();
+    }
+
+    public function getLoginRouteAction(): ?string
+    {
+        return Filament::getDefaultPanel()?->getLoginRouteAction();
+    }
+
+    public function getPanelPath(): ?string
+    {
+        return Filament::getDefaultPanel()?->getPath();
+    }
+
+    public function hasLogin(): bool
+    {
+        return Filament::hasLogin();
+    }
+
+    // TODO: implement
+    public function hasRelationManagers(): bool
+    {
+        return false;
+    }
+
+    // TODO: implement
+    public function hasCustomPages(): bool
+    {
+        return false;
     }
 
     public function getDeferredLoadingMethod(): string

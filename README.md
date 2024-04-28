@@ -93,91 +93,69 @@ php artisan make:filament-test
 Tests are generated on demand and are tailored to the component that you're generating tests for. For example, if the resource component doesn't have any sortable columns, then the tests for sorting 
 won't be generated.
 
+### Available Tests
+
+<details>
+
+<summary>List of available tests <i>(46)</i> ✔️</summary>
+
+- it can render the registration page
+- it can render the password reset page
+- it can render the login page
+- [it can render the create page](https://filamentphp.com/docs/3.x/panels/testing#routing--render)
+-  [it has create form](https://filamentphp.com/docs/3.x/forms/testing#form-existence)
+- [has a disabled field on create form](https://filamentphp.com/docs/3.x/forms/testing#disabled-fields)
+- [it has a field on create form](https://filamentphp.com/docs/3.x/forms/testing#fields)
+- [it has a hidden field on create form](https://filamentphp.com/docs/3.x/forms/testing#hidden-fields)
+- [it can render the edit page](https://filamentphp.com/docs/3.x/panels/testing#routing--render)
+- [it can render the relation manager on the edit page](https://filamentphp.com/docs/3.x/panels/testing#render)
+- [it has a field on edit form](https://filamentphp.com/docs/3.x/forms/testing#fields)
+- [it has a hidden field on edit form](https://filamentphp.com/docs/3.x/forms/testing#hidden-fields)
+- [it has edit form](https://filamentphp.com/docs/3.x/forms/testing#form-existence)
+- it has header actions on the index page
+- it cannot render header actions on the index page
+- it can render header actions on the index page
+- [it can list records on the index page](https://filamentphp.com/docs/3.x/tables/testing#render)
+- [it can list records on the index page with pagination](https://filamentphp.com/docs/3.x/tables/testing#render)
+- [it can render the index page](https://filamentphp.com/docs/3.x/tables/testing#render)
+- [it cannot display trashed records by default](https://filamentphp.com/docs/3.x/tables/testing#render)
+- it has the correct table description
+- it has the correct table heading
+- [it can delete records](https://filamentphp.com/docs/3.x/tables/testing#calling-actions)
+- [it can force delete records](https://filamentphp.com/docs/3.x/tables/testing#calling-actions)
+- [it can soft delete records](https://filamentphp.com/docs/3.x/tables/testing#calling-actions)
+- [it has table action](https://filamentphp.com/docs/3.x/tables/testing#calling-actions)
+- [it can replicate records](https://filamentphp.com/docs/3.x/tables/testing#calling-actions)
+- [it can restore records](https://filamentphp.com/docs/3.x/tables/testing#calling-actions)
+- [it has the correct URL for table action](https://filamentphp.com/docs/3.x/infolists/testing#url)
+- [it has the correct URL and opens in a new tab for table action](https://filamentphp.com/docs/3.x/infolists/testing#url)
+- it can bulk delete records
+- it can bulk force delete records
+- it can bulk delete records
+- it has table bulk action
+- it can bulk restore records
+- it can bulk soft delete records
+- [it cannot render column](https://filamentphp.com/docs/3.x/tables/testing#columns)
+- [it has the correct descriptions above](https://filamentphp.com/docs/3.x/tables/testing#descriptions)
+- [it has the correct descriptions below](https://filamentphp.com/docs/3.x/tables/testing#descriptions)
+- [it has column](https://filamentphp.com/docs/3.x/tables/testing#existence)
+- [it has extra attributes](https://filamentphp.com/docs/3.x/tables/testing#extra-attributes)
+- [it can render column](https://filamentphp.com/docs/3.x/tables/testing#columns)
+- [it can search column](https://filamentphp.com/docs/3.x/tables/testing#searching)
+- [it can individually search by column](https://filamentphp.com/docs/3.x/tables/testing#searching)
+- [it has the correct options](https://filamentphp.com/docs/3.x/tables/testing#select-columns)
+- [it can sort column](https://filamentphp.com/docs/3.x/tables/testing#sorting)
+- [it can reset table filters](https://filamentphp.com/docs/3.x/tables/testing#resetting-filters)
+- [it can render the view page](https://filamentphp.com/docs/3.x/tables/testing#render)
+
+</details>
+
 ### Publishing Stubs
 You can customize the stubs by publishing them to your project:
 
 ```bash
 php artisan vendor:publish --tag="filament-tests-stubs"
 ```
-### Available Tests
-
-- Resource
-  - Page
-      - Create
-          - Form
-              - Fields
-                  - [X] [has a disabled field on create form](https://filamentphp.com/docs/3.x/forms/testing#disabled-fields)
-                  - [x] [it has a field on create form](https://filamentphp.com/docs/3.x/forms/testing#fields)
-                  - [x] [it has a hidden field on create form](https://filamentphp.com/docs/3.x/forms/testing#hidden-fields)
-                  - [ ] [it can validate input on create form](https://filamentphp.com/docs/3.x/forms/testing#validation)
-              - [x] [it has create form](https://filamentphp.com/docs/3.x/forms/testing#form-existence)
-              - [ ] it can validate create form input
-          - [x] [it can render the create page](https://filamentphp.com/docs/3.x/panels/testing#routing--render)
-      - Edit
-          - Form
-              - Fields
-                  - [X] [has a disabled field on edit form](https://filamentphp.com/docs/3.x/forms/testing#disabled-fields)
-                  - [x] [it has a field on edit form](https://filamentphp.com/docs/3.x/forms/testing#fields)
-                  - [x] [it has a hidden field on edit form](https://filamentphp.com/docs/3.x/forms/testing#hidden-fields)
-                  - [ ] [it can validate input on edit form](https://filamentphp.com/docs/3.x/forms/testing#validation)
-              - [x] [it has edit form](https://filamentphp.com/docs/3.x/forms/testing#form-existence)
-              - [ ] it can validate edit form input
-          - [x] [it can render the edit page](https://filamentphp.com/docs/3.x/panels/testing#routing--render)
-      - Index
-          - [x] Actions
-              - [x] it has header actions on the index page
-              - [x] it cannot render header actions on the index page
-              - [x] it can render header actions on the index page
-          - Table
-              - Actions
-                  - [x] [it can delete records](https://filamentphp.com/docs/3.x/tables/testing#calling-actions)
-                  - [x] [it can force delete records](https://filamentphp.com/docs/3.x/tables/testing#calling-actions)
-                  - [x] [it can soft delete records](https://filamentphp.com/docs/3.x/tables/testing#calling-actions)
-                  - [x] [it has table action](https://filamentphp.com/docs/3.x/tables/testing#calling-actions)
-                  - [x] [it can replicate records](https://filamentphp.com/docs/3.x/tables/testing#calling-actions)
-                  - [x] [it can restore records](https://filamentphp.com/docs/3.x/tables/testing#calling-actions)
-                  - [x] [it has the correct URL for table action](https://filamentphp.com/docs/3.x/infolists/testing#url)
-                  - [x] [it has the correct URL and opens in a new tab for table action](https://filamentphp.com/docs/3.x/infolists/testing#url)
-              - BulkActions
-                  - [x] it can bulk delete records
-                  - [x] it can bulk force delete records
-                  - [x] it can bulk delete records
-                  - [x] it has table bulk action
-                  - [x] it can bulk restore records
-                  - [x] it can bulk soft delete records
-              - Columns
-                  - [x] [it cannot render column](https://filamentphp.com/docs/3.x/tables/testing#columns)
-                  - [x] [it has the correct descriptions above](https://filamentphp.com/docs/3.x/tables/testing#descriptions)
-                  - [x] [it has the correct descriptions below](https://filamentphp.com/docs/3.x/tables/testing#descriptions)
-                  - [x] [it has column](https://filamentphp.com/docs/3.x/tables/testing#existence)
-                  - [x] [it has extra attributes](https://filamentphp.com/docs/3.x/tables/testing#extra-attributes)
-                  - [x] [it can render column](https://filamentphp.com/docs/3.x/tables/testing#columns)
-                  - [x] [it can search column](https://filamentphp.com/docs/3.x/tables/testing#searching)
-                  - [x] [it can individually search by column](https://filamentphp.com/docs/3.x/tables/testing#searching)
-                  - [x] [it has the correct options](https://filamentphp.com/docs/3.x/tables/testing#select-columns)
-                  - [x] [it can sort column](https://filamentphp.com/docs/3.x/tables/testing#sorting)
-              - Filters
-                  - [ ] [it can add a table filter](https://filamentphp.com/docs/3.x/tables/testing#removing-filters)
-                  - [ ] [it can remove a table filter](https://filamentphp.com/docs/3.x/tables/testing#removing-filters)
-                  - [x] [it can reset table filters](https://filamentphp.com/docs/3.x/tables/testing#resetting-filters)
-              - Summaries
-                  - [ ] [it can average values in a column](https://filamentphp.com/docs/3.x/tables/testing#summaries)
-                  - [ ] [it can count values in a column](https://filamentphp.com/docs/3.x/tables/testing#summaries)
-                  - [ ] [it can count the occurrence of icons in a column](https://filamentphp.com/docs/3.x/tables/testing#summaries)
-                  - [ ] [it can range date values in a column](https://filamentphp.com/docs/3.x/tables/testing#summaries)
-                  - [ ] [it can range values in a column](https://filamentphp.com/docs/3.x/tables/testing#summaries)
-                  - [ ] [it can sum values in a column](https://filamentphp.com/docs/3.x/tables/testing#summaries)
-              - [x] it has the correct table description
-              - [x] it has the correct table heading
-          - [x] [it can list records on the index page](https://filamentphp.com/docs/3.x/tables/testing#render)
-          - [x] [it can list records on the index page with pagination](https://filamentphp.com/docs/3.x/tables/testing#render)
-          - [x] [it can render the index page](https://filamentphp.com/docs/3.x/tables/testing#render)
-          - [x] [it cannot display trashed records by default](https://filamentphp.com/docs/3.x/tables/testing#render)
-          - [x] it has tabs in order
-      - View
-          - [x] [it can render the view page](https://filamentphp.com/docs/3.x/tables/testing#render)
-
-
 ## Running the package tests
 
 You can run your tests normally by running the following command:
