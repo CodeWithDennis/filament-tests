@@ -197,6 +197,7 @@ class StubHandler
                 \CodeWithDennis\FilamentTests\Stubs\Resource\Page\Edit\RelationManager\Column\Sort::make($resource, $relation)->get(),
 
                 \CodeWithDennis\FilamentTests\Stubs\Resource\Page\Edit\RelationManager\Filter\Add::make($resource, $relation)->get(),
+                \CodeWithDennis\FilamentTests\Stubs\Resource\Page\Edit\RelationManager\Filter\Remove::make($resource, $relation)->get(),
             ];
         })->toArray();
 
