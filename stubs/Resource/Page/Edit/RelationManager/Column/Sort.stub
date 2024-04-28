@@ -1,0 +1,20 @@
+it({{ DESCRIPTION }}, function (string $column) {
+    $ownerRecord = {{ MODEL_SINGULAR_NAME }}::factory()
+        ->has{{ RELATION_MANAGER_RELATIONSHIP_NAME_UCFIRST }}(3)
+        ->create();
+
+    livewire({{ RELATION_MANAGER_CLASS }}, [
+        'ownerRecord' => $ownerRecord,
+        'pageClass' => {{ RESOURCE_EDIT_CLASS }}
+    ])
+    ->sortTable($column){{ LOAD_TABLE_METHOD_IF_DEFERRED }}
+    ->assertCanSeeTableRecords(
+        $ownerRecord->{{ RELATION_MANAGER_RELATIONSHIP_NAME_LCFIRST }}()->orderBy($column)->get(),
+        inOrder: true
+    )
+    ->sortTable($column, 'desc'){{ LOAD_TABLE_METHOD_IF_DEFERRED }}
+    ->assertCanSeeTableRecords(
+        $ownerRecord->{{ RELATION_MANAGER_RELATIONSHIP_NAME_LCFIRST }}()->orderBy($column, 'desc')->get(),
+        inOrder: true
+    );
+})->with({{ RELATION_MANAGER_TABLE_SORTABLE_COLUMNS }}){{ RESOLVED_GROUP_METHOD }};
