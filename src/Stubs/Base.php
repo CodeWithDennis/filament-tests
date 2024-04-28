@@ -315,6 +315,12 @@ class Base
         return collect($table->getColumns());
     }
 
+    public function getRelationManagerInitiallyVisibleColumns(string $for): Collection
+    {
+        return $this->getRelationManagerTableColumns($for)
+            ->filter(fn ($column) => ! $column->isToggledHiddenByDefault());
+    }
+
     public function getRelationManagerTable(string $for): Table
     {
         $livewire = app('livewire')->new(RelationManager::class);
