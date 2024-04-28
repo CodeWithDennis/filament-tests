@@ -419,6 +419,12 @@ class Base
             ->filter(fn ($column) => $column->isIndividuallySearchable());
     }
 
+    public function getRelationManagerIndividuallySearchableColumns(string $for): Collection
+    {
+        return $this->getRelationManagerTableColumns($for)
+            ->filter(fn ($column) => $column->isIndividuallySearchable());
+    }
+
     public function getToggleableColumns(Resource $resource): Collection
     {
         return $this->getTableColumns($resource)
