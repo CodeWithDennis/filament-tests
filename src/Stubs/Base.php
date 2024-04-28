@@ -505,9 +505,24 @@ class Base
             ->filter(fn ($column) => $column->getExtraAttributes());
     }
 
+    public function getRelationManagerExtraAttributesColumns(string $for): Collection
+    {
+        return $this->getRelationManagerTableColumns($for)
+            ->filter(fn ($column) => $column->getExtraAttributes());
+    }
+
     public function getExtraAttributesColumnValues(Resource $resource): array
     {
         return $this->getExtraAttributesColumns($resource)
+            ->map(fn ($column) => [
+                'column' => $column->getName(),
+                'attributes' => $column->getExtraAttributes(),
+            ])->toArray();
+    }
+
+    public function getRelationManagerExtraAttributesColumnValues(string $for): array
+    {
+        return $this->getRelationManagerExtraAttributesColumns($for)
             ->map(fn ($column) => [
                 'column' => $column->getName(),
                 'attributes' => $column->getExtraAttributes(),

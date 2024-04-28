@@ -118,6 +118,7 @@ won't be generated.
 - [it has a field on edit form](https://filamentphp.com/docs/3.x/forms/testing#fields)
 - [it has a hidden field on edit form](https://filamentphp.com/docs/3.x/forms/testing#hidden-fields)
 - it has column on the relation manager on the edit page 
+- it has extra attributes on the relation manager on the edit page 
 - [it has edit form](https://filamentphp.com/docs/3.x/forms/testing#form-existence)
 - it has header actions on the index page
 - it cannot render header actions on the index page

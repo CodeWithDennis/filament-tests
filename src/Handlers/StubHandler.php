@@ -190,6 +190,7 @@ class StubHandler
                 \CodeWithDennis\FilamentTests\Stubs\Resource\Page\Edit\RelationManager\Column\DescriptionAbove::make($resource, $relation)->get(),
                 \CodeWithDennis\FilamentTests\Stubs\Resource\Page\Edit\RelationManager\Column\DescriptionBelow::make($resource, $relation)->get(),
                 \CodeWithDennis\FilamentTests\Stubs\Resource\Page\Edit\RelationManager\Column\Exist::make($resource, $relation)->get(),
+                \CodeWithDennis\FilamentTests\Stubs\Resource\Page\Edit\RelationManager\Column\ExtraAttributes::make($resource, $relation)->get(),
             ];
         })->toArray();
 
