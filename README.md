@@ -123,6 +123,7 @@ won't be generated.
 - [it can (individually) search column on the relation manger on the edit page](https://filamentphp.com/docs/3.x/tables/testing#searching)
 - [it has select column with correct options on the relation manager on the edit page](https://filamentphp.com/docs/3.x/tables/testing#select-columns)
 - [it can sort column on the relation manager on the edit page](https://filamentphp.com/docs/3.x/tables/testing#sorting)
+- [it can list records on the index page on the relation manager on the edit page](https://filamentphp.com/docs/3.x/tables/testing#render)
 - [it has edit form](https://filamentphp.com/docs/3.x/forms/testing#form-existence)
 - it has header actions on the index page
 - it cannot render header actions on the index page

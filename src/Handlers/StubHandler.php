@@ -2,6 +2,7 @@
 
 namespace CodeWithDennis\FilamentTests\Handlers;
 
+use CodeWithDennis\FilamentTests\Stubs\Resource\Page\Edit\RelationManager\ListRecords;
 use Filament\Resources\Resource;
 use Illuminate\Support\Collection;
 
@@ -183,6 +184,7 @@ class StubHandler
         $relationManagerStubs = $resourceRelationManagers->map(function ($relation) use ($resource) {
             return [
                 \CodeWithDennis\FilamentTests\Stubs\Resource\Page\Edit\RelationManager\Render::make($resource, $relation)->get(),
+                \CodeWithDennis\FilamentTests\Stubs\Resource\Page\Edit\RelationManager\ListRecords::make($resource, $relation)->get(),
                 \CodeWithDennis\FilamentTests\Stubs\Resource\Page\Edit\RelationManager\Table\Heading::make($resource, $relation)->get(),
                 \CodeWithDennis\FilamentTests\Stubs\Resource\Page\Edit\RelationManager\Table\Description::make($resource, $relation)->get(),
                 \CodeWithDennis\FilamentTests\Stubs\Resource\Page\Edit\RelationManager\Table\Column\Render::make($resource, $relation)->get(),
