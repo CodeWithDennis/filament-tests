@@ -12,7 +12,7 @@ class Range extends Base
 
     public function getDescription(): string
     {
-        return 'can range values in a column on the '.str($this->relationManager)->basename()->snake()->replace('_', ' ').' on the edit page';
+        return 'can range values in a column on the '. str($this->getRelationManager($this->relationManager)->getRelationshipName())->lcfirst() .' relation manager on the edit page';
     }
 
     public function getShouldGenerate(): bool
