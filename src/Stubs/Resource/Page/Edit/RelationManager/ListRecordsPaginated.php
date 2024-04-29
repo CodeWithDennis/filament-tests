@@ -2,10 +2,13 @@
 
 namespace CodeWithDennis\FilamentTests\Stubs\Resource\Page\Edit\RelationManager;
 
+use Closure;
 use CodeWithDennis\FilamentTests\Stubs\Base;
 
 class ListRecordsPaginated extends Base
 {
+    public Closure|bool $isTodo = true; // TODO(bug?): Page is not switching to the next page on RM (->call('gotoPage', 2))
+
     public function getDescription(): string
     {
         return 'can list records on the '. str($this->getRelationManager($this->relationManager)->getRelationshipName())->lcfirst() .' relation manager on the edit page with pagination';
