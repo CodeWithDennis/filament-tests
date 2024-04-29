@@ -11,7 +11,7 @@ class ListRecordsPaginated extends Base
 
     public function getDescription(): string
     {
-        return 'can list records on the '. str($this->getRelationManager($this->relationManager)->getRelationshipName())->lcfirst() .' relation manager on the edit page with pagination';
+        return 'can list records on the '.str($this->getRelationManager($this->relationManager)->getRelationshipName())->lcfirst().' relation manager on the edit page with pagination';
     }
 
     public function getShouldGenerate(): bool

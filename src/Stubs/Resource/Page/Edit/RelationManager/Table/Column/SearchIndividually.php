@@ -8,7 +8,7 @@ class SearchIndividually extends Base
 {
     public function getDescription(): string
     {
-        return 'can individually search column on the '. str($this->getRelationManager($this->relationManager)->getRelationshipName())->lcfirst() .' relation manager on the edit page';
+        return 'can individually search column on the '.str($this->getRelationManager($this->relationManager)->getRelationshipName())->lcfirst().' relation manager on the edit page';
     }
 
     public function getShouldGenerate(): bool

@@ -11,7 +11,7 @@ class Add extends Base
 
     public function getDescription(): string
     {
-        return 'can add a table filter on the '. str($this->getRelationManager($this->relationManager)->getRelationshipName())->lcfirst() .' relation manager on the edit page';
+        return 'can add a table filter on the '.str($this->getRelationManager($this->relationManager)->getRelationshipName())->lcfirst().' relation manager on the edit page';
     }
 
     public function getShouldGenerate(): bool

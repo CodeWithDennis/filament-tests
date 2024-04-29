@@ -8,7 +8,7 @@ class Select extends Base
 {
     public function getDescription(): string
     {
-        return 'has select column with correct options on the '. str($this->getRelationManager($this->relationManager)->getRelationshipName())->lcfirst() .' relation manager on the edit page';
+        return 'has select column with correct options on the '.str($this->getRelationManager($this->relationManager)->getRelationshipName())->lcfirst().' relation manager on the edit page';
     }
 
     public function getShouldGenerate(): bool

@@ -8,7 +8,7 @@ class DescriptionBelow extends Base
 {
     public function getDescription(): string
     {
-        return 'has the correct descriptions (below) on the '. str($this->getRelationManager($this->relationManager)->getRelationshipName())->lcfirst() .' relation manager on the edit page';
+        return 'has the correct descriptions (below) on the '.str($this->getRelationManager($this->relationManager)->getRelationshipName())->lcfirst().' relation manager on the edit page';
     }
 
     public function getShouldGenerate(): bool
