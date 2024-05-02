@@ -1,0 +1,15 @@
+it({{ DESCRIPTION }}, function (string $column) {
+    $ownerRecord = {{ MODEL_SINGULAR_NAME }}::factory()
+        ->has{{ RELATION_MANAGER_RELATIONSHIP_NAME_UCFIRST }}(3)
+        ->create();
+
+    $search = $ownerRecord->{$column};
+
+    livewire({{ RELATION_MANAGER_CLASS }}, [
+        'ownerRecord' => $ownerRecord,
+        'pageClass' => {{ RESOURCE_VIEW_CLASS }}
+    ])
+    ->searchTable($search instanceof BackedEnum ? $search->value : $search){{ LOAD_TABLE_METHOD_IF_DEFERRED }}
+    ->assertCanSeeTableRecords($ownerRecord->{{ RELATION_MANAGER_RELATIONSHIP_NAME_LCFIRST }}->where($column, $search))
+    ->assertCanNotSeeTableRecords($ownerRecord->{{ RELATION_MANAGER_RELATIONSHIP_NAME_LCFIRST }}->where($column, '!=', $search));
+})->with({{ RELATION_MANAGER_TABLE_SEARCHABLE_COLUMNS }}){{ RESOLVED_GROUP_METHOD }};

@@ -182,6 +182,7 @@ class StubHandler
 
         $relationManagerStubs = $resourceRelationManagers->map(function ($relation) use ($resource) {
             return [
+                // Edit Page
                 \CodeWithDennis\FilamentTests\Stubs\Resource\Page\Edit\RelationManager\Render::make($resource, $relation)->get(),
                 \CodeWithDennis\FilamentTests\Stubs\Resource\Page\Edit\RelationManager\ListRecords::make($resource, $relation)->get(),
                 \CodeWithDennis\FilamentTests\Stubs\Resource\Page\Edit\RelationManager\ListRecordsPaginated::make($resource, $relation)->get(),
@@ -208,6 +209,34 @@ class StubHandler
                 \CodeWithDennis\FilamentTests\Stubs\Resource\Page\Edit\RelationManager\Table\Summary\DateRange::make($resource, $relation)->get(),
                 \CodeWithDennis\FilamentTests\Stubs\Resource\Page\Edit\RelationManager\Table\Summary\Range::make($resource, $relation)->get(),
                 \CodeWithDennis\FilamentTests\Stubs\Resource\Page\Edit\RelationManager\Table\Summary\Sum::make($resource, $relation)->get(),
+
+                // View Page
+                \CodeWithDennis\FilamentTests\Stubs\Resource\Page\View\RelationManager\Render::make($resource, $relation)->get(),
+                \CodeWithDennis\FilamentTests\Stubs\Resource\Page\View\RelationManager\ListRecords::make($resource, $relation)->get(),
+                \CodeWithDennis\FilamentTests\Stubs\Resource\Page\View\RelationManager\ListRecordsPaginated::make($resource, $relation)->get(),
+                \CodeWithDennis\FilamentTests\Stubs\Resource\Page\View\RelationManager\Table\Heading::make($resource, $relation)->get(),
+                \CodeWithDennis\FilamentTests\Stubs\Resource\Page\View\RelationManager\Table\Description::make($resource, $relation)->get(),
+                \CodeWithDennis\FilamentTests\Stubs\Resource\Page\View\RelationManager\Table\Column\Render::make($resource, $relation)->get(),
+                \CodeWithDennis\FilamentTests\Stubs\Resource\Page\View\RelationManager\Table\Column\CannotRender::make($resource, $relation)->get(),
+                \CodeWithDennis\FilamentTests\Stubs\Resource\Page\View\RelationManager\Table\Column\DescriptionAbove::make($resource, $relation)->get(),
+                \CodeWithDennis\FilamentTests\Stubs\Resource\Page\View\RelationManager\Table\Column\DescriptionBelow::make($resource, $relation)->get(),
+                \CodeWithDennis\FilamentTests\Stubs\Resource\Page\View\RelationManager\Table\Column\Exist::make($resource, $relation)->get(),
+                \CodeWithDennis\FilamentTests\Stubs\Resource\Page\View\RelationManager\Table\Column\ExtraAttributes::make($resource, $relation)->get(),
+                \CodeWithDennis\FilamentTests\Stubs\Resource\Page\View\RelationManager\Table\Column\Search::make($resource, $relation)->get(),
+                \CodeWithDennis\FilamentTests\Stubs\Resource\Page\View\RelationManager\Table\Column\SearchIndividually::make($resource, $relation)->get(),
+                \CodeWithDennis\FilamentTests\Stubs\Resource\Page\View\RelationManager\Table\Column\Select::make($resource, $relation)->get(),
+                \CodeWithDennis\FilamentTests\Stubs\Resource\Page\View\RelationManager\Table\Column\Sort::make($resource, $relation)->get(),
+
+                \CodeWithDennis\FilamentTests\Stubs\Resource\Page\View\RelationManager\Table\Filter\Add::make($resource, $relation)->get(),
+                \CodeWithDennis\FilamentTests\Stubs\Resource\Page\View\RelationManager\Table\Filter\Remove::make($resource, $relation)->get(),
+                \CodeWithDennis\FilamentTests\Stubs\Resource\Page\View\RelationManager\Table\Filter\Reset::make($resource, $relation)->get(),
+
+                \CodeWithDennis\FilamentTests\Stubs\Resource\Page\View\RelationManager\Table\Summary\Average::make($resource, $relation)->get(),
+                \CodeWithDennis\FilamentTests\Stubs\Resource\Page\View\RelationManager\Table\Summary\Count::make($resource, $relation)->get(),
+                \CodeWithDennis\FilamentTests\Stubs\Resource\Page\View\RelationManager\Table\Summary\CountIcon::make($resource, $relation)->get(),
+                \CodeWithDennis\FilamentTests\Stubs\Resource\Page\View\RelationManager\Table\Summary\DateRange::make($resource, $relation)->get(),
+                \CodeWithDennis\FilamentTests\Stubs\Resource\Page\View\RelationManager\Table\Summary\Range::make($resource, $relation)->get(),
+                \CodeWithDennis\FilamentTests\Stubs\Resource\Page\View\RelationManager\Table\Summary\Sum::make($resource, $relation)->get(),
             ];
         })->toArray();
 
