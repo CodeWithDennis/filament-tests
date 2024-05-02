@@ -17,7 +17,8 @@ class DateRange extends Base
 
     public function getShouldGenerate(): bool
     {
-        return $this->getRelationManagerTableColumnsWithSummarizers($this->relationManager)
+        return $this->hasPage('index', $this->resource)
+            && $this->getRelationManagerTableColumnsWithSummarizers($this->relationManager)
             ->filter(fn ($column) => collect($column->getSummarizers())->filter(function ($summarizer) use ($column) {
                 if ($summarizer::class === \Filament\Tables\Columns\Summarizers\Range::class) {
                     $reflectionProperty = (new ReflectionClass(get_class($column)))

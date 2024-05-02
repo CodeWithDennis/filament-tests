@@ -13,7 +13,8 @@ class Sort extends Base
 
     public function getShouldGenerate(): bool
     {
-        return $this->getRelationManagerTableColumns($this->relationManager)->isNotEmpty()
+        return $this->hasPage('index', $this->resource)
+            && $this->getRelationManagerTableColumns($this->relationManager)->isNotEmpty()
             && $this->getRelationManagerSortableColumns($this->relationManager)->isNotEmpty();
     }
 

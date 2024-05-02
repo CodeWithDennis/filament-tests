@@ -16,7 +16,8 @@ class ListRecordsPaginated extends Base
 
     public function getShouldGenerate(): bool
     {
-        return $this->hasRelationManager($this->relationManager) &&
+        return $this->hasPage('index', $this->resource)
+            && $this->hasRelationManager($this->relationManager) &&
             $this->getRelationManagerTableColumns($this->relationManager)->isNotEmpty();
     }
 

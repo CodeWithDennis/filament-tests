@@ -16,6 +16,7 @@ class Reset extends Base
 
     public function getShouldGenerate(): bool
     {
-        return $this->getRelationManagerTableFilters($this->relationManager)->isNotEmpty();
+        return $this->hasPage('index', $this->resource)
+            && $this->getRelationManagerTableFilters($this->relationManager)->isNotEmpty();
     }
 }

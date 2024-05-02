@@ -13,7 +13,8 @@ class Search extends Base
 
     public function getShouldGenerate(): bool
     {
-        return $this->getRelationManagerTableColumns($this->relationManager)->isNotEmpty()
+        return $this->hasPage('index', $this->resource)
+            && $this->getRelationManagerTableColumns($this->relationManager)->isNotEmpty()
             && $this->getRelationManagerSearchableColumns($this->relationManager)->isNotEmpty();
     }
 
