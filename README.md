@@ -125,6 +125,24 @@ won't be generated.
 - [it can sort column on the relation manager on the edit page](https://filamentphp.com/docs/3.x/tables/testing#sorting)
 - [it can list records on the index page on the relation manager on the edit page](https://filamentphp.com/docs/3.x/tables/testing#render)
 - [it can list records on the index page on the relation manager on the edit page with pagination](https://filamentphp.com/docs/3.x/tables/testing#render)
+- [it can render the view page](https://filamentphp.com/docs/3.x/panels/testing#routing--render)
+- [it can render the relation manager on the view page](https://filamentphp.com/docs/3.x/panels/testing#render)
+- it has the correct table heading on the relation manager on the view page
+- it has the correct table description on the relation manager on the view page
+- it can render column on the relation manager on the view page
+- it cannot render column on the relation manager on the view page
+- [it has the correct descriptions above on the relation manager on the view page](https://filamentphp.com/docs/3.x/tables/testing#descriptions)
+- [it has the correct descriptions below on the relation manager on the view page](https://filamentphp.com/docs/3.x/tables/testing#descriptions)
+- [it has a field on view form](https://filamentphp.com/docs/3.x/forms/testing#fields)
+- [it has a hidden field on view form](https://filamentphp.com/docs/3.x/forms/testing#hidden-fields)
+- [it has column on the relation manager on the view page](https://filamentphp.com/docs/3.x/tables/testing#existence)
+- [it has extra attributes on the relation manager on the view page](https://filamentphp.com/docs/3.x/tables/testing#extra-attributes)
+- [it can search column on the relation manger on the view page](https://filamentphp.com/docs/3.x/tables/testing#searching)
+- [it can (individually) search column on the relation manger on the view page](https://filamentphp.com/docs/3.x/tables/testing#searching)
+- [it has select column with correct options on the relation manager on the view page](https://filamentphp.com/docs/3.x/tables/testing#select-columns)
+- [it can sort column on the relation manager on the view page](https://filamentphp.com/docs/3.x/tables/testing#sorting)
+- [it can list records on the index page on the relation manager on the view page](https://filamentphp.com/docs/3.x/tables/testing#render)
+- [it can list records on the index page on the relation manager on the view page with pagination](https://filamentphp.com/docs/3.x/tables/testing#render)
 - [it has edit form](https://filamentphp.com/docs/3.x/forms/testing#form-existence)
 - it has header actions on the index page
 - it cannot render header actions on the index page
