@@ -16,7 +16,7 @@ class Add extends Base
 
     public function getShouldGenerate(): bool
     {
-        return $this->hasPage('index', $this->resource)
+        return $this->hasPage('edit', $this->resource)
             && $this->getRelationManagerTableFilters($this->relationManager)->isNotEmpty();
     }
 }

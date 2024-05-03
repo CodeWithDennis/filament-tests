@@ -13,7 +13,7 @@ class Description extends Base
 
     public function getShouldGenerate(): bool
     {
-        return $this->hasPage('index', $this->resource)
+        return $this->hasPage('edit', $this->resource)
             && $this->hasRelationManager($this->relationManager)
             && $this->relationManagerHasTableDescription($this->relationManager);
     }

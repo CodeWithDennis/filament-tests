@@ -13,7 +13,7 @@ class Render extends Base
 
     public function getShouldGenerate(): bool
     {
-        return $this->hasPage('index', $this->resource)
+        return $this->hasPage('edit', $this->resource)
             && $this->getRelationManagerTableColumns($this->relationManager)->isNotEmpty()
             && $this->getRelationManagerToggledHiddenByDefaultColumns($this->relationManager)->isNotEmpty();
     }
