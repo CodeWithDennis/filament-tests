@@ -181,6 +181,10 @@ class StubHandler
         ];
 
         $relationManagerStubs = $resourceRelationManagers->map(function ($relation) use ($resource) {
+            if (! is_string($relation)) {
+                $relation = $relation->relationManager;
+            }
+
             return [
                 // Edit Page
                 \CodeWithDennis\FilamentTests\Stubs\Resource\Page\Edit\RelationManager\Render::make($resource, $relation)->get(),
