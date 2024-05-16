@@ -1,11 +1,11 @@
 it({{ DESCRIPTION }}, function () {
     $ownerRecord = {{ MODEL_SINGULAR_NAME }}::factory()
-        ->has{{ RELATION_MANAGER_RELATIONSHIP_NAME }}(3)
+        ->has{{ RELATION_MANAGER_RELATIONSHIP_NAME_UCFIRST }}(3)
         ->create();
 
     livewire({{ RELATION_MANAGER_CLASS }}, [
         'ownerRecord' => $ownerRecord,
         'pageClass' => {{ RESOURCE_VIEW_CLASS }}
     ])
-        ->assertSuccessful();
+        ->assertCanSeeTableRecords($ownerRecord->{{ RELATION_MANAGER_RELATIONSHIP_NAME_LCFIRST }});
 }){{ RESOLVED_GROUP_METHOD }};

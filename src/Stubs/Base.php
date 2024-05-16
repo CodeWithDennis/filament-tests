@@ -294,7 +294,8 @@ class Base
 
     public function getResourceRelations(Resource $resource): Collection
     {
-        return collect($resource::getRelations());
+        return collect($resource::getRelations())
+            ->map(fn ($relation) => ! is_string($relation) ? $relation->relationManager : $relation);
     }
 
     public function getResourceRelationManagerByName(string $name, Resource $resource): ?string
@@ -313,6 +314,18 @@ class Base
         $table = $this->getRelationManagerTable($for);
 
         return collect($table->getColumns());
+    }
+
+    public function getRelationManagerInitiallyVisibleColumns(string $for): Collection
+    {
+        return $this->getRelationManagerTableColumns($for)
+            ->filter(fn ($column) => ! $column->isToggledHiddenByDefault());
+    }
+
+    public function getRelationManagerToggledHiddenByDefaultColumns(string $for): Collection
+    {
+        return $this->getRelationManagerTableColumns($for)
+            ->filter(fn ($column) => $column->isToggledHiddenByDefault());
     }
 
     public function getRelationManagerTable(string $for): Table
@@ -389,15 +402,33 @@ class Base
             ->filter(fn ($column) => $column->isSearchable());
     }
 
+    public function getRelationManagerSearchableColumns(string $for): Collection
+    {
+        return $this->getRelationManagerTableColumns($for)
+            ->filter(fn ($column) => $column->isSearchable());
+    }
+
     public function getSortableColumns(Resource $resource): Collection
     {
         return $this->getTableColumns($resource)
             ->filter(fn ($column) => $column->isSortable());
     }
 
+    public function getRelationManagerSortableColumns(string $for): Collection
+    {
+        return $this->getRelationManagerTableColumns($for)
+            ->filter(fn ($column) => $column->isSortable());
+    }
+
     public function getIndividuallySearchableColumns(Resource $resource): Collection
     {
         return $this->getTableColumns($resource)
+            ->filter(fn ($column) => $column->isIndividuallySearchable());
+    }
+
+    public function getRelationManagerIndividuallySearchableColumns(string $for): Collection
+    {
+        return $this->getRelationManagerTableColumns($for)
             ->filter(fn ($column) => $column->isIndividuallySearchable());
     }
 
@@ -427,6 +458,22 @@ class Base
             );
     }
 
+    public function getRelationManagerDescriptionAboveColumns(string $for): Collection
+    {
+        return $this->getRelationManagerTableColumns($for)
+            ->filter(fn ($column) => method_exists($column, 'description') &&
+                $column->getDescriptionAbove()
+            );
+    }
+
+    public function getRelationManagerDescriptionBelowColumns(string $for): Collection
+    {
+        return $this->getRelationManagerTableColumns($for)
+            ->filter(fn ($column) => method_exists($column, 'description') &&
+                $column->getDescriptionBelow()
+            );
+    }
+
     public function getDescriptionBelowColumns(Resource $resource): Collection
     {
         return $this->getTableColumns($resource)
@@ -441,6 +488,24 @@ class Base
             ->map(fn ($column) => [
                 'column' => $column->getName(),
                 'description' => $column->getDescriptionAbove(),
+            ])->toArray();
+    }
+
+    public function getRelationManagerTableColumnDescriptionAbove(string $for): array
+    {
+        return $this->getRelationManagerDescriptionAboveColumns($for)
+            ->map(fn ($column) => [
+                'column' => $column->getName(),
+                'description' => $column->getDescriptionAbove(),
+            ])->toArray();
+    }
+
+    public function getRelationManagerTableColumnDescriptionBelow(string $for): array
+    {
+        return $this->getRelationManagerDescriptionBelowColumns($for)
+            ->map(fn ($column) => [
+                'column' => $column->getName(),
+                'description' => $column->getDescriptionBelow(),
             ])->toArray();
     }
 
@@ -459,9 +524,24 @@ class Base
             ->filter(fn ($column) => $column->getExtraAttributes());
     }
 
+    public function getRelationManagerExtraAttributesColumns(string $for): Collection
+    {
+        return $this->getRelationManagerTableColumns($for)
+            ->filter(fn ($column) => $column->getExtraAttributes());
+    }
+
     public function getExtraAttributesColumnValues(Resource $resource): array
     {
         return $this->getExtraAttributesColumns($resource)
+            ->map(fn ($column) => [
+                'column' => $column->getName(),
+                'attributes' => $column->getExtraAttributes(),
+            ])->toArray();
+    }
+
+    public function getRelationManagerExtraAttributesColumnValues(string $for): array
+    {
+        return $this->getRelationManagerExtraAttributesColumns($for)
             ->map(fn ($column) => [
                 'column' => $column->getName(),
                 'attributes' => $column->getExtraAttributes(),
@@ -474,6 +554,12 @@ class Base
             ->filter(fn ($column) => $column instanceof \Filament\Tables\Columns\SelectColumn);
     }
 
+    public function getRelationManagerTableSelectColumns(string $for): Collection
+    {
+        return $this->getRelationManagerTableColumns($for)
+            ->filter(fn ($column) => $column instanceof \Filament\Tables\Columns\SelectColumn);
+    }
+
     public function getTableSelectColumnsWithOptions(Resource $resource): array
     {
         return $this->getTableSelectColumns($resource)
@@ -483,9 +569,23 @@ class Base
             ])->toArray();
     }
 
+    public function getRelationManagerTableSelectColumnsWithOptions(string $for): array
+    {
+        return $this->getRelationManagerTableSelectColumns($for)
+            ->map(fn ($column) => [
+                'column' => $column->getName(),
+                'options' => $column->getOptions(),
+            ])->toArray();
+    }
+
     public function getResourceTableColumnsWithSummarizers(Resource $resource): Collection
     {
         return $this->getTableColumns($resource)->filter(fn ($column) => $column->getSummarizers());
+    }
+
+    public function getRelationManagerTableColumnsWithSummarizers(string $for): Collection
+    {
+        return $this->getRelationManagerTableColumns($for)->filter(fn ($column) => $column->getSummarizers());
     }
 
     public function hasSoftDeletes(Resource $resource): bool
@@ -506,6 +606,11 @@ class Base
     public function getResourceTableFilters(Table $table): Collection
     {
         return collect($table->getFilters());
+    }
+
+    public function getRelationManagerTableFilters(string $for): Collection
+    {
+        return collect($this->getRelationManagerTable($for)->getFilters());
     }
 
     public function tableHasDeferredLoading(Resource $resource): bool
@@ -553,7 +658,6 @@ class Base
                     ->filter(fn ($action) => ! $action->isVisible())
                     ->map(fn ($action) => $action->getName()),
             ]);
-
         } catch (\Throwable) {
             return collect($defaults);
         }
@@ -699,6 +803,31 @@ class Base
         return false;
     }
 
+    public function hasRelationManager(string $name): bool
+    {
+        return $this->getResourceRelations($this->resource)->contains($name);
+    }
+
+    public function relationManagerHasTableHeading(string $for): bool
+    {
+        return $this->getRelationManagerTable($for)->getHeading() !== null;
+    }
+
+    public function relationManagerHasTableDescription(string $for): bool
+    {
+        return $this->getRelationManagerTable($for)->getDescription() !== null;
+    }
+
+    public function getRelationManagerTableHeading(string $for): ?string
+    {
+        return $this->getRelationManagerTable($for)->getHeading();
+    }
+
+    public function getRelationManagerTableDescription(string $for): ?string
+    {
+        return $this->getRelationManagerTable($for)->getDescription();
+    }
+
     // TODO: implement
     public function hasCustomPages(): bool
     {
@@ -721,7 +850,8 @@ class Base
 
         $parts = collect(explode('/', $group))
             ->filter(fn ($part) => ! empty($part))
-            ->map(fn ($part) => "'".trim(str($part)->kebab())."'");
+            ->map(fn ($part) => "'".trim(str($part)->kebab())."'")
+            ->sort();
 
         return $this->convertDoubleQuotedArrayString($parts->implode(','));
     }
