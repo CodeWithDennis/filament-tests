@@ -191,6 +191,8 @@ php artisan vendor:publish --tag="filament-tests-stubs"
 
 ## Running the package tests
 > 💡 Please make sure to uncomment `Illuminate\Foundation\Testing\RefreshDatabase::class` in `tests/Pest.php` before running the tests.
+> 
+> Additionally, make sure to have a `.env.testing` file with a valid database connection or uncomment the `DB_CONNECTION` and `DB_DATABASE` values in the `phpunit.xml` file.
 
 You can run your tests normally by running the following command:
 
