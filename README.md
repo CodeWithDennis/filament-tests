@@ -190,6 +190,7 @@ php artisan vendor:publish --tag="filament-tests-stubs"
 ```
 
 ## Running the package tests
+> 💡 Please make sure that you have uncommented `Illuminate\Foundation\Testing\RefreshDatabase::class` in `tests/Pest.php` before running the tests.
 
 You can run your tests normally by running the following command:
 
