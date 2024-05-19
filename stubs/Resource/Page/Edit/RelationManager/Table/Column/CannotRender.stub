@@ -7,5 +7,5 @@ it({{ DESCRIPTION }}, function (string $column) {
         'ownerRecord' => $ownerRecord,
         'pageClass' => {{ RESOURCE_EDIT_CLASS }}
         ])
-        ->assertCanRenderTableColumn($column);
+        ->assertCanNotRenderTableColumn($column);
 })->with({{ RELATION_MANAGER_TABLE_TOGGLED_HIDDEN_BY_DEFAULT_COLUMNS }}){{ RESOLVED_GROUP_METHOD }};
