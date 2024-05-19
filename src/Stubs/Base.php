@@ -140,9 +140,10 @@ class Base
         $resourceModelName = str($resourceModel)->afterLast('\\');
         $userModel = \App\Models\User::class;
 
-        $modelImport = "use {$resourceModel};".($resourceModel !== $userModel ? "\nuse {$userModel};" : '');
+        $modelImport = "use {$resourceModel};" . ($resourceModel !== $userModel ? "\nuse {$userModel};" : '');
 
-        $getResourceClass = fn ($page, $isPlural = false) => str("\\{$resourceClass}\\Pages\\{$page}".($isPlural ? $resourceModelName->plural() : $resourceModelName).'::class')->replace('/', '\\');
+        $getResourceClass = fn($page, $isPlural = false) => str("\\{$resourceClass}\\Pages\\{$page}" . ($isPlural ? $resourceModelName->plural() : $resourceModelName) . "::class")->replace('/', '\\');
+        $getResourceImport = fn($page, $isPlural = false) => "use " . str("{$resourceClass}\\Pages\\{$page}" . ($isPlural ? $resourceModelName->plural() : $resourceModelName))->replace('/', '\\') . ';';
 
         $toBeConverted = [
             'DESCRIPTION' => str($this->getDescription())->wrap('\''),
@@ -156,12 +157,18 @@ class Base
             'RESOURCE_EDIT_CLASS' => $this->hasPage('edit', $resource) ? $getResourceClass('Edit') : '',
             'RESOURCE_VIEW_CLASS' => $this->hasPage('view', $resource) ? $getResourceClass('View') : '',
 
+            'RESOURCE_LIST_IMPORT' => $this->hasPage('index', $resource) ? $getResourceImport('List', true) : '',
+            'RESOURCE_CREATE_IMPORT' => $this->hasPage('create', $resource) ? $getResourceImport('Create') : '',
+            'RESOURCE_EDIT_IMPORT' => $this->hasPage('edit', $resource) ? $getResourceImport('Edit') : '',
+            'RESOURCE_VIEW_IMPORT' => $this->hasPage('view', $resource) ? $getResourceImport('View') : '',
+
             'LOAD_TABLE_METHOD_IF_DEFERRED' => $this->tableHasDeferredLoading($resource) ? $this->getDeferredLoadingMethod() : '',
             'RESOLVED_GROUP_METHOD' => $this->getGroupMethod(),
         ];
 
         return array_map([$this, 'convertDoubleQuotedArrayString'], $toBeConverted);
     }
+
 
     public function shouldGenerate(bool|Closure|null $condition): static
     {
