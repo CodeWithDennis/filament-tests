@@ -140,10 +140,10 @@ class Base
         $resourceModelName = str($resourceModel)->afterLast('\\');
         $userModel = \App\Models\User::class;
 
-        $modelImport = "use {$resourceModel};" . ($resourceModel !== $userModel ? "\nuse {$userModel};" : '');
+        $modelImport = "use {$resourceModel};".($resourceModel !== $userModel ? "\nuse {$userModel};" : '');
 
-        $getResourceClass = fn($page, $isPlural = false) => str("\\{$resourceClass}\\Pages\\{$page}" . ($isPlural ? $resourceModelName->plural() : $resourceModelName) . "::class")->replace('/', '\\');
-        $getResourceImport = fn($page, $isPlural = false) => "use " . str("{$resourceClass}\\Pages\\{$page}" . ($isPlural ? $resourceModelName->plural() : $resourceModelName))->replace('/', '\\') . ';';
+        $getResourceClass = fn ($page, $isPlural = false) => str("\\{$resourceClass}\\Pages\\{$page}".($isPlural ? $resourceModelName->plural() : $resourceModelName).'::class')->replace('/', '\\');
+        $getResourceImport = fn ($page, $isPlural = false) => 'use '.str("{$resourceClass}\\Pages\\{$page}".($isPlural ? $resourceModelName->plural() : $resourceModelName))->replace('/', '\\').';';
 
         $toBeConverted = [
             'DESCRIPTION' => str($this->getDescription())->wrap('\''),
@@ -168,7 +168,6 @@ class Base
 
         return array_map([$this, 'convertDoubleQuotedArrayString'], $toBeConverted);
     }
-
 
     public function shouldGenerate(bool|Closure|null $condition): static
     {
