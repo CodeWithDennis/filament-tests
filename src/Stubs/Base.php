@@ -140,9 +140,9 @@ class Base
         $resourceModelName = str($resourceModel)->afterLast('\\');
         $userModel = \App\Models\User::class;
 
-        $modelImport = "use {$resourceModel};" . ($resourceModel !== $userModel ? "\nuse {$userModel};" : '');
+        $modelImport = "use {$resourceModel};".($resourceModel !== $userModel ? "\nuse {$userModel};" : '');
 
-        $getResourceClass = fn($page, $isPlural = false) => str("\\{$resourceClass}\\Pages\\{$page}" . ($isPlural ? $resourceModelName->plural() : $resourceModelName) . "::class")->replace('/', '\\');
+        $getResourceClass = fn ($page, $isPlural = false) => str("\\{$resourceClass}\\Pages\\{$page}".($isPlural ? $resourceModelName->plural() : $resourceModelName).'::class')->replace('/', '\\');
 
         $toBeConverted = [
             'DESCRIPTION' => str($this->getDescription())->wrap('\''),
