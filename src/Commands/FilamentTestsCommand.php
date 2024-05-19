@@ -144,7 +144,7 @@ class FilamentTestsCommand extends Command
 
     protected function getAvailableResources(): Collection
     {
-        return $this->getResources()->map(fn ($resource): string => str($resource)->afterLast('Resources\\'));
+        return $this->getResources()->map(fn ($resource): string => class_basename($resource));
     }
 
     protected function getSourceFilePath(string $name): string
