@@ -135,28 +135,38 @@ class Base
     public function getDefaultVariables(): array
     {
         $resource = $this->resource;
-
+        $resourceClass = $resource::class;
         $resourceModel = $resource->getModel();
+        $resourceModelName = str($resourceModel)->afterLast('\\');
         $userModel = \App\Models\User::class;
-        $modelImport = $resourceModel === $userModel ? "use {$resourceModel};" : "use {$resourceModel};\nuse {$userModel};";
+
+        $modelImport = "use {$resourceModel};".($resourceModel !== $userModel ? "\nuse {$userModel};" : '');
+
+        $getResourceClass = fn ($page, $isPlural = false) => str("\\{$resourceClass}\\Pages\\{$page}".($isPlural ? $resourceModelName->plural() : $resourceModelName).'::class')->replace('/', '\\');
+        $getResourceImport = fn ($page, $isPlural = false) => 'use '.str("{$resourceClass}\\Pages\\{$page}".($isPlural ? $resourceModelName->plural() : $resourceModelName))->replace('/', '\\').';';
 
         $toBeConverted = [
             'DESCRIPTION' => str($this->getDescription())->wrap('\''),
             'MODEL_IMPORT' => $modelImport,
-            'MODEL_PLURAL_NAME' => str($resourceModel)->afterLast('\\')->plural(),
-            'MODEL_SINGULAR_NAME' => str($resourceModel)->afterLast('\\'),
-            'RESOURCE' => str($resource::class)->afterLast('\\'),
-            'RESOURCE_LIST_CLASS' => $this->hasPage('index', $resource) ? 'List'.str($resourceModel)->afterLast('\\')->plural()->append('::class') : '',
-            'RESOURCE_CREATE_CLASS' => $this->hasPage('create', $resource) ? 'Create'.str($resourceModel)->afterLast('\\')->append('::class') : '',
-            'RESOURCE_EDIT_CLASS' => $this->hasPage('edit', $resource) ? 'Edit'.str($resourceModel)->afterLast('\\')->append('::class') : '',
-            'RESOURCE_VIEW_CLASS' => $this->hasPage('view', $resource) ? 'View'.str($resourceModel)->afterLast('\\')->append('::class') : '',
+            'MODEL_PLURAL_NAME' => $resourceModelName->plural(),
+            'MODEL_SINGULAR_NAME' => $resourceModelName,
+            'RESOURCE' => str($resourceClass)->afterLast('\\'),
+
+            'RESOURCE_LIST_CLASS' => $this->hasPage('index', $resource) ? $getResourceClass('List', true) : '',
+            'RESOURCE_CREATE_CLASS' => $this->hasPage('create', $resource) ? $getResourceClass('Create') : '',
+            'RESOURCE_EDIT_CLASS' => $this->hasPage('edit', $resource) ? $getResourceClass('Edit') : '',
+            'RESOURCE_VIEW_CLASS' => $this->hasPage('view', $resource) ? $getResourceClass('View') : '',
+
+            'RESOURCE_LIST_IMPORT' => $this->hasPage('index', $resource) ? $getResourceImport('List', true) : '',
+            'RESOURCE_CREATE_IMPORT' => $this->hasPage('create', $resource) ? $getResourceImport('Create') : '',
+            'RESOURCE_EDIT_IMPORT' => $this->hasPage('edit', $resource) ? $getResourceImport('Edit') : '',
+            'RESOURCE_VIEW_IMPORT' => $this->hasPage('view', $resource) ? $getResourceImport('View') : '',
+
             'LOAD_TABLE_METHOD_IF_DEFERRED' => $this->tableHasDeferredLoading($resource) ? $this->getDeferredLoadingMethod() : '',
             'RESOLVED_GROUP_METHOD' => $this->getGroupMethod(),
         ];
 
-        return array_map(function ($value) {
-            return $this->convertDoubleQuotedArrayString($value);
-        }, $toBeConverted);
+        return array_map([$this, 'convertDoubleQuotedArrayString'], $toBeConverted);
     }
 
     public function shouldGenerate(bool|Closure|null $condition): static
