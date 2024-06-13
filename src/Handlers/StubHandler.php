@@ -84,7 +84,9 @@ class StubHandler
             \CodeWithDennis\FilamentTests\Stubs\Resource\Page\Index\Table\Filter\Add::make($resource)->get(),
             \CodeWithDennis\FilamentTests\Stubs\Resource\Page\Index\Table\Filter\Remove::make($resource)->get(),
 
-            //            \CodeWithDennis\FilamentTests\Stubs\Resource\Page\RelationManager\Render::make($resource)->get(),
+            \CodeWithDennis\FilamentTests\Stubs\Resource\Page\Index\Widget\RenderFooterWidgets::make($resource)->get(),
+            \CodeWithDennis\FilamentTests\Stubs\Resource\Page\Index\Widget\RenderHeaderWidgets::make($resource)->get(),
+
             \CodeWithDennis\FilamentTests\Stubs\Resource\Page\RelationManager\ListRecords::make($resource)->get(),
             \CodeWithDennis\FilamentTests\Stubs\Resource\Page\RelationManager\ListRecordsPaginated::make($resource)->get(),
             \CodeWithDennis\FilamentTests\Stubs\Resource\Page\RelationManager\Trashed::make($resource)->get(),
@@ -138,7 +140,8 @@ class StubHandler
 
             \CodeWithDennis\FilamentTests\Stubs\Resource\Page\Create\Action\Render::make($resource)->get(),
 
-            \CodeWithDennis\FilamentTests\Stubs\Resource\Page\Create\Widget\Render::make($resource)->get(),
+            \CodeWithDennis\FilamentTests\Stubs\Resource\Page\Create\Widget\RenderFooterWidgets::make($resource)->get(),
+            \CodeWithDennis\FilamentTests\Stubs\Resource\Page\Create\Widget\RenderHeaderWidgets::make($resource)->get(),
 
             \CodeWithDennis\FilamentTests\Stubs\Resource\Page\Create\Form\Field\Disabled::make($resource)->get(),
             \CodeWithDennis\FilamentTests\Stubs\Resource\Page\Create\Form\Field\Exists::make($resource)->get(),
@@ -153,7 +156,8 @@ class StubHandler
             \CodeWithDennis\FilamentTests\Stubs\Resource\Page\Edit\Action\Render::make($resource)->get(),
             \CodeWithDennis\FilamentTests\Stubs\Resource\Page\Edit\Form\Render::make($resource)->get(),
             \CodeWithDennis\FilamentTests\Stubs\Resource\Page\Edit\RelationManager\Render::make($resource)->get(),
-            \CodeWithDennis\FilamentTests\Stubs\Resource\Page\Edit\Widget\Render::make($resource)->get(),
+            \CodeWithDennis\FilamentTests\Stubs\Resource\Page\Edit\Widget\RenderFooterWidgets::make($resource)->get(),
+            \CodeWithDennis\FilamentTests\Stubs\Resource\Page\Edit\Widget\RenderHeaderWidgets::make($resource)->get(),
 
             \CodeWithDennis\FilamentTests\Stubs\Resource\Page\Edit\Form\Field\Disabled::make($resource)->get(),
             \CodeWithDennis\FilamentTests\Stubs\Resource\Page\Edit\Form\Field\Exists::make($resource)->get(),
@@ -169,7 +173,8 @@ class StubHandler
             \CodeWithDennis\FilamentTests\Stubs\Resource\Page\View\Action\Render::make($resource)->get(),
             \CodeWithDennis\FilamentTests\Stubs\Resource\Page\View\Form\Render::make($resource)->get(),
             \CodeWithDennis\FilamentTests\Stubs\Resource\Page\View\RelationManager\Render::make($resource)->get(),
-            \CodeWithDennis\FilamentTests\Stubs\Resource\Page\View\Widget\Render::make($resource)->get(),
+            \CodeWithDennis\FilamentTests\Stubs\Resource\Page\View\Widget\RenderFooterWidgets::make($resource)->get(),
+            \CodeWithDennis\FilamentTests\Stubs\Resource\Page\View\Widget\RenderHeaderWidgets::make($resource)->get(),
 
             \CodeWithDennis\FilamentTests\Stubs\Resource\Page\Custom\Render::make($resource)->get(),
             \CodeWithDennis\FilamentTests\Stubs\Resource\Page\Custom\Action\Render::make($resource)->get(),

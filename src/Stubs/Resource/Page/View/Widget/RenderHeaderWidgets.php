@@ -2,13 +2,16 @@
 
 namespace CodeWithDennis\FilamentTests\Stubs\Resource\Page\View\Widget;
 
+use Closure;
 use CodeWithDennis\FilamentTests\Stubs\Base;
 
-class Render extends Base
+class RenderHeaderWidgets extends Base
 {
+    public Closure|bool $isTodo = true;
+
     public function getDescription(): string
     {
-        return 'can render widget on the view page';
+        return 'can render header widgets on the view page';
     }
 
     public function getShouldGenerate(): bool
