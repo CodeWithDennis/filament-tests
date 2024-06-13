@@ -810,7 +810,7 @@ class Base
     // TODO: implement
     public function hasRelationManagers(): bool
     {
-        return false;
+        return true;
     }
 
     public function hasRelationManager(string $name): bool
