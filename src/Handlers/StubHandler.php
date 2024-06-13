@@ -87,10 +87,9 @@ class StubHandler
             \CodeWithDennis\FilamentTests\Stubs\Resource\Page\Index\Widget\RenderFooterWidgets::make($resource)->get(),
             \CodeWithDennis\FilamentTests\Stubs\Resource\Page\Index\Widget\RenderHeaderWidgets::make($resource)->get(),
 
-            \CodeWithDennis\FilamentTests\Stubs\Resource\Page\RelationManager\ListRecords::make($resource)->get(),
-            \CodeWithDennis\FilamentTests\Stubs\Resource\Page\RelationManager\ListRecordsPaginated::make($resource)->get(),
-            \CodeWithDennis\FilamentTests\Stubs\Resource\Page\RelationManager\Trashed::make($resource)->get(),
-
+//            \CodeWithDennis\FilamentTests\Stubs\Resource\Page\RelationManager\ListRecords::make($resource)->get(),
+//            \CodeWithDennis\FilamentTests\Stubs\Resource\Page\RelationManager\ListRecordsPaginated::make($resource)->get(),
+//            \CodeWithDennis\FilamentTests\Stubs\Resource\Page\RelationManager\Trashed::make($resource)->get(),
             //            \CodeWithDennis\FilamentTests\Stubs\Resource\Page\RelationManager\HeaderAction\Exist::make($resource)->get(),
             //            \CodeWithDennis\FilamentTests\Stubs\Resource\Page\RelationManager\HeaderAction\Hidden::make($resource)->get(),
             //            \CodeWithDennis\FilamentTests\Stubs\Resource\Page\RelationManager\HeaderAction\Visible::make($resource)->get(),
