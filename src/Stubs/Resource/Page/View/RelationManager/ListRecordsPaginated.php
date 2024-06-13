@@ -7,7 +7,7 @@ use CodeWithDennis\FilamentTests\Stubs\Base;
 
 class ListRecordsPaginated extends Base
 {
-    public Closure|bool $isTodo = true; // TODO(bug?): Page is not switching to the next page on RM (->call('gotoPage', 2))
+    public Closure|bool $isTodo = true;
 
     public function getDescription(): string
     {
@@ -16,9 +16,11 @@ class ListRecordsPaginated extends Base
 
     public function getShouldGenerate(): bool
     {
-        return $this->hasPage('view', $this->resource)
-            && $this->hasRelationManager($this->relationManager) &&
-            $this->getRelationManagerTableColumns($this->relationManager)->isNotEmpty();
+//        @see: https://github.com/CodeWithDennis/filament-tests/issues/258
+        return false;
+//        return $this->hasPage('view', $this->resource)
+//            && $this->hasRelationManager($this->relationManager) &&
+//            $this->getRelationManagerTableColumns($this->relationManager)->isNotEmpty();
     }
 
     public function getVariables(): array
