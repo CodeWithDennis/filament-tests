@@ -3,6 +3,7 @@
 namespace CodeWithDennis\FilamentTests;
 
 use CodeWithDennis\FilamentTests\Commands\FilamentTestsCommand;
+use CodeWithDennis\FilamentTests\Commands\ListTodosCommand;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 
@@ -13,7 +14,10 @@ class FilamentTestsServiceProvider extends PackageServiceProvider
         $package
             ->name('filament-tests')
             ->hasConfigFile()
-            ->hasCommand(FilamentTestsCommand::class);
+            ->hasCommands([
+                FilamentTestsCommand::class,
+                ListTodosCommand::class,
+            ]);
     }
 
     public function boot(): void
