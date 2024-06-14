@@ -1,21 +1,21 @@
 <?php
 
-namespace CodeWithDennis\FilamentTests\Stubs\Resource\Page\Edit;
+namespace CodeWithDennis\FilamentTests\Stubs\Resource\Page\Create\Widget;
 
 use Closure;
 use CodeWithDennis\FilamentTests\Stubs\Base;
 
-class Render extends Base
+class RenderFooterWidgets extends Base
 {
     public Closure|bool $isTodo = true;
 
     public function getDescription(): string
     {
-        return 'can render the edit page';
+        return 'can render footer widgets on the create page';
     }
 
     public function getShouldGenerate(): bool
     {
-        return $this->hasPage('edit', $this->resource);
+        return true; // TODO: implement
     }
 }

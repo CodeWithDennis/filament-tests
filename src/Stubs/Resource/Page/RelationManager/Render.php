@@ -11,7 +11,7 @@ class Render extends Base
 
     public function getDescription(): string
     {
-        return 'can render the index page on relation manager';
+        return 'xxxx can render the index page on relation manager';
     }
 
     public function getShouldGenerate(): bool
