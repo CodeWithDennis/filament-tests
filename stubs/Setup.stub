@@ -1,10 +1,9 @@
 <?php
 
-{{ RESOURCE_LIST_IMPORT }}
-{{ RESOURCE_CREATE_IMPORT }}
-{{ RESOURCE_EDIT_IMPORT }}
-{{ RESOURCE_VIEW_IMPORT }}
-use App\Filament\Resources\{{ RESOURCE }};
+uses()->group('filament-tests');
+
+{{ MODEL_IMPORT }}
+
 use Filament\Tables\Actions\{
     DeleteAction,
     DeleteBulkAction,
@@ -14,13 +13,9 @@ use Filament\Tables\Actions\{
     ForceDeleteAction,
     ForceDeleteBulkAction
 };
-{{ MODEL_IMPORT }}
 
 use function Pest\Laravel\{actingAs};
-
 use function Pest\Livewire\livewire;
-
-uses()->group('filament-tests');
 
 beforeEach(function () {
     actingAs(User::factory()->create());
