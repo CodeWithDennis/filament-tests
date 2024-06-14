@@ -1,9 +1,15 @@
 it({{ DESCRIPTION }}, function (string $column) {
-    {{ MODEL_SINGULAR_NAME }}::factory(3)->create();
+    $records = {{ MODEL_SINGULAR_NAME }}::factory(3)->create();
 
     livewire({{ RESOURCE_LIST_CLASS }})
         ->sortTable($column){{ LOAD_TABLE_METHOD_IF_DEFERRED }}
-        ->assertCanSeeTableRecords({{ MODEL_SINGULAR_NAME }}::orderBy($column)->get(), inOrder: true)
+        ->assertCanSeeTableRecords(
+            $records->sortBy(fn ($record) => data_get($record, $column))->values()->all(),
+            inOrder: true
+        )
         ->sortTable($column, 'desc'){{ LOAD_TABLE_METHOD_IF_DEFERRED }}
-        ->assertCanSeeTableRecords({{ MODEL_SINGULAR_NAME }}::orderBy($column, 'desc')->get(), inOrder: true);
+       ->assertCanSeeTableRecords(
+           $records->sortByDesc(fn ($record) => data_get($record, $column))->values()->all(),
+           inOrder: true
+       );
 })->with({{ RESOURCE_TABLE_SORTABLE_COLUMNS }}){{ RESOLVED_GROUP_METHOD }};
