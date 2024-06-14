@@ -8,7 +8,7 @@ class SearchIndividually extends Base
 {
     public function getDescription(): string
     {
-        return 'can individually search by column';
+        return 'can individually search on the index page by column';
     }
 
     public function getShouldGenerate(): bool

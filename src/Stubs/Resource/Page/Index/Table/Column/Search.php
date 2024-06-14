@@ -8,7 +8,7 @@ class Search extends Base
 {
     public function getDescription(): string
     {
-        return 'can search column';
+        return 'can search column on the index page';
     }
 
     public function getShouldGenerate(): bool
