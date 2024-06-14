@@ -1,6 +1,6 @@
 <?php
 
-namespace CodeWithDennis\FilamentTests\Stubs\Resource\Page\Index\Action;
+namespace CodeWithDennis\FilamentTests\Stubs\Resource\Page\Index\HeaderAction;
 
 use CodeWithDennis\FilamentTests\Stubs\Base;
 

@@ -40,9 +40,9 @@ class StubHandler
             \CodeWithDennis\FilamentTests\Stubs\Resource\Page\Index\ListRecordsPaginated::make($resource)->get(),
             \CodeWithDennis\FilamentTests\Stubs\Resource\Page\Index\Trashed::make($resource)->get(),
 
-            \CodeWithDennis\FilamentTests\Stubs\Resource\Page\Index\Action\Exist::make($resource)->get(),
-            \CodeWithDennis\FilamentTests\Stubs\Resource\Page\Index\Action\Hidden::make($resource)->get(),
-            \CodeWithDennis\FilamentTests\Stubs\Resource\Page\Index\Action\Visible::make($resource)->get(),
+            \CodeWithDennis\FilamentTests\Stubs\Resource\Page\Index\HeaderAction\Exist::make($resource)->get(),
+            \CodeWithDennis\FilamentTests\Stubs\Resource\Page\Index\HeaderAction\Hidden::make($resource)->get(),
+            \CodeWithDennis\FilamentTests\Stubs\Resource\Page\Index\HeaderAction\Visible::make($resource)->get(),
 
             \CodeWithDennis\FilamentTests\Stubs\Resource\Page\Index\Table\Heading::make($resource)->get(),
             \CodeWithDennis\FilamentTests\Stubs\Resource\Page\Index\Table\Description::make($resource)->get(),
