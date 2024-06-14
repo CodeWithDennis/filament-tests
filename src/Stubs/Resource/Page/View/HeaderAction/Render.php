@@ -1,6 +1,6 @@
 <?php
 
-namespace CodeWithDennis\FilamentTests\Stubs\Resource\Page\Create\Action;
+namespace CodeWithDennis\FilamentTests\Stubs\Resource\Page\View\HeaderAction;
 
 use Closure;
 use CodeWithDennis\FilamentTests\Stubs\Base;
@@ -11,7 +11,7 @@ class Render extends Base
 
     public function getDescription(): string
     {
-        return 'can render action on the create page';
+        return 'can render action on the view page';
     }
 
     public function getShouldGenerate(): bool

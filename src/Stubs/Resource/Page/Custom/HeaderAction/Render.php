@@ -1,6 +1,6 @@
 <?php
 
-namespace CodeWithDennis\FilamentTests\Stubs\Resource\Page\Edit\Action;
+namespace CodeWithDennis\FilamentTests\Stubs\Resource\Page\Custom\HeaderAction;
 
 use Closure;
 use CodeWithDennis\FilamentTests\Stubs\Base;
@@ -11,11 +11,11 @@ class Render extends Base
 
     public function getDescription(): string
     {
-        return 'can render action on the edit page';
+        return 'can render action on page X';
     }
 
     public function getShouldGenerate(): bool
     {
-        return $this->getGroupToConfig(); // TODO: implement
+        return $this->hasCustomPages(); // TODO: implement
     }
 }

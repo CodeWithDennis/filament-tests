@@ -137,7 +137,7 @@ class StubHandler
 
             \CodeWithDennis\FilamentTests\Stubs\Resource\Page\Create\Render::make($resource)->get(),
 
-            \CodeWithDennis\FilamentTests\Stubs\Resource\Page\Create\Action\Render::make($resource)->get(),
+            \CodeWithDennis\FilamentTests\Stubs\Resource\Page\Create\HeaderAction\Render::make($resource)->get(),
 
             \CodeWithDennis\FilamentTests\Stubs\Resource\Page\Create\Widget\RenderFooterWidgets::make($resource)->get(),
             \CodeWithDennis\FilamentTests\Stubs\Resource\Page\Create\Widget\RenderHeaderWidgets::make($resource)->get(),
@@ -152,7 +152,7 @@ class StubHandler
             \CodeWithDennis\FilamentTests\Stubs\Resource\Page\Create\Form\Validate::make($resource)->get(),
 
             \CodeWithDennis\FilamentTests\Stubs\Resource\Page\Edit\Render::make($resource)->get(),
-            \CodeWithDennis\FilamentTests\Stubs\Resource\Page\Edit\Action\Render::make($resource)->get(),
+            \CodeWithDennis\FilamentTests\Stubs\Resource\Page\Edit\HeaderAction\Render::make($resource)->get(),
             \CodeWithDennis\FilamentTests\Stubs\Resource\Page\Edit\Form\Render::make($resource)->get(),
             \CodeWithDennis\FilamentTests\Stubs\Resource\Page\Edit\RelationManager\Render::make($resource)->get(),
             \CodeWithDennis\FilamentTests\Stubs\Resource\Page\Edit\Widget\RenderFooterWidgets::make($resource)->get(),
@@ -169,7 +169,7 @@ class StubHandler
 
             \CodeWithDennis\FilamentTests\Stubs\Resource\Page\View\Render::make($resource)->get(),
 
-            \CodeWithDennis\FilamentTests\Stubs\Resource\Page\View\Action\Render::make($resource)->get(),
+            \CodeWithDennis\FilamentTests\Stubs\Resource\Page\View\HeaderAction\Render::make($resource)->get(),
             \CodeWithDennis\FilamentTests\Stubs\Resource\Page\View\Form\Render::make($resource)->get(),
 
             \CodeWithDennis\FilamentTests\Stubs\Resource\Page\View\Infolist\Render::make($resource)->get(),
@@ -181,7 +181,7 @@ class StubHandler
             \CodeWithDennis\FilamentTests\Stubs\Resource\Page\View\Widget\RenderHeaderWidgets::make($resource)->get(),
 
             \CodeWithDennis\FilamentTests\Stubs\Resource\Page\Custom\Render::make($resource)->get(),
-            \CodeWithDennis\FilamentTests\Stubs\Resource\Page\Custom\Action\Render::make($resource)->get(),
+            \CodeWithDennis\FilamentTests\Stubs\Resource\Page\Custom\HeaderAction\Render::make($resource)->get(),
             \CodeWithDennis\FilamentTests\Stubs\Resource\Page\Custom\Form\Render::make($resource)->get(),
             \CodeWithDennis\FilamentTests\Stubs\Resource\Page\Custom\Infolist\Render::make($resource)->get(),
             \CodeWithDennis\FilamentTests\Stubs\Resource\Page\Custom\RelationManager\Render::make($resource)->get(),
