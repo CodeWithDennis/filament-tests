@@ -171,6 +171,11 @@ class StubHandler
 
             \CodeWithDennis\FilamentTests\Stubs\Resource\Page\View\Action\Render::make($resource)->get(),
             \CodeWithDennis\FilamentTests\Stubs\Resource\Page\View\Form\Render::make($resource)->get(),
+
+            \CodeWithDennis\FilamentTests\Stubs\Resource\Page\View\Infolist\Render::make($resource)->get(),
+            \CodeWithDennis\FilamentTests\Stubs\Resource\Page\View\Infolist\Action\Exist::make($resource)->get(),
+            \CodeWithDennis\FilamentTests\Stubs\Resource\Page\View\Infolist\Entry\Render::make($resource)->get(),
+
             \CodeWithDennis\FilamentTests\Stubs\Resource\Page\View\RelationManager\Render::make($resource)->get(),
             \CodeWithDennis\FilamentTests\Stubs\Resource\Page\View\Widget\RenderFooterWidgets::make($resource)->get(),
             \CodeWithDennis\FilamentTests\Stubs\Resource\Page\View\Widget\RenderHeaderWidgets::make($resource)->get(),

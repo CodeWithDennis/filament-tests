@@ -806,6 +806,12 @@ class Base
         return true;
     }
 
+    // TODO: implement
+    public function hasInfolists(): bool
+    {
+        return true;
+    }
+
     public function hasRelationManager(string $name): bool
     {
         return $this->getResourceRelations($this->resource)->contains($name);
