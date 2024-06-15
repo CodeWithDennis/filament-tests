@@ -16,6 +16,6 @@ class Login extends Base
 
     public function getShouldGenerate(): bool
     {
-        return $this->getGroupToConfig(); // TODO: implement
+        return true;
     }
 }

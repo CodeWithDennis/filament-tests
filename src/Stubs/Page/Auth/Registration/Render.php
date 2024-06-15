@@ -13,8 +13,7 @@ class Render extends Base
 
     public function getShouldGenerate(): bool
     {
-        return $this->getGroupToConfig() &&
-            $this->hasRegistration()
+        return $this->hasRegistration()
             && $this->getRegistrationRouteAction();
     }
 

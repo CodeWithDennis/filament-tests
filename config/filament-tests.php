@@ -15,29 +15,6 @@ return [
      * Customize the tests to be generated.
      */
     'generate' => [
-        'page' => [
-            'auth' => [
-                'login' => [
-                    'render' => true,
-                    'login' => true,
-                ],
-
-                'logout' => [
-                    'logout' => true,
-                ],
-
-                'password_reset' => [
-                    'render' => true,
-                    'reset' => true,
-                ],
-
-                'registration' => [
-                    'render' => true,
-                    'register' => true,
-                ],
-            ],
-        ],
-
         'resource' => [
             'page' => [
                 'create' => [
