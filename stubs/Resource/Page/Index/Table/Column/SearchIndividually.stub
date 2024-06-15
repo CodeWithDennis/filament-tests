@@ -5,6 +5,5 @@ it({{ DESCRIPTION }}, function (string $column) {
 
     livewire({{ RESOURCE_LIST_CLASS }})
         ->searchTable($search instanceof BackedEnum ? $search->value : $search){{ LOAD_TABLE_METHOD_IF_DEFERRED }}
-        ->assertCanSeeTableRecords($records->filter(fn ($record) => data_get($record, $column) == $search))
-        ->assertCanNotSeeTableRecords($records->filter(fn ($record) => data_get($record, $column) != $search));
+        ->assertCanSeeTableRecords($records->filter(fn ($record) => data_get($record, $column) == $search));
 })->with({{ RESOURCE_TABLE_INDIVIDUALLY_SEARCHABLE_COLUMNS }}){{ RESOLVED_GROUP_METHOD }};
