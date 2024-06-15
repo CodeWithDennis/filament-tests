@@ -53,5 +53,5 @@ jobs:
         working-directory: ./test-project
 
       - name: Run tests
-        run: ./vendor/bin/pest --parallel
+        run: ./vendor/bin/pest
         working-directory: ./test-project
