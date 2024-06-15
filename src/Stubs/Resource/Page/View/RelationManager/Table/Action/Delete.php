@@ -16,6 +16,6 @@ class Delete extends Base
 
     public function getShouldGenerate(): bool
     {
-        return true;
+        return $this->getGroupToConfig(); // TODO: implement
     }
 }

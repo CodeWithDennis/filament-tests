@@ -13,7 +13,8 @@ class Render extends Base
 
     public function getShouldGenerate(): bool
     {
-        return $this->getInitiallyVisibleColumns($this->resource)->isNotEmpty();
+        return $this->getGroupToConfig() &&
+            $this->getInitiallyVisibleColumns($this->resource)->isNotEmpty();
     }
 
     public function getVariables(): array

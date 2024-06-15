@@ -16,6 +16,6 @@ class Register extends Base
 
     public function getShouldGenerate(): bool
     {
-        return false; // TODO: implement
+        return true;
     }
 }

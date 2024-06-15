@@ -13,8 +13,9 @@ class Exists extends Base
 
     public function getShouldGenerate(): bool
     {
-        return $this->hasPage('edit', $this->resource) &&
-        collect($this->getResourceEditFormFields($this->resource))->count();
+        return $this->getGroupToConfig() &&
+            $this->hasPage('edit', $this->resource) &&
+        collect($this->getResourceEditFields($this->resource))->count();
     }
 
     public function getVariables(): array

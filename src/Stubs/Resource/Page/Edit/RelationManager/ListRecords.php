@@ -13,7 +13,8 @@ class ListRecords extends Base
 
     public function getShouldGenerate(): bool
     {
-        return $this->hasPage('edit', $this->resource)
+        return $this->getGroupToConfig() &&
+            $this->hasPage('edit', $this->resource)
             && $this->hasRelationManager($this->relationManager) &&
             $this->getRelationManagerTableColumns($this->relationManager)->isNotEmpty();
     }

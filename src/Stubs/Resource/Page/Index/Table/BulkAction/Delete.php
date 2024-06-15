@@ -13,7 +13,8 @@ class Delete extends Base
 
     public function getShouldGenerate(): bool
     {
-        return $this->hasTableFilter('trashed', $this->getResourceTable($this->resource))
+        return $this->getGroupToConfig() &&
+            $this->hasTableFilter('trashed', $this->getResourceTable($this->resource))
             && ! $this->hasSoftDeletes($this->resource)
             && $this->hasTableBulkAction('delete', $this->resource);
     }

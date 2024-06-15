@@ -17,7 +17,8 @@ class Range extends Base
 
     public function getShouldGenerate(): bool
     {
-        return $this->hasPage('edit', $this->resource)
+        return $this->getGroupToConfig() &&
+            $this->hasPage('edit', $this->resource)
             && $this->getRelationManagerTableColumnsWithSummarizers($this->relationManager)
                 ->filter(fn ($column) => collect($column->getSummarizers())->filter(function ($summarizer) use ($column) {
                     if ($summarizer::class === \Filament\Tables\Columns\Summarizers\Range::class) {

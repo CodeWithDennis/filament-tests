@@ -13,7 +13,8 @@ class Search extends Base
 
     public function getShouldGenerate(): bool
     {
-        return $this->getSearchableColumns($this->resource)->isNotEmpty();
+        return $this->getGroupToConfig() &&
+            $this->getSearchableColumns($this->resource)->isNotEmpty();
     }
 
     public function getVariables(): array
