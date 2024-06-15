@@ -16,6 +16,7 @@ class Remove extends Base
 
     public function getShouldGenerate(): bool
     {
-        return $this->getResourceTableFilters($this->getResourceTable($this->resource))->isNotEmpty();
+        return $this->getGroupToConfig() &&
+            $this->getResourceTableFilters($this->getResourceTable($this->resource))->isNotEmpty();
     }
 }

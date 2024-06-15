@@ -13,7 +13,8 @@ class Hidden extends Base
 
     public function getShouldGenerate(): bool
     {
-        return $this->hasPage('index', $this->resource)
+        return $this->getGroupToConfig() &&
+            $this->hasPage('index', $this->resource)
             && $this->hasAnyHiddenIndexHeaderAction($this->resource, $this->getIndexHeaderActions($this->resource)['hidden']->toArray());
     }
 

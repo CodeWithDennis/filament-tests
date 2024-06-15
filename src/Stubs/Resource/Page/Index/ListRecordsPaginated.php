@@ -13,7 +13,9 @@ class ListRecordsPaginated extends Base
 
     public function getShouldGenerate(): bool
     {
-        return $this->hasPage('index', $this->resource) && $this->tableHasPagination($this->resource);
+        return $this->getGroupToConfig() &&
+            $this->hasPage('index', $this->resource)
+            && $this->tableHasPagination($this->resource);
     }
 
     public function getVariables(): array

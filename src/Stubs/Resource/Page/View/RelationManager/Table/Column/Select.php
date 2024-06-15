@@ -13,7 +13,8 @@ class Select extends Base
 
     public function getShouldGenerate(): bool
     {
-        return $this->hasPage('view', $this->resource)
+        return $this->getGroupToConfig() &&
+            $this->hasPage('view', $this->resource)
             && $this->getRelationManagerTableColumns($this->relationManager)->isNotEmpty()
             && $this->getRelationManagerTableSelectColumns($this->relationManager)->isNotEmpty();
     }

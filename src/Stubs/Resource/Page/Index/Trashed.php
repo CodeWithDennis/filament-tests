@@ -13,6 +13,7 @@ class Trashed extends Base
 
     public function getShouldGenerate(): bool
     {
-        return $this->hasSoftDeletes($this->resource) && $this->getTableColumns($this->resource)->isNotEmpty();
+        return $this->getGroupToConfig() &&
+            $this->hasSoftDeletes($this->resource) && $this->getTableColumns($this->resource)->isNotEmpty();
     }
 }

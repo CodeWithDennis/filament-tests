@@ -25,22 +25,6 @@ You can publish the config file with:
 php artisan vendor:publish --tag="filament-tests-config"
 ```
 
-This is the contents of the published config file:
-
-```php
-return [
-    /**
-     * The directory where the tests will be generated in.
-     */
-    'directory_name' => env('FILAMENT_TESTS_DIRECTORY_NAME', 'tests/Feature'),
-
-    /**
-     * Whether to separate the tests into folders based on the resource name.
-     */
-    'separate_tests_into_folders' => env('FILAMENT_TESTS_SEPARATE_TESTS_INTO_FOLDERS', false),
-];
-```
-
 ## Requirements
 
 This package requires [Filament v3](https://filamentphp.com/docs/3.x/panels/installation) or later to run.
@@ -51,7 +35,7 @@ This package generates [PestPHP](https://pestphp.com/docs/installation) tests, m
 composer require pestphp/pest --dev --with-all-dependencies
 ```
 
-Make sure you have the following packages installed as well:
+Make sure you have the following plugins installed as well:
 
 ```bash
 composer require pestphp/pest-plugin-livewire --dev

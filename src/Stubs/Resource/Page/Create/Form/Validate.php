@@ -16,7 +16,6 @@ class Validate extends Base
 
     public function getShouldGenerate(): bool
     {
-        // TODO: Implement getShouldGenerate() logic
-        return true;
+        return $this->getGroupToConfig(); // TODO: implement
     }
 }

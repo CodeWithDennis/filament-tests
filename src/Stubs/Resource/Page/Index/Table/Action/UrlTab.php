@@ -13,7 +13,8 @@ class UrlTab extends Base
 
     public function getShouldGenerate(): bool
     {
-        return $this->hasTableActionWithUrlThatShouldOpenInNewTab($this->resource);
+        return $this->getGroupToConfig() &&
+            $this->hasTableActionWithUrlThatShouldOpenInNewTab($this->resource);
     }
 
     public function getVariables(): array

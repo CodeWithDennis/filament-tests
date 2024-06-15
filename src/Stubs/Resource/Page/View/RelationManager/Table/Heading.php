@@ -13,7 +13,8 @@ class Heading extends Base
 
     public function getShouldGenerate(): bool
     {
-        return $this->hasPage('view', $this->resource)
+        return $this->getGroupToConfig() &&
+            $this->hasPage('view', $this->resource)
             && $this->hasRelationManager($this->relationManager)
             && $this->relationManagerHasTableHeading($this->relationManager);
     }

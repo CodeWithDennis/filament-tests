@@ -16,7 +16,8 @@ class Average extends Base
 
     public function getShouldGenerate(): bool
     {
-        return $this->hasPage('view', $this->resource)
+        return $this->getGroupToConfig() &&
+            $this->hasPage('view', $this->resource)
             && $this->getRelationManagerTableColumnsWithSummarizers($this->relationManager)
                 ->filter(fn ($column) => collect($column->getSummarizers())
                     ->filter(fn ($summarizer) => $summarizer::class === \Filament\Tables\Columns\Summarizers\Average::class)

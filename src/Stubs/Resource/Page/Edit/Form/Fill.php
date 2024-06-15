@@ -16,6 +16,6 @@ class Fill extends Base
 
     public function getShouldGenerate(): bool
     {
-        return true; // TODO: implement
+        return $this->getGroupToConfig(); // TODO: Implement
     }
 }

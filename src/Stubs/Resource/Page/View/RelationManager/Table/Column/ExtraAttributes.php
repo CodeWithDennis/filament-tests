@@ -13,7 +13,8 @@ class ExtraAttributes extends Base
 
     public function getShouldGenerate(): bool
     {
-        return $this->hasPage('view', $this->resource)
+        return $this->getGroupToConfig() &&
+            $this->hasPage('view', $this->resource)
             && $this->getRelationManagerTableColumns($this->relationManager)->isNotEmpty()
             && $this->getRelationManagerExtraAttributesColumns($this->relationManager)->isNotEmpty();
     }

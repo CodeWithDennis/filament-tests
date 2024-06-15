@@ -16,10 +16,11 @@ class Count extends Base
 
     public function getShouldGenerate(): bool
     {
-        return $this->getResourceTableColumnsWithSummarizers($this->resource)
-            ->filter(fn ($column) => collect($column->getSummarizers())
-                ->filter(fn ($summarizer) => $summarizer::class === \Filament\Tables\Columns\Summarizers\Count::class)
-                ->count())
-            ->isNotEmpty();
+        return $this->getGroupToConfig() &&
+            $this->getResourceTableColumnsWithSummarizers($this->resource)
+                ->filter(fn ($column) => collect($column->getSummarizers())
+                    ->filter(fn ($summarizer) => $summarizer::class === \Filament\Tables\Columns\Summarizers\Count::class)
+                    ->count())
+                ->isNotEmpty();
     }
 }

@@ -13,7 +13,8 @@ class Exist extends Base
 
     public function getShouldGenerate(): bool
     {
-        return $this->hasPage('index', $this->resource)
+        return $this->getGroupToConfig() &&
+            $this->hasPage('index', $this->resource)
             && $this->hasAnyIndexHeaderAction($this->resource, $this->getIndexHeaderActions($this->resource)['all']->toArray());
     }
 

@@ -16,6 +16,7 @@ class Render extends Base
 
     public function getShouldGenerate(): bool
     {
-        return $this->hasInfolists(); // TODO: implement
+        return $this->getGroupToConfig() &&
+            $this->hasInfolists(); // TODO: implement
     }
 }

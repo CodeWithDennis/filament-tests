@@ -13,7 +13,8 @@ class Description extends Base
 
     public function getShouldGenerate(): bool
     {
-        return $this->hasPage('index', $this->resource)
+        return $this->getGroupToConfig() &&
+            $this->hasPage('index', $this->resource)
             && $this->tableHasDescription($this->resource);
     }
 
