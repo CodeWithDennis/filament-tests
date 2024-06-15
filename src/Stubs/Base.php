@@ -211,7 +211,6 @@ class Base
         return config("filament-tests.{$configKeys}", $default);
     }
 
-
     public function getShouldGenerate(): bool
     {
         if ($this->isTodo() && $this->getShouldGenerateWithTodos()) {

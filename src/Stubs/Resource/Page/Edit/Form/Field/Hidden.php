@@ -15,7 +15,7 @@ class Hidden extends Base
     {
         return $this->getGroupToConfig() &&
             collect($this->getResourceEditFields($this->resource))
-            ->filter(fn ($field) => $field->isHidden())->count();
+                ->filter(fn ($field) => $field->isHidden())->count();
     }
 
     public function getVariables(): array

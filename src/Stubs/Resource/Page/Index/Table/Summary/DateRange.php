@@ -19,15 +19,15 @@ class DateRange extends Base
     {
         return $this->getGroupToConfig() &&
             $this->getResourceTableColumnsWithSummarizers($this->resource)
-            ->filter(fn ($column) => collect($column->getSummarizers())->filter(function ($summarizer) use ($column) {
-                if ($summarizer::class === \Filament\Tables\Columns\Summarizers\Range::class) {
-                    $reflectionProperty = (new ReflectionClass(get_class($column)))
-                        ->getProperty('isDate');
+                ->filter(fn ($column) => collect($column->getSummarizers())->filter(function ($summarizer) use ($column) {
+                    if ($summarizer::class === \Filament\Tables\Columns\Summarizers\Range::class) {
+                        $reflectionProperty = (new ReflectionClass(get_class($column)))
+                            ->getProperty('isDate');
 
-                    return $reflectionProperty->getValue($column);
-                }
+                        return $reflectionProperty->getValue($column);
+                    }
 
-                return false;
-            })->count())->isNotEmpty();
+                    return false;
+                })->count())->isNotEmpty();
     }
 }

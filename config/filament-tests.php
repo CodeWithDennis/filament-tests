@@ -65,7 +65,6 @@ return [
                         'render_header_widgets' => false,
                     ],
 
-
                 ],
 
                 'custom' => [], // TODO: Implement

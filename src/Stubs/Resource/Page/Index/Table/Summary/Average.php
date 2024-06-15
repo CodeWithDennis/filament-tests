@@ -18,9 +18,9 @@ class Average extends Base
     {
         return $this->getGroupToConfig() &&
             $this->getResourceTableColumnsWithSummarizers($this->resource)
-            ->filter(fn ($column) => collect($column->getSummarizers())
-                ->filter(fn ($summarizer) => $summarizer::class === \Filament\Tables\Columns\Summarizers\Average::class)
-                ->count())
-            ->isNotEmpty();
+                ->filter(fn ($column) => collect($column->getSummarizers())
+                    ->filter(fn ($summarizer) => $summarizer::class === \Filament\Tables\Columns\Summarizers\Average::class)
+                    ->count())
+                ->isNotEmpty();
     }
 }

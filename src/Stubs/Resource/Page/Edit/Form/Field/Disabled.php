@@ -15,7 +15,7 @@ class Disabled extends Base
     {
         return $this->getGroupToConfig() &&
             collect($this->getResourceEditFields($this->resource))
-            ->filter(fn ($field) => $field->isDisabled())->count();
+                ->filter(fn ($field) => $field->isDisabled())->count();
     }
 
     public function getVariables(): array
