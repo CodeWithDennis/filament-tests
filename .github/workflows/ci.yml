@@ -16,22 +16,19 @@ jobs:
       with:
         php-version: '8.2'
 
-    - name: Install dependencies
+    - name: Clone Filament project
+      run: git clone https://github.com/dissto/filament-resource-tests.git filament-project
+    
+    - name: Install Filament project dependencies
       run: composer install --prefer-dist --no-progress --no-suggest --no-interaction
-
-    - name: Generate application key
-      run: php artisan key:generate
-
-    - name: Configure database
+      working-directory: ./filament-project
+    
+    - name: Link package
       run: |
-        php artisan config:clear
-        php artisan config:cache
-        touch database/database.sqlite
-
-    - name: Run migrations
-      run: |
-        php artisan migrate --force
-        php artisan db:seed
-  
+        composer config repositories.filament-resource-tests path ../
+        composer require dissto/filament-resource-tests:dev-main
+      working-directory: ./filament-project
+    
     - name: Run tests
       run: vendor/bin/phpunit
+      working-directory: ./filament-project
