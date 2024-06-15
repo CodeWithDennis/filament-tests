@@ -13,4 +13,9 @@ class Fill extends Base
     {
         return 'can fill the form on the edit page';
     }
+
+    public function getShouldGenerate(): bool
+    {
+        return true; // TODO: implement
+    }
 }

@@ -13,7 +13,8 @@ class Exists extends Base
 
     public function getShouldGenerate(): bool
     {
-        return collect($this->getResourceCreateFields($this->resource))->count();
+        return $this->hasPage('create', $this->resource) &&
+            collect($this->getResourceCreateFields($this->resource))->count();
     }
 
     public function getVariables(): array

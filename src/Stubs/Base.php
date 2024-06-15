@@ -132,6 +132,13 @@ class Base
         return $this->evaluate($this->variables ?? []);
     }
 
+    public function getResourceClass($resource, $page): string
+    {
+        return $this->hasPage($page, $resource)
+            ? '\\' . $this->getResourcePages($resource)->get($page)?->getPage() . '::class'
+            : '';
+    }
+
     public function getDefaultVariables(): array
     {
         $resource = $this->resource;
@@ -144,16 +151,21 @@ class Base
 
         $getResourceClass = fn ($page, $isPlural = false) => str("\\{$resourceClass}\\Pages\\{$page}".($isPlural ? $resourceModelName->plural() : $resourceModelName).'::class')->replace('/', '\\');
 
+        $isSimpleResource = $getResourceClass('Manage', true);
+
         $toBeConverted = [
             'DESCRIPTION' => str($this->getDescription())->wrap('\''),
             'MODEL_IMPORT' => $modelImport,
             'MODEL_PLURAL_NAME' => $resourceModelName->plural(),
             'MODEL_SINGULAR_NAME' => $resourceModelName,
 
-            'RESOURCE_LIST_CLASS' => $this->hasPage('index', $resource) ? $getResourceClass('List', true) : '',
-            'RESOURCE_CREATE_CLASS' => $this->hasPage('create', $resource) ? $getResourceClass('Create') : '',
-            'RESOURCE_EDIT_CLASS' => $this->hasPage('edit', $resource) ? $getResourceClass('Edit') : '',
-            'RESOURCE_VIEW_CLASS' => $this->hasPage('view', $resource) ? $getResourceClass('View') : '',
+//            'RESOURCE_LIST_CLASS' => $this->hasPage('index', $resource)
+//                ? ($isSimpleResource ? $getResourceClass('Manage', true) : $getResourceClass('List'))
+//                : '',
+            'RESOURCE_LIST_CLASS' => $this->getResourceClass($resource, 'index'),
+            'RESOURCE_CREATE_CLASS' => $this->getResourceClass($resource, 'create'),
+            'RESOURCE_EDIT_CLASS' => $this->getResourceClass($resource, 'edit'),
+            'RESOURCE_VIEW_CLASS' => $this->getResourceClass($resource, 'view'),
 
             'LOAD_TABLE_METHOD_IF_DEFERRED' => $this->tableHasDeferredLoading($resource) ? $this->getDeferredLoadingMethod() : '',
             'RESOLVED_GROUP_METHOD' => $this->getGroupMethod(),
@@ -356,12 +368,18 @@ class Base
 
     public function getResourcePages(Resource $resource): Collection
     {
-        return collect($resource::getPages())->keys();
+        return collect($resource::getPages());
     }
 
     public function hasPage(string $name, Resource $resource): bool
     {
-        return $this->getResourcePages($resource)->contains($name);
+        return $this->getResourcePages($resource)->has($name);
+    }
+
+    public function isSimpleResource(Resource $resource): bool
+    {
+        // check if the class for page index is ManageRecords
+        return $resource::getPages()['index'] == \Filament\Resources\Pages\ManageRecords::class;
     }
 
     public function tableHasPagination(Resource $resource): bool
