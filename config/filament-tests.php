@@ -18,22 +18,22 @@ return [
         'page' => [
             'auth' => [
                 'login' => [
-                    'render' => false,
-                    'login' => false,
+                    'render' => true,
+                    'login' => true,
                 ],
 
                 'logout' => [
-                    'logout' => false,
+                    'logout' => true,
                 ],
 
                 'password_reset' => [
-                    'render' => false,
-                    'reset' => false,
+                    'render' => true,
+                    'reset' => true,
                 ],
 
                 'registration' => [
-                    'render' => false,
-                    'register' => false,
+                    'render' => true,
+                    'register' => true,
                 ],
             ],
         ],
@@ -41,28 +41,28 @@ return [
         'resource' => [
             'page' => [
                 'create' => [
-                    'render' => false,
+                    'render' => true,
 
                     'action' => [
-                        'render' => false,
+                        'render' => true,
                     ],
 
                     'form' => [
                         'field' => [
-                            'disabled' => false,
-                            'exists' => false,
-                            'hidden' => false,
-                            'validate' => false,
+                            'disabled' => true,
+                            'exists' => true,
+                            'hidden' => true,
+                            'validate' => true,
                         ],
 
-                        'exists' => false,
-                        'render' => false,
-                        'validate' => false,
+                        'exists' => true,
+                        'render' => true,
+                        'validate' => true,
                     ],
 
                     'widget' => [
-                        'render_footer_widgets' => false,
-                        'render_header_widgets' => false,
+                        'render_footer_widgets' => true,
+                        'render_header_widgets' => true,
                     ],
 
                 ],
@@ -70,263 +70,263 @@ return [
                 'custom' => [], // TODO: Implement
 
                 'edit' => [
-                    'render' => false,
+                    'render' => true,
 
                     'action' => [
-                        'render' => false,
+                        'render' => true,
                     ],
 
                     'form' => [
                         'field' => [
-                            'disabled' => false,
-                            'exists' => false,
-                            'hidden' => false,
-                            'validate' => false,
+                            'disabled' => true,
+                            'exists' => true,
+                            'hidden' => true,
+                            'validate' => true,
                         ],
 
-                        'exists' => false,
-                        'fill' => false,
-                        'render' => false,
-                        'validate' => false,
+                        'exists' => true,
+                        'fill' => true,
+                        'render' => true,
+                        'validate' => true,
                     ],
 
                     'relation_manager' => [
                         'header_action' => [
-                            'exist' => false,
-                            'hidden' => false,
-                            'visible' => false,
+                            'exist' => true,
+                            'hidden' => true,
+                            'visible' => true,
                         ],
 
                         'table' => [
                             'action' => [
-                                'delete' => false,
-                                'delete_force' => false,
-                                'delete_soft' => false,
-                                'exist' => false,
-                                'hidden' => false,
-                                'replicate' => false,
-                                'restore' => false,
-                                'url' => false,
-                                'url_tab' => false,
-                                'visible' => false,
+                                'delete' => true,
+                                'delete_force' => true,
+                                'delete_soft' => true,
+                                'exist' => true,
+                                'hidden' => true,
+                                'replicate' => true,
+                                'restore' => true,
+                                'url' => true,
+                                'url_tab' => true,
+                                'visible' => true,
                             ],
 
                             'bulk_action' => [
-                                'delete' => false,
-                                'delete_force' => false,
-                                'delete_soft' => false,
-                                'exist' => false,
-                                'restore' => false,
+                                'delete' => true,
+                                'delete_force' => true,
+                                'delete_soft' => true,
+                                'exist' => true,
+                                'restore' => true,
                             ],
 
                             'column' => [
-                                'cannot_render' => false,
-                                'description_above' => false,
-                                'description_below' => false,
-                                'exist' => false,
-                                'extra_attributes' => false,
-                                'render' => false,
-                                'search' => false,
-                                'search_individually' => false,
-                                'select' => false,
-                                'sort' => false,
+                                'cannot_render' => true,
+                                'description_above' => true,
+                                'description_below' => true,
+                                'exist' => true,
+                                'extra_attributes' => true,
+                                'render' => true,
+                                'search' => true,
+                                'search_individually' => true,
+                                'select' => true,
+                                'sort' => true,
                             ],
 
                             'filter' => [
-                                'exist' => false,
-                                'hidden' => false,
-                                'visible' => false,
+                                'exist' => true,
+                                'hidden' => true,
+                                'visible' => true,
                             ],
 
                             'summary' => [
-                                'average' => false,
-                                'count' => false,
-                                'count_icon' => false,
-                                'date_range' => false,
-                                'range' => false,
-                                'sum' => false,
+                                'average' => true,
+                                'count' => true,
+                                'count_icon' => true,
+                                'date_range' => true,
+                                'range' => true,
+                                'sum' => true,
                             ],
 
-                            'description' => false,
-                            'heading' => false,
+                            'description' => true,
+                            'heading' => true,
                         ],
 
-                        'list_records' => false,
-                        'list_records_paginated' => false,
-                        'render' => false,
-                        'trashed' => false,
+                        'list_records' => true,
+                        'list_records_paginated' => true,
+                        'render' => true,
+                        'trashed' => true,
                     ],
 
                     'widget' => [
-                        'render_footer_widgets' => false,
-                        'render_header_widgets' => false,
+                        'render_footer_widgets' => true,
+                        'render_header_widgets' => true,
                     ],
 
                 ],
 
                 'index' => [
                     'action' => [
-                        'exist' => false,
-                        'hidden' => false,
-                        'visible' => false,
+                        'exist' => true,
+                        'hidden' => true,
+                        'visible' => true,
                     ],
 
                     'table' => [
                         'action' => [
-                            'delete' => false,
-                            'delete_force' => false,
-                            'delete_soft' => false,
-                            'exist' => false,
-                            'replicate' => false,
-                            'restore' => false,
-                            'url' => false,
-                            'url_tab' => false,
+                            'delete' => true,
+                            'delete_force' => true,
+                            'delete_soft' => true,
+                            'exist' => true,
+                            'replicate' => true,
+                            'restore' => true,
+                            'url' => true,
+                            'url_tab' => true,
                         ],
 
                         'bulk_action' => [
-                            'delete' => false,
-                            'delete_force' => false,
-                            'delete_soft' => false,
-                            'exist' => false,
-                            'restore' => false,
+                            'delete' => true,
+                            'delete_force' => true,
+                            'delete_soft' => true,
+                            'exist' => true,
+                            'restore' => true,
                         ],
 
                         'column' => [
-                            'cannot_render' => false,
-                            'description_above' => false,
-                            'description_below' => false,
-                            'exist' => false,
-                            'extra_attributes' => false,
-                            'render' => false,
-                            'search' => false,
-                            'search_individually' => false,
-                            'select' => false,
-                            'sort' => false,
+                            'cannot_render' => true,
+                            'description_above' => true,
+                            'description_below' => true,
+                            'exist' => true,
+                            'extra_attributes' => true,
+                            'render' => true,
+                            'search' => true,
+                            'search_individually' => true,
+                            'select' => true,
+                            'sort' => true,
                         ],
 
                         'filter' => [
-                            'add' => false,
-                            'remove' => false,
-                            'reset' => false,
+                            'add' => true,
+                            'remove' => true,
+                            'reset' => true,
                         ],
 
                         'summary' => [
-                            'average' => false,
-                            'count' => false,
-                            'count_icon' => false,
-                            'date_range' => false,
-                            'range' => false,
-                            'sum' => false,
+                            'average' => true,
+                            'count' => true,
+                            'count_icon' => true,
+                            'date_range' => true,
+                            'range' => true,
+                            'sum' => true,
                         ],
 
-                        'description' => false,
-                        'heading' => false,
+                        'description' => true,
+                        'heading' => true,
                     ],
 
                     'widget' => [
-                        'render_footer_widgets' => false,
-                        'render_header_widgets' => false,
+                        'render_footer_widgets' => true,
+                        'render_header_widgets' => true,
                     ],
 
-                    'list_records' => false,
-                    'list_records_paginated' => false,
-                    'render' => false,
-                    'trashed' => false,
+                    'list_records' => true,
+                    'list_records_paginated' => true,
+                    'render' => true,
+                    'trashed' => true,
                 ],
 
                 'view' => [
-                    'render' => false,
+                    'render' => true,
 
                     'action' => [
-                        'render' => false,
+                        'render' => true,
                     ],
 
                     'form' => [
-                        'render' => false,
+                        'render' => true,
                     ],
 
                     'infolist' => [
                         'action' => [
-                            'exist' => false,
+                            'exist' => true,
                         ],
 
                         'entry' => [
-                            'render' => false,
+                            'render' => true,
                         ],
 
-                        'render' => false,
+                        'render' => true,
                     ],
 
                     'relation_manager' => [
                         'header_action' => [
-                            'exist' => false,
-                            'hidden' => false,
-                            'visible' => false,
+                            'exist' => true,
+                            'hidden' => true,
+                            'visible' => true,
                         ],
 
                         'table' => [
                             'action' => [
-                                'delete' => false,
-                                'delete_force' => false,
-                                'delete_soft' => false,
-                                'exist' => false,
-                                'hidden' => false,
-                                'replicate' => false,
-                                'restore' => false,
-                                'url' => false,
-                                'url_tab' => false,
-                                'visible' => false,
+                                'delete' => true,
+                                'delete_force' => true,
+                                'delete_soft' => true,
+                                'exist' => true,
+                                'hidden' => true,
+                                'replicate' => true,
+                                'restore' => true,
+                                'url' => true,
+                                'url_tab' => true,
+                                'visible' => true,
                             ],
 
                             'bulk_action' => [
-                                'delete' => false,
-                                'delete_force' => false,
-                                'delete_soft' => false,
-                                'exist' => false,
-                                'restore' => false,
+                                'delete' => true,
+                                'delete_force' => true,
+                                'delete_soft' => true,
+                                'exist' => true,
+                                'restore' => true,
                             ],
 
                             'column' => [
-                                'cannot_render' => false,
-                                'description_above' => false,
-                                'description_below' => false,
-                                'exist' => false,
-                                'extra_attributes' => false,
-                                'render' => false,
-                                'search' => false,
-                                'search_individually' => false,
-                                'select' => false,
-                                'sort' => false,
+                                'cannot_render' => true,
+                                'description_above' => true,
+                                'description_below' => true,
+                                'exist' => true,
+                                'extra_attributes' => true,
+                                'render' => true,
+                                'search' => true,
+                                'search_individually' => true,
+                                'select' => true,
+                                'sort' => true,
                             ],
 
                             'filter' => [
-                                'add' => false,
-                                'remove' => false,
-                                'reset' => false,
+                                'add' => true,
+                                'remove' => true,
+                                'reset' => true,
                             ],
 
                             'summary' => [
-                                'average' => false,
-                                'count' => false,
-                                'count_icon' => false,
-                                'date_range' => false,
-                                'range' => false,
-                                'sum' => false,
+                                'average' => true,
+                                'count' => true,
+                                'count_icon' => true,
+                                'date_range' => true,
+                                'range' => true,
+                                'sum' => true,
                             ],
 
-                            'description' => false,
-                            'heading' => false,
+                            'description' => true,
+                            'heading' => true,
                         ],
 
-                        'list_records' => false,
-                        'list_records_paginated' => false,
-                        'render' => false,
-                        'trashed' => false,
+                        'list_records' => true,
+                        'list_records_paginated' => true,
+                        'render' => true,
+                        'trashed' => true,
                     ],
 
                     'widget' => [
-                        'render_footer_widgets' => false,
-                        'render_header_widgets' => false,
+                        'render_footer_widgets' => true,
+                        'render_header_widgets' => true,
                     ],
                 ],
             ],
