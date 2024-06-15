@@ -151,17 +151,12 @@ class Base
 
         $getResourceClass = fn ($page, $isPlural = false) => str("\\{$resourceClass}\\Pages\\{$page}".($isPlural ? $resourceModelName->plural() : $resourceModelName).'::class')->replace('/', '\\');
 
-        $isSimpleResource = $getResourceClass('Manage', true);
-
         $toBeConverted = [
             'DESCRIPTION' => str($this->getDescription())->wrap('\''),
             'MODEL_IMPORT' => $modelImport,
             'MODEL_PLURAL_NAME' => $resourceModelName->plural(),
             'MODEL_SINGULAR_NAME' => $resourceModelName,
-
-            //            'RESOURCE_LIST_CLASS' => $this->hasPage('index', $resource)
-            //                ? ($isSimpleResource ? $getResourceClass('Manage', true) : $getResourceClass('List'))
-            //                : '',
+            
             'RESOURCE_LIST_CLASS' => $this->getResourceClass($resource, 'index'),
             'RESOURCE_CREATE_CLASS' => $this->getResourceClass($resource, 'create'),
             'RESOURCE_EDIT_CLASS' => $this->getResourceClass($resource, 'edit'),
