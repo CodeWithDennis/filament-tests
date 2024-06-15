@@ -8,7 +8,7 @@ class ListRecordsPaginated extends Base
 {
     public function getDescription(): string
     {
-        return 'xxcan list records on the index page with pagination';
+        return 'can list records on the index page with pagination';
     }
 
     public function getShouldGenerate(): bool
