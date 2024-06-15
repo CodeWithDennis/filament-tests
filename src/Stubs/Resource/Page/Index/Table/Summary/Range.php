@@ -17,7 +17,8 @@ class Range extends Base
 
     public function getShouldGenerate(): bool
     {
-        return $this->getResourceTableColumnsWithSummarizers($this->resource)
+        return $this->getGroupToConfig() &&
+            $this->getResourceTableColumnsWithSummarizers($this->resource)
             ->filter(fn ($column) => collect($column->getSummarizers())->filter(function ($summarizer) use ($column) {
                 if ($summarizer::class === \Filament\Tables\Columns\Summarizers\Range::class) {
                     $reflectionProperty = (new ReflectionClass(get_class($column)))

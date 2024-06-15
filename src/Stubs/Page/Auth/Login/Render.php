@@ -13,7 +13,8 @@ class Render extends Base
 
     public function getShouldGenerate(): bool
     {
-        return $this->hasLogin()
+        return $this->getGroupToConfig() &&
+            $this->hasLogin()
             && $this->getPanelPath()
             && $this->getLoginRouteAction();
     }

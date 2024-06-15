@@ -13,7 +13,8 @@ class Select extends Base
 
     public function getShouldGenerate(): bool
     {
-        return $this->getTableSelectColumns($this->resource)->isNotEmpty();
+        return $this->getGroupToConfig() &&
+            $this->getTableSelectColumns($this->resource)->isNotEmpty();
     }
 
     public function getVariables(): array

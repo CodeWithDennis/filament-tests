@@ -13,7 +13,8 @@ class Sort extends Base
 
     public function getShouldGenerate(): bool
     {
-        return $this->getSortableColumns($this->resource)->isNotEmpty();
+        return $this->getGroupToConfig() &&
+            $this->getSortableColumns($this->resource)->isNotEmpty();
     }
 
     public function getVariables(): array

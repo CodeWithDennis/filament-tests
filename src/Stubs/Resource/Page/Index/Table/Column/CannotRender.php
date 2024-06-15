@@ -13,7 +13,8 @@ class CannotRender extends Base
 
     public function getShouldGenerate(): bool
     {
-        return $this->getToggledHiddenByDefaultColumns($this->resource)->isNotEmpty();
+        return $this->getGroupToConfig() &&
+            $this->getToggledHiddenByDefaultColumns($this->resource)->isNotEmpty();
     }
 
     public function getVariables(): array

@@ -17,7 +17,8 @@ class CountIcon extends Base
 
     public function getShouldGenerate(): bool
     {
-        return $this->getResourceTableColumnsWithSummarizers($this->resource)
+        return $this->getGroupToConfig() &&
+            $this->getResourceTableColumnsWithSummarizers($this->resource)
             ->filter(fn ($column) => collect($column->getSummarizers())->filter(function ($summarizer) use ($column) {
                 return $summarizer::class === \Filament\Tables\Columns\Summarizers\Count::class &&
                     $column::class === IconColumn::class;

@@ -13,7 +13,8 @@ class Heading extends Base
 
     public function getShouldGenerate(): bool
     {
-        return $this->hasPage('index', $this->resource)
+        return $this->getGroupToConfig() &&
+            $this->hasPage('index', $this->resource)
             && $this->tableHasHeading($this->resource);
     }
 

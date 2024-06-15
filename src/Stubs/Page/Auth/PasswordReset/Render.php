@@ -13,7 +13,8 @@ class Render extends Base
 
     public function getShouldGenerate(): bool
     {
-        return $this->hasPasswordReset()
+        return $this->getGroupToConfig() &&
+            $this->hasPasswordReset()
             && $this->getRequestPasswordResetRouteAction();
     }
 

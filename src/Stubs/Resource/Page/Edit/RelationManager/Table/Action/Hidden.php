@@ -16,6 +16,6 @@ class Hidden extends Base
 
     public function getShouldGenerate(): bool
     {
-        return $this->hasRelationManagers();
+        return $this->getGroupToConfig(); // TODO: Implement
     }
 }

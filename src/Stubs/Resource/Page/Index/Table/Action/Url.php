@@ -13,7 +13,8 @@ class Url extends Base
 
     public function getShouldGenerate(): bool
     {
-        return $this->hasTableActionWithUrl($this->resource);
+        return $this->getGroupToConfig() &&
+            $this->hasTableActionWithUrl($this->resource);
     }
 
     public function getVariables(): array

@@ -13,7 +13,8 @@ class Disabled extends Base
 
     public function getShouldGenerate(): bool
     {
-        return collect($this->getResourceEditFields($this->resource))
+        return $this->getGroupToConfig() &&
+            collect($this->getResourceEditFields($this->resource))
             ->filter(fn ($field) => $field->isDisabled())->count();
     }
 

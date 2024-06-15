@@ -200,6 +200,18 @@ class Base
         return $this->evaluate($this->shouldGenerateWithTodos);
     }
 
+    public function getGroupToConfig(bool $default = true): bool
+    {
+        $configKeys = collect(explode('/', $this->getGroup()))
+            ->map(fn ($key) => str($key)->snake()->lower())
+            ->prepend('generate')
+            ->push(str($this->getName())->snake()->lower())
+            ->implode('.');
+
+        return config("filament-tests.{$configKeys}", $default);
+    }
+
+
     public function getShouldGenerate(): bool
     {
         if ($this->isTodo() && $this->getShouldGenerateWithTodos()) {

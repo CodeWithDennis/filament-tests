@@ -16,6 +16,6 @@ class Reset extends Base
 
     public function getShouldGenerate(): bool
     {
-        return false; // TODO: implement
+        return $this->getGroupToConfig(); // TODO: implement
     }
 }

@@ -13,7 +13,8 @@ class Exist extends Base
 
     public function getShouldGenerate(): bool
     {
-        return $this->hasAnyTableBulkAction($this->resource, $this->getResourceTableBulkActions($this->resource)->keys()->toArray());
+        return $this->getGroupToConfig() &&
+            $this->hasAnyTableBulkAction($this->resource, $this->getResourceTableBulkActions($this->resource)->keys()->toArray());
     }
 
     public function getVariables(): array

@@ -13,7 +13,8 @@ class Exist extends Base
 
     public function getShouldGenerate(): bool
     {
-        return $this->getTableColumns($this->resource)->isNotEmpty();
+        return $this->getGroupToConfig() &&
+            $this->getTableColumns($this->resource)->isNotEmpty();
     }
 
     public function getVariables(): array
