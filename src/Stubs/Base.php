@@ -135,7 +135,7 @@ class Base
     public function getResourceClass($resource, $page): string
     {
         return $this->hasPage($page, $resource)
-            ? '\\' . $this->getResourcePages($resource)->get($page)?->getPage() . '::class'
+            ? '\\'.$this->getResourcePages($resource)->get($page)?->getPage().'::class'
             : '';
     }
 
@@ -159,9 +159,9 @@ class Base
             'MODEL_PLURAL_NAME' => $resourceModelName->plural(),
             'MODEL_SINGULAR_NAME' => $resourceModelName,
 
-//            'RESOURCE_LIST_CLASS' => $this->hasPage('index', $resource)
-//                ? ($isSimpleResource ? $getResourceClass('Manage', true) : $getResourceClass('List'))
-//                : '',
+            //            'RESOURCE_LIST_CLASS' => $this->hasPage('index', $resource)
+            //                ? ($isSimpleResource ? $getResourceClass('Manage', true) : $getResourceClass('List'))
+            //                : '',
             'RESOURCE_LIST_CLASS' => $this->getResourceClass($resource, 'index'),
             'RESOURCE_CREATE_CLASS' => $this->getResourceClass($resource, 'create'),
             'RESOURCE_EDIT_CLASS' => $this->getResourceClass($resource, 'edit'),
