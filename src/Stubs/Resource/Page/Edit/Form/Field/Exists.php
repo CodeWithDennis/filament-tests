@@ -14,13 +14,13 @@ class Exists extends Base
     public function getShouldGenerate(): bool
     {
         return $this->hasPage('edit', $this->resource) &&
-        collect($this->getResourceEditFields($this->resource))->count();
+        collect($this->getResourceEditFormFields($this->resource))->count();
     }
 
     public function getVariables(): array
     {
         return [
-            'EDIT_PAGE_FIELDS' => $this->convertDoubleQuotedArrayString(collect($this->getResourceEditFields($this->resource))->keys()),
+            'EDIT_PAGE_FIELDS' => $this->convertDoubleQuotedArrayString(collect($this->getResourceEditFormFields($this->resource))->keys()),
         ];
     }
 }
