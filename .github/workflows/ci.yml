@@ -2,33 +2,56 @@ name: CI
 
 on:
   push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
 
 jobs:
   run-tests:
     runs-on: ubuntu-latest
-  
+
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-    - name: Set up PHP
-      uses: shivammathur/setup-php@v2
-      with:
-        php-version: '8.2'
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
 
-    - name: Clone Filament project
-      run: git clone https://github.com/dissto/filament-resource-tests.git filament-project
-    
-    - name: Install Filament project dependencies
-      run: composer install --prefer-dist --no-progress --no-suggest --no-interaction
-      working-directory: ./filament-project
-    
-    - name: Link package
-      run: |
-        composer config repositories.filament-resource-tests path ../
-        composer require dissto/filament-resource-tests:dev-main
-      working-directory: ./filament-project
-    
-    - name: Run tests
-      run: vendor/bin/phpunit
-      working-directory: ./filament-project
+      - name: Install Composer
+        run: sudo apt-get update && sudo apt-get install -y composer
+
+      - name: Clone test project
+        run: git clone https://github.com/dissto/filament-tests-test-project.git test-project
+
+      - name: Install test project dependencies
+        run: composer install --prefer-dist --no-progress --no-suggest --no-interaction
+        working-directory: ./test-project
+
+      - name: Copy .env file
+        run: cp .env.example .env || touch .env
+        working-directory: ./test-project
+
+      - name: Generate application key
+        run: php artisan key:generate
+        working-directory: ./test-project
+
+      - name: Configure database
+        run: |
+          php artisan config:clear
+          php artisan config:cache
+          touch database/database.sqlite
+        working-directory: ./test-project
+
+      - name: Run migrations
+        run: |
+          php artisan migrate --force
+          php artisan db:seed
+        working-directory: ./test-project
+
+      - name: Run tests
+        run: vendor/bin/phpunit
+        working-directory: ./test-project
