@@ -35,7 +35,7 @@ This package generates [PestPHP](https://pestphp.com/docs/installation) tests, m
 composer require pestphp/pest --dev --with-all-dependencies
 ```
 
-Make sure you have the following packages installed as well:
+Make sure you have the following plugins installed as well:
 
 ```bash
 composer require pestphp/pest-plugin-livewire --dev
