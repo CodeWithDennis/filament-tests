@@ -156,7 +156,7 @@ class Base
             'MODEL_IMPORT' => $modelImport,
             'MODEL_PLURAL_NAME' => $resourceModelName->plural(),
             'MODEL_SINGULAR_NAME' => $resourceModelName,
-            
+
             'RESOURCE_LIST_CLASS' => $this->getResourceClass($resource, 'index'),
             'RESOURCE_CREATE_CLASS' => $this->getResourceClass($resource, 'create'),
             'RESOURCE_EDIT_CLASS' => $this->getResourceClass($resource, 'edit'),
@@ -369,12 +369,6 @@ class Base
     public function hasPage(string $name, Resource $resource): bool
     {
         return $this->getResourcePages($resource)->has($name);
-    }
-
-    public function isSimpleResource(Resource $resource): bool
-    {
-        // check if the class for page index is ManageRecords
-        return $resource::getPages()['index'] == \Filament\Resources\Pages\ManageRecords::class;
     }
 
     public function tableHasPagination(Resource $resource): bool
