@@ -2,7 +2,6 @@
 
 namespace CodeWithDennis\FilamentTests\Stubs\Resource\Page\Index\Table\Filter;
 
-use Closure;
 use CodeWithDennis\FilamentTests\Stubs\Base;
 
 class Exist extends Base
