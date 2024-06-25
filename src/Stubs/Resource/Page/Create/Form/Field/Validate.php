@@ -26,27 +26,29 @@ class Validate extends Base
         $requiredFields = $this->getResourceCreateFormRequiredFields($this->resource)->keys();
         $requiredFieldsWithRelationship = $this->getResourceCreateFormRequiredFieldWithRelationships($this->resource)->keys();
 
-        $requiredFieldsWithNullString = '[' . $requiredFields->map(function ($item) {
-                return '"' . $item . '" => null';
-            })->implode(', ') . ']';
+        $requiredFieldsWithNullString = '['.$requiredFields->map(function ($item) {
+            return '"'.$item.'" => null';
+        })->implode(', ').']';
 
-        $requiredFieldsWithRequiredString = '[' . $requiredFields->map(function ($item) {
-                return '"' . $item . '" => "required"';
-            })->implode(', ') . ']';
+        $requiredFieldsWithRequiredString = '['.$requiredFields->map(function ($item) {
+            return '"'.$item.'" => "required"';
+        })->implode(', ').']';
 
-        $requiredFieldsFromFactoryString = '[' . $requiredFields->map(function ($item) {
-                return '"' . $item . '" => $record->' . $item;
-            })->implode(', ') . ']';
+        $requiredFieldsFromFactoryString = '['.$requiredFields->map(function ($item) {
+            return '"'.$item.'" => $record->'.$item;
+        })->implode(', ').']';
 
         $relatedModelFactories = $requiredFieldsWithRelationship->map(function ($item) {
             $relationshipName = $this->getRelationNameFromAttribute($this->resource->getModel(), $item);
-            $modelClass = (new \ReflectionClass($this->resource->getModel()))->getNamespaceName() . '\\' . ucfirst($relationshipName);
-            return '$' . $relationshipName . ' = ' . $modelClass . '::factory()->create();';
+            $modelClass = (new \ReflectionClass($this->resource->getModel()))->getNamespaceName().'\\'.ucfirst($relationshipName);
+
+            return '$'.$relationshipName.' = '.$modelClass.'::factory()->create();';
         })->implode("\n");
 
         $relationshipsAsFor = $requiredFieldsWithRelationship->map(function ($item) {
             $relationshipName = $this->getRelationNameFromAttribute($this->resource->getModel(), $item);
-            return '->for($' . $relationshipName . ')';
+
+            return '->for($'.$relationshipName.')';
         })->implode("\n");
 
         return [
@@ -59,5 +61,4 @@ class Validate extends Base
             'RELATIONSHIPS_AS_FOR' => $relationshipsAsFor,
         ];
     }
-
 }

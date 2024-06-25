@@ -308,7 +308,7 @@ class Base
 
             if ($methodReflection->getNumberOfParameters() === 0) {
                 $returnType = $methodReflection->getReturnType();
-                if ($returnType && is_subclass_of((string)$returnType, Relation::class)) {
+                if ($returnType && is_subclass_of((string) $returnType, Relation::class)) {
                     $relation = $model->{$method->name}();
                     foreach ($possibleRelationNames as $relationName) {
                         if ($method->name === $relationName && $relation->getForeignKeyName() === $attribute) {
@@ -321,7 +321,7 @@ class Base
 
         return null;
     }
-    
+
     public function getResourceCreateFormRequiredFieldWithoutRelationships(Resource $resource): Collection
     {
         return collect($this->getResourceCreateForm($resource)->getFlatFields())
@@ -343,6 +343,7 @@ class Base
     public function getResourceCreateFormHiddenFields(Resource $resource): Collection
     {
         Log::info(collect($this->getResourceCreateForm($resource)->getComponents()));
+
         return collect($this->getResourceCreateForm($resource)->getFlatFields(withHidden: true))
             ->filter(fn ($field) => $field->isHidden());
     }
