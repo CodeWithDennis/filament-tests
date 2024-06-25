@@ -342,8 +342,6 @@ class Base
 
     public function getResourceCreateFormHiddenFields(Resource $resource): Collection
     {
-        Log::info(collect($this->getResourceCreateForm($resource)->getComponents()));
-
         return collect($this->getResourceCreateForm($resource)->getFlatFields(withHidden: true))
             ->filter(fn ($field) => $field->isHidden());
     }
