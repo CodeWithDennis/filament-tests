@@ -14,7 +14,6 @@ use Filament\Support\Concerns\EvaluatesClosures;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Log;
 use ReflectionClass;
 use ReflectionMethod;
 
