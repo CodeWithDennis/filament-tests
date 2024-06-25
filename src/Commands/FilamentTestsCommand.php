@@ -8,9 +8,9 @@ use Filament\Resources\Resource;
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Collection;
-
 use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\Process\Process;
+
 use function Laravel\Prompts\confirm;
 use function Laravel\Prompts\multiselect;
 
@@ -323,11 +323,11 @@ class FilamentTestsCommand extends Command
     {
         $this->warnPintNotInstalled();
 
-        if ( ! $this->isPintInstalled()) {
+        if (! $this->isPintInstalled()) {
             return;
         }
 
-        if ( config('filament-tests.run_pint') === false) {
+        if (config('filament-tests.run_pint') === false) {
             return;
         }
 
@@ -359,7 +359,7 @@ class FilamentTestsCommand extends Command
 
     protected function warnPintNotInstalled(): void
     {
-        if ( ! $this->isPintInstalled()) {
+        if (! $this->isPintInstalled()) {
             $this->info('Laravel Pint is not installed. Please install it to run the tests or disable the option in the configuration file.');
         }
     }
