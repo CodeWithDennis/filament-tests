@@ -12,7 +12,11 @@ use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Resources\Resource;
 use Filament\Support\Concerns\EvaluatesClosures;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Log;
+use ReflectionClass;
+use ReflectionMethod;
 
 class Base
 {
@@ -268,10 +272,66 @@ class Base
         return $this->convertDoubleQuotedArrayString('['.implode(',', $result).']');
     }
 
-    public function getResourceRequiredCreateFields(Resource $resource): Collection
+    public function getResourceCreateFormRequiredFields(Resource $resource): Collection
     {
         return collect($this->getResourceCreateForm($resource)->getFlatFields())
             ->filter(fn ($field) => $field->isRequired());
+    }
+
+    public function getResourceCreateFormRequiredFieldWithRelationships(Resource $resource): Collection
+    {
+        return collect($this->getResourceCreateForm($resource)->getFlatFields())
+            ->filter(fn ($field) => $field->isRequired() && method_exists($field, 'getRelationship'));
+    }
+
+    // example: getRelationNameFromAttribute('App\Models\Blog\Post', 'blog_author_id') => 'author'
+    public function getRelationNameFromAttribute($modelClass, $attribute)
+    {
+        $attributeBase = rtrim($attribute, '_id');
+        $attributeCamelCase = lcfirst(str_replace(' ', '', ucwords(str_replace('_', ' ', $attributeBase))));
+
+        $possibleRelationNames = [];
+        for ($i = 0; $i < strlen($attributeCamelCase); $i++) {
+            $possibleRelationNames[] = lcfirst(substr($attributeCamelCase, $i));
+        }
+
+        $model = new $modelClass;
+        $modelReflection = new ReflectionClass($model);
+        $methods = $modelReflection->getMethods(ReflectionMethod::IS_PUBLIC); // TODO: do people create relationships as protected? 🤔
+
+        foreach ($methods as $method) {
+            if (preg_match('/^(get|set|__)/', $method->name)) {
+                continue;
+            }
+
+            $methodReflection = new ReflectionMethod($model, $method->name);
+
+            if ($methodReflection->getNumberOfParameters() === 0) {
+                $returnType = $methodReflection->getReturnType();
+                if ($returnType && is_subclass_of((string)$returnType, Relation::class)) {
+                    $relation = $model->{$method->name}();
+                    foreach ($possibleRelationNames as $relationName) {
+                        if ($method->name === $relationName && $relation->getForeignKeyName() === $attribute) {
+                            return $method->name;
+                        }
+                    }
+                }
+            }
+        }
+
+        return null;
+    }
+    
+    public function getResourceCreateFormRequiredFieldWithoutRelationships(Resource $resource): Collection
+    {
+        return collect($this->getResourceCreateForm($resource)->getFlatFields())
+            ->filter(fn ($field) => $field->isRequired() && ! method_exists($field, 'getRelationship'));
+    }
+
+    public function getResourceCreateFormOptionalFields(Resource $resource): Collection
+    {
+        return collect($this->getResourceCreateForm($resource)->getFlatFields())
+            ->filter(fn ($field) => ! $field->isRequired());
     }
 
     public function getResourceRequiredEditFields(Resource $resource): Collection
@@ -280,9 +340,22 @@ class Base
             ->filter(fn ($field) => $field->isRequired());
     }
 
-    public function getResourceCreateFields(Resource $resource): array
+    public function getResourceCreateFormHiddenFields(Resource $resource): Collection
     {
-        return $this->getResourceCreateForm($resource)->getFlatFields(withHidden: true);
+        Log::info(collect($this->getResourceCreateForm($resource)->getComponents()));
+        return collect($this->getResourceCreateForm($resource)->getFlatFields(withHidden: true))
+            ->filter(fn ($field) => $field->isHidden());
+    }
+
+    public function getResourceCreateFormDisabledFields(Resource $resource): Collection
+    {
+        return collect($this->getResourceCreateForm($resource)->getFlatFields(withHidden: true))
+            ->filter(fn ($field) => $field->isDisabled());
+    }
+
+    public function getResourceCreateFormFields(Resource $resource): Collection
+    {
+        return collect($this->getResourceCreateForm($resource)->getFlatFields(withHidden: true));
     }
 
     public function getResourceEditFields(Resource $resource): array
