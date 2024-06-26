@@ -148,6 +148,8 @@ class StubHandler
             \CodeWithDennis\FilamentTests\Stubs\Resource\Page\Create\Form\Exists::make($resource)->get(),
             \CodeWithDennis\FilamentTests\Stubs\Resource\Page\Create\Form\Render::make($resource)->get(),
 
+            \CodeWithDennis\FilamentTests\Stubs\Resource\Page\Create\Simple\Form\Create::make($resource)->get(),
+
             \CodeWithDennis\FilamentTests\Stubs\Resource\Page\Edit\Render::make($resource)->get(),
             \CodeWithDennis\FilamentTests\Stubs\Resource\Page\Edit\HeaderAction\Render::make($resource)->get(),
             \CodeWithDennis\FilamentTests\Stubs\Resource\Page\Edit\Form\Render::make($resource)->get(),

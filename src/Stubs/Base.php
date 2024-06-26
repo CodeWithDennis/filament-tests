@@ -165,6 +165,8 @@ class Base
 
             'LOAD_TABLE_METHOD_IF_DEFERRED' => $this->tableHasDeferredLoading($resource) ? $this->getDeferredLoadingMethod() : '',
             'RESOLVED_GROUP_METHOD' => $this->getGroupMethod(),
+
+            'CURRENTLY_ONLY_SUPPORTING_BASIC_FIELDS_AND_BELONGSTO_RELATIONSHIPS' => "// filament-tests currently only supports basic fields and belongsTo relationships. \n// If you have more complex relationships (BelongsToMany and alike), you will need to manually adjust the tests.",
         ];
 
         return array_map([$this, 'convertDoubleQuotedArrayString'], $toBeConverted);
@@ -449,6 +451,19 @@ class Base
     public function hasPage(string $name, Resource $resource): bool
     {
         return $this->getResourcePages($resource)->has($name);
+    }
+
+    public function isSimpleResource(Resource $resource): bool
+    {
+        return $this->hasPage('index', $resource) &&
+            str($this->getResourcePageClass('index', $resource))->before('::')->contains('Manage');
+    }
+
+    public function getResourcePageClass(string $name, Resource $resource): string
+    {
+        return $this->hasPage($name, $resource)
+            ? '\\'.$this->getResourcePages($resource)->get($name)?->getPage().'::class'
+            : '';
     }
 
     public function tableHasPagination(Resource $resource): bool
