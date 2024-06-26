@@ -11,7 +11,7 @@ class Create extends Base
 
     public function getDescription(): string
     {
-        return 'can create a record via create modal action on the create page for simple resource: ' . class_basename($this->resource);
+        return 'can create a record via create modal action on the create page for simple resource: '.class_basename($this->resource);
     }
 
     public function getShouldGenerate(): bool
@@ -26,12 +26,12 @@ class Create extends Base
         $requiredFields = $this->getResourceCreateFormRequiredFields($this->resource)->keys();
 
         $requiredFieldsWithNullString = '['.$requiredFields->map(function ($item) {
-                return '"'.$item.'" => null';
-            })->implode(', ').']';
+            return '"'.$item.'" => null';
+        })->implode(', ').']';
 
         $requiredFieldsFromFactoryString = '['.$requiredFields->map(function ($item) {
-                return '"'.$item.'" => $record->'.$item;
-            })->implode(', ').']';
+            return '"'.$item.'" => $record->'.$item;
+        })->implode(', ').']';
 
         return [
             'CREATE_PAGE_REQUIRED_FIELDS' => $this->convertDoubleQuotedArrayString($this->getResourceCreateFormRequiredFields($this->resource)->keys()->implode('", "')),
