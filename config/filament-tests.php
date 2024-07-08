@@ -18,11 +18,26 @@ return [
 
         /**
          * The number of model factories to generate.
+         *
+         * Please note:
+         * Pagination is currently not or only partially supported in Filament tests.
+         *
+         * If you set the number greater than your resources `->paginated()` or `->defaultPaginationPageOption()` option (default 10),
+         * you would need to manually account for paginating (setting the pages accordingly prior to asserting) the tests inside each generated test.
+         *
+         * We will most likely add support for this in the future, but for now, you would need to manually account for this.
          */
         'model_factory_count' => 3,
 
         /**
          * The number of model factories to generate for relationships.
+         *  Please note:
+         *  Pagination is currently not or only partially supported in Filament tests.
+         *
+         *  If you set the number greater than your resources `->paginated()` or `->defaultPaginationPageOption()` option (default 10),
+         *  you would need to manually account for paginating (setting the pages accordingly prior to asserting) the tests inside each generated test.
+         *
+         *  We will most likely add support for this in the future, but for now, you would need to manually account for this.
          */
         'model_relationship_factory_count' => 3,
 
