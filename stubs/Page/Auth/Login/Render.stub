@@ -1,6 +1,0 @@
-it({{ DESCRIPTION }}, function () {
-        Auth::logout();
-
-        livewire({{ LOGIN_ROUTE_ACTION }}::class)
-            ->assertSuccessful();
-}){{ RESOLVED_GROUP_METHOD }};

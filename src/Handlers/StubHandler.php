@@ -25,14 +25,6 @@ class StubHandler
         $stubs = [
             \CodeWithDennis\FilamentTests\Stubs\SetupStub::make($resource)->get(),
 
-            \CodeWithDennis\FilamentTests\Stubs\Page\Auth\Registration\Render::make($resource)->get(),
-            \CodeWithDennis\FilamentTests\Stubs\Page\Auth\Registration\Register::make($resource)->get(),
-            \CodeWithDennis\FilamentTests\Stubs\Page\Auth\PasswordReset\Render::make($resource)->get(),
-            \CodeWithDennis\FilamentTests\Stubs\Page\Auth\PasswordReset\Reset::make($resource)->get(),
-            \CodeWithDennis\FilamentTests\Stubs\Page\Auth\Login\Render::make($resource)->get(),
-            \CodeWithDennis\FilamentTests\Stubs\Page\Auth\Login\Login::make($resource)->get(),
-            \CodeWithDennis\FilamentTests\Stubs\Page\Auth\Logout\Logout::make($resource)->get(),
-
             \CodeWithDennis\FilamentTests\Stubs\Resource\Page\Index\Render::make($resource)->get(),
             \CodeWithDennis\FilamentTests\Stubs\Resource\Page\Index\ListRecords::make($resource)->get(),
             \CodeWithDennis\FilamentTests\Stubs\Resource\Page\Index\ListRecordsPaginated::make($resource)->get(),
