@@ -274,6 +274,11 @@ class Base
             ->filter(fn ($field) => $field->isRequired());
     }
 
+    public function getResourceCreateFields(Resource $resource): Collection
+    {
+        return collect($this->getResourceCreateForm($resource)->getFlatFields(withHidden: true));
+    }
+
     public function getResourceEditFormRequiredFields(Resource $resource): Collection
     {
         return collect($this->getResourceEditForm($resource)->getFlatFields())
