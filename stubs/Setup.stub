@@ -12,10 +12,10 @@ use Filament\Tables\Actions\{
     ForceDeleteBulkAction
 };
 
-uses()->group('filament-tests');
-
 use function Pest\Laravel\{actingAs};
 use function Pest\Livewire\livewire;
+
+uses()->group('filament-tests');
 
 beforeEach(function () {
     actingAs(User::factory()->create());
