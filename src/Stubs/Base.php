@@ -3,7 +3,6 @@
 namespace CodeWithDennis\FilamentTests\Stubs;
 
 use Closure;
-use Filament\Facades\Filament;
 use Filament\Forms\Form;
 use Filament\Resources\Pages\CreateRecord;
 use Filament\Resources\Pages\EditRecord;
