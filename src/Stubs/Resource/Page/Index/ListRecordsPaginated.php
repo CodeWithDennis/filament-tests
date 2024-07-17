@@ -14,9 +14,9 @@ class ListRecordsPaginated extends Base
     public function getShouldGenerate(): bool
     {
         return false; // @see https://github.com/CodeWithDennis/filament-tests/issues/258
-//        return $this->getGroupToConfig() &&
-//            $this->hasPage('index', $this->resource)
-//            && $this->tableHasPagination($this->resource);
+        //        return $this->getGroupToConfig() &&
+        //            $this->hasPage('index', $this->resource)
+        //            && $this->tableHasPagination($this->resource);
     }
 
     public function getVariables(): array

@@ -17,7 +17,7 @@ class ListRecordsPaginated extends Base
     public function getShouldGenerate(): bool
     {
         return false; // @see https://github.com/CodeWithDennis/filament-tests/issues/258
-//        return false && $this->getGroupToConfig();
+        //        return false && $this->getGroupToConfig();
         //        return $this->hasPage('edit', $this->resource)
         //            && $this->hasRelationManager($this->relationManager) &&
         //            $this->getRelationManagerTableColumns($this->relationManager)->isNotEmpty();
