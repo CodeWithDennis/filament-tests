@@ -290,6 +290,11 @@ class Base
         return collect($this->getResourceCreateForm($resource)->getFlatFields(withHidden: true));
     }
 
+    public function getResourceEditFields(Resource $resource): Collection
+    {
+        return collect($this->getResourceEditForm($resource)->getFlatFields(withHidden: true));
+    }
+
     public function getResourceCreateFormVisibleFields(Resource $resource): Collection
     {
         return collect($this->getResourceCreateForm($resource)->getFlatFields());
