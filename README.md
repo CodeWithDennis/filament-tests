@@ -5,6 +5,9 @@
 
 A package that creates PEST tests specifically tailored for your Filament components.
 
+> [!IMPORTANT]  
+> The project is currently on hold as both active maintainers are unable to dedicate time due to work commitments and other responsibilities. However, we encourage anyone in the community to contribute and help keep the project alive. Your efforts would make a big difference in maintaining its momentum.
+
 ## Early development
 
 This package is still in early development. Some features may not be available yet or may not work as expected. If you encounter any issues, please create an [issue](https://github.com/CodeWithDennis/filament-tests/issues) on this repository.
