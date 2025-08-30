@@ -6,9 +6,9 @@ use CodeWithDennis\FilamentTests\Concerns\InteractsWithResources;
 
 abstract class BaseTest
 {
-    public ?string $view = null;
-
     use InteractsWithResources;
+
+    public ?string $view = null;
 
     public function __construct(
         public ?string $resourceClass = null,
