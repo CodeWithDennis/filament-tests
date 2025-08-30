@@ -15,11 +15,16 @@ class FilamentTestsCommand extends Command
     public function handle()
     {
         // TODO: THIS IS JUST TESTING STUFF
-        $resource = 'App\Filament\Admin\Resources\BadgeResource'; // Replace with dynamic input
+        $resource = 'App\Filament\Admin\Resources\UserResource';
 
         $file = [
-            CanRenderCreatePageTest::build($resource)->render(),
-            CanRenderEditPageTest::build($resource)->render(),
+            CanRenderCreatePageTest::build($resource)
+                ->view('filament-tests::can-render-create-page')
+                ->render(),
+
+            CanRenderEditPageTest::build($resource)
+                ->view('filament-tests::can-render-edit-page')
+                ->render(),
         ];
 
         $this->info(implode("\n\n", $file));
