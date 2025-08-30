@@ -4,6 +4,7 @@ namespace CodeWithDennis\FilamentTests\Concerns;
 
 use Filament\Resources\Pages\ListRecords;
 use Filament\Schemas\Schema;
+use Filament\Tables\Columns\Column;
 use Filament\Tables\Table;
 
 trait InteractsWithResources
@@ -42,6 +43,6 @@ trait InteractsWithResources
 
     public function getResourceSortableTableColumns(): array
     {
-        return array_filter($this->getResourceTableColumns(), fn ($column) => $column->isSortable());
+        return array_filter($this->getResourceTableColumns(), fn (Column $column) => $column->isSortable());
     }
 }
