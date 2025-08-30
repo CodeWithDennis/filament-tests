@@ -2,6 +2,7 @@
 
 namespace CodeWithDennis\FilamentTests\Commands;
 
+use App\Filament\Resources\Users\UserResource;
 use CodeWithDennis\FilamentTests\TestRenderers\CanRenderCreatePageTest;
 use CodeWithDennis\FilamentTests\TestRenderers\CanRenderEditPageTest;
 use Illuminate\Console\Command;
@@ -15,7 +16,7 @@ class FilamentTestsCommand extends Command
     public function handle()
     {
         // TODO: THIS IS JUST TESTING STUFF
-        $resource = 'App\Filament\Admin\Resources\UserResource';
+        $resource = UserResource::class;
 
         $file = [
             CanRenderCreatePageTest::build($resource)->render(),
