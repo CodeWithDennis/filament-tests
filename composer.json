@@ -27,6 +27,7 @@
         "pestphp/pest-plugin-livewire": "^v4.0.1"
     },
     "require-dev": {
+        "filament/filament": "^4.0",
         "laravel/pint": "^1.14",
         "nunomaduro/collision": "^v8.8.2",
         "phpstan/extension-installer": "^1.1",

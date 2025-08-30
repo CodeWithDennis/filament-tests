@@ -2,20 +2,23 @@
 
 namespace CodeWithDennis\FilamentTests\Concerns;
 
+use Filament\Resources\Resource;
+use Illuminate\Database\Eloquent\Model;
+
 trait InteractsWithResources
 {
+    /** @return class-string<Resource>|null */
     public function getResourceClass(): ?string
     {
         return $this->resourceClass;
     }
 
-    public function getResource()
-    {
-        return new ($this->getResourceClass());
-    }
-
+    /** @return class-string<Model>|null */
     public function getResourceModel(): ?string
     {
-        return $this->getResource()->getModel();
+        /** @var class-string<Resource>|null $resource */
+        $resource = $this->getResourceClass();
+
+        return $resource ? $resource::getModel() : null;
     }
 }
