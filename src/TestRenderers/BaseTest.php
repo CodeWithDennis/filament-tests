@@ -6,11 +6,12 @@ use CodeWithDennis\FilamentTests\Concerns\InteractsWithResources;
 
 abstract class BaseTest
 {
+    public ?string $view = null;
+
     use InteractsWithResources;
 
     public function __construct(
         public ?string $resourceClass = null,
-        public ?string $view = null
     ) {}
 
     public static function build(string $resourceClass, ?string $view = null): static
@@ -21,6 +22,7 @@ abstract class BaseTest
     public function view(string $view): static
     {
         $this->view = $view;
+
         return $this;
     }
 

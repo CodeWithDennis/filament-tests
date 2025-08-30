@@ -18,13 +18,8 @@ class FilamentTestsCommand extends Command
         $resource = 'App\Filament\Admin\Resources\UserResource';
 
         $file = [
-            CanRenderCreatePageTest::build($resource)
-                ->view('filament-tests::can-render-create-page')
-                ->render(),
-
-            CanRenderEditPageTest::build($resource)
-                ->view('filament-tests::can-render-edit-page')
-                ->render(),
+            CanRenderCreatePageTest::build($resource)->render(),
+            CanRenderEditPageTest::build($resource)->render(),
         ];
 
         $this->info(implode("\n\n", $file));
