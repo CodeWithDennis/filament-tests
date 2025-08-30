@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 trait InteractsWithResources
 {
-    /** @return class-string<Resource>|null */
+    /** @return class-string<resource>|null */
     public function getResourceClass(): ?string
     {
         return $this->resourceClass;
@@ -16,7 +16,7 @@ trait InteractsWithResources
     /** @return class-string<Model>|null */
     public function getResourceModel(): ?string
     {
-        /** @var class-string<Resource>|null $resource */
+        /** @var class-string<resource>|null $resource */
         $resource = $this->getResourceClass();
 
         return $resource ? $resource::getModel() : null;
