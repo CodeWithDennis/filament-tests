@@ -2,9 +2,11 @@
 
 namespace CodeWithDennis\FilamentTests\TestRenderers;
 
+use CodeWithDennis\FilamentTests\Concerns\InteractsWithResources;
+
 abstract class BaseTest
 {
-    //    use \CodeWithDennis\FilamentTests\Concerns\InteractsWithResources;
+    use InteractsWithResources;
 
     public function __construct(
         public ?string $resourceClass = null,
@@ -16,15 +18,9 @@ abstract class BaseTest
         return new static($resourceClass, $view);
     }
 
-    public function getResourceClass(): ?string
-    {
-        return $this->resourceClass;
-    }
-
     public function view(string $view): static
     {
         $this->view = $view;
-
         return $this;
     }
 
