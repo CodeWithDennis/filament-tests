@@ -2,13 +2,24 @@
 
 namespace CodeWithDennis\FilamentTests\Concerns;
 
+use Filament\Actions\Action;
 use Filament\Resources\Pages\ListRecords;
 use Filament\Schemas\Schema;
 use Filament\Tables\Columns\Column;
 use Filament\Tables\Table;
+use ReflectionClass;
 
 trait InteractsWithResources
 {
+    protected function getPrivateProperty(object $object, string $property): mixed
+    {
+        $reflection = new ReflectionClass($object);
+        $property = $reflection->getProperty($property);
+        $property->setAccessible(true);
+
+        return $property->getValue($object);
+    }
+
     public function getResourceClass(): ?string
     {
         return $this->resourceClass;
@@ -39,6 +50,18 @@ trait InteractsWithResources
     public function getResourceTableColumns(): array
     {
         return $this->getResourceTable()->getColumns();
+    }
+
+    public function getResourceTableActions(): array
+    {
+        return $this->getResourceTable()->getActions();
+    }
+
+    public function getResourceTableVisibleActions(): array
+    {
+        return array_filter($this->getResourceTableActions(), function (Action $action) {
+            return ! $this->getPrivateProperty($action, 'isHidden');
+        });
     }
 
     public function getResourceSortableTableColumns(): array
