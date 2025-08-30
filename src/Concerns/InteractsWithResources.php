@@ -59,6 +59,7 @@ trait InteractsWithResources
 
     public function getResourceTableVisibleActions(): array
     {
+        // TODO: Also add check for visible callback
         return array_filter($this->getResourceTableActions(), function (Action $action) {
             return ! $this->getPrivateProperty($action, 'isHidden');
         });
