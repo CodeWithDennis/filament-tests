@@ -13,6 +13,7 @@ class FilamentTestsServiceProvider extends PackageServiceProvider
         $package
             ->name('filament-tests')
             ->hasConfigFile()
+            ->hasViews()
             ->hasCommands([
                 FilamentTestsCommand::class,
             ]);
