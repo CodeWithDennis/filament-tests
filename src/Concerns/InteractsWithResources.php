@@ -34,4 +34,14 @@ trait InteractsWithResources
             app('livewire')->new(ListRecords::class)
         ));
     }
+
+    public function getResourceTableColumns(): array
+    {
+        return $this->getResourceTable()->getColumns();
+    }
+
+    public function getResourceSortableTableColumns(): array
+    {
+        return array_filter($this->getResourceTableColumns(), fn ($column) => $column->isSortable());
+    }
 }
