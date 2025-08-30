@@ -30,6 +30,7 @@ abstract class BaseTest
     {
         return view($this->view, [
             'resourceClass' => $this->getResourceClass(),
+            'resourceModel' => $this->getResourceModel(),
         ])->render();
     }
 }
