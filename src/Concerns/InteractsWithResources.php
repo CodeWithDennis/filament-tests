@@ -8,4 +8,14 @@ trait InteractsWithResources
     {
         return $this->resourceClass;
     }
+
+    public function getResource()
+    {
+        return new ($this->getResourceClass());
+    }
+
+    public function getResourceModel(): ?string
+    {
+        return $this->getResource()->getModel();
+    }
 }
