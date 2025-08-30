@@ -14,9 +14,9 @@ abstract class BaseTest
         public ?string $resourceClass = null,
     ) {}
 
-    public static function build(string $resourceClass, ?string $view = null): static
+    public static function build(string $resourceClass): static
     {
-        return new static($resourceClass, $view);
+        return new static($resourceClass);
     }
 
     public function view(string $view): static
