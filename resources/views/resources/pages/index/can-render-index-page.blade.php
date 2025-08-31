@@ -3,4 +3,7 @@ livewire({{ $getResourceClass() }}::class)
 ->assertOk();
 })@if($isTodo())
     ->todo{!! $getTodoMessage() ? "('{$getTodoMessage()}')" : '()' !!}
+@endif
+@if($getShouldSkip())
+    ->skip{!! $getSkipMessage() ? "('{$getSkipMessage()}')" : '()' !!}
 @endif;

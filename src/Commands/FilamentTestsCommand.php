@@ -67,8 +67,8 @@ class FilamentTestsCommand extends Command
         return implode("\n\n", [
             BeforeEach::build($resourceClass)->render(),
             CanRenderIndexPageTest::build($resourceClass)->render(),
-            CanRenderCreatePageTest::build($resourceClass)->render(),
-            CanRenderEditPageTest::build($resourceClass)->render(),
+//            CanRenderCreatePageTest::build($resourceClass)->render(),
+//            CanRenderEditPageTest::build($resourceClass)->render(),
         ]);
     }
 
