@@ -11,12 +11,14 @@ use Filament\Facades\Filament;
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Process;
 
 use function Laravel\Prompts\multiselect;
 
 class FilamentTestsCommand extends Command
 {
-    protected $signature = 'make:filament-test';
+    protected $signature = 'make:filament-test
+                            {--skip-pint : Skip running Pint on generated files}';
 
     protected $description = 'Create a new test for a Filament component';
 
@@ -25,6 +27,7 @@ class FilamentTestsCommand extends Command
     public function __construct(
         protected ?Collection $resources = null,
         protected ?Collection $panels = null,
+        protected array $generatedFiles = [],
         protected ?Filesystem $files = null,
     ) {
         $this->resources ??= collect();
@@ -54,9 +57,13 @@ class FilamentTestsCommand extends Command
 
                 file_put_contents($filePath, $rendered);
 
+                $this->generatedFiles[] = $filePath;
+
                 $this->info("Created test for {$resourceClass} → {$filePath}");
             }
         }
+
+        $this->runPintOnGeneratedFiles();
     }
 
     /**
@@ -70,6 +77,21 @@ class FilamentTestsCommand extends Command
             //            CanRenderCreatePageTest::build($resourceClass)->render(),
             //            CanRenderEditPageTest::build($resourceClass)->render(),
         ]);
+    }
+
+    protected function runPintOnGeneratedFiles(): void
+    {
+        if ($this->generatedFiles === []) {
+            return;
+        }
+
+        if ($this->option('skip-pint')) {
+            return;
+        }
+
+        $files = implode(' ', $this->generatedFiles);
+
+        Process::run("vendor/bin/pint {$files}");
     }
 
     protected function getTestFilePath(string $resourceClass): string
