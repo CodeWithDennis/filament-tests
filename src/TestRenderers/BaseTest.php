@@ -21,7 +21,7 @@ abstract class BaseTest
         return new static($resourceClass);
     }
 
-    public function view(string $view)
+    public function view(string $view): static
     {
         $this->view = $view;
 
