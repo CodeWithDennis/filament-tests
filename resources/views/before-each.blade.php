@@ -1,3 +1,5 @@
+{!! '<?php'  !!}
+
 beforeEach(function () {
     //
 });
