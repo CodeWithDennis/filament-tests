@@ -5,11 +5,13 @@ namespace CodeWithDennis\FilamentTests\TestRenderers;
 use CodeWithDennis\FilamentTests\Concerns\ExposesPublicMethodsToViews;
 use CodeWithDennis\FilamentTests\Concerns\HasFilamentResources;
 use CodeWithDennis\FilamentTests\Concerns\InteractsWithResources;
+use CodeWithDennis\FilamentTests\Concerns\Renderers\CanBeDiscovered;
 use CodeWithDennis\FilamentTests\Concerns\Renderers\CanBeSkipped;
 use CodeWithDennis\FilamentTests\Concerns\Renderers\CanBeTodo;
 
 abstract class BaseTest implements HasFilamentResources
 {
+    use CanBeDiscovered;
     use CanBeSkipped;
     use CanBeTodo;
     use CanRenderViews;
