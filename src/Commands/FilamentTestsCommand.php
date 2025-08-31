@@ -3,6 +3,7 @@
 namespace CodeWithDennis\FilamentTests\Commands;
 
 use App\Filament\Resources\Users\UserResource;
+use CodeWithDennis\FilamentTests\TestRenderers\BeforeEach;
 use CodeWithDennis\FilamentTests\TestRenderers\CanRenderCreatePageTest;
 use CodeWithDennis\FilamentTests\TestRenderers\CanRenderEditPageTest;
 use Illuminate\Console\Command;
@@ -19,6 +20,7 @@ class FilamentTestsCommand extends Command
         $resource = UserResource::class;
 
         $file = [
+            BeforeEach::build($resource)->render(),
             CanRenderCreatePageTest::build($resource)->render(),
             CanRenderEditPageTest::build($resource)->render(),
         ];
