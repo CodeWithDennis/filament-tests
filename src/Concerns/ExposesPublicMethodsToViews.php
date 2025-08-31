@@ -1,31 +1,31 @@
 <?php
 
-    namespace CodeWithDennis\FilamentTests\Concerns;
+namespace CodeWithDennis\FilamentTests\Concerns;
 
-    use ReflectionClass;
-    use ReflectionMethod;
+use ReflectionClass;
+use ReflectionMethod;
 
-    trait ExposesPublicMethodsToViews
+trait ExposesPublicMethodsToViews
+{
+    protected array $methodCache = [];
+
+    protected function extractPublicMethods($renderer): array
     {
-        protected array $methodCache = [];
+        if (! isset($this->methodCache[$renderer::class])) {
+            $reflection = new ReflectionClass($renderer);
 
-        protected function extractPublicMethods($renderer): array
-        {
-            if (! isset($this->methodCache[$renderer::class])) {
-                $reflection = new ReflectionClass($renderer);
-
-                $this->methodCache[$renderer::class] = array_map(
-                    fn (ReflectionMethod $method): string => $method->getName(),
-                    $reflection->getMethods(ReflectionMethod::IS_PUBLIC),
-                );
-            }
-
-            $values = [];
-
-            foreach ($this->methodCache[$renderer::class] as $method) {
-                $values[$method] = $renderer->$method(...);
-            }
-
-            return $values;
+            $this->methodCache[$renderer::class] = array_map(
+                fn (ReflectionMethod $method): string => $method->getName(),
+                $reflection->getMethods(ReflectionMethod::IS_PUBLIC),
+            );
         }
+
+        $values = [];
+
+        foreach ($this->methodCache[$renderer::class] as $method) {
+            $values[$method] = $renderer->$method(...);
+        }
+
+        return $values;
     }
+}

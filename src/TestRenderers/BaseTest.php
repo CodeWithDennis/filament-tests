@@ -7,8 +7,8 @@ use CodeWithDennis\FilamentTests\Concerns\InteractsWithResources;
 
 abstract class BaseTest
 {
-    use InteractsWithResources;
     use ExposesPublicMethodsToViews;
+    use InteractsWithResources;
 
     public ?string $view = null;
 
@@ -31,7 +31,7 @@ abstract class BaseTest
     public function render(): string
     {
         return view($this->view, [
-            ...$this->extractPublicMethods($this)
+            ...$this->extractPublicMethods($this),
         ])->render();
     }
 }
