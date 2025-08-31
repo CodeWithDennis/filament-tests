@@ -48,7 +48,7 @@ class FilamentTestsCommand extends Command
             ],
         ]);
 
-        foreach ($this->resources as $panelId => $resourceClasses) {
+        foreach ($this->resources as $resourceClasses) {
             foreach ($resourceClasses as $resourceClass) {
                 $rendered = $this->renderTestsForResource($resourceClass);
 
@@ -72,6 +72,7 @@ class FilamentTestsCommand extends Command
     protected function renderTestsForResource(string $resourceClass): string
     {
         return implode("\n\n", [
+            '<?php',
             BeforeEach::build($resourceClass)->render(),
             CanRenderIndexPageTest::build($resourceClass)->render(),
             //            CanRenderCreatePageTest::build($resourceClass)->render(),
@@ -140,7 +141,7 @@ class FilamentTestsCommand extends Command
                 required: true,
             );
 
-            if (! empty($selected)) {
+            if ($selected !== []) {
                 $selectedResources[$panelId] = $selected;
             }
         }
