@@ -59,13 +59,11 @@ trait InteractsWithResources
 
     public function getResourceTableVisibleActions(): array
     {
-        return array_filter($this->getResourceTableActions(), function (Action $action) {
-            return ! $this->getPrivateProperty($action, 'isHidden');
-        });
+        return array_filter($this->getResourceTableActions(), fn(Action $action): bool => ! $this->getPrivateProperty($action, 'isHidden'));
     }
 
     public function getResourceSortableTableColumns(): array
     {
-        return array_filter($this->getResourceTableColumns(), fn (Column $column) => $column->isSortable());
+        return array_filter($this->getResourceTableColumns(), fn (Column $column): bool => $column->isSortable());
     }
 }
