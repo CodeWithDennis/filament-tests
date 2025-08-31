@@ -3,14 +3,13 @@
 namespace CodeWithDennis\FilamentTests\Commands;
 
 use App\Filament\Resources\Users\UserResource;
+use CodeWithDennis\FilamentTests\TestRenderers\BaseTest;
 use CodeWithDennis\FilamentTests\TestRenderers\BeforeEach;
-use CodeWithDennis\FilamentTests\TestRenderers\Resources\Pages\Create\CanRenderCreatePageTest;
-use CodeWithDennis\FilamentTests\TestRenderers\Resources\Pages\Edit\CanRenderEditPageTest;
-use CodeWithDennis\FilamentTests\TestRenderers\Resources\Pages\Index\CanRenderIndexPageTest;
 use Filament\Facades\Filament;
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Process;
 
 use function Laravel\Prompts\multiselect;
 
@@ -25,6 +24,7 @@ class FilamentTestsCommand extends Command
     public function __construct(
         protected ?Collection $resources = null,
         protected ?Collection $panels = null,
+        protected array $generatedFiles = [],
         protected ?Filesystem $files = null,
     ) {
         $this->resources ??= collect();
@@ -45,7 +45,7 @@ class FilamentTestsCommand extends Command
             ],
         ]);
 
-        foreach ($this->resources as $panelId => $resourceClasses) {
+        foreach ($this->resources as $resourceClasses) {
             foreach ($resourceClasses as $resourceClass) {
                 $rendered = $this->renderTestsForResource($resourceClass);
 
@@ -54,22 +54,34 @@ class FilamentTestsCommand extends Command
 
                 file_put_contents($filePath, $rendered);
 
+                $this->generatedFiles[] = $filePath;
+
                 $this->info("Created test for {$resourceClass} → {$filePath}");
             }
         }
+
+        $this->runPintOnGeneratedFiles();
     }
 
-    /**
-     * Render all tests for a single resource.
-     */
     protected function renderTestsForResource(string $resourceClass): string
     {
-        return implode("\n\n", [
-            BeforeEach::build($resourceClass)->render(),
-            CanRenderIndexPageTest::build($resourceClass)->render(),
-            //            CanRenderCreatePageTest::build($resourceClass)->render(),
-            //            CanRenderEditPageTest::build($resourceClass)->render(),
-        ]);
+
+        $srcPath = 'CodeWithDennis\\FilamentTests\\TestRenderers';
+
+        $allTestClasses = collect([BeforeEach::build($resourceClass)])
+            ->merge(
+                collect($this->files->allFiles(__DIR__.'/../TestRenderers'))
+                    ->map(fn ($file): string => $srcPath.'\\'.str($file->getRelativePathname())
+                        ->replace('/', '\\')
+                        ->replace('.php', ''))
+                    ->filter(fn ($class): bool => class_exists($class)
+                        && $class !== BaseTest::class
+                        && $class !== BeforeEach::class)
+                    ->values()
+                    ->map(fn ($class) => $class::build($resourceClass))
+            );
+
+        return implode("\n\n", $allTestClasses->map(fn (BaseTest $test): ?string => $test->render())->toArray());
     }
 
     protected function getTestFilePath(string $resourceClass): string
@@ -118,11 +130,26 @@ class FilamentTestsCommand extends Command
                 required: true,
             );
 
-            if (! empty($selected)) {
+            if ($selected !== []) {
                 $selectedResources[$panelId] = $selected;
             }
         }
 
         return $selectedResources;
+    }
+
+    protected function runPintOnGeneratedFiles(): void
+    {
+        if ($this->generatedFiles === []) {
+            return;
+        }
+
+        if (config('filament-tests.should_run_pint_after_done') === false) {
+            return;
+        }
+
+        $files = implode(' ', $this->generatedFiles);
+
+        Process::run("vendor/bin/pint {$files}");
     }
 }
