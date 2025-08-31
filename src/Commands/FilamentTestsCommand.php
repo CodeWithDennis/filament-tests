@@ -9,6 +9,7 @@ use Filament\Facades\Filament;
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Process;
 
 use function Laravel\Prompts\multiselect;
 
@@ -23,6 +24,7 @@ class FilamentTestsCommand extends Command
     public function __construct(
         protected ?Collection $resources = null,
         protected ?Collection $panels = null,
+        protected array $generatedFiles = [],
         protected ?Filesystem $files = null,
     ) {
         $this->resources ??= collect();
@@ -52,9 +54,13 @@ class FilamentTestsCommand extends Command
 
                 file_put_contents($filePath, $rendered);
 
+                $this->generatedFiles[] = $filePath;
+
                 $this->info("Created test for {$resourceClass} → {$filePath}");
             }
         }
+
+        $this->runPintOnGeneratedFiles();
     }
 
     protected function renderTestsForResource(string $resourceClass): string
@@ -128,5 +134,16 @@ class FilamentTestsCommand extends Command
         }
 
         return $selectedResources;
+    }
+
+    protected function runPintOnGeneratedFiles(): void
+    {
+        if ($this->generatedFiles === []) {
+            return;
+        }
+
+        $files = implode(' ', $this->generatedFiles);
+
+        Process::run("vendor/bin/pint {$files}");
     }
 }
