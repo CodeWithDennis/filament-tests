@@ -18,7 +18,7 @@ use function Laravel\Prompts\multiselect;
 class FilamentTestsCommand extends Command
 {
     protected $signature = 'make:filament-test
-                            {--should-run-pint-after : Run Pint on generated files after tests}';
+                            {--do-not-run-pint-after : Skip running Pint on generated files}';
 
     protected $description = 'Create a new test for a Filament component';
 
@@ -85,7 +85,7 @@ class FilamentTestsCommand extends Command
             return;
         }
 
-        if (! $this->option('should-run-pint-after')) {
+        if ($this->option('do-not-run-pint-after')) {
             return;
         }
 
