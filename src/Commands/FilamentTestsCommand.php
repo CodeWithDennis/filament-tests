@@ -3,10 +3,8 @@
 namespace CodeWithDennis\FilamentTests\Commands;
 
 use App\Filament\Resources\Users\UserResource;
+use CodeWithDennis\FilamentTests\TestRenderers\BaseTest;
 use CodeWithDennis\FilamentTests\TestRenderers\BeforeEach;
-use CodeWithDennis\FilamentTests\TestRenderers\Resources\Pages\Create\CanRenderCreatePageTest;
-use CodeWithDennis\FilamentTests\TestRenderers\Resources\Pages\Edit\CanRenderEditPageTest;
-use CodeWithDennis\FilamentTests\TestRenderers\Resources\Pages\Index\CanRenderIndexPageTest;
 use Filament\Facades\Filament;
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
@@ -59,17 +57,23 @@ class FilamentTestsCommand extends Command
         }
     }
 
-    /**
-     * Render all tests for a single resource.
-     */
     protected function renderTestsForResource(string $resourceClass): string
     {
-        return implode("\n\n", [
-            BeforeEach::build($resourceClass)->render(),
-            CanRenderIndexPageTest::build($resourceClass)->render(),
-            //            CanRenderCreatePageTest::build($resourceClass)->render(),
-            //            CanRenderEditPageTest::build($resourceClass)->render(),
-        ]);
+
+        $srcPath = 'CodeWithDennis\\FilamentTests\\TestRenderers';
+
+        $allTestClasses = collect([BeforeEach::build($resourceClass)])
+            ->merge(
+                collect($this->files->allFiles(__DIR__.'/../TestRenderers'))
+                    ->map(fn ($file) => $srcPath.'\\'.str($file->getRelativePathname())
+                        ->replace('/', '\\')
+                        ->replace('.php', ''))
+                    ->filter(fn ($class) => class_exists($class) && $class !== BaseTest::class && (new $class)->isDiscoverable())
+                    ->values()
+                    ->map(fn ($class) => $class::build($resourceClass))
+            );
+
+        return implode("\n\n", $allTestClasses->map(fn (BaseTest $test) => $test->render())->toArray());
     }
 
     protected function getTestFilePath(string $resourceClass): string
