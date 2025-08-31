@@ -3,18 +3,18 @@
 declare(strict_types=1);
 
 use Rector\Config\RectorConfig;
-    use Rector\Set\ValueObject\LevelSetList;
-    use Rector\Set\ValueObject\SetList;
+use Rector\Set\ValueObject\LevelSetList;
+use Rector\Set\ValueObject\SetList;
 
-    return RectorConfig::configure()
+return RectorConfig::configure()
     ->withPaths([
-        __DIR__ . '/config',
-        __DIR__ . '/resources',
-        __DIR__ . '/src',
+        __DIR__.'/config',
+        __DIR__.'/resources',
+        __DIR__.'/src',
     ])
-    // uncomment to reach your current PHP version
-    // ->withPhpSets()
-        ->withSets([
+// uncomment to reach your current PHP version
+// ->withPhpSets()
+    ->withSets([
         LevelSetList::UP_TO_PHP_82,
         SetList::CODE_QUALITY,
         SetList::DEAD_CODE,
