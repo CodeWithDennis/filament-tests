@@ -31,7 +31,8 @@
         "laravel/pint": "^1.14",
         "nunomaduro/collision": "^v8.8.2",
         "phpstan/extension-installer": "^1.1",
-        "phpstan/phpstan-deprecation-rules": "^1.0"
+        "phpstan/phpstan-deprecation-rules": "^1.0",
+        "rector/rector": "^1.2"
     },
     "autoload": {
         "psr-4": {
