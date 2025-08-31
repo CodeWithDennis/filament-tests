@@ -16,7 +16,7 @@ trait InteractsWithPages
 
     public function hasPages(array $pages): bool
     {
-        return empty(array_diff($pages, array_keys($this->getPages())));
+        return array_diff($pages, array_keys($this->getPages())) === [];
     }
 
     public function getPage(string $page): ?PageRegistration

@@ -13,6 +13,6 @@ trait InteractsWithTableColumns
 
     public function getResourceSortableTableColumns(): array
     {
-        return array_filter($this->getResourceTableColumns(), fn (Column $column) => $column->isSortable());
+        return array_filter($this->getResourceTableColumns(), fn (Column $column): bool => $column->isSortable());
     }
 }
