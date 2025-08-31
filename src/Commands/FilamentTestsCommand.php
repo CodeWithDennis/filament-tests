@@ -43,7 +43,7 @@ class FilamentTestsCommand extends Command
             ],
         ]);
 
-        foreach ($this->resources as $panelId => $resourceClasses) {
+        foreach ($this->resources as $resourceClasses) {
             foreach ($resourceClasses as $resourceClass) {
                 $rendered = $this->renderTestsForResource($resourceClass);
 
@@ -65,15 +65,15 @@ class FilamentTestsCommand extends Command
         $allTestClasses = collect([BeforeEach::build($resourceClass)])
             ->merge(
                 collect($this->files->allFiles(__DIR__.'/../TestRenderers'))
-                    ->map(fn ($file) => $srcPath.'\\'.str($file->getRelativePathname())
+                    ->map(fn ($file): string => $srcPath.'\\'.str($file->getRelativePathname())
                         ->replace('/', '\\')
                         ->replace('.php', ''))
-                    ->filter(fn ($class) => class_exists($class) && $class !== BaseTest::class && (new $class)->isDiscoverable())
+                    ->filter(fn ($class): bool => class_exists($class) && $class !== BaseTest::class && (new $class)->isDiscoverable())
                     ->values()
                     ->map(fn ($class) => $class::build($resourceClass))
             );
 
-        return implode("\n\n", $allTestClasses->map(fn (BaseTest $test) => $test->render())->toArray());
+        return implode("\n\n", $allTestClasses->map(fn (BaseTest $test): ?string => $test->render())->toArray());
     }
 
     protected function getTestFilePath(string $resourceClass): string
@@ -122,7 +122,7 @@ class FilamentTestsCommand extends Command
                 required: true,
             );
 
-            if (! empty($selected)) {
+            if ($selected !== []) {
                 $selectedResources[$panelId] = $selected;
             }
         }
