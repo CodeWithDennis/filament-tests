@@ -4,8 +4,9 @@ namespace CodeWithDennis\FilamentTests\Commands;
 
 use App\Filament\Resources\Users\UserResource;
 use CodeWithDennis\FilamentTests\TestRenderers\BeforeEach;
-use CodeWithDennis\FilamentTests\TestRenderers\CanRenderCreatePageTest;
-use CodeWithDennis\FilamentTests\TestRenderers\CanRenderEditPageTest;
+use CodeWithDennis\FilamentTests\TestRenderers\Resources\Pages\Create\CanRenderCreatePageTest;
+use CodeWithDennis\FilamentTests\TestRenderers\Resources\Pages\Edit\CanRenderEditPageTest;
+use CodeWithDennis\FilamentTests\TestRenderers\Resources\Pages\Index\CanRenderIndexPageTest;
 use Illuminate\Console\Command;
 
 class FilamentTestsCommand extends Command
@@ -21,6 +22,7 @@ class FilamentTestsCommand extends Command
 
         $file = [
             BeforeEach::build($resource)->render(),
+            CanRenderIndexPageTest::build($resource)->render(),
             CanRenderCreatePageTest::build($resource)->render(),
             CanRenderEditPageTest::build($resource)->render(),
         ];
