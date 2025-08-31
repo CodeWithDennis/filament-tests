@@ -3,9 +3,10 @@
 namespace CodeWithDennis\FilamentTests\TestRenderers;
 
 use CodeWithDennis\FilamentTests\Concerns\ExposesPublicMethodsToViews;
+use CodeWithDennis\FilamentTests\Concerns\HasFilamentResources;
 use CodeWithDennis\FilamentTests\Concerns\InteractsWithResources;
 
-abstract class BaseTest
+abstract class BaseTest implements HasFilamentResources
 {
     use ExposesPublicMethodsToViews;
     use InteractsWithResources;
@@ -19,6 +20,16 @@ abstract class BaseTest
     public static function build(string $resourceClass): static
     {
         return new static($resourceClass);
+    }
+
+    public function getResourceClass(): ?string
+    {
+        return $this->resourceClass;
+    }
+
+    public function getResource()
+    {
+        return new ($this->getResourceClass());
     }
 
     public function view(string $view): static
