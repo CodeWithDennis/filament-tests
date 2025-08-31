@@ -14,7 +14,7 @@ class FilamentTestsCommand extends Command
 
     protected $description = 'Create a new test for a Filament component';
 
-    public function handle()
+    public function handle(): void
     {
         // TODO: THIS IS JUST TESTING STUFF
         $resource = UserResource::class;
