@@ -1,5 +1,5 @@
 it('can render the index page', function (): void {
-livewire({{ $getResourceClass() }}::class)
+livewire({{ $getIndexPageClass() }}::class)
 ->assertOk();
 })@if($isTodo())
     ->todo{!! $getTodoMessage() ? "('{$getTodoMessage()}')" : '()' !!}

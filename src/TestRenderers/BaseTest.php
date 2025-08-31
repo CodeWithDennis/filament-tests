@@ -10,8 +10,8 @@ use CodeWithDennis\FilamentTests\Concerns\Renderers\CanBeTodo;
 
 abstract class BaseTest implements HasFilamentResources
 {
-    use CanBeTodo;
     use CanBeSkipped;
+    use CanBeTodo;
     use CanRenderViews;
     use ExposesPublicMethodsToViews;
     use InteractsWithResources;
