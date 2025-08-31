@@ -11,8 +11,8 @@ use Filament\Facades\Filament;
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Collection;
-
 use Illuminate\Support\Facades\Process;
+
 use function Laravel\Prompts\multiselect;
 
 class FilamentTestsCommand extends Command
@@ -85,7 +85,7 @@ class FilamentTestsCommand extends Command
             return;
         }
 
-        if ( ! $this->option('should-run-pint-after')) {
+        if (! $this->option('should-run-pint-after')) {
             return;
         }
 
