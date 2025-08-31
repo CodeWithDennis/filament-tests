@@ -8,10 +8,9 @@ use CodeWithDennis\FilamentTests\Concerns\InteractsWithResources;
 
 abstract class BaseTest implements HasFilamentResources
 {
+    use CanRenderViews;
     use ExposesPublicMethodsToViews;
     use InteractsWithResources;
-
-    public ?string $view = null;
 
     public function __construct(
         public ?string $resourceClass = null,
@@ -30,19 +29,5 @@ abstract class BaseTest implements HasFilamentResources
     public function getResource()
     {
         return new ($this->getResourceClass());
-    }
-
-    public function view(string $view): static
-    {
-        $this->view = $view;
-
-        return $this;
-    }
-
-    public function render(): string
-    {
-        return view($this->view, [
-            ...$this->extractPublicMethods($this),
-        ])->render();
     }
 }
