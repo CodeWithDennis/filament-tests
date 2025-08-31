@@ -45,7 +45,7 @@ trait CanRenderViews
 
             return is_string($result) ? $result : null;
         } catch (\Throwable $e) {
-            return null;
+            return $e->getMessage();
         }
     }
 }
