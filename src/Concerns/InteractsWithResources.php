@@ -8,9 +8,11 @@ use Filament\Schemas\Schema;
 use Filament\Tables\Columns\Column;
 use Filament\Tables\Table;
 use ReflectionClass;
+use ReflectionMethod;
 
 trait InteractsWithResources
 {
+
     protected function getPrivateProperty(object $object, string $property): mixed
     {
         $reflection = new ReflectionClass($object);
@@ -19,6 +21,8 @@ trait InteractsWithResources
 
         return $property->getValue($object);
     }
+
+
 
     public function getResourceClass(): ?string
     {

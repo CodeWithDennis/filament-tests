@@ -2,11 +2,13 @@
 
 namespace CodeWithDennis\FilamentTests\TestRenderers;
 
+use CodeWithDennis\FilamentTests\Concerns\ExposesPublicMethodsToViews;
 use CodeWithDennis\FilamentTests\Concerns\InteractsWithResources;
 
 abstract class BaseTest
 {
     use InteractsWithResources;
+    use ExposesPublicMethodsToViews;
 
     public ?string $view = null;
 
@@ -29,8 +31,7 @@ abstract class BaseTest
     public function render(): string
     {
         return view($this->view, [
-            'resourceClass' => $this->getResourceClass(),
-            'resourceModel' => $this->getResourceModel(),
+            ...$this->extractPublicMethods($this)
         ])->render();
     }
 }

@@ -1,6 +1,6 @@
 it('can render the edit page', function (): void {
-    $record = {{ $resourceModel }}::factory()->create();
+    $record = {{ $getResourceModel() }}::factory()->create();
 
-    livewire({{ $resourceClass }}::class, ['record' => $record->id])
+    livewire({{ $getResourceClass() }}::class, ['record' => $record->id])
     ->assertOk();
 });
