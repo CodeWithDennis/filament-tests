@@ -22,7 +22,10 @@ trait InteractsWithFilesystem
             return;
         }
 
-        $files = collect($this->getGeneratedFiles())->flatten()->implode(' ');
+        $files = collect($this->getGeneratedFiles())
+            ->map(fn ($resources) => collect($resources)->pluck('path'))
+            ->flatten()
+            ->implode(' ');
 
         Process::run("vendor/bin/pint {$files}");
     }
@@ -46,12 +49,17 @@ trait InteractsWithFilesystem
             return;
         }
 
-        $rendered = $this->renderTestsForResource($resource);
+        $renderResult = $this->renderTestsForResource($resource);
 
         File::ensureDirectoryExists(dirname((string) $filePath));
-        File::put($filePath, $rendered);
+        File::put($filePath, $renderResult['content']);
 
-        $this->generatedFiles[$panel][$resource] = $filePath;
+        $panelKey = $panel ?? 'default';
+
+        $this->generatedFiles[$panelKey][$resource] = [
+            'path' => $filePath,
+            'num_tests' => (int) $renderResult['num_tests'],
+        ];
     }
 
     protected function generateTests(): void
