@@ -2,14 +2,12 @@
 
 namespace CodeWithDennis\FilamentTests\Commands;
 
-use CodeWithDennis\FilamentTests\Concerns\Commands\HasGenerationSummary;
 use CodeWithDennis\FilamentTests\Concerns\Commands\InteractsWithFilesystem;
 use CodeWithDennis\FilamentTests\Concerns\Commands\InteractsWithUserInput;
 use Illuminate\Console\Command;
 
 class FilamentTestsCommand extends Command
 {
-    use HasGenerationSummary;
     use InteractsWithFilesystem;
     use InteractsWithUserInput;
 
