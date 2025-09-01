@@ -5,6 +5,9 @@ namespace CodeWithDennis\FilamentTests\Concerns\Commands;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Process;
 
+use function Laravel\Prompts\confirm;
+use function Laravel\Prompts\info;
+
 trait InteractsWithFilesystem
 {
     use RendersFilamentTests;
@@ -42,9 +45,10 @@ trait InteractsWithFilesystem
     protected function generateTestsForSelectedResource(string $resource, ?string $panel = null): void
     {
         $filePath = $this->getTestFilePath($resource);
+        $force = (bool) $this->option('force');
 
-        if (File::exists($filePath) && ! $this->confirm("The test for {$resource} already exists. Do you want to overwrite it?", false)) {
-            $this->info("Skipped generating test for {$resource}.");
+        if (File::exists($filePath) && ! $force && ! confirm("The tests for {$resource} already exists. Do you want to overwrite it?", false)) {
+            info("Skipped generating test for {$resource}.");
 
             return;
         }

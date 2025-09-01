@@ -14,7 +14,8 @@ class FilamentTestsCommand extends Command
     use InteractsWithUserInput;
 
     protected $signature = 'make:filament-test
-                            {--skip-pint : Skip running Pint on generated files}';
+                            {--skip-pint : Skip running Pint on generated files}
+                            {--force : Overwrite existing test files without confirmation}';
 
     protected $description = 'Create tests for your Filament resources';
 
