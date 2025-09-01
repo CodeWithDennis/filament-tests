@@ -28,7 +28,7 @@ trait InteractsWithTables
 
     public function getResourceTableActions(): array
     {
-        return $this->getResourceTable()->getActions();
+        return $this->getResourceTable()->getRecordActions();
     }
 
     public function getResourceTableVisibleActions(): array
