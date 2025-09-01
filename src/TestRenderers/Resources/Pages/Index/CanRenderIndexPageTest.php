@@ -10,6 +10,6 @@ class CanRenderIndexPageTest extends BaseTest
 
     public function getShouldRender(): bool
     {
-        return $this->hasIndexPage();
+        return $this->hasPage('index');
     }
 }
