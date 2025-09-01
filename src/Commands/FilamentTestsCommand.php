@@ -6,6 +6,8 @@ use CodeWithDennis\FilamentTests\Concerns\Commands\InteractsWithFilesystem;
 use CodeWithDennis\FilamentTests\Concerns\Commands\InteractsWithUserInput;
 use CodeWithDennis\FilamentTests\TestRenderers\BaseTest;
 use CodeWithDennis\FilamentTests\TestRenderers\BeforeEach;
+use CodeWithDennis\FilamentTests\TestRenderers\Resources\Pages\Create\CanRenderCreatePageTest;
+use CodeWithDennis\FilamentTests\TestRenderers\Resources\Pages\Edit\CanRenderEditPageTest;
 use CodeWithDennis\FilamentTests\TestRenderers\Resources\Pages\Index\CanRenderIndexPageTest;
 use Illuminate\Console\Command;
 
@@ -40,8 +42,8 @@ class FilamentTestsCommand extends Command
         return [
             BeforeEach::class,
             CanRenderIndexPageTest::class,
-            // CanRenderCreatePageTest::class,
-            // CanRenderEditPageTest::class,
+            CanRenderCreatePageTest::class,
+            CanRenderEditPageTest::class,
         ];
     }
 }
