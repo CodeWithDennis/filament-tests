@@ -2,10 +2,11 @@
 
 namespace CodeWithDennis\FilamentTests\Commands;
 
-use App\Filament\Resources\Users\UserResource;
+use App\Filament\Resources\Users\ProductResource;
 use CodeWithDennis\FilamentTests\TestRenderers\BeforeEach;
 use CodeWithDennis\FilamentTests\TestRenderers\Resources\Pages\Create\CanRenderCreatePageTest;
 use CodeWithDennis\FilamentTests\TestRenderers\Resources\Pages\Edit\CanRenderEditPageTest;
+use CodeWithDennis\FilamentTests\TestRenderers\Resources\Pages\Index\CanLoadIndexPageTest;
 use CodeWithDennis\FilamentTests\TestRenderers\Resources\Pages\Index\CanRenderIndexPageTest;
 use Filament\Facades\Filament;
 use Illuminate\Console\Command;
@@ -38,15 +39,15 @@ class FilamentTestsCommand extends Command
 
     public function handle(): void
     {
-        //        $this->panels = $this->askUserToSelectPanels();
-        //        $this->resources = $this->askUserToSelectWhichResourcesFromTheSelectedPanel();
+        $this->panels = $this->askUserToSelectPanels();
+        $this->resources = $this->askUserToSelectWhichResourcesFromTheSelectedPanel();
 
-        $this->panels = collect(['admin']);
-        $this->resources = collect([
-            'admin' => [
-                UserResource::class,
-            ],
-        ]);
+        //        $this->panels = collect(['admin']);
+        //        $this->resources = collect([
+        //            'admin' => [
+        //                ProductResource::class,
+        //            ],
+        //        ]);
 
         foreach ($this->resources as $resourceClasses) {
             foreach ($resourceClasses as $resourceClass) {
@@ -74,7 +75,11 @@ class FilamentTestsCommand extends Command
         return implode("\n\n", [
             '<?php',
             BeforeEach::build($resourceClass)->render(),
+
+            // Index Page
             CanRenderIndexPageTest::build($resourceClass)->render(),
+            CanLoadIndexPageTest::build($resourceClass)->render(),
+
             //            CanRenderCreatePageTest::build($resourceClass)->render(),
             //            CanRenderEditPageTest::build($resourceClass)->render(),
         ]);
