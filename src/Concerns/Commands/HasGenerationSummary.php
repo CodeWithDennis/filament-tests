@@ -17,27 +17,23 @@ trait HasGenerationSummary
 
         $rows = collect($this->generatedFiles)
             ->flatMap(fn ($resources, $panelId) => collect($resources)
-                ->map(fn ($path, $resource): array => [
-                    class_basename($resource),
-                    $panelId,
-                    str($path)
-                        ->match('/tests\/Feature\/.*/')
-                        ->when(fn ($relative): bool => $relative !== null, function ($relative) {
-                            $filename = basename($relative);
-                            $directory = str($relative)->beforeLast($filename);
+                ->map(fn ($data, $resource): array => [
 
-                            // Highlights the output like: <fg=gray>tests/Feature/**/</>UserResourceTest.php
-                            return str($directory)
-                                ->wrap('<fg=gray>', '</>')
-                                ->append($filename);
-                        }),
+                    // Resource
+                    class_basename($resource),
+
+                    // Panel
+                    $panelId,
+
+                    // # Tests
+                    ($data['num_tests'] - 1), // -1 for BeforeEach
                 ])
             )
             ->values()
             ->all();
 
         table(
-            ['Resource', 'Panel', 'Test File'],
+            ['Resource', 'Panel', '# Tests'],
             $rows
         );
     }
