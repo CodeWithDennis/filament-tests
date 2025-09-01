@@ -9,13 +9,13 @@ trait HasGenerationSummary
 {
     protected function showGenerationSummary(): void
     {
-        if (blank($this->generatedFiles)) {
+        if (blank($this->getGeneratedFiles())) {
             warning('No test files were generated.');
 
             return;
         }
 
-        $rows = collect($this->generatedFiles)
+        $rows = collect($this->getGeneratedFiles())
             ->flatMap(fn ($resources, $panelName) => collect($resources)
                 ->map(fn ($data, $resource): array => [
                     $resource,
