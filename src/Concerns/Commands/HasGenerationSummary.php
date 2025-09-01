@@ -18,14 +18,8 @@ trait HasGenerationSummary
         $rows = collect($this->generatedFiles)
             ->flatMap(fn ($resources, $panelId) => collect($resources)
                 ->map(fn ($data, $resource): array => [
-
-                    // Resource
                     class_basename($resource),
-
-                    // Panel
                     $panelId,
-
-                    // # Tests
                     ($data['num_tests'] - 1), // -1 for BeforeEach
                 ])
             )
