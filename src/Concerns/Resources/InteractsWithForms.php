@@ -6,8 +6,13 @@ use Filament\Schemas\Schema;
 
 trait InteractsWithForms
 {
-    public function getResourceForm()
+    public function getResourceForm(): Schema
     {
         return $this->getResource()->form(new Schema);
+    }
+
+    public function getResourceInfolist(): Schema
+    {
+        return $this->getResource()->infolist(new Schema);
     }
 }
