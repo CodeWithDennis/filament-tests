@@ -20,7 +20,7 @@ trait HasGenerationSummary
                 ->map(fn ($data, $resource): array => [
                     $resource,
                     $panelName,
-                    ($data['num_tests'] - 1), // -1 for BeforeEach
+                    $data['num_tests'] ?? 0,
                 ])
             )
             ->values()

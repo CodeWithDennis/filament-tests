@@ -62,7 +62,7 @@ trait InteractsWithFilesystem
 
         $this->generatedFiles[$panelKey][$resource] = [
             'path' => $filePath,
-            'num_tests' => (int) $renderResult['num_tests'],
+            'num_tests' => (int) $renderResult['num_tests'] - 1, // -1 for the BeforeEach
         ];
     }
 
