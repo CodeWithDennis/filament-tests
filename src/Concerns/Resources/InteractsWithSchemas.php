@@ -4,7 +4,7 @@ namespace CodeWithDennis\FilamentTests\Concerns\Resources;
 
 use Filament\Schemas\Schema;
 
-trait InteractsWithForms
+trait InteractsWithSchemas
 {
     public function getResourceForm(): Schema
     {
