@@ -1,0 +1,68 @@
+<?php
+
+namespace CodeWithDennis\FilamentTests\Concerns\Commands;
+
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Process;
+
+trait InteractsWithFilesystem
+{
+    use RendersFilamentTests;
+
+    protected array $generatedFiles = [];
+
+    protected function getGeneratedFiles(): array
+    {
+        return $this->generatedFiles;
+    }
+
+    protected function runPintOnGeneratedTests(): void
+    {
+        if (empty($this->getGeneratedFiles()) || $this->option('skip-pint')) {
+            return;
+        }
+
+        $files = collect($this->getGeneratedFiles())->flatten()->implode(' ');
+
+        Process::run("vendor/bin/pint {$files}");
+    }
+
+    protected function getTestFilePath(string $resourceClass): string
+    {
+        $relativeClass = str($resourceClass)
+            ->replaceFirst('App\\', '')
+            ->replace('\\', '/');
+
+        return base_path("tests/Feature/{$relativeClass}Test.php");
+    }
+
+    protected function generateTestsForSelectedResource(string $resource, ?string $panel = null): void
+    {
+        $filePath = $this->getTestFilePath($resource);
+
+        if (File::exists($filePath)) {
+            if (! $this->confirm("The test for {$resource} already exists. Do you want to overwrite it?", false)) {
+                $this->info("Skipped generating test for {$resource}.");
+                return;
+            }
+        }
+
+        $rendered = $this->renderTestsForResource($resource);
+
+        File::ensureDirectoryExists(dirname($filePath));
+        File::put($filePath, $rendered);
+
+        $this->generatedFiles[$panel][$resource] = $filePath;
+    }
+
+
+    protected function generateTests(): void
+    {
+        collect($this->getSelectedResources())
+            ->each(function ($resources, $panelId): void {
+                collect($resources)
+                    ->flatten()
+                    ->each(fn (string $resourceClass) => $this->generateTestsForSelectedResource($resourceClass, $panelId));
+            });
+    }
+}
