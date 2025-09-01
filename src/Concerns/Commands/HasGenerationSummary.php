@@ -16,10 +16,10 @@ trait HasGenerationSummary
         }
 
         $rows = collect($this->generatedFiles)
-            ->flatMap(fn ($resources, $panelId) => collect($resources)
+            ->flatMap(fn ($resources, $panelName) => collect($resources)
                 ->map(fn ($data, $resource): array => [
-                    class_basename($resource),
-                    $panelId,
+                    $resource,
+                    $panelName,
                     ($data['num_tests'] - 1), // -1 for BeforeEach
                 ])
             )
