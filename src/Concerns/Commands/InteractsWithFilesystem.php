@@ -40,21 +40,19 @@ trait InteractsWithFilesystem
     {
         $filePath = $this->getTestFilePath($resource);
 
-        if (File::exists($filePath)) {
-            if (! $this->confirm("The test for {$resource} already exists. Do you want to overwrite it?", false)) {
-                $this->info("Skipped generating test for {$resource}.");
-                return;
-            }
+        if (File::exists($filePath) && ! $this->confirm("The test for {$resource} already exists. Do you want to overwrite it?", false)) {
+            $this->info("Skipped generating test for {$resource}.");
+
+            return;
         }
 
         $rendered = $this->renderTestsForResource($resource);
 
-        File::ensureDirectoryExists(dirname($filePath));
+        File::ensureDirectoryExists(dirname((string) $filePath));
         File::put($filePath, $rendered);
 
         $this->generatedFiles[$panel][$resource] = $filePath;
     }
-
 
     protected function generateTests(): void
     {
