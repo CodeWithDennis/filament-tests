@@ -5,6 +5,8 @@ namespace CodeWithDennis\FilamentTests\TestRenderers;
 use CodeWithDennis\FilamentTests\Concerns\ExposesPublicMethodsToViews;
 use CodeWithDennis\FilamentTests\Concerns\HasFilamentResources;
 use CodeWithDennis\FilamentTests\Concerns\InteractsWithResources;
+use CodeWithDennis\FilamentTests\Concerns\Renderers\CanRenderViews;
+use Filament\Resources\Resource;
 
 abstract class BaseTest implements HasFilamentResources
 {
@@ -26,8 +28,11 @@ abstract class BaseTest implements HasFilamentResources
         return $this->resourceClass;
     }
 
-    public function getResource()
+    public function getResource(): Resource
     {
-        return new ($this->getResourceClass());
+        /** @var class-string<resource> $resourceClass */
+        $resourceClass = $this->getResourceClass();
+
+        return new $resourceClass;
     }
 }

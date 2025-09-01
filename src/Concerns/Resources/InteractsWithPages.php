@@ -2,13 +2,10 @@
 
 namespace CodeWithDennis\FilamentTests\Concerns\Resources;
 
-use CodeWithDennis\FilamentTests\Concerns\Resources\Pages\InteractsWithIndexPage;
 use Filament\Resources\Pages\PageRegistration;
 
 trait InteractsWithPages
 {
-    use InteractsWithIndexPage;
-
     public function getPages(): array
     {
         return $this->getResource()::getPages();
@@ -29,5 +26,29 @@ trait InteractsWithPages
     public function hasPage(string $page): bool
     {
         return $this->hasPages([$page]);
+    }
+
+    public function getPageClass(string $page): ?string
+    {
+        if (! $this->hasPage($page)) {
+            return null;
+        }
+
+        if (is_null($this->getPage($page))) {
+            return null;
+        }
+
+        try {
+            $pageRegistry = $this->getPage($page);
+
+            $reflection = new \ReflectionClass($pageRegistry);
+
+            $property = $reflection->getProperty('page');
+
+            return $property->getValue($pageRegistry);
+
+        } catch (\ReflectionException) {
+            return null;
+        }
     }
 }
