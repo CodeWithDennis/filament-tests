@@ -30,6 +30,9 @@ abstract class BaseTest implements HasFilamentResources
 
     public function getResource(): Resource
     {
-        return (new ($this->getResourceClass()))();
+        /** @var class-string<resource> $resourceClass */
+        $resourceClass = $this->getResourceClass();
+
+        return new $resourceClass;
     }
 }
