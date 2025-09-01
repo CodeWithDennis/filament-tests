@@ -2,7 +2,7 @@
 
 namespace CodeWithDennis\FilamentTests\Commands;
 
-use App\Filament\Resources\Users\ProductResource;
+use App\Filament\Resources\Users\UserResource;
 use CodeWithDennis\FilamentTests\TestRenderers\BeforeEach;
 use CodeWithDennis\FilamentTests\TestRenderers\Resources\Pages\Create\CanRenderCreatePageTest;
 use CodeWithDennis\FilamentTests\TestRenderers\Resources\Pages\Edit\CanRenderEditPageTest;
@@ -39,15 +39,15 @@ class FilamentTestsCommand extends Command
 
     public function handle(): void
     {
-        $this->panels = $this->askUserToSelectPanels();
-        $this->resources = $this->askUserToSelectWhichResourcesFromTheSelectedPanel();
+//        $this->panels = $this->askUserToSelectPanels();
+//        $this->resources = $this->askUserToSelectWhichResourcesFromTheSelectedPanel();
 
-        //        $this->panels = collect(['admin']);
-        //        $this->resources = collect([
-        //            'admin' => [
-        //                ProductResource::class,
-        //            ],
-        //        ]);
+                $this->panels = collect(['admin']);
+                $this->resources = collect([
+                    'admin' => [
+                        UserResource::class,
+                    ],
+                ]);
 
         foreach ($this->resources as $resourceClasses) {
             foreach ($resourceClasses as $resourceClass) {
