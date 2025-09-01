@@ -4,6 +4,9 @@ namespace CodeWithDennis\FilamentTests\Commands;
 
 use CodeWithDennis\FilamentTests\Concerns\Commands\InteractsWithFilesystem;
 use CodeWithDennis\FilamentTests\Concerns\Commands\InteractsWithUserInput;
+use CodeWithDennis\FilamentTests\TestRenderers\BaseTest;
+use CodeWithDennis\FilamentTests\TestRenderers\BeforeEach;
+use CodeWithDennis\FilamentTests\TestRenderers\Resources\Pages\Index\CanRenderIndexPageTest;
 use Illuminate\Console\Command;
 
 class FilamentTestsCommand extends Command
@@ -27,5 +30,18 @@ class FilamentTestsCommand extends Command
         $this->showGenerationSummary();
 
         $this->runPintOnGeneratedTests();
+    }
+
+    /**
+     * @return class-string<BaseTest>[]
+     */
+    protected function getRenderers(): array
+    {
+        return [
+            BeforeEach::class,
+            CanRenderIndexPageTest::class,
+            // CanRenderCreatePageTest::class,
+            // CanRenderEditPageTest::class,
+        ];
     }
 }

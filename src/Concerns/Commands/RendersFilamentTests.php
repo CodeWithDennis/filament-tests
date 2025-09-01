@@ -3,8 +3,6 @@
 namespace CodeWithDennis\FilamentTests\Concerns\Commands;
 
 use CodeWithDennis\FilamentTests\TestRenderers\BaseTest;
-use CodeWithDennis\FilamentTests\TestRenderers\BeforeEach;
-use CodeWithDennis\FilamentTests\TestRenderers\Resources\Pages\Index\CanRenderIndexPageTest;
 
 trait RendersFilamentTests
 {
@@ -22,19 +20,6 @@ trait RendersFilamentTests
         return [
             'content' => $output,
             'num_tests' => $renderers->count(),
-        ];
-    }
-
-    /**
-     * @return class-string<BaseTest>[]
-     */
-    protected function getRenderers(): array
-    {
-        return [
-            BeforeEach::class,
-            CanRenderIndexPageTest::class,
-            // CanRenderCreatePageTest::class,
-            // CanRenderEditPageTest::class,
         ];
     }
 }
