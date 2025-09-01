@@ -2,6 +2,7 @@
 
 namespace CodeWithDennis\FilamentTests\Concerns\Resources;
 
+use Filament\Forms\Components\Field;
 use Filament\Infolists\Components\Entry;
 use Filament\Resources\Pages\EditRecord;
 use Filament\Resources\Pages\ViewRecord;
@@ -14,6 +15,20 @@ trait InteractsWithSchemas
         return $this->getResource()->form(new Schema(
             app('livewire')->new(EditRecord::class)
         ));
+    }
+
+    public function getResourceFormFields(): array
+    {
+        return $this->getResourceForm()->getFlatFields(true);
+    }
+
+    public function getResourceFormFieldKeys(): array
+    {
+        return collect($this->getResourceFormFields())
+            ->map(fn (Field $field) => $field->getName())
+            ->filter()
+            ->values()
+            ->all();
     }
 
     public function getResourceInfolist(): Schema
@@ -30,8 +45,12 @@ trait InteractsWithSchemas
             ->all();
     }
 
-    public function getResourceFormFields(): array
+    public function getResourceInfolistFieldKeys(): array
     {
-        return $this->getResourceForm()->getFlatFields(true);
+        return collect($this->getResourceInfolistFields())
+            ->map(fn (Entry $field) => $field->getName())
+            ->filter()
+            ->values()
+            ->all();
     }
 }
