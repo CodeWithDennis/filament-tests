@@ -2,6 +2,7 @@
 
 namespace CodeWithDennis\FilamentTests\Concerns\Commands;
 
+use CodeWithDennis\FilamentTests\TestRenderers\BaseTest;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Process;
 
@@ -12,8 +13,6 @@ use function Laravel\Prompts\warning;
 
 trait InteractsWithFilesystem
 {
-    use RendersFilamentTests;
-
     protected array $generatedFiles = [];
 
     protected function getGeneratedFiles(): array
@@ -76,6 +75,23 @@ trait InteractsWithFilesystem
                     ->flatten()
                     ->each(fn (string $resourceClass) => $this->generateTestsForSelectedResource($resourceClass, $panelId));
             });
+    }
+
+    protected function renderTestsForResource(string $resource): array
+    {
+        $renderers = collect($this->getRenderers());
+
+        $output = $renderers
+            ->map(fn (string $renderer) =>
+            /** @var BaseTest $renderer */
+            $renderer::build($resource)->render())
+            ->prepend('<?php')
+            ->implode("\n\n");
+
+        return [
+            'content' => $output,
+            'num_tests' => $renderers->count(),
+        ];
     }
 
     protected function showGenerationSummary(): void
