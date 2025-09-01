@@ -8,5 +8,5 @@ interface HasFilamentResources
 {
     public function getResourceClass(): ?string;
 
-    public function getResource() : Resource;
+    public function getResource(): Resource;
 }

@@ -4,7 +4,6 @@ namespace CodeWithDennis\FilamentTests\Concerns\Commands;
 
 use Filament\Facades\Filament;
 use Filament\Panel;
-use Filament\Resources\Resource;
 use Illuminate\Support\Collection;
 
 use function Laravel\Prompts\multiselect;
@@ -49,7 +48,7 @@ trait InteractsWithUserInput
 
         foreach ($this->getSelectedPanels() as $panelId) {
             $resources = collect(Filament::getPanel($panelId)?->getResources() ?? [])
-                ->mapWithKeys(fn(string $resource) => [$resource => class_basename($resource)])
+                ->mapWithKeys(fn (string $resource) => [$resource => class_basename($resource)])
                 ->toArray();
 
             if (empty($resources)) {
