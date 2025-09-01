@@ -7,4 +7,9 @@ use CodeWithDennis\FilamentTests\TestRenderers\BaseTest;
 class CanRenderEditPageTest extends BaseTest
 {
     public ?string $view = 'filament-tests::resources.pages.edit.can-render-edit-page';
+
+    public function getShouldRender(): bool
+    {
+        return $this->hasPage('edit');
+    }
 }
