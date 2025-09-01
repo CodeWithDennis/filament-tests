@@ -39,15 +39,15 @@ class FilamentTestsCommand extends Command
 
     public function handle(): void
     {
-//        $this->panels = $this->askUserToSelectPanels();
-//        $this->resources = $this->askUserToSelectWhichResourcesFromTheSelectedPanel();
+        //        $this->panels = $this->askUserToSelectPanels();
+        //        $this->resources = $this->askUserToSelectWhichResourcesFromTheSelectedPanel();
 
-                $this->panels = collect(['admin']);
-                $this->resources = collect([
-                    'admin' => [
-                        UserResource::class,
-                    ],
-                ]);
+        $this->panels = collect(['admin']);
+        $this->resources = collect([
+            'admin' => [
+                UserResource::class,
+            ],
+        ]);
 
         foreach ($this->resources as $resourceClasses) {
             foreach ($resourceClasses as $resourceClass) {
