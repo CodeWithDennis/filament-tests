@@ -3,13 +3,14 @@
 namespace CodeWithDennis\FilamentTests\Concerns\Commands;
 
 use function Laravel\Prompts\table;
+use function Laravel\Prompts\warning;
 
 trait HasGenerationSummary
 {
     protected function showGenerationSummary(): void
     {
         if (blank($this->generatedFiles)) {
-            $this->comment('No test files were generated.');
+            warning('No test files were generated.');
 
             return;
         }
