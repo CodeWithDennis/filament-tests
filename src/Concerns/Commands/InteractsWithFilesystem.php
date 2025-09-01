@@ -70,7 +70,7 @@ trait InteractsWithFilesystem
     protected function generateTests(): void
     {
         collect($this->getSelectedResources())
-            ->each(function ($resources, $panelId): void {
+            ->each(function (array $resources, string $panelId): void {
                 collect($resources)
                     ->flatten()
                     ->each(fn (string $resourceClass) => $this->generateTestsForSelectedResource($resourceClass, $panelId));
@@ -103,8 +103,8 @@ trait InteractsWithFilesystem
         }
 
         $rows = collect($this->getGeneratedFiles())
-            ->flatMap(fn ($resources, $panelName) => collect($resources)
-                ->map(fn ($data, $resource): array => [
+            ->flatMap(fn (array $resources, string $panelName) => collect($resources)
+                ->map(fn (array $data, string $resource): array => [
                     $resource,
                     $panelName,
                     $data['num_tests'] ?? 0,
