@@ -15,4 +15,14 @@ trait InteractsWithSchemas
     {
         return $this->getResource()->infolist(new Schema);
     }
+
+    public function getResourceInfolistFields(): array
+    {
+        return $this->getResourceInfolist()->getFlatFields();
+    }
+
+    public function getResourceFormFields(): array
+    {
+        return $this->getResourceForm()->getFlatFields();
+    }
 }
