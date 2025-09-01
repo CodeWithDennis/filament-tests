@@ -9,6 +9,7 @@ use CodeWithDennis\FilamentTests\TestRenderers\BeforeEach;
 use CodeWithDennis\FilamentTests\TestRenderers\Resources\Pages\Create\CanRenderCreatePageTest;
 use CodeWithDennis\FilamentTests\TestRenderers\Resources\Pages\Edit\CanRenderEditPageTest;
 use CodeWithDennis\FilamentTests\TestRenderers\Resources\Pages\Index\CanRenderIndexPageTest;
+use CodeWithDennis\FilamentTests\TestRenderers\Resources\Pages\View\CanRenderViewPageTest;
 use Illuminate\Console\Command;
 
 class FilamentTestsCommand extends Command
@@ -44,6 +45,7 @@ class FilamentTestsCommand extends Command
             CanRenderIndexPageTest::class,
             CanRenderCreatePageTest::class,
             CanRenderEditPageTest::class,
+            CanRenderViewPageTest::class,
         ];
     }
 }
