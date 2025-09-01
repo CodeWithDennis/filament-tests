@@ -9,7 +9,7 @@ use Filament\Tables\Table;
 
 trait InteractsWithTables
 {
-    public function getResourceTable()
+    public function getResourceTable(): Table
     {
         return $this->getResource()->table(new Table(
             app('livewire')->new(ListRecords::class)
@@ -28,7 +28,7 @@ trait InteractsWithTables
 
     public function getResourceTableActions(): array
     {
-        return $this->getResourceTable()->getActions();
+        return $this->getResourceTable()->getRecordActions();
     }
 
     public function getResourceTableVisibleActions(): array

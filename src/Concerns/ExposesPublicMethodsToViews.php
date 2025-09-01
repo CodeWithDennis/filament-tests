@@ -2,6 +2,7 @@
 
 namespace CodeWithDennis\FilamentTests\Concerns;
 
+use CodeWithDennis\FilamentTests\TestRenderers\BaseTest;
 use ReflectionClass;
 use ReflectionMethod;
 
@@ -9,7 +10,7 @@ trait ExposesPublicMethodsToViews
 {
     protected array $methodCache = [];
 
-    protected function extractPublicMethods($renderer): array
+    protected function extractPublicMethods(BaseTest $renderer): array
     {
         if (! isset($this->methodCache[$renderer::class])) {
             $reflection = new ReflectionClass($renderer);
