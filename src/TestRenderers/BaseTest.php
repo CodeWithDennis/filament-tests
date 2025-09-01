@@ -5,6 +5,7 @@ namespace CodeWithDennis\FilamentTests\TestRenderers;
 use CodeWithDennis\FilamentTests\Concerns\ExposesPublicMethodsToViews;
 use CodeWithDennis\FilamentTests\Concerns\HasFilamentResources;
 use CodeWithDennis\FilamentTests\Concerns\InteractsWithResources;
+use CodeWithDennis\FilamentTests\Concerns\Renderers\CanRenderViews;
 
 abstract class BaseTest implements HasFilamentResources
 {

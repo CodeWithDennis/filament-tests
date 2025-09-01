@@ -1,6 +1,6 @@
 <?php
 
-namespace CodeWithDennis\FilamentTests\TestRenderers;
+namespace CodeWithDennis\FilamentTests\Concerns\Renderers;
 
 use Illuminate\Support\Traits\Conditionable;
 
