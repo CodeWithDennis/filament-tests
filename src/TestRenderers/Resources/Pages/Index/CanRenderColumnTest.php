@@ -11,6 +11,6 @@ class CanRenderColumnTest extends BaseTest
     public function getShouldRender(): bool
     {
         return $this->hasPage('index')
-            && $this->getResourceVisibleTableColumns()->isNotEmpty();
+            && $this->getResourceInitiallyVisibleTableColumns()->isNotEmpty();
     }
 }

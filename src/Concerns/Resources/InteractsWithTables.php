@@ -22,30 +22,30 @@ trait InteractsWithTables
         return collect($this->getResourceTable()->getColumns());
     }
 
-    public function getResourceVisibleTableColumns(): Collection
+    public function getResourceInitiallyVisibleTableColumns(): Collection
     {
         return $this->getResourceTableColumns()
-            ->filter(fn (Column $column): bool => $column->isVisible());
+            ->filter(fn (Column $column): bool => $column->isVisible() && ! $column->isToggledHiddenByDefault());
     }
 
-    public function getResourceTableVisibleColumnKeys(): array
+    public function getResourceInitiallyVisibleTableColumnKeys(): array
     {
-        return $this->getResourceVisibleTableColumns()
+        return $this->getResourceInitiallyVisibleTableColumns()
             ->map(fn (Column $column): string => $column->getName())
             ->filter()
             ->values()
             ->all();
     }
 
-    public function getResourceHiddenTableColumns(): Collection
+    public function getResourceInitiallyHiddenTableColumns(): Collection
     {
         return $this->getResourceTableColumns()
-            ->filter(fn (Column $column): bool => $column->isHidden());
+            ->filter(fn (Column $column): bool => ! $column->isVisible() || $column->isToggledHiddenByDefault());
     }
 
-    public function getResourceHiddenTableColumnKeys(): array
+    public function getResourceInitiallyHiddenTableColumnKeys(): array
     {
-        return $this->getResourceHiddenTableColumns()
+        return $this->getResourceInitiallyHiddenTableColumns()
             ->map(fn (Column $column): string => $column->getName())
             ->filter()
             ->values()
