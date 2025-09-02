@@ -17,6 +17,15 @@ trait InteractsWithTables
         ));
     }
 
+    private function getResourceTableColumnKeysFrom(Collection $columns): array
+    {
+        return $columns
+            ->map(fn (Column $column): string => $column->getName())
+            ->filter()
+            ->values()
+            ->all();
+    }
+
     public function getResourceTableColumns(): Collection
     {
         return collect($this->getResourceTable()->getColumns());
@@ -24,11 +33,7 @@ trait InteractsWithTables
 
     public function getResourceTableColumnKeys(): array
     {
-        return $this->getResourceTableColumns()
-            ->map(fn (Column $column): string => $column->getName())
-            ->filter()
-            ->values()
-            ->all();
+        return $this->getResourceTableColumnKeysFrom($this->getResourceTableColumns());
     }
 
     public function getResourceInitiallyVisibleTableColumns(): Collection
@@ -39,11 +44,7 @@ trait InteractsWithTables
 
     public function getResourceInitiallyVisibleTableColumnKeys(): array
     {
-        return $this->getResourceInitiallyVisibleTableColumns()
-            ->map(fn (Column $column): string => $column->getName())
-            ->filter()
-            ->values()
-            ->all();
+        return $this->getResourceTableColumnKeysFrom($this->getResourceInitiallyVisibleTableColumns());
     }
 
     public function getResourceInitiallyHiddenTableColumns(): Collection
@@ -54,11 +55,7 @@ trait InteractsWithTables
 
     public function getResourceInitiallyHiddenTableColumnKeys(): array
     {
-        return $this->getResourceInitiallyHiddenTableColumns()
-            ->map(fn (Column $column): string => $column->getName())
-            ->filter()
-            ->values()
-            ->all();
+        return $this->getResourceTableColumnKeysFrom($this->getResourceInitiallyHiddenTableColumns());
     }
 
     public function getResourceVisibleTableColumns(): Collection
@@ -69,11 +66,7 @@ trait InteractsWithTables
 
     public function getResourceVisibleTableColumnKeys(): array
     {
-        return $this->getResourceVisibleTableColumns()
-            ->map(fn (Column $column): string => $column->getName())
-            ->filter()
-            ->values()
-            ->all();
+        return $this->getResourceTableColumnKeysFrom($this->getResourceVisibleTableColumns());
     }
 
     public function getResourceHiddenTableColumns(): Collection
@@ -84,11 +77,7 @@ trait InteractsWithTables
 
     public function getResourceHiddenTableColumnKeys(): array
     {
-        return $this->getResourceHiddenTableColumns()
-            ->map(fn (Column $column): string => $column->getName())
-            ->filter()
-            ->values()
-            ->all();
+        return $this->getResourceTableColumnKeysFrom($this->getResourceHiddenTableColumns());
     }
 
     public function getResourceSortableTableColumns(): Collection
