@@ -12,6 +12,8 @@ use CodeWithDennis\FilamentTests\TestRenderers\Resources\Pages\Index\CanNotRende
 use CodeWithDennis\FilamentTests\TestRenderers\Resources\Pages\Index\CanRenderColumnTest;
 use CodeWithDennis\FilamentTests\TestRenderers\Resources\Pages\Index\CanRenderIndexPageTest;
 use CodeWithDennis\FilamentTests\TestRenderers\Resources\Pages\Index\HasColumnTest;
+use CodeWithDennis\FilamentTests\TestRenderers\Resources\Pages\Index\HidesColumnTest;
+use CodeWithDennis\FilamentTests\TestRenderers\Resources\Pages\Index\ShowsColumnTest;
 use CodeWithDennis\FilamentTests\TestRenderers\Resources\Pages\View\CanRenderViewPageTest;
 use Illuminate\Console\Command;
 
@@ -50,6 +52,8 @@ class FilamentTestsCommand extends Command
             CanRenderColumnTest::class,
             CanNotRenderColumnTest::class,
             HasColumnTest::class,
+            ShowsColumnTest::class,
+            HidesColumnTest::class,
 
             CanRenderCreatePageTest::class,
 

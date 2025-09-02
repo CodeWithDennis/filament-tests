@@ -61,6 +61,36 @@ trait InteractsWithTables
             ->all();
     }
 
+    public function getResourceVisibleTableColumns(): Collection
+    {
+        return $this->getResourceTableColumns()
+            ->filter(fn (Column $column): bool => $column->isVisible());
+    }
+
+    public function getResourceVisibleTableColumnKeys(): array
+    {
+        return $this->getResourceVisibleTableColumns()
+            ->map(fn (Column $column): string => $column->getName())
+            ->filter()
+            ->values()
+            ->all();
+    }
+
+    public function getResourceHiddenTableColumns(): Collection
+    {
+        return $this->getResourceTableColumns()
+            ->filter(fn (Column $column): bool => ! $column->isVisible());
+    }
+
+    public function getResourceHiddenTableColumnKeys(): array
+    {
+        return $this->getResourceHiddenTableColumns()
+            ->map(fn (Column $column): string => $column->getName())
+            ->filter()
+            ->values()
+            ->all();
+    }
+
     public function getResourceSortableTableColumns(): Collection
     {
         return $this->getResourceTableColumns()
