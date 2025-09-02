@@ -13,5 +13,4 @@ class CanRenderColumnTest extends BaseTest
         return $this->hasPage('index')
             && $this->getResourceVisibleTableColumns()->isNotEmpty();
     }
-
 }

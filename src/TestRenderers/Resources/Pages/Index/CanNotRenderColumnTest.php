@@ -13,5 +13,4 @@ class CanNotRenderColumnTest extends BaseTest
         return $this->hasPage('index')
             && $this->getResourceHiddenTableColumns()->isNotEmpty();
     }
-
 }

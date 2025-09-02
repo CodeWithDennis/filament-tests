@@ -25,7 +25,7 @@ trait InteractsWithSchemas
     public function getResourceFormFieldKeys(): array
     {
         return collect($this->getResourceFormFields())
-            ->map(fn (Field $field) => $field->getName())
+            ->map(fn (Field $field): string => $field->getName())
             ->filter()
             ->values()
             ->all();
@@ -48,7 +48,7 @@ trait InteractsWithSchemas
     public function getResourceInfolistFieldKeys(): array
     {
         return collect($this->getResourceInfolistFields())
-            ->map(fn (Entry $field) => $field->getName())
+            ->map(fn (Entry $field): string => $field->getName())
             ->filter()
             ->values()
             ->all();

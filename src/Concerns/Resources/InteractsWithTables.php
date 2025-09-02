@@ -3,7 +3,6 @@
 namespace CodeWithDennis\FilamentTests\Concerns\Resources;
 
 use Filament\Actions\Action;
-use Filament\Infolists\Components\Entry;
 use Filament\Resources\Pages\ListRecords;
 use Filament\Tables\Columns\Column;
 use Filament\Tables\Table;
@@ -32,7 +31,7 @@ trait InteractsWithTables
     public function getResourceTableVisibleColumnKeys(): array
     {
         return $this->getResourceVisibleTableColumns()
-            ->map(fn (Column $column) => $column->getName())
+            ->map(fn (Column $column): string => $column->getName())
             ->filter()
             ->values()
             ->all();
@@ -47,7 +46,7 @@ trait InteractsWithTables
     public function getResourceHiddenTableColumnKeys(): array
     {
         return $this->getResourceHiddenTableColumns()
-            ->map(fn (Column $column) => $column->getName())
+            ->map(fn (Column $column): string => $column->getName())
             ->filter()
             ->values()
             ->all();
