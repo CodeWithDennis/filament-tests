@@ -42,56 +42,15 @@ class FilamentTestsCommand extends Command
      */
     protected function getRenderers(): array
     {
-return [
-    BeforeEach::class,
-
-    /*
-    |--------------------------------------------------------------------------
-    | Index Page Tests
-    |--------------------------------------------------------------------------
-    |
-    | These tests cover rendering the index page and its columns. They ensure
-    | that all expected columns can be displayed and that restricted columns
-    | are not accessible.
-    |
-    */
-    CanRenderIndexPageTest::class,
-    CanRenderColumnTest::class,
-    CanNotRenderColumnTest::class,
-
-    /*
-    |--------------------------------------------------------------------------
-    | Create Page Tests
-    |--------------------------------------------------------------------------
-    |
-    | These tests verify that the create page renders properly, ensuring that
-    | users can access and interact with the form.
-    |
-    */
-    CanRenderCreatePageTest::class,
-
-    /*
-    |--------------------------------------------------------------------------
-    | Edit Page Tests
-    |--------------------------------------------------------------------------
-    |
-    | These tests make sure the edit page can be rendered correctly and that
-    | form inputs behave as expected.
-    |
-    */
-    CanRenderEditPageTest::class,
-
-    /*
-    |--------------------------------------------------------------------------
-    | View Page Tests
-    |--------------------------------------------------------------------------
-    |
-    | These tests validate that the view page renders correctly, displaying
-    | all necessary data for the resource.
-    |
-    */
-    CanRenderViewPageTest::class,
-];
+        return [
+            BeforeEach::class,
+            CanRenderIndexPageTest::class,
+            CanRenderColumnTest::class,
+            CanNotRenderColumnTest::class,
+            CanRenderCreatePageTest::class,
+            CanRenderEditPageTest::class,
+            CanRenderViewPageTest::class,
+        ];
 
     }
 }
