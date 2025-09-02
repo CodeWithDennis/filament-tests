@@ -8,6 +8,8 @@ use CodeWithDennis\FilamentTests\TestRenderers\BaseTest;
 use CodeWithDennis\FilamentTests\TestRenderers\BeforeEach;
 use CodeWithDennis\FilamentTests\TestRenderers\Resources\Pages\Create\CanRenderCreatePageTest;
 use CodeWithDennis\FilamentTests\TestRenderers\Resources\Pages\Edit\CanRenderEditPageTest;
+use CodeWithDennis\FilamentTests\TestRenderers\Resources\Pages\Index\CanNotRenderColumnTest;
+use CodeWithDennis\FilamentTests\TestRenderers\Resources\Pages\Index\CanRenderColumnTest;
 use CodeWithDennis\FilamentTests\TestRenderers\Resources\Pages\Index\CanRenderIndexPageTest;
 use CodeWithDennis\FilamentTests\TestRenderers\Resources\Pages\View\CanRenderViewPageTest;
 use Illuminate\Console\Command;
@@ -43,6 +45,8 @@ class FilamentTestsCommand extends Command
         return [
             BeforeEach::class,
             CanRenderIndexPageTest::class,
+            CanRenderColumnTest::class,
+            CanNotRenderColumnTest::class,
             CanRenderCreatePageTest::class,
             CanRenderEditPageTest::class,
             CanRenderViewPageTest::class,

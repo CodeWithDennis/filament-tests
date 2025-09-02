@@ -6,6 +6,7 @@ use Filament\Actions\Action;
 use Filament\Resources\Pages\ListRecords;
 use Filament\Tables\Columns\Column;
 use Filament\Tables\Table;
+use Illuminate\Support\Collection;
 
 trait InteractsWithTables
 {
@@ -16,14 +17,45 @@ trait InteractsWithTables
         ));
     }
 
-    public function getResourceTableColumns(): array
+    public function getResourceTableColumns(): Collection
     {
-        return $this->getResourceTable()->getColumns();
+        return collect($this->getResourceTable()->getColumns());
     }
 
-    public function getResourceSortableTableColumns(): array
+    public function getResourceVisibleTableColumns(): Collection
     {
-        return array_filter($this->getResourceTableColumns(), fn (Column $column): bool => $column->isSortable());
+        return $this->getResourceTableColumns()
+            ->filter(fn (Column $column): bool => $column->isVisible());
+    }
+
+    public function getResourceTableVisibleColumnKeys(): array
+    {
+        return $this->getResourceVisibleTableColumns()
+            ->map(fn (Column $column): string => $column->getName())
+            ->filter()
+            ->values()
+            ->all();
+    }
+
+    public function getResourceHiddenTableColumns(): Collection
+    {
+        return $this->getResourceTableColumns()
+            ->filter(fn (Column $column): bool => $column->isHidden());
+    }
+
+    public function getResourceHiddenTableColumnKeys(): array
+    {
+        return $this->getResourceHiddenTableColumns()
+            ->map(fn (Column $column): string => $column->getName())
+            ->filter()
+            ->values()
+            ->all();
+    }
+
+    public function getResourceSortableTableColumns(): Collection
+    {
+        return $this->getResourceTableColumns()
+            ->filter(fn (Column $column): bool => $column->isSortable());
     }
 
     public function getResourceTableActions(): array
