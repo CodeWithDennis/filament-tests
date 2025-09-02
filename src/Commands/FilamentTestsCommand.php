@@ -42,22 +42,56 @@ class FilamentTestsCommand extends Command
      */
     protected function getRenderers(): array
     {
-        return [
-            BeforeEach::class,
+return [
+    BeforeEach::class,
 
-            // Index
-            CanRenderIndexPageTest::class,
-            CanRenderColumnTest::class,
-            CanNotRenderColumnTest::class,
+    /*
+    |--------------------------------------------------------------------------
+    | Index Page Tests
+    |--------------------------------------------------------------------------
+    |
+    | These tests cover rendering the index page and its columns. They ensure
+    | that all expected columns can be displayed and that restricted columns
+    | are not accessible.
+    |
+    */
+    CanRenderIndexPageTest::class,
+    CanRenderColumnTest::class,
+    CanNotRenderColumnTest::class,
 
-            // Create
-            CanRenderCreatePageTest::class,
+    /*
+    |--------------------------------------------------------------------------
+    | Create Page Tests
+    |--------------------------------------------------------------------------
+    |
+    | These tests verify that the create page renders properly, ensuring that
+    | users can access and interact with the form.
+    |
+    */
+    CanRenderCreatePageTest::class,
 
-            // Edit
-            CanRenderEditPageTest::class,
+    /*
+    |--------------------------------------------------------------------------
+    | Edit Page Tests
+    |--------------------------------------------------------------------------
+    |
+    | These tests make sure the edit page can be rendered correctly and that
+    | form inputs behave as expected.
+    |
+    */
+    CanRenderEditPageTest::class,
 
-            // View
-            CanRenderViewPageTest::class,
-        ];
+    /*
+    |--------------------------------------------------------------------------
+    | View Page Tests
+    |--------------------------------------------------------------------------
+    |
+    | These tests validate that the view page renders correctly, displaying
+    | all necessary data for the resource.
+    |
+    */
+    CanRenderViewPageTest::class,
+];
+
     }
 }
