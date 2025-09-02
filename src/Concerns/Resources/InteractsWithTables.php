@@ -47,37 +47,37 @@ trait InteractsWithTables
         return $this->getResourceTableColumnKeysFrom($this->getResourceInitiallyVisibleTableColumns());
     }
 
-    public function getResourceInitiallyHiddenTableColumns(): Collection
+    public function getResourceTableDefaultHiddenColumns(): Collection
     {
         return $this->getResourceTableColumns()
             ->filter(fn (Column $column): bool => ! $column->isVisible() || $column->isToggledHiddenByDefault());
     }
 
-    public function getResourceInitiallyHiddenTableColumnKeys(): array
+    public function getResourceTableDefaultHiddenColumnKeys(): array
     {
-        return $this->getResourceTableColumnKeysFrom($this->getResourceInitiallyHiddenTableColumns());
+        return $this->getResourceTableColumnKeysFrom($this->getResourceTableDefaultHiddenColumns());
     }
 
-    public function getResourceVisibleTableColumns(): Collection
+    public function getResourceTableVisibleColumns(): Collection
     {
         return $this->getResourceTableColumns()
             ->filter(fn (Column $column): bool => $column->isVisible());
     }
 
-    public function getResourceVisibleTableColumnKeys(): array
+    public function getResourceTableVisibleColumnKeys(): array
     {
-        return $this->getResourceTableColumnKeysFrom($this->getResourceVisibleTableColumns());
+        return $this->getResourceTableColumnKeysFrom($this->getResourceTableVisibleColumns());
     }
 
-    public function getResourceHiddenTableColumns(): Collection
+    public function getResourceTableHiddenColumns(): Collection
     {
         return $this->getResourceTableColumns()
-            ->filter(fn (Column $column): bool => ! $column->isVisible());
+            ->filter(fn (Column $column): bool => $column->isHidden());
     }
 
-    public function getResourceHiddenTableColumnKeys(): array
+    public function getResourceTableHiddenColumnKeys(): array
     {
-        return $this->getResourceTableColumnKeysFrom($this->getResourceHiddenTableColumns());
+        return $this->getResourceTableColumnKeysFrom($this->getResourceTableHiddenColumns());
     }
 
     public function getResourceSortableTableColumns(): Collection

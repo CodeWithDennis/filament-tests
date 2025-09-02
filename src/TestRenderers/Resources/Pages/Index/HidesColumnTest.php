@@ -11,6 +11,6 @@ class HidesColumnTest extends BaseTest
     public function getShouldRender(): bool
     {
         return $this->hasPage('index')
-            && $this->getResourceHiddenTableColumns()->isNotEmpty();
+            && $this->getResourceTableHiddenColumns()->isNotEmpty();
     }
 }
