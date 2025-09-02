@@ -49,9 +49,10 @@ class FilamentTestsCommand extends Command
             BeforeEach::class,
 
             CanRenderIndexPageTest::class,
+
+            HasColumnTest::class,
             CanRenderColumnTest::class,
             CanNotRenderColumnTest::class,
-            HasColumnTest::class,
             ShowsColumnTest::class,
             HidesColumnTest::class,
 
