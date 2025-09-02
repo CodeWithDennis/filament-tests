@@ -51,6 +51,5 @@ class FilamentTestsCommand extends Command
             CanRenderEditPageTest::class,
             CanRenderViewPageTest::class,
         ];
-
     }
 }
