@@ -22,6 +22,15 @@ trait InteractsWithTables
         return collect($this->getResourceTable()->getColumns());
     }
 
+    public function getResourceTableColumnKeys(): array
+    {
+        return $this->getResourceTableColumns()
+            ->map(fn (Column $column): string => $column->getName())
+            ->filter()
+            ->values()
+            ->all();
+    }
+
     public function getResourceInitiallyVisibleTableColumns(): Collection
     {
         return $this->getResourceTableColumns()
