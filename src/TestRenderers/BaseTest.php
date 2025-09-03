@@ -14,13 +14,27 @@ abstract class BaseTest implements HasFilamentResources
     use ExposesPublicMethodsToViews;
     use InteractsWithResources;
 
+    public bool $tableLoadingGloballyDeferred = false;
+
     public function __construct(
         public ?string $resourceClass = null,
     ) {}
 
+    public function tableLoadingGloballyDeferred(bool $tableLoadingGloballyDeferred): static
+    {
+        $this->tableLoadingGloballyDeferred = $tableLoadingGloballyDeferred;
+
+        return $this;
+    }
+
     public static function build(string $resourceClass): static
     {
         return new static($resourceClass);
+    }
+
+    public function isTableLoadingGlobalyDeferred(): bool
+    {
+        return $this->tableLoadingGloballyDeferred;
     }
 
     public function getResourceClass(): ?string

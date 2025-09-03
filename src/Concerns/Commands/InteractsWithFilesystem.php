@@ -84,7 +84,7 @@ trait InteractsWithFilesystem
         $output = $renderers
             ->map(fn (string $renderer) =>
             /** @var BaseTest $renderer */
-            $renderer::build($resource)->render())
+            $renderer::build($resource)->tableLoadingGloballyDeferred($this->tableLoadingGloballyDeferred)->render())
             ->prepend('<?php')
             ->implode("\n\n");
 

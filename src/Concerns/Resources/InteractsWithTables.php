@@ -86,6 +86,11 @@ trait InteractsWithTables
             ->filter(fn (Column $column): bool => $column->isSortable());
     }
 
+    public function getResourceTableSortableColumnKeys(): array
+    {
+        return $this->getResourceTableColumnKeysFrom($this->getResourceTableSortableColumns());
+    }
+
     public function getResourceTableActions(): array
     {
         return $this->getResourceTable()->getRecordActions();
@@ -94,5 +99,10 @@ trait InteractsWithTables
     public function getResourceTableVisibleActions(): array
     {
         return array_filter($this->getResourceTableActions(), fn (Action $action): bool => ! $this->getPrivateProperty($action, 'isHidden'));
+    }
+
+    public function isResourceTableLoadingGloballyDeferred(): bool
+    {
+        return $this->isTableLoadingGlobalyDeferred() ?: $this->getResourceTable()->isLoadingDeferred();
     }
 }
