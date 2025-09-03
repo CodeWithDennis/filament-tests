@@ -3,7 +3,7 @@ it('can search `:dataset` column', function (string $column): void {
     $value = $records->first()->{$column};
 
     livewire({{ $getPageClass('index') }}::class)
-        @if($isResourceTableLoadingGloballyDeferred())->loadTable()@endif
+        @if($isResourceTableLoadingDeferred())->loadTable()@endif
         ->searchTable($value)
         ->assertCanSeeTableRecords($records->where($column, $value))
         ->assertCanNotSeeTableRecords($records->where($column, '!=', $value));
