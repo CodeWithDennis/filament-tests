@@ -100,4 +100,9 @@ trait InteractsWithTables
     {
         return array_filter($this->getResourceTableActions(), fn (Action $action): bool => ! $this->getPrivateProperty($action, 'isHidden'));
     }
+
+    public function isResourceTableLoadingDeferred(): bool
+    {
+        return $this->getResourceTable()->isLoadingDeferred();
+    }
 }
