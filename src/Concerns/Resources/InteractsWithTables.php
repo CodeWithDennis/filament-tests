@@ -58,6 +58,11 @@ trait InteractsWithTables
             ->filter(fn (Column $column): bool => $column->isSortable());
     }
 
+    public function getResourceTableSortableColumnKeys(): array
+    {
+        return $this->getResourceTableColumnKeysFrom($this->getResourceTableSortableColumns());
+    }
+
     public function getResourceTableActions(): array
     {
         return $this->getResourceTable()->getRecordActions();
