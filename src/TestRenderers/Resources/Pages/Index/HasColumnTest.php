@@ -4,13 +4,13 @@ namespace CodeWithDennis\FilamentTests\TestRenderers\Resources\Pages\Index;
 
 use CodeWithDennis\FilamentTests\TestRenderers\BaseTest;
 
-class CanRenderColumnTest extends BaseTest
+class HasColumnTest extends BaseTest
 {
-    public ?string $view = 'filament-tests::resources.pages.index.can-render-column';
+    public ?string $view = 'filament-tests::resources.pages.index.has-column';
 
     public function getShouldRender(): bool
     {
         return $this->hasPage('index')
-            && $this->getResourceTableDefaultVisibleColumns()->isNotEmpty();
+            && $this->getResourceTableColumns()->isNotEmpty();
     }
 }

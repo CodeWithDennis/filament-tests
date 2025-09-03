@@ -7,6 +7,7 @@ use CodeWithDennis\FilamentTests\Concerns\Resources\InteractsWithPages;
 use CodeWithDennis\FilamentTests\Concerns\Resources\InteractsWithSchemas;
 use CodeWithDennis\FilamentTests\Concerns\Resources\InteractsWithTables;
 use ReflectionClass;
+use ReflectionException;
 
 trait InteractsWithResources
 {
@@ -15,6 +16,7 @@ trait InteractsWithResources
     use InteractsWithSchemas;
     use InteractsWithTables;
 
+    /** @throws ReflectionException */
     protected function getPrivateProperty(object $object, string $property): mixed
     {
         $reflection = new ReflectionClass($object);
