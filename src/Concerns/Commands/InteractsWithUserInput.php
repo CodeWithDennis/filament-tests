@@ -7,12 +7,15 @@ use Filament\Panel;
 use Illuminate\Support\Collection;
 
 use function Laravel\Prompts\multiselect;
+use function Laravel\Prompts\select;
 
 trait InteractsWithUserInput
 {
     protected Collection $panels;
 
     protected Collection $resources;
+
+    protected bool $tableLoadingDeferred = false;
 
     protected function getSelectedPanels(): Collection
     {
@@ -67,5 +70,18 @@ trait InteractsWithUserInput
         }
 
         return $selectedResources;
+    }
+
+    protected function askUserIfTableLoadingIsDeferred(): bool
+    {
+        return (bool) select(
+            label: 'Do you defer table loading in your resources?',
+            options: [
+                1 => 'Yes',
+                0 => 'No',
+            ],
+            hint: 'If you are unsure, select "No". You can always regenerate the tests later.',
+            required: true,
+        );
     }
 }

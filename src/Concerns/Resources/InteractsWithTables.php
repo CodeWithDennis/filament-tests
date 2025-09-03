@@ -103,6 +103,7 @@ trait InteractsWithTables
 
     public function isResourceTableLoadingDeferred(): bool
     {
-        return $this->getResourceTable()->isLoadingDeferred();
+        return $this->isTableLoadingDeferred();
+        //        return $this->getResourceTable()->isLoadingDeferred();
     }
 }
