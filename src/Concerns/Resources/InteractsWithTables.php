@@ -36,15 +36,15 @@ trait InteractsWithTables
         return $this->getResourceTableColumnKeysFrom($this->getResourceTableColumns());
     }
 
-    public function getResourceInitiallyVisibleTableColumns(): Collection
+    public function getResourceTableDefaultVisibleColumns(): Collection
     {
         return $this->getResourceTableColumns()
             ->filter(fn (Column $column): bool => $column->isVisible() && ! $column->isToggledHiddenByDefault());
     }
 
-    public function getResourceInitiallyVisibleTableColumnKeys(): array
+    public function getResourceTableDefaultVisibleColumnKeys(): array
     {
-        return $this->getResourceTableColumnKeysFrom($this->getResourceInitiallyVisibleTableColumns());
+        return $this->getResourceTableColumnKeysFrom($this->getResourceTableDefaultVisibleColumns());
     }
 
     public function getResourceTableDefaultHiddenColumns(): Collection
@@ -80,7 +80,7 @@ trait InteractsWithTables
         return $this->getResourceTableColumnKeysFrom($this->getResourceTableHiddenColumns());
     }
 
-    public function getResourceSortableTableColumns(): Collection
+    public function getResourceTableSortableColumns(): Collection
     {
         return $this->getResourceTableColumns()
             ->filter(fn (Column $column): bool => $column->isSortable());

@@ -34,9 +34,7 @@ class FilamentTestsCommand extends Command
         $this->resources = $this->askUserToSelectResourcesFromTheSelectedPanels();
 
         $this->generateTests();
-
         $this->showGenerationSummary();
-
         $this->runPintOnGeneratedTests();
     }
 
@@ -47,20 +45,15 @@ class FilamentTestsCommand extends Command
     {
         return [
             BeforeEach::class,
-
             CanRenderIndexPageTest::class,
-
-            HasColumnTest::class,
+            CanRenderCreatePageTest::class,
+            CanRenderEditPageTest::class,
+            CanRenderViewPageTest::class,
             CanRenderColumnTest::class,
             CanNotRenderColumnTest::class,
+            HasColumnTest::class,
             ShowsColumnTest::class,
             HidesColumnTest::class,
-
-            CanRenderCreatePageTest::class,
-
-            CanRenderEditPageTest::class,
-
-            CanRenderViewPageTest::class,
         ];
     }
 }
