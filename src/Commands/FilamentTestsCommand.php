@@ -33,6 +33,7 @@ class FilamentTestsCommand extends Command
     {
         $this->panels = $this->askUserToSelectPanels();
         $this->resources = $this->askUserToSelectResourcesFromTheSelectedPanels();
+        $this->tableLoadingDeferred = $this->askUserIfTableLoadingIsDeferred();
 
         $this->generateTests();
         $this->showGenerationSummary();
