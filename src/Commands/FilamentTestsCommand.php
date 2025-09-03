@@ -17,9 +17,16 @@ use CodeWithDennis\FilamentTests\TestRenderers\Resources\Pages\Index\HidesColumn
 use CodeWithDennis\FilamentTests\TestRenderers\Resources\Pages\Index\ShowsColumnTest;
 use CodeWithDennis\FilamentTests\TestRenderers\Resources\Pages\View\CanRenderViewPageTest;
 use Illuminate\Console\Command;
+use Illuminate\Support\Collection;
 
 class FilamentTestsCommand extends Command
 {
+    protected Collection $panels;
+
+    protected Collection $resources;
+
+    protected bool $tableLoadingGloballyDeferred = false;
+
     use InteractsWithFilesystem;
     use InteractsWithUserInput;
 
@@ -33,7 +40,7 @@ class FilamentTestsCommand extends Command
     {
         $this->panels = $this->askUserToSelectPanels();
         $this->resources = $this->askUserToSelectResourcesFromTheSelectedPanels();
-        $this->tableLoadingDeferred = $this->askUserIfTableLoadingIsDeferred();
+        $this->tableLoadingGloballyDeferred = $this->askUserIfTableLoadingIsGloballyDeferred();
 
         $this->generateTests();
         $this->showGenerationSummary();

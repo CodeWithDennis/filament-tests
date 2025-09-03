@@ -11,12 +11,6 @@ use function Laravel\Prompts\select;
 
 trait InteractsWithUserInput
 {
-    protected Collection $panels;
-
-    protected Collection $resources;
-
-    protected bool $tableLoadingDeferred = false;
-
     protected function getSelectedPanels(): Collection
     {
         return $this->panels ??= collect();
@@ -72,15 +66,15 @@ trait InteractsWithUserInput
         return $selectedResources;
     }
 
-    protected function askUserIfTableLoadingIsDeferred(): bool
+    protected function askUserIfTableLoadingIsGloballyDeferred(): bool
     {
         return (bool) select(
-            label: 'Do you defer table loading in your resources?',
+            label: 'Do you globally defer table loading in your Filament app?',
             options: [
                 1 => 'Yes',
                 0 => 'No',
             ],
-            hint: 'If you are unsure, select "No". You can always regenerate the tests later.',
+            hint: 'If you set `deferLoading` individually on your resource tables, you can select "No" here.',
             required: true,
         );
     }
