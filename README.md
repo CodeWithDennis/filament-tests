@@ -5,6 +5,27 @@
 
 A package that creates PEST tests specifically tailored for your Filament components.
 
+## Installation
+
+```bash
+composer require codewithdennis/filament-tests --dev
+```
+
+## Usage
+
+Run the command to generate tests for your Filament resources:
+
+```bash
+php artisan make:filament-test
+```
+
+### Command Flags
+
+The `make:filament-test` command supports the following options:
+
+- `--skip-pint`: Skip running Laravel Pint on generated test files
+- `--force`: Overwrite existing test files without confirmation
+
 ## Credits
 
 - [CodeWithDennis](https://github.com/CodeWithDennis)
