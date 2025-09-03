@@ -91,6 +91,17 @@ trait InteractsWithTables
         return $this->getResourceTableColumnKeysFrom($this->getResourceTableSortableColumns());
     }
 
+    public function getResourceTableSearchableColumns(): Collection
+    {
+        return $this->getResourceTableColumns()
+            ->filter(fn (Column $column): bool => $column->isSearchable());
+    }
+
+    public function getResourceTableSearchableColumnKeys(): array
+    {
+        return $this->getResourceTableColumnKeysFrom($this->getResourceTableSearchableColumns());
+    }
+
     public function getResourceTableActions(): array
     {
         return $this->getResourceTable()->getRecordActions();
@@ -101,7 +112,7 @@ trait InteractsWithTables
         return array_filter($this->getResourceTableActions(), fn (Action $action): bool => ! $this->getPrivateProperty($action, 'isHidden'));
     }
 
-    public function isResourceTableLoadingGloballyDeferred(): bool
+    public function isResourceTableLoadingDeferred(): bool
     {
         return $this->isTableLoadingGlobalyDeferred() ?: $this->getResourceTable()->isLoadingDeferred();
     }
