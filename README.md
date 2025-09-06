@@ -5,6 +5,9 @@
 
 A package that creates PEST tests specifically tailored for your Filament components.
 
+> [!CAUTION]  
+> This package is not ready yet, use it at your own risk. ⚠️
+
 ## Installation
 
 ```bash
