@@ -7,6 +7,7 @@ use CodeWithDennis\FilamentTests\Concerns\Commands\InteractsWithUserInput;
 use CodeWithDennis\FilamentTests\TestRenderers\BaseTest;
 use CodeWithDennis\FilamentTests\TestRenderers\BeforeEach;
 use CodeWithDennis\FilamentTests\TestRenderers\Resources\Pages\Create\CanRenderCreatePageTest;
+use CodeWithDennis\FilamentTests\TestRenderers\Resources\Pages\Edit\CanDeleteRecordTest;
 use CodeWithDennis\FilamentTests\TestRenderers\Resources\Pages\Edit\CanRenderEditPageTest;
 use CodeWithDennis\FilamentTests\TestRenderers\Resources\Pages\Index\CanNotRenderColumnTest;
 use CodeWithDennis\FilamentTests\TestRenderers\Resources\Pages\Index\CanRenderColumnTest;
@@ -66,6 +67,7 @@ class FilamentTestsCommand extends Command
             HidesColumnTest::class,
             CanSortColumnTest::class,
             CanSearchColumnTest::class,
+            CanDeleteRecordTest::class,
         ];
     }
 }

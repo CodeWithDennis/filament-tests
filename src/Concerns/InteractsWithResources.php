@@ -17,7 +17,7 @@ trait InteractsWithResources
     use InteractsWithTables;
 
     /** @throws ReflectionException */
-    protected function getPrivateProperty(object $object, string $property): mixed
+    public function getPrivateProperty(object $object, string $property): mixed
     {
         $reflection = new ReflectionClass($object);
         $property = $reflection->getProperty($property);
