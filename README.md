@@ -55,6 +55,10 @@ This package generates comprehensive PEST tests for your Filament resources. Her
 
 All tests are automatically generated based on your Filament resource configuration and will only run when the relevant features are present in your resource (e.g., search tests only run if you have searchable columns).
 
+## Known Issues
+
+- **Delete Action Visibility**: We cannot check if the delete action is visible to users, but we can only verify that it exists in the application.
+
 ## Credits
 
 - [CodeWithDennis](https://github.com/CodeWithDennis)
