@@ -22,7 +22,7 @@ Run the command to generate tests for your Filament resources:
 php artisan make:filament-test
 ```
 
-### Command Flags
+### Command Options
 
 The `make:filament-test` command supports the following options:
 
