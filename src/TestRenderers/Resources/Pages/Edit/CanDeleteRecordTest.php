@@ -11,9 +11,8 @@ class CanDeleteRecordTest extends BaseTest
 
     public function getShouldRender(): bool
     {
-        return true;
-        /* TODO: We can't grab the delete action because it expects a record */
-        /* $action = $this->getPageHeaderAction(page: 'edit', action: 'delete'); */
-        /* return $action instanceof Action && $action->isVisible(); */
+        return $this->getPageHeaderAction(page: 'edit', action: 'delete') instanceof Action;
+        /* TODO(fixme): We can't grab the delete action visiblity because it expects a record */
+        /* $action->isVisible(); */
     }
 }
