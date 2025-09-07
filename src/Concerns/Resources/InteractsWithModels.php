@@ -9,7 +9,7 @@ trait InteractsWithModels
         return $this->getResource()->getModel();
     }
 
-    public function resourceModelHasSoftDeletes(): bool
+    public function getResourceModelHasSoftDeletes(): bool
     {
         $modelClass = $this->getResourceModel();
 
