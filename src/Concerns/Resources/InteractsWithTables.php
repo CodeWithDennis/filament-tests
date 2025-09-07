@@ -131,7 +131,6 @@ trait InteractsWithTables
         } catch (\Throwable) {
             return $this->getResourceTable()->isLoadingDeferred();
         }
-
     }
 
     public function isResourceTablePaginationEnabled(): bool
