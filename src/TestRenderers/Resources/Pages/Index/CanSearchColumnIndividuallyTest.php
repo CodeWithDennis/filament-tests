@@ -11,6 +11,6 @@ class CanSearchColumnIndividuallyTest extends BaseTest
     public function getShouldRender(): bool
     {
         return $this->hasPage('index')
-            && $this->getResourceTableSearchableIndividuallyColumns()->isNotEmpty();
+            && $this->getResourceTableIndividualSearchableColumns()->isNotEmpty();
     }
 }
