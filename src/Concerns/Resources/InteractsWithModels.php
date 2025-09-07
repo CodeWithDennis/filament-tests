@@ -8,4 +8,15 @@ trait InteractsWithModels
     {
         return $this->getResource()->getModel();
     }
+
+    public function getResourceModelHasSoftDeletes(): bool
+    {
+        $modelClass = $this->getResourceModel();
+
+        if (! $modelClass) {
+            return false;
+        }
+
+        return method_exists($modelClass, 'bootSoftDeletes');
+    }
 }

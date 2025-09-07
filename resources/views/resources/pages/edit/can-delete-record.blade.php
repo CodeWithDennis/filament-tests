@@ -6,5 +6,9 @@ it('can delete a record', function (): void {
         ->assertNotified()
         ->assertRedirect();
 
-    Pest\Laravel\assertDatabaseMissing($record);
+    @if($getResourceModelHasSoftDeletes())
+        Pest\Laravel\assertSoftDeleted($record);
+        @else
+        Pest\Laravel\assertDatabaseMissing($record);
+    @endif
 });
