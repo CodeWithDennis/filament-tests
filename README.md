@@ -52,6 +52,7 @@ This package generates comprehensive PEST tests for your Filament resources. Her
 ### Table Functionality Tests
 - **CanSearchColumnTest** - Tests that searchable columns work correctly
 - **CanSortColumnTest** - Tests that sortable columns work correctly
+- **CanPaginateRecordsTest** - Tests that pagination works correctly
 
 ### Setup Tests
 - **BeforeEach** - Sets up common test configuration and data

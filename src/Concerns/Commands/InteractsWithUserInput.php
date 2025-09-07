@@ -6,8 +6,8 @@ use Filament\Facades\Filament;
 use Filament\Panel;
 use Illuminate\Support\Collection;
 
+use function Laravel\Prompts\confirm;
 use function Laravel\Prompts\multiselect;
-use function Laravel\Prompts\select;
 
 trait InteractsWithUserInput
 {
@@ -68,14 +68,10 @@ trait InteractsWithUserInput
 
     protected function askUserIfTableLoadingIsGloballyDeferred(): bool
     {
-        return (bool) select(
+        return confirm(
             label: 'Do you globally defer table loading in your Filament app?',
-            options: [
-                1 => 'Yes',
-                0 => 'No',
-            ],
+            default: false,
             hint: 'If you set `deferLoading` individually on your resource tables, you can select "No" here.',
-            required: true,
         );
     }
 }
