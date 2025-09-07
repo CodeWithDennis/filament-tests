@@ -15,6 +15,8 @@ use CodeWithDennis\FilamentTests\TestRenderers\Resources\Pages\Index\CanRenderCo
 use CodeWithDennis\FilamentTests\TestRenderers\Resources\Pages\Index\CanRenderIndexPageTest;
 use CodeWithDennis\FilamentTests\TestRenderers\Resources\Pages\Index\CanSearchColumnTest;
 use CodeWithDennis\FilamentTests\TestRenderers\Resources\Pages\Index\CanSortColumnTest;
+use CodeWithDennis\FilamentTests\TestRenderers\Resources\Pages\Index\ColumnHasCorrectFormattedStateTest;
+use CodeWithDennis\FilamentTests\TestRenderers\Resources\Pages\Index\ColumnHasCorrectStateTest;
 use CodeWithDennis\FilamentTests\TestRenderers\Resources\Pages\Index\HasColumnTest;
 use CodeWithDennis\FilamentTests\TestRenderers\Resources\Pages\Index\HidesColumnTest;
 use CodeWithDennis\FilamentTests\TestRenderers\Resources\Pages\Index\ShowsColumnTest;
@@ -70,6 +72,8 @@ class FilamentTestsCommand extends Command
             CanSearchColumnTest::class,
             CanDeleteRecordTest::class,
             CanNotDisplayTrashedRecordsByDefault::class,
+            ColumnHasCorrectStateTest::class,
+            ColumnHasCorrectFormattedStateTest::class,
         ];
     }
 }
