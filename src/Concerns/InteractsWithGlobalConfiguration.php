@@ -9,7 +9,7 @@ use Filament\Resources\Pages\ListRecords;
 use Filament\Support\Concerns\EvaluatesClosures;
 use Filament\Tables\Table;
 
-trait InteractsWithServiceProviders
+trait InteractsWithGlobalConfiguration
 {
     use EvaluatesClosures;
 
