@@ -11,6 +11,7 @@ use CodeWithDennis\FilamentTests\TestRenderers\Resources\Pages\Edit\CanDeleteRec
 use CodeWithDennis\FilamentTests\TestRenderers\Resources\Pages\Edit\CanRenderEditPageTest;
 use CodeWithDennis\FilamentTests\TestRenderers\Resources\Pages\Index\CanNotDisplayTrashedRecordsByDefault;
 use CodeWithDennis\FilamentTests\TestRenderers\Resources\Pages\Index\CanNotRenderColumnTest;
+use CodeWithDennis\FilamentTests\TestRenderers\Resources\Pages\Index\CanPaginateRecordsTest;
 use CodeWithDennis\FilamentTests\TestRenderers\Resources\Pages\Index\CanRenderColumnTest;
 use CodeWithDennis\FilamentTests\TestRenderers\Resources\Pages\Index\CanRenderIndexPageTest;
 use CodeWithDennis\FilamentTests\TestRenderers\Resources\Pages\Index\CanSearchColumnTest;
@@ -70,6 +71,7 @@ class FilamentTestsCommand extends Command
             CanSearchColumnTest::class,
             CanDeleteRecordTest::class,
             CanNotDisplayTrashedRecordsByDefault::class,
+            CanPaginateRecordsTest::class,
         ];
     }
 }
