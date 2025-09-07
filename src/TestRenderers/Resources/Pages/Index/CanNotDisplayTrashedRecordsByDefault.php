@@ -11,6 +11,6 @@ class CanNotDisplayTrashedRecordsByDefault extends BaseTest
     public function getShouldRender(): bool
     {
         return $this->hasPage('index')
-            && $this->resourceModelHasSoftDeletes();
+            && $this->getResourceModelHasSoftDeletes();
     }
 }
