@@ -116,4 +116,14 @@ trait InteractsWithTables
     {
         return $this->isTableLoadingGlobalyDeferred() ?: $this->getResourceTable()->isLoadingDeferred();
     }
+
+    public function isResourceTablePaginationEnabled(): bool
+    {
+        return $this->getResourceTable()->isPaginated();
+    }
+
+    public function getResourceTableDefaultPaginationPageOption(): ?int
+    {
+        return $this->getResourceTable()->getDefaultPaginationPageOption();
+    }
 }
