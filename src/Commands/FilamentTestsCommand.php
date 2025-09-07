@@ -17,6 +17,8 @@ use CodeWithDennis\FilamentTests\TestRenderers\Resources\Pages\Index\CanRenderIn
 use CodeWithDennis\FilamentTests\TestRenderers\Resources\Pages\Index\CanSearchColumnIndividuallyTest;
 use CodeWithDennis\FilamentTests\TestRenderers\Resources\Pages\Index\CanSearchColumnTest;
 use CodeWithDennis\FilamentTests\TestRenderers\Resources\Pages\Index\CanSortColumnTest;
+use CodeWithDennis\FilamentTests\TestRenderers\Resources\Pages\Index\ColumnHasDescriptionAboveTest;
+use CodeWithDennis\FilamentTests\TestRenderers\Resources\Pages\Index\ColumnHasDescriptionBelowTest;
 use CodeWithDennis\FilamentTests\TestRenderers\Resources\Pages\Index\HasColumnTest;
 use CodeWithDennis\FilamentTests\TestRenderers\Resources\Pages\Index\HidesColumnTest;
 use CodeWithDennis\FilamentTests\TestRenderers\Resources\Pages\Index\ShowsColumnTest;
@@ -68,6 +70,8 @@ class FilamentTestsCommand extends Command
             HasColumnTest::class,
             ShowsColumnTest::class,
             HidesColumnTest::class,
+            ColumnHasDescriptionAboveTest::class,
+            ColumnHasDescriptionBelowTest::class,
             CanSortColumnTest::class,
             CanSearchColumnTest::class,
             CanSearchColumnIndividuallyTest::class,
