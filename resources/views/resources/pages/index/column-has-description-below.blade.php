@@ -6,7 +6,7 @@ it('`:dataset` column has the correct description below', function (string $colu
     livewire({{ $getPageClass('index') }}::class)
         ->assertTableColumnHasDescription($column, $content, $record, 'below');
 })->with([
-@foreach ($getResourceTableTextColumnsWithDescriptionBelowAndContent() as $column => $content)
+@foreach ($getResourceTableTextColumnsWithDescriptionBelow()->mapWithKeys(fn (Filament\Tables\Columns\TextColumn $column) => [$column->getName() => $column->getDescriptionBelow()]) as $column => $content)
     ['{{ $column }}', '{{ $content }}'],
 @endforeach
 ]);

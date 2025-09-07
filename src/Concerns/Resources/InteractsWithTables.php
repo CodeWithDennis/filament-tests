@@ -156,23 +156,9 @@ trait InteractsWithTables
             ->filter(fn (TextColumn $column): bool => filled($column->getDescriptionAbove()));
     }
 
-    public function getResourceTableTextColumnsWithDescriptionAboveAndContent(): array
-    {
-        return $this->getResourceTableTextColumnsWithDescriptionAbove()
-            ->mapWithKeys(fn (TextColumn $column): array => [$column->getName() => $column->getDescriptionAbove()])
-            ->all();
-    }
-
     public function getResourceTableTextColumnsWithDescriptionBelow(): Collection
     {
         return $this->getResourceTableTextColumns()
             ->filter(fn (TextColumn $column): bool => filled($column->getDescriptionBelow()));
-    }
-
-    public function getResourceTableTextColumnsWithDescriptionBelowAndContent(): array
-    {
-        return $this->getResourceTableTextColumnsWithDescriptionBelow()
-            ->mapWithKeys(fn (TextColumn $column): array => [$column->getName() => $column->getDescriptionBelow()])
-            ->all();
     }
 }
