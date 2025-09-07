@@ -2,6 +2,7 @@
 
 namespace CodeWithDennis\FilamentTests\Concerns\Resources;
 
+use CodeWithDennis\FilamentTests\Exceptions\GlobalConfiguredUsingCouldNotBeDeterminedException;
 use Filament\Actions\Action;
 use Filament\Resources\Pages\ListRecords;
 use Filament\Tables\Columns\Column;
@@ -128,7 +129,7 @@ trait InteractsWithTables
     {
         try {
             return $this->getGloballyConfiguredUsing(\Filament\Tables\Table::class)->isLoadingDeferred();
-        } catch (\Throwable) {
+        } catch (GlobalConfiguredUsingCouldNotBeDeterminedException) {
             return $this->getResourceTable()->isLoadingDeferred();
         }
     }
