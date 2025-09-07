@@ -4,7 +4,7 @@ it('can search `:dataset` column individually', function (string $column): void 
 
     livewire({{ $getPageClass('index') }}::class)
         @if($isResourceTableLoadingDeferred())->loadTable()@endif
-        ->searchTableColumns([ $column => $search instanceof BackedEnum ? $search->value : $search ])
+        ->searchTableColumns([$column => $search instanceof BackedEnum ? $search->value : $search])
         ->assertCanSeeTableRecords($records->filter(fn (Illuminate\Database\Eloquent\Model $record) => data_get($record, $column) == $search))
         ->assertCanNotSeeTableRecords($records->filter(fn (Illuminate\Database\Eloquent\Model $record) => data_get($record, $column) != $search));
 })->with([@foreach ($getResourceTableSearchableIndividuallyColumnKeys() as $column)'{{ $column }}',@endforeach]);
