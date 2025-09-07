@@ -5,6 +5,7 @@ namespace CodeWithDennis\FilamentTests\Concerns\Resources;
 use Filament\Actions\Action;
 use Filament\Resources\Pages\ListRecords;
 use Filament\Tables\Columns\Column;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Support\Collection;
 
@@ -136,5 +137,28 @@ trait InteractsWithTables
     public function getResourceTableDefaultPaginationPageOption(): ?int
     {
         return $this->getResourceTable()->getDefaultPaginationPageOption();
+    }
+
+    public function getResourceTableTextColumns(): Collection
+    {
+        return $this->getResourceTableColumns()
+            ->filter(fn (Column $column): bool => $column instanceof TextColumn);
+    }
+
+    public function getResourceTableTextColumnKeys(): array
+    {
+        return $this->getResourceTableColumnKeysFrom($this->getResourceTableTextColumns());
+    }
+
+    public function getResourceTableTextColumnsWithDescriptionAbove(): Collection
+    {
+        return $this->getResourceTableTextColumns()
+            ->filter(fn (TextColumn $column): bool => filled($column->getDescriptionAbove()));
+    }
+
+    public function getResourceTableTextColumnsWithDescriptionBelow(): Collection
+    {
+        return $this->getResourceTableTextColumns()
+            ->filter(fn (TextColumn $column): bool => filled($column->getDescriptionBelow()));
     }
 }
