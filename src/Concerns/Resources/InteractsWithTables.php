@@ -102,6 +102,17 @@ trait InteractsWithTables
         return $this->getResourceTableColumnKeysFrom($this->getResourceTableSearchableColumns());
     }
 
+    public function getResourceTableSearchableIndividuallyColumns(): Collection
+    {
+        return $this->getResourceTableColumns()
+            ->filter(fn (Column $column): bool => $column->isIndividuallySearchable());
+    }
+
+    public function getResourceTableSearchableIndividuallyColumnKeys(): array
+    {
+        return $this->getResourceTableColumnKeysFrom($this->getResourceTableSearchableIndividuallyColumns());
+    }
+
     public function getResourceTableActions(): array
     {
         return $this->getResourceTable()->getRecordActions();

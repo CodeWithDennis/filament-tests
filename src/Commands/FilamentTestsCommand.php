@@ -13,6 +13,7 @@ use CodeWithDennis\FilamentTests\TestRenderers\Resources\Pages\Index\CanNotDispl
 use CodeWithDennis\FilamentTests\TestRenderers\Resources\Pages\Index\CanNotRenderColumnTest;
 use CodeWithDennis\FilamentTests\TestRenderers\Resources\Pages\Index\CanRenderColumnTest;
 use CodeWithDennis\FilamentTests\TestRenderers\Resources\Pages\Index\CanRenderIndexPageTest;
+use CodeWithDennis\FilamentTests\TestRenderers\Resources\Pages\Index\CanSearchColumnIndividuallyTest;
 use CodeWithDennis\FilamentTests\TestRenderers\Resources\Pages\Index\CanSearchColumnTest;
 use CodeWithDennis\FilamentTests\TestRenderers\Resources\Pages\Index\CanSortColumnTest;
 use CodeWithDennis\FilamentTests\TestRenderers\Resources\Pages\Index\HasColumnTest;
@@ -68,6 +69,7 @@ class FilamentTestsCommand extends Command
             HidesColumnTest::class,
             CanSortColumnTest::class,
             CanSearchColumnTest::class,
+            CanSearchColumnIndividuallyTest::class,
             CanDeleteRecordTest::class,
             CanNotDisplayTrashedRecordsByDefault::class,
         ];
