@@ -32,8 +32,6 @@ class FilamentTestsCommand extends Command
 
     protected Collection $resources;
 
-    protected bool $tableLoadingGloballyDeferred = false;
-
     use InteractsWithFilesystem;
     use InteractsWithUserInput;
 
@@ -47,7 +45,6 @@ class FilamentTestsCommand extends Command
     {
         $this->panels = $this->askUserToSelectPanels();
         $this->resources = $this->askUserToSelectResourcesFromTheSelectedPanels();
-        $this->tableLoadingGloballyDeferred = $this->askUserIfTableLoadingIsGloballyDeferred();
 
         $this->generateTests();
         $this->showGenerationSummary();

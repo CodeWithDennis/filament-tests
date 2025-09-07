@@ -126,7 +126,12 @@ trait InteractsWithTables
 
     public function isResourceTableLoadingDeferred(): bool
     {
-        return $this->isTableLoadingGlobalyDeferred() ?: $this->getResourceTable()->isLoadingDeferred();
+        try {
+            return $this->getGloballyConfiguredUsing(\Filament\Tables\Table::class)->isLoadingDeferred();
+        } catch (\Throwable) {
+            return $this->getResourceTable()->isLoadingDeferred();
+        }
+
     }
 
     public function isResourceTablePaginationEnabled(): bool
