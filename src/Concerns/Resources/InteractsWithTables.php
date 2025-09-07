@@ -64,6 +64,17 @@ trait InteractsWithTables
             ->filter(fn (Column $column): bool => $column->isVisible());
     }
 
+    public function getResourceTableTextColumns(): Collection
+    {
+        return $this->getResourceTableColumns()
+            ->filter(fn (Column $column): bool => $column instanceof \Filament\Tables\Columns\TextColumn);
+    }
+
+    public function getResourceTableTextColumnKeys(): array
+    {
+        return $this->getResourceTableColumnKeysFrom($this->getResourceTableTextColumns());
+    }
+
     public function getResourceTableVisibleColumnKeys(): array
     {
         return $this->getResourceTableColumnKeysFrom($this->getResourceTableVisibleColumns());
