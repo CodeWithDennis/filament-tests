@@ -9,6 +9,7 @@ use CodeWithDennis\FilamentTests\TestRenderers\BeforeEach;
 use CodeWithDennis\FilamentTests\TestRenderers\Resources\Pages\Create\CanRenderCreatePageTest;
 use CodeWithDennis\FilamentTests\TestRenderers\Resources\Pages\Edit\CanDeleteRecordTest;
 use CodeWithDennis\FilamentTests\TestRenderers\Resources\Pages\Edit\CanRenderEditPageTest;
+use CodeWithDennis\FilamentTests\TestRenderers\Resources\Pages\Index\CanBulkDeleteRecordsTest;
 use CodeWithDennis\FilamentTests\TestRenderers\Resources\Pages\Index\CanNotDisplayTrashedRecordsByDefault;
 use CodeWithDennis\FilamentTests\TestRenderers\Resources\Pages\Index\CanNotRenderColumnTest;
 use CodeWithDennis\FilamentTests\TestRenderers\Resources\Pages\Index\CanPaginateRecordsTest;
@@ -75,6 +76,7 @@ class FilamentTestsCommand extends Command
             CanDeleteRecordTest::class,
             CanNotDisplayTrashedRecordsByDefault::class,
             CanPaginateRecordsTest::class,
+            CanBulkDeleteRecordsTest::class,
         ];
     }
 }

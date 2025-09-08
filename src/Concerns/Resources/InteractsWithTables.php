@@ -114,6 +114,17 @@ trait InteractsWithTables
         return $this->getResourceTableColumnKeysFrom($this->getResourceTableIndividualSearchableColumns());
     }
 
+    public function getResourceTableBulkActions(): array
+    {
+        return $this->getResourceTable()->getFlatBulkActions();
+    }
+
+    public function getResourceTableBulkAction(string $bulkAction): ?Action
+    {
+        return collect($this->getResourceTableBulkActions())
+            ->first(fn (Action $action): bool => $action->getName() === $bulkAction);
+    }
+
     public function getResourceTableActions(): array
     {
         return $this->getResourceTable()->getRecordActions();
