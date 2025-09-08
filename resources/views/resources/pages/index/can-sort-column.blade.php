@@ -6,7 +6,8 @@ it('can sort `:dataset` column', function (string $column): void {
         : $column;
 
     livewire({{ $getPageClass('index') }}::class)
-        @if($isResourceTableLoadingDeferred())->loadTable()@endif
+        @if($isResourceTableLoadingDeferred())->loadTable()
+        @endif
         ->sortTable($column)
         ->assertCanSeeTableRecords($records->sortBy($sortingKey), inOrder: true)
         ->sortTable($column, 'desc')
