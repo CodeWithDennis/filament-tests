@@ -3,6 +3,7 @@
 namespace CodeWithDennis\FilamentTests\TestRenderers\Resources\Pages\Index;
 
 use CodeWithDennis\FilamentTests\TestRenderers\BaseTest;
+use Filament\Actions\DeleteBulkAction;
 
 class CanBulkDeleteRecordsTest extends BaseTest
 {
@@ -10,6 +11,6 @@ class CanBulkDeleteRecordsTest extends BaseTest
 
     public function getShouldRender(): bool
     {
-        return true;
+        return $this->getResourceTableBulkAction('delete') instanceof DeleteBulkAction;
     }
 }
