@@ -63,8 +63,9 @@ trait InteractsWithFilesystem
 
         $this->generatedFiles[$panelKey][$resource] = [
             'path' => $filePath,
-            'num_tests' => (int) $renderResult['num_tests'] - 1, // -1 for the BeforeEach
+            'num_tests' => BaseTest::getGeneratedTestsCounter(),
         ];
+
     }
 
     protected function generateTests(): void
@@ -75,10 +76,13 @@ trait InteractsWithFilesystem
                     ->flatten()
                     ->each(fn (string $resourceClass) => $this->generateTestsForSelectedResource($resourceClass, $panelId));
             });
+
     }
 
     protected function renderTestsForResource(string $resource): array
     {
+        BaseTest::resetGeneratedTestsCounter();
+
         $renderers = collect($this->getRenderers());
 
         $output = $renderers
@@ -90,7 +94,7 @@ trait InteractsWithFilesystem
 
         return [
             'content' => $output,
-            'num_tests' => $renderers->count(),
+            'num_tests' => BaseTest::getGeneratedTestsCounter(),
         ];
     }
 

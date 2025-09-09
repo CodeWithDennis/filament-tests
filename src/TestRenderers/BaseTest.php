@@ -16,6 +16,8 @@ abstract class BaseTest implements HasFilamentResources
     use InteractsWithGlobalConfiguration;
     use InteractsWithResources;
 
+    public static int $generatedTestsCounter = -1;
+
     public function __construct(
         public ?string $resourceClass = null,
     ) {}
@@ -23,6 +25,16 @@ abstract class BaseTest implements HasFilamentResources
     public static function build(string $resourceClass): static
     {
         return new static($resourceClass);
+    }
+
+    public static function getGeneratedTestsCounter(): int
+    {
+        return self::$generatedTestsCounter;
+    }
+
+    public static function resetGeneratedTestsCounter(): void
+    {
+        self::$generatedTestsCounter = -1;
     }
 
     public function getResourceClass(): ?string
