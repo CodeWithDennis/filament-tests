@@ -54,16 +54,16 @@ trait InteractsWithFilesystem
             return;
         }
 
-        $renderResult = $this->renderTestsForResource($resource);
+        $renderedTests = $this->renderTestsForResource($resource);
 
         File::ensureDirectoryExists(dirname((string) $filePath));
-        File::put($filePath, $renderResult['content']);
+        File::put($filePath, $renderedTests['content']);
 
         $panelKey = $panel ?? 'default';
 
         $this->generatedFiles[$panelKey][$resource] = [
             'path' => $filePath,
-            'num_tests' => $renderResult['num_tests'],
+            'num_tests' => $renderedTests['num_tests'],
         ];
 
     }
