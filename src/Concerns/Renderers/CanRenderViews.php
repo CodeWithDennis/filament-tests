@@ -39,11 +39,23 @@ trait CanRenderViews
     public function render(): ?string
     {
         try {
-            $result = $this->when($this->getShouldRender(), fn () => view($this->view, [
-                ...$this->extractPublicMethods($this),
-            ])->render());
+            if (! $this->getShouldRender()) {
+                return null;
+            }
 
-            return is_string($result) ? $result : null;
+            $rendered = view($this->view, [
+                ...$this->extractPublicMethods($this),
+            ])->render();
+
+            if (is_string($rendered)) {
+
+                self::$generatedTestsCounter++;
+
+                return $rendered;
+            }
+
+            return null;
+
         } catch (\Throwable $e) {
             return $e->getMessage();
         }
