@@ -24,6 +24,7 @@ use CodeWithDennis\FilamentTests\TestRenderers\Resources\Pages\Index\HasColumnTe
 use CodeWithDennis\FilamentTests\TestRenderers\Resources\Pages\Index\HidesColumnTest;
 use CodeWithDennis\FilamentTests\TestRenderers\Resources\Pages\Index\ShowsColumnTest;
 use CodeWithDennis\FilamentTests\TestRenderers\Resources\Pages\View\CanRenderViewPageTest;
+use Filament\Support\Commands\Concerns\CanOpenUrlInBrowser;
 use Illuminate\Console\Command;
 use Illuminate\Support\Collection;
 
@@ -33,10 +34,12 @@ class FilamentTestsCommand extends Command
 
     protected Collection $resources;
 
+    use CanOpenUrlInBrowser;
     use InteractsWithFilesystem;
     use InteractsWithUserInput;
 
     protected $signature = 'make:filament-test
+                            {--skip-pest : Skip running Pest on generated files}
                             {--skip-pint : Skip running Pint on generated files}
                             {--force : Overwrite existing test files without confirmation}';
 
@@ -50,6 +53,7 @@ class FilamentTestsCommand extends Command
         $this->generateTests();
         $this->showGenerationSummary();
         $this->runPintOnGeneratedTests();
+        $this->runPestOnGeneratedTests();
     }
 
     /**

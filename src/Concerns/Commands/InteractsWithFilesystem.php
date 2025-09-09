@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Process;
 
 use function Laravel\Prompts\confirm;
 use function Laravel\Prompts\info;
+use function Laravel\Prompts\spin;
 use function Laravel\Prompts\table;
 use function Laravel\Prompts\warning;
 
@@ -121,5 +122,33 @@ trait InteractsWithFilesystem
             ['Resource', 'Panel', '# Tests'],
             $rows
         );
+    }
+
+    protected function runPestOnGeneratedTests(): void
+    {
+        if ($this->getGeneratedFiles() === [] || $this->option('skip-pest')) {
+            return;
+        }
+
+        if (! confirm(
+            label: 'Would you like to run Pest on the generated test files?',
+            hint: 'You can always run Pest later by executing `vendor/bin/pest --group=filament-tests`',
+        )) {
+            return;
+        }
+
+        $result = spin(
+            callback: fn () => \Illuminate\Support\Facades\Process::run('vendor/bin/pest --colors=always --group=filament-tests'),
+            message: 'Running Pest tests...'
+        );
+
+        echo $result->output();
+
+        if (confirm($result->successful()
+            ? "Looks like the tests passed! That's great. Would you like to star the repo on GitHub ⭐️"
+            : "Looks like some tests failed. But hey, that's a good thing! 🥳 Please consider starring the repo on GitHub ⭐ after you’ve reviewed the test results."
+        )) {
+            $this->openUrlInBrowser('https://www.github.com/CodeWithDennis/filament-tests');
+        }
     }
 }
