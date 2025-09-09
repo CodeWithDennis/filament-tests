@@ -39,6 +39,9 @@ This package generates comprehensive PEST tests for your Filament resources. Her
 - **CanRenderIndexPageTest** - Tests that the index page renders correctly
 - **CanRenderViewPageTest** - Tests that the view page renders correctly
 
+### Page Functionality Tests
+- **HasHeaderActionTest** - Tests that header actions exist
+
 ### Table Column Tests
 - **HasColumnTest** - Tests that the resource has table columns defined
 - **CanRenderColumnTest** - Tests that default visible columns render correctly
