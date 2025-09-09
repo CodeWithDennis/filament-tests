@@ -68,7 +68,7 @@ trait InteractsWithFilesystem
         $renderedTests = $this->renderTestsForResource($resource);
         $endTime = microtime(true);
 
-        $duration = round(($endTime - $startTime) * 1000, 2, PHP_ROUND_HALF_UP);
+        $duration = round(($endTime - $startTime) * 1000, mode: PHP_ROUND_HALF_UP);
 
         File::ensureDirectoryExists(dirname((string) $filePath));
         File::put($filePath, $renderedTests['content']);
