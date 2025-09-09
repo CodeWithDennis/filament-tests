@@ -21,6 +21,7 @@ use CodeWithDennis\FilamentTests\TestRenderers\Resources\Pages\Index\CanSortColu
 use CodeWithDennis\FilamentTests\TestRenderers\Resources\Pages\Index\ColumnHasDescriptionAboveTest;
 use CodeWithDennis\FilamentTests\TestRenderers\Resources\Pages\Index\ColumnHasDescriptionBelowTest;
 use CodeWithDennis\FilamentTests\TestRenderers\Resources\Pages\Index\HasColumnTest;
+use CodeWithDennis\FilamentTests\TestRenderers\Resources\Pages\Index\HasFilterTest;
 use CodeWithDennis\FilamentTests\TestRenderers\Resources\Pages\Index\HidesColumnTest;
 use CodeWithDennis\FilamentTests\TestRenderers\Resources\Pages\Index\ShowsColumnTest;
 use CodeWithDennis\FilamentTests\TestRenderers\Resources\Pages\View\CanRenderViewPageTest;
@@ -77,6 +78,7 @@ class FilamentTestsCommand extends Command
             CanNotDisplayTrashedRecordsByDefault::class,
             CanPaginateRecordsTest::class,
             CanBulkDeleteRecordsTest::class,
+            HasFilterTest::class,
         ];
     }
 }
