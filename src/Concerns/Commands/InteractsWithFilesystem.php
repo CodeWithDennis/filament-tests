@@ -107,13 +107,12 @@ trait InteractsWithFilesystem
         }
 
         $rows = collect($this->getGeneratedFiles())
-            ->flatMap(
-                fn (array $resources, string $panelName) => collect($resources)
-                    ->map(fn (array $data, string $resource): array => [
-                        $resource,
-                        $panelName,
-                        $data['num_tests'] ?? 0,
-                    ])
+            ->flatMap(fn (array $resources, string $panelName) => collect($resources)
+                ->map(fn (array $data, string $resource): array => [
+                    $resource,
+                    $panelName,
+                    $data['num_tests'] ?? 0,
+                ])
             )
             ->values()
             ->all();
