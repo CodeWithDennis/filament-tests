@@ -48,6 +48,7 @@ This package generates comprehensive PEST tests for your Filament resources. Her
 - **CanNotDisplayTrashedRecordsByDefault** - Tests that trashed records are not displayed by default if soft deletes are enabled
 - **ColumnHasDescriptionBelowTest** - Tests that columns with descriptions display them below
 - **ColumnHasDescriptionAboveTest** - Tests that columns with descriptions display them above
+- **SelectColumnHasOptionsTest** - Tests that select columns have the correct options
 
 ### Table Functionality Tests
 - **CanSearchColumnTest** - Tests that searchable columns work correctly
