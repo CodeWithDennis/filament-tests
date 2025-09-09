@@ -20,6 +20,7 @@ use CodeWithDennis\FilamentTests\TestRenderers\Resources\Pages\Index\CanSearchCo
 use CodeWithDennis\FilamentTests\TestRenderers\Resources\Pages\Index\CanSortColumnTest;
 use CodeWithDennis\FilamentTests\TestRenderers\Resources\Pages\Index\ColumnHasDescriptionAboveTest;
 use CodeWithDennis\FilamentTests\TestRenderers\Resources\Pages\Index\ColumnHasDescriptionBelowTest;
+use CodeWithDennis\FilamentTests\TestRenderers\Resources\Pages\Index\ColumnHasExtraAttributesTest;
 use CodeWithDennis\FilamentTests\TestRenderers\Resources\Pages\Index\HasColumnTest;
 use CodeWithDennis\FilamentTests\TestRenderers\Resources\Pages\Index\HidesColumnTest;
 use CodeWithDennis\FilamentTests\TestRenderers\Resources\Pages\Index\ShowsColumnTest;
@@ -29,12 +30,12 @@ use Illuminate\Support\Collection;
 
 class FilamentTestsCommand extends Command
 {
+    use InteractsWithFilesystem;
+    use InteractsWithUserInput;
+
     protected Collection $panels;
 
     protected Collection $resources;
-
-    use InteractsWithFilesystem;
-    use InteractsWithUserInput;
 
     protected $signature = 'make:filament-test
                             {--skip-pint : Skip running Pint on generated files}
@@ -70,6 +71,7 @@ class FilamentTestsCommand extends Command
             HidesColumnTest::class,
             ColumnHasDescriptionAboveTest::class,
             ColumnHasDescriptionBelowTest::class,
+            ColumnHasExtraAttributesTest::class,
             CanSortColumnTest::class,
             CanSearchColumnTest::class,
             CanSearchColumnIndividuallyTest::class,
