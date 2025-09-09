@@ -16,7 +16,7 @@ abstract class BaseTest implements HasFilamentResources
     use InteractsWithGlobalConfiguration;
     use InteractsWithResources;
 
-    public static int $generatedTestsCounter = -1;
+    public static int $generatedTestsCounter = -1; // Start negative to account for BeforeEach Renderer
 
     public function __construct(
         public ?string $resourceClass = null,
