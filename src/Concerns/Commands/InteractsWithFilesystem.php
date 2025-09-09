@@ -145,7 +145,7 @@ trait InteractsWithFilesystem
         echo $result->output();
 
         if (confirm($result->successful()
-            ? "Looks like the tests passed! That's great. Would you like to star the repo on GitHub ⭐️"
+            ? "Looks like the tests passed! That's great. Would you like to star the repo on GitHub ⭐️?"
             : "Looks like some tests failed. But hey, that's a good thing! 🥳 Please consider starring the repo on GitHub ⭐ after you’ve reviewed the test results."
         )) {
             $this->openUrlInBrowser('https://www.github.com/CodeWithDennis/filament-tests');
