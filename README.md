@@ -41,6 +41,8 @@ This package generates comprehensive PEST tests for your Filament resources. Her
 
 ### Page Functionality Tests
 - **HasHeaderActionTest** - Tests that header actions exist
+- **ShowsHeaderActionTest** - Tests that a header action is visible
+- **HidesHeaderActionTest** - Tests that a header action is hidden
 
 ### Table Column Tests
 - **HasColumnTest** - Tests that the resource has table columns defined
@@ -65,10 +67,6 @@ This package generates comprehensive PEST tests for your Filament resources. Her
 - **BeforeEach** - Sets up common test configuration and data
 
 All tests are automatically generated based on your Filament resource configuration and will only run when the relevant features are present in your resource (e.g., search tests only run if you have searchable columns).
-
-## Known Issues
-
-- **Delete Action Visibility**: We cannot check if the delete action is visible to users, but we can only verify that it exists in the application.
 
 ## Credits
 

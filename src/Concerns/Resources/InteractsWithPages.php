@@ -5,6 +5,7 @@ namespace CodeWithDennis\FilamentTests\Concerns\Resources;
 use Filament\Actions\Action;
 use Filament\Actions\ActionGroup;
 use Filament\Resources\Pages\PageRegistration;
+use Illuminate\Support\Collection;
 
 trait InteractsWithPages
 {
@@ -30,10 +31,12 @@ trait InteractsWithPages
         return $this->hasPages([$page]);
     }
 
-    public function getPageHeaderAction(string $page, string $action)
+    public function getPageHeaderAction(string $page, string $action, bool $withDummyModel = false)
     {
         return collect($this->getPageHeaderActions($page))
-            ->first(fn (Action $flatAction): bool => $flatAction->getName() === $action);
+            ->first(fn (Action $flatAction): bool => $flatAction
+                ->when(fn (): bool => $withDummyModel, fn (Action $action): \Filament\Actions\Action => $action->record(new ($this->getResourceModel())))
+                ->getName() === $action);
     }
 
     public function getPageHeaderActions(string $page): array
@@ -81,5 +84,33 @@ trait InteractsWithPages
         } catch (\ReflectionException) {
             return null;
         }
+    }
+
+    public function getPageHeaderVisibleActions(string $page): Collection
+    {
+        // TODO: maybe setting this on getPageHeaderActions instead?! 🤔
+        return collect($this->getPageHeaderActions($page))
+            ->filter(function (Action $action): bool {
+
+                $model = $this->getResourceModel();
+
+                $action->record(new $model);
+
+                return $action->isVisible();
+            });
+    }
+
+    public function getPageHeaderHiddenActions(string $page): Collection
+    {
+        // TODO: maybe setting this on getPageHeaderActions instead?! 🤔
+        return collect($this->getPageHeaderActions($page))
+            ->filter(function (Action $action): bool {
+
+                $model = $this->getResourceModel();
+
+                $action->record(new $model);
+
+                return $action->isHidden();
+            });
     }
 }
