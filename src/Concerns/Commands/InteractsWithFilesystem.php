@@ -63,7 +63,7 @@ trait InteractsWithFilesystem
 
         $this->generatedFiles[$panelKey][$resource] = [
             'path' => $filePath,
-            'num_tests' => BaseTest::getGeneratedTestsCounter(),
+            'num_tests' => $renderResult['num_tests'],
         ];
 
     }
