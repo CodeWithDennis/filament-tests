@@ -56,6 +56,9 @@ This package generates comprehensive PEST tests for your Filament resources. Her
 - **CanSortColumnTest** - Tests that sortable columns work correctly
 - **CanPaginateRecordsTest** - Tests that pagination works correctly
 
+### Table Filter Tests
+- **HasFilterTest** - Tests that a filter exists
+
 ### Bulk Action Tests
 - **CanBulkDeleteRecordsTest** - Tests that bulk delete action works correctly
 

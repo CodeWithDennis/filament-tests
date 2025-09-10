@@ -179,4 +179,10 @@ trait InteractsWithTables
         return $this->getResourceTableColumns()
             ->filter(fn (Column $column): bool => $column instanceof \Filament\Tables\Columns\SelectColumn);
     }
+
+    public function getResourceTableFilters(): Collection
+    {
+        return collect($this->getResourceTable()->getFilters());
+
+    }
 }
