@@ -1,4 +1,4 @@
-it('`:dataset` column has the extra attributes', function (string $column, array $attributes): void {
+test('`:dataset` column has the extra attributes', function (string $column, array $attributes): void {
     $record = {{ $getResourceModel() }}::factory()->create();
 
     livewire({{ $getPageClass('index') }}::class)

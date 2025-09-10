@@ -1,4 +1,4 @@
-it('`:dataset` column has the correct description above', function (string $column, string $content): void {
+test('`:dataset` column has the correct description above', function (string $column, string $content): void {
     $records = {{ $getResourceModel() }}::factory(10)->create();
 
     $record = $records->first();
