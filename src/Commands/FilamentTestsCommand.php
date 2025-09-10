@@ -27,6 +27,7 @@ use CodeWithDennis\FilamentTests\TestRenderers\Resources\Pages\Index\ColumnHasEx
 use CodeWithDennis\FilamentTests\TestRenderers\Resources\Pages\Index\HasColumnTest;
 use CodeWithDennis\FilamentTests\TestRenderers\Resources\Pages\Index\HasFilterTest;
 use CodeWithDennis\FilamentTests\TestRenderers\Resources\Pages\Index\HidesColumnTest;
+use CodeWithDennis\FilamentTests\TestRenderers\Resources\Pages\Index\SelectColumnHasOptionsTest;
 use CodeWithDennis\FilamentTests\TestRenderers\Resources\Pages\Index\ShowsColumnTest;
 use CodeWithDennis\FilamentTests\TestRenderers\Resources\Pages\View\CanRenderViewPageTest;
 use Illuminate\Console\Command;
@@ -75,6 +76,7 @@ class FilamentTestsCommand extends Command
             HidesColumnTest::class,
             ColumnHasDescriptionAboveTest::class,
             ColumnHasDescriptionBelowTest::class,
+            SelectColumnHasOptionsTest::class,
             ColumnHasExtraAttributesTest::class,
             CanSortColumnTest::class,
             CanSearchColumnTest::class,
