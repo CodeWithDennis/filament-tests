@@ -174,6 +174,12 @@ trait InteractsWithTables
             ->filter(fn (TextColumn $column): bool => filled($column->getDescriptionBelow()));
     }
 
+    public function getResourceTableColumnsWithExtraAttributes(): Collection
+    {
+        return $this->getResourceTableColumns()
+            ->filter(fn (Column $column): bool => $column->getExtraAttributes() !== []);
+    }
+
     public function getResourceTableFilters(): Collection
     {
         return collect($this->getResourceTable()->getFilters());
