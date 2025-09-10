@@ -174,7 +174,6 @@ trait InteractsWithTables
             ->filter(fn (TextColumn $column): bool => filled($column->getDescriptionBelow()));
     }
 
-
     public function getResourceTableSelectColumns(): Collection
     {
         return $this->getResourceTableColumns()
