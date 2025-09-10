@@ -8,7 +8,7 @@ use CodeWithDennis\FilamentTests\TestRenderers\BaseTest;
 use CodeWithDennis\FilamentTests\TestRenderers\BeforeEach;
 use CodeWithDennis\FilamentTests\TestRenderers\Resources\Pages\Create\CanCreateRecordTest;
 use CodeWithDennis\FilamentTests\TestRenderers\Resources\Pages\Create\CanRenderCreatePageTest;
-use CodeWithDennis\FilamentTests\TestRenderers\Resources\Pages\Create\CanValidateFormData;
+use CodeWithDennis\FilamentTests\TestRenderers\Resources\Pages\Create\CanValidateFormDataTest;
 use CodeWithDennis\FilamentTests\TestRenderers\Resources\Pages\Edit\CanDeleteRecordTest;
 use CodeWithDennis\FilamentTests\TestRenderers\Resources\Pages\Edit\CanRenderEditPageTest;
 use CodeWithDennis\FilamentTests\TestRenderers\Resources\Pages\Edit\HasHeaderActionTest;
@@ -92,7 +92,7 @@ class FilamentTestsCommand extends Command
             HidesHeaderActionTest::class,
             HasFilterTest::class,
             CanCreateRecordTest::class,
-            CanValidateFormData::class,
+            CanValidateFormDataTest::class,
         ];
     }
 }
