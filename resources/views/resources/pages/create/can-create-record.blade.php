@@ -9,7 +9,7 @@ it('can create a record', function (): void {
                     // TODO: RichEditor expects a very specific array structure for its data and Filament tests do not currently support this.
                     // '{{ $key }}' => $record->{{ $key }},
                 @else
-                '{{ $key }}' => $record->{{ $key }},
+                    '{{ $key }}' => $record->{{ $key }},
                 @endif
             @endforeach
         ])
@@ -22,7 +22,7 @@ it('can create a record', function (): void {
                     // TODO: RichEditor expects a very specific array structure for its data and Filament tests do not currently support this.
                     // '{{ $key }}' => $record->{{ $key }},
                 @else
-                '{{ $key }}' => $record->{{ $key }},
+                    '{{ $key }}' => $record->{{ $key }},
                 @endif
             @endforeach
         ]);
