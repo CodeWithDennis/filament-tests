@@ -9,6 +9,9 @@ use CodeWithDennis\FilamentTests\TestRenderers\BeforeEach;
 use CodeWithDennis\FilamentTests\TestRenderers\Resources\Pages\Create\CanRenderCreatePageTest;
 use CodeWithDennis\FilamentTests\TestRenderers\Resources\Pages\Edit\CanDeleteRecordTest;
 use CodeWithDennis\FilamentTests\TestRenderers\Resources\Pages\Edit\CanRenderEditPageTest;
+use CodeWithDennis\FilamentTests\TestRenderers\Resources\Pages\Edit\HasHeaderActionTest;
+use CodeWithDennis\FilamentTests\TestRenderers\Resources\Pages\Edit\HidesHeaderActionTest;
+use CodeWithDennis\FilamentTests\TestRenderers\Resources\Pages\Edit\ShowsHeaderActionTest;
 use CodeWithDennis\FilamentTests\TestRenderers\Resources\Pages\Index\CanBulkDeleteRecordsTest;
 use CodeWithDennis\FilamentTests\TestRenderers\Resources\Pages\Index\CanNotDisplayTrashedRecordsByDefault;
 use CodeWithDennis\FilamentTests\TestRenderers\Resources\Pages\Index\CanNotRenderColumnTest;
@@ -20,6 +23,7 @@ use CodeWithDennis\FilamentTests\TestRenderers\Resources\Pages\Index\CanSearchCo
 use CodeWithDennis\FilamentTests\TestRenderers\Resources\Pages\Index\CanSortColumnTest;
 use CodeWithDennis\FilamentTests\TestRenderers\Resources\Pages\Index\ColumnHasDescriptionAboveTest;
 use CodeWithDennis\FilamentTests\TestRenderers\Resources\Pages\Index\ColumnHasDescriptionBelowTest;
+use CodeWithDennis\FilamentTests\TestRenderers\Resources\Pages\Index\ColumnHasExtraAttributesTest;
 use CodeWithDennis\FilamentTests\TestRenderers\Resources\Pages\Index\HasColumnTest;
 use CodeWithDennis\FilamentTests\TestRenderers\Resources\Pages\Index\HasFilterTest;
 use CodeWithDennis\FilamentTests\TestRenderers\Resources\Pages\Index\HidesColumnTest;
@@ -31,12 +35,12 @@ use Illuminate\Support\Collection;
 
 class FilamentTestsCommand extends Command
 {
+    use InteractsWithFilesystem;
+    use InteractsWithUserInput;
+
     protected Collection $panels;
 
     protected Collection $resources;
-
-    use InteractsWithFilesystem;
-    use InteractsWithUserInput;
 
     protected $signature = 'make:filament-test
                             {--skip-pint : Skip running Pint on generated files}
@@ -73,6 +77,7 @@ class FilamentTestsCommand extends Command
             ColumnHasDescriptionAboveTest::class,
             ColumnHasDescriptionBelowTest::class,
             SelectColumnHasOptionsTest::class,
+            ColumnHasExtraAttributesTest::class,
             CanSortColumnTest::class,
             CanSearchColumnTest::class,
             CanSearchColumnIndividuallyTest::class,
@@ -80,6 +85,9 @@ class FilamentTestsCommand extends Command
             CanNotDisplayTrashedRecordsByDefault::class,
             CanPaginateRecordsTest::class,
             CanBulkDeleteRecordsTest::class,
+            HasHeaderActionTest::class,
+            ShowsHeaderActionTest::class,
+            HidesHeaderActionTest::class,
             HasFilterTest::class,
         ];
     }
