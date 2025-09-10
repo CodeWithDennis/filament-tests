@@ -22,6 +22,13 @@ trait InteractsWithSchemas
         return $this->getResourceForm()->getFlatFields(true);
     }
 
+    public function getResourceRequiredFormFields(): array
+    {
+        return collect($this->getResourceFormFields())
+            ->filter(fn (Field $field): bool => $field->isRequired())
+            ->all();
+    }
+
     public function getResourceFormFieldKeys(): array
     {
         return collect($this->getResourceFormFields())
