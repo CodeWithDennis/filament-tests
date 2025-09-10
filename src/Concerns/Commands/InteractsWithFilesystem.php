@@ -9,8 +9,6 @@ use Illuminate\Support\Facades\Process;
 use function Laravel\Prompts\confirm;
 use function Laravel\Prompts\info;
 use function Laravel\Prompts\spin;
-use function Laravel\Prompts\table;
-use function Laravel\Prompts\warning;
 
 trait InteractsWithFilesystem
 {
