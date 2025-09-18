@@ -15,4 +15,7 @@ it('validates form data field :dataset', function (array $data, array $errors): 
     @foreach($getResourceFormFieldsByRulePrefix('max') as $key => $field)
         '`{{ $key }}` is max {{ $getRuleValue($field, 'max') }} characters' => [['{{ $key }}' => Illuminate\Support\Str::random({{ $getRuleValue($field, 'max') + 1 }})], ['{{ $key }}' => 'max']],
     @endforeach
+    @foreach($getResourceFormFieldsByRulePrefix('min') as $key => $field)
+        '`{{ $key }}` is min {{ $getRuleValue($field, 'min') }} characters' => [['{{ $key }}' => Illuminate\Support\Str::random({{ $getRuleValue($field, 'min') - 1 }})], ['{{ $key }}' => 'min']],
+    @endforeach
 ]);
