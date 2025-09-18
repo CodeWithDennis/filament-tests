@@ -39,6 +39,11 @@ This package generates comprehensive PEST tests for your Filament resources. Her
   - [x] Max
   - [x] Min
   - [x] Required
+- **CanEditRecordTest** - Tests that a record can be edited
+- **CanValidateEditFormTest** - Tests that the edit form validates input correctly
+  - [x] Max
+  - [x] Min
+  - [x] Required
 
 ### Page Rendering Tests
 - **CanRenderCreatePageTest** - Tests that the create page renders correctly
