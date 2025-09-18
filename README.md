@@ -78,7 +78,7 @@ This package generates comprehensive PEST tests for your Filament resources. Her
 All tests are automatically generated based on your Filament resource configuration and will only run when the relevant features are present in your resource (e.g., search tests only run if you have searchable columns).
 
 ## Known Issues
-- Creating or validation RichEditor fields is not supported, this is due to the complexity of handling rich text content in tests.
+- Validation of RichEditor fields is not supported, this is due to the complexity of handling rich text content in tests.
 - 
 ## Credits
 
