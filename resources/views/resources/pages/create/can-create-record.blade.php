@@ -5,25 +5,16 @@ it('can create a record', function (): void {
     livewire({{ $getPageClass('create') }}::class)
         ->fillForm([
             @foreach($getResourceFormFields() as $key => $field)
-                @if($field instanceof RichEditor)
-                    // TODO: RichEditor expects a very specific array structure for its data and Filament tests do not currently support this.
-                    // '{{ $key }}' => $record->{{ $key }},
-                @else
-                    '{{ $key }}' => $record->{{ $key }},
-                @endif
+                '{{ $key }}' => $record->{{ $key }},
             @endforeach
         ])
         ->call('create')
+        ->assertHasNoFormErrors()
         ->assertNotified();
 
         $this->assertDatabaseHas({{ $getResourceModel() }}::class, [
             @foreach($getResourceFormFields() as $key => $field)
-                @if($field instanceof RichEditor)
-                    // TODO: RichEditor expects a very specific array structure for its data and Filament tests do not currently support this.
-                    // '{{ $key }}' => $record->{{ $key }},
-                @else
-                    '{{ $key }}' => $record->{{ $key }},
-                @endif
+                '{{ $key }}' => $record->{{ $key }},
             @endforeach
         ]);
 });
