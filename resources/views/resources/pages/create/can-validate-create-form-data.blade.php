@@ -9,10 +9,10 @@ it('validates form data field :dataset', function (array $data, array $errors): 
         ->assertHasFormErrors($errors)
         ->assertNotified();
 })->with([
-    @foreach($getResourceRequiredFormFields() as $key => $field)
+    @foreach($getResourceFormFieldsByRulePrefix('required') as $key => $field)
     '`{{ $key }}` is required' => [['{{ $key }}' => null], ['{{ $key }}' => 'required']],
     @endforeach
-    @foreach($getResourceMaxLengthFormFields() as $key => $field)
-        '`{{ $key }}` is max {{ $field->getMaxLength() }} characters' => [['{{ $key }}' => Illuminate\Support\Str::random({{ $field->getMaxLength() + 1 }})], ['{{ $key }}' => 'max']],
+    @foreach($getResourceFormFieldsByRulePrefix('max') as $key => $field)
+        '`{{ $key }}` is max {{ $getRuleValue($field, 'max') }} characters' => [['{{ $key }}' => Illuminate\Support\Str::random({{ $getRuleValue($field, 'max') + 1 }})], ['{{ $key }}' => 'max']],
     @endforeach
 ]);
