@@ -39,7 +39,6 @@ This package generates comprehensive PEST tests for your Filament resources. Her
   - [x] Max
   - [x] Min
   - [x] Required
-  - Note: RichEditor fields are not validated due to complexity
 
 ### Page Rendering Tests
 - **CanRenderCreatePageTest** - Tests that the create page renders correctly
