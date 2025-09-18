@@ -11,6 +11,8 @@ use CodeWithDennis\FilamentTests\TestRenderers\Resources\Pages\Create\CanRenderC
 use CodeWithDennis\FilamentTests\TestRenderers\Resources\Pages\Create\CanValidateCreateFormData;
 use CodeWithDennis\FilamentTests\TestRenderers\Resources\Pages\Edit\CanDeleteRecordTest;
 use CodeWithDennis\FilamentTests\TestRenderers\Resources\Pages\Edit\CanRenderEditPageTest;
+use CodeWithDennis\FilamentTests\TestRenderers\Resources\Pages\Edit\CanUpdateRecordTest;
+use CodeWithDennis\FilamentTests\TestRenderers\Resources\Pages\Edit\CanValidateEditFormData;
 use CodeWithDennis\FilamentTests\TestRenderers\Resources\Pages\Edit\HasHeaderActionTest;
 use CodeWithDennis\FilamentTests\TestRenderers\Resources\Pages\Edit\HidesHeaderActionTest;
 use CodeWithDennis\FilamentTests\TestRenderers\Resources\Pages\Edit\ShowsHeaderActionTest;
@@ -93,6 +95,8 @@ class FilamentTestsCommand extends Command
             HasFilterTest::class,
             CanCreateRecordTest::class,
             CanValidateCreateFormData::class,
+            CanUpdateRecordTest::class,
+            CanValidateEditFormData::class,
         ];
     }
 }
