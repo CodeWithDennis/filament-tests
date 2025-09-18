@@ -1,4 +1,3 @@
-@php use Filament\Forms\Components\RichEditor; @endphp
 it('can create a record', function (): void {
     $record = {{ $getResourceModel() }}::factory()->make();
 

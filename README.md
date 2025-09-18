@@ -8,6 +8,9 @@ A package that creates PEST tests specifically tailored for your Filament compon
 > [!CAUTION]  
 > This package is not ready yet, use it at your own risk. ⚠️
 
+> [!NOTE]
+> This package requires that your models define model [factories](https://laravel.com/docs/master/database-testing#defining-model-factories).
+
 ## Installation
 
 ```bash
@@ -36,6 +39,11 @@ This package generates comprehensive PEST tests for your Filament resources. Her
 ### Form Record Tests
 - **CanCreateRecordTest** - Tests that a record can be created
 - **CanValidateCreateFormTest** - Tests that the create form validates input correctly
+  - [x] Max
+  - [x] Min
+  - [x] Required
+- **CanEditRecordTest** - Tests that a record can be edited
+- **CanValidateEditFormTest** - Tests that the edit form validates input correctly
   - [x] Max
   - [x] Min
   - [x] Required

@@ -1,11 +1,12 @@
-it('validates create form data field :dataset', function (array $data, array $errors): void {
-    $record = {{ $getResourceModel() }}::factory()->make();
+it('validates edit form data field :dataset', function (array $data, array $errors): void {
+    $record = {{ $getResourceModel() }}::factory()->create();
+    $newRecord = {{ $getResourceModel() }}::factory()->make();
 
-    livewire({{ $getPageClass('create') }}::class)
+    livewire({{ $getPageClass('edit') }}::class, ['record' => $record->getKey()])
         ->fillForm([
             ...$data
         ])
-        ->call('create')
+        ->call('save')
         ->assertHasFormErrors($errors)
         ->assertNotified();
 })->with([
