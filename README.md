@@ -33,6 +33,13 @@ The `make:filament-test` command supports the following options:
 
 This package generates comprehensive PEST tests for your Filament resources. Here's a complete list of currently working tests:
 
+### Form Record Tests
+- **CanCreateRecordTest** - Tests that a record can be created
+- **CanValidateCreateFormTest** - Tests that the create form validates input correctly
+  - [x] Max
+  - [x] Min
+  - [x] Required
+
 ### Page Rendering Tests
 - **CanRenderCreatePageTest** - Tests that the create page renders correctly
 - **CanRenderEditPageTest** - Tests that the edit page renders correctly  
@@ -72,6 +79,9 @@ This package generates comprehensive PEST tests for your Filament resources. Her
 - **BeforeEach** - Sets up common test configuration and data
 
 All tests are automatically generated based on your Filament resource configuration and will only run when the relevant features are present in your resource (e.g., search tests only run if you have searchable columns).
+
+## Known Issues
+- Validation of RichEditor fields is not supported, this is due to the complexity of handling rich text content in tests.
 
 ## Credits
 

@@ -2,6 +2,7 @@
 
 namespace CodeWithDennis\FilamentTests\Concerns\Resources;
 
+use Closure;
 use Filament\Forms\Components\Field;
 use Filament\Infolists\Components\Entry;
 use Filament\Resources\Pages\EditRecord;
@@ -20,6 +21,31 @@ trait InteractsWithSchemas
     public function getResourceFormFields(): array
     {
         return $this->getResourceForm()->getFlatFields(true);
+    }
+
+    public function getResourceFormFieldsByRulePrefix(string $prefix): array
+    {
+        return collect($this->getResourceFormFields())
+            ->filter(
+                fn (Field $field): bool => array_any(
+                    $field->getValidationRules(),
+                    fn (Closure|string $rule): bool => is_string($rule) && str_starts_with($rule, $prefix)
+                )
+            )
+            ->all();
+    }
+
+    public function getRuleValue(Field $field, string $ruleName): ?string
+    {
+        foreach ($field->getValidationRules() as $rule) {
+            if (is_string($rule) && str_starts_with($rule, $ruleName.':')) {
+                [, $value] = explode(':', $rule, 2);
+
+                return $value;
+            }
+        }
+
+        return null;
     }
 
     public function getResourceFormFieldKeys(): array
