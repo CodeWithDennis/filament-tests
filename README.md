@@ -36,6 +36,10 @@ This package generates comprehensive PEST tests for your Filament resources. Her
 ### Form Record Tests
 - **CanCreateRecordTest** - Tests that a record can be created
 - **CanValidateCreateFormTest** - Tests that the create form validates input correctly
+  - [x] Max
+  - [x] Min
+  - [x] Required
+  - Note: RichEditor fields are not validated due to complexity
 
 ### Page Rendering Tests
 - **CanRenderCreatePageTest** - Tests that the create page renders correctly
