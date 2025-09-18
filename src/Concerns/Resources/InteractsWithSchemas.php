@@ -29,6 +29,13 @@ trait InteractsWithSchemas
             ->all();
     }
 
+    public function getResourceMaxLengthFormFields(): array
+    {
+        return collect($this->getResourceFormFields())
+            ->filter(fn (Field $field): bool => method_exists($field, 'getMaxLength') && $field->getMaxLength() !== null)
+            ->all();
+    }
+
     public function getResourceFormFieldKeys(): array
     {
         return collect($this->getResourceFormFields())
