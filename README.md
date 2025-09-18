@@ -82,7 +82,7 @@ All tests are automatically generated based on your Filament resource configurat
 
 ## Known Issues
 - Validation of RichEditor fields is not supported, this is due to the complexity of handling rich text content in tests.
-- 
+
 ## Credits
 
 - [CodeWithDennis](https://github.com/CodeWithDennis)
