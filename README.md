@@ -8,6 +8,9 @@ A package that creates PEST tests specifically tailored for your Filament compon
 > [!CAUTION]  
 > This package is not ready yet, use it at your own risk. ⚠️
 
+> [!NOTE]
+> This package requires that your models define model [factories](https://laravel.com/docs/master/database-testing#defining-model-factories).
+
 ## Installation
 
 ```bash
