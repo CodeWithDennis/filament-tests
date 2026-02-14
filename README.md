@@ -1,5 +1,7 @@
 # Filament Tests
 
+~~[Filament Tests]~~ - No longer maintained. Upcoming AI tooling with proper rulesets can generate tests quickly, making this redundant.
+
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/codewithdennis/filament-tests.svg?style=flat-square)](https://packagist.org/packages/codewithdennis/filament-tests)
 [![Total Downloads](https://img.shields.io/packagist/dt/codewithdennis/filament-tests.svg?style=flat-square)](https://packagist.org/packages/codewithdennis/filament-tests)
 
